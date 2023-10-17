@@ -1,0 +1,20 @@
+{
+  "coauthors": {
+    "fd": {
+      "name": "Fred Durham",
+      "email": "f.durham@protonmail.com"
+    },
+    "bp": {
+      "name": "Bethany Pietroniro",
+      "email": "bethany.pietroniro28@gmail.com"
+    },    
+    "mj": {
+      "name": "Michael Johnson",
+      "email": "elsif.maj@gmail.com"
+    },
+    "dd": {
+      "name": "David Dickinson",
+      "email": "davidrd123@gmail.com"
+    }
+  }
+}
