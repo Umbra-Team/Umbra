@@ -6,6 +6,7 @@ const app = express();
 const port = 3001;
 
 app.use(cors() as RequestHandler);
+app.use(express.json());
 app.use('/api/codeEval', codeRouter);
 
 app.listen(port, () => {
