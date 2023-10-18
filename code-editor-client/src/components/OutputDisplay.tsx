@@ -4,7 +4,6 @@ import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode'
 
 import { createTheme } from '@uiw/codemirror-themes';
-import { javascript } from '@codemirror/lang-javascript';
 import { tags as t } from '@lezer/highlight';
 
 const myTheme = createTheme({
@@ -33,7 +32,6 @@ const myTheme = createTheme({
 
 interface OutputDisplayProps {
   output: string;
-  error: string;
 }
 
 const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
