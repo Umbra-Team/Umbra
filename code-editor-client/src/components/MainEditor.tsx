@@ -3,13 +3,16 @@ import { vscodeDark } from '@uiw/codemirror-theme-vscode'
 import { langs } from '@uiw/codemirror-extensions-langs';
 import React, { useState, useEffect, useRef } from 'react';
 
+export type MainEditorProps = {
+  code: string;
+  setCode: (code: string) => void;
+}
 
-export const MainEditor: React.FC<{}> = () => {
-  const [code, setCode] = useState<string>("");
+export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
 
   return (
     <CodeMirror 
-      value={"test"}
+      value={code}
       height="200px"
       width="800px"
       theme={vscodeDark}

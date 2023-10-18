@@ -1,0 +1,1327 @@
+[1mdiff --git a/.git-snippet b/.git-snippet[m
+[1mindex 5e18bec..7959577 100644[m
+[1m--- a/.git-snippet[m
+[1m+++ b/.git-snippet[m
+[36m@@ -1,3 +1,4 @@[m
+ Co-authored-by: Bethany Pietroniro <bethany.pietroniro28@gmail.com>[m
+ Co-authored-by: Fred Durham <f.durham@protonmail.com>[m
+[31m-Co-authored-by: Michael Johnson <elsif.maj@gmail.com>[m
+\ No newline at end of file[m
+[32m+[m[32mCo-authored-by: Michael Johnson <elsif.maj@gmail.com>[m
+[32m+[m[32mCo-authored-by: David Dickinson <davidrd123@gmail.com>[m
+\ No newline at end of file[m
+[1mdiff --git a/code-editor-client/package-lock.json b/code-editor-client/package-lock.json[m
+[1mindex 85761ab..e6587ca 100644[m
+[1m--- a/code-editor-client/package-lock.json[m
+[1m+++ b/code-editor-client/package-lock.json[m
+[36m@@ -11,6 +11,7 @@[m
+         "@uiw/codemirror-extensions-langs": "^4.21.20",[m
+         "@uiw/codemirror-theme-vscode": "^4.21.20",[m
+         "@uiw/react-codemirror": "^4.21.20",[m
+[32m+[m[32m        "axios": "^1.5.1",[m
+         "codemirror": "^6.0.1",[m
+         "react": "^18.2.0",[m
+         "react-dom": "^18.2.0",[m
+[36m@@ -1980,6 +1981,21 @@[m
+       "integrity": "sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==",[m
+       "optional": true[m
+     },[m
+[32m+[m[32m    "node_modules/asynckit": {[m
+[32m+[m[32m      "version": "0.4.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/axios": {[m
+[32m+[m[32m      "version": "1.5.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/axios/-/axios-1.5.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "follow-redirects": "^1.15.0",[m
+[32m+[m[32m        "form-data": "^4.0.0",[m
+[32m+[m[32m        "proxy-from-env": "^1.1.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/balanced-match": {[m
+       "version": "1.0.2",[m
+       "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",[m
+[36m@@ -2166,6 +2182,17 @@[m
+       "integrity": "sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==",[m
+       "dev": true[m
+     },[m
+[32m+[m[32m    "node_modules/combined-stream": {[m
+[32m+[m[32m      "version": "1.0.8",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz",[m
+[32m+[m[32m      "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "delayed-stream": "~1.0.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 0.8"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/concat-map": {[m
+       "version": "0.0.1",[m
+       "resolved": "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz",[m
+[36m@@ -2239,6 +2266,14 @@[m
+         "node": ">=6"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/delayed-stream": {[m
+[32m+[m[32m      "version": "1.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=0.4.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/dir-glob": {[m
+       "version": "3.0.1",[m
+       "resolved": "https://registry.npmjs.org/dir-glob/-/dir-glob-3.0.1.tgz",[m
+[36m@@ -2725,6 +2760,38 @@[m
+       "integrity": "sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==",[m
+       "dev": true[m
+     },[m
+[32m+[m[32m    "node_modules/follow-redirects": {[m
+[32m+[m[32m      "version": "1.15.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==",[m
+[32m+[m[32m      "funding": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "individual",[m
+[32m+[m[32m          "url": "https://github.com/sponsors/RubenVerborgh"[m
+[32m+[m[32m        }[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=4.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "peerDependenciesMeta": {[m
+[32m+[m[32m        "debug": {[m
+[32m+[m[32m          "optional": true[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/form-data": {[m
+[32m+[m[32m      "version": "4.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "asynckit": "^0.4.0",[m
+[32m+[m[32m        "combined-stream": "^1.0.8",[m
+[32m+[m[32m        "mime-types": "^2.1.12"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/fs.realpath": {[m
+       "version": "1.0.0",[m
+       "resolved": "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz",[m
+[36m@@ -3267,6 +3334,25 @@[m
+         "node": ">=8.6"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/mime-db": {[m
+[32m+[m[32m      "version": "1.52.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 0.6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/mime-types": {[m
+[32m+[m[32m      "version": "2.1.35",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",[m
+[32m+[m[32m      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "mime-db": "1.52.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 0.6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/minimatch": {[m
+       "version": "3.1.2",[m
+       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",[m
+[36m@@ -3491,6 +3577,11 @@[m
+         "node": ">= 0.8.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/proxy-from-env": {[m
+[32m+[m[32m      "version": "1.1.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="[m
+[32m+[m[32m    },[m
+     "node_modules/prr": {[m
+       "version": "1.0.1",[m
+       "resolved": "https://registry.npmjs.org/prr/-/prr-1.0.1.tgz",[m
+[1mdiff --git a/code-editor-client/package.json b/code-editor-client/package.json[m
+[1mindex 7105226..5929400 100644[m
+[1m--- a/code-editor-client/package.json[m
+[1m+++ b/code-editor-client/package.json[m
+[36m@@ -13,6 +13,7 @@[m
+     "@uiw/codemirror-extensions-langs": "^4.21.20",[m
+     "@uiw/codemirror-theme-vscode": "^4.21.20",[m
+     "@uiw/react-codemirror": "^4.21.20",[m
+[32m+[m[32m    "axios": "^1.5.1",[m
+     "codemirror": "^6.0.1",[m
+     "react": "^18.2.0",[m
+     "react-dom": "^18.2.0",[m
+[1mdiff --git a/code-editor-client/src/App.tsx b/code-editor-client/src/App.tsx[m
+[1mindex b3a90eb..908f2ea 100644[m
+[1m--- a/code-editor-client/src/App.tsx[m
+[1m+++ b/code-editor-client/src/App.tsx[m
+[36m@@ -1,12 +1,31 @@[m
+ // import "./App.css";[m
+[31m-import { MainEditor, MainEditorProps } from "./components/MainEditor";[m
+[32m+[m[32mimport { MainEditor } from "./components/MainEditor";[m
+[32m+[m[32mimport OutputDisplay from './components/OutputDisplay';[m
+[32m+[m[32mimport React, { useState, useEffect, useRef } from 'react';[m
+[32m+[m[32mimport axios from 'axios';[m
+ [m
+ function App() {[m
+[32m+[m[32m  const [code, setCode] = useState<string>("console.log(2+2);\nconsole.log('hello world')");[m
+[32m+[m[32m  const [output, setOutput] = useState<string>("");[m
+[32m+[m
+[32m+[m[32m  const sendCode = async (code: string) => {[m
+[32m+[m[32m    const codeEndpoint = "http://localhost:8000/run";[m
+[32m+[m[32m    console.log(`Sending code to ${codeEndpoint}, code: ${code}`)[m
+[32m+[m[32m    const response = await axios.post(codeEndpoint, {[m
+[32m+[m[32m      code: code[m
+[32m+[m[32m    });[m
+[32m+[m[32m    console.log(`Response: ${JSON.stringify(response)}`);[m
+[32m+[m[32m    setOutput(JSON.stringify(response.data, null, 2));[m
+[32m+[m[32m  }[m
+[32m+[m
+   return ([m
+     <>[m
+       <h1>CodeShare</h1>[m
+[31m-      <MainEditor />[m
+[31m-      <button>Run Code</button>[m
+[32m+[m[32m      <MainEditor code={code} setCode={setCode} />[m
+[32m+[m[32m      <button onClick={() => sendCode(code)}>[m
+[32m+[m[32m        Run Code[m
+[32m+[m[32m      </button>[m
+[32m+[m[32m      <OutputDisplay output={output} />[m
+     </>[m
+   );[m
+ }[m
+[1mdiff --git a/code-editor-client/src/components/MainEditor.d.ts b/code-editor-client/src/components/MainEditor.d.ts[m
+[1mdeleted file mode 100644[m
+[1mindex 64c6cbd..0000000[m
+[1m--- a/code-editor-client/src/components/MainEditor.d.ts[m
+[1m+++ /dev/null[m
+[36m@@ -1,14 +0,0 @@[m
+[31m-declare module './components/MainEditor' {[m
+[31m-  import React from 'react';[m
+[31m-[m
+[31m-  interface MainEditorProps {[m
+[31m-    // Define the props for the MainEditor component here[m
+[31m-    // For example:[m
+[31m-    // prop1: string;[m
+[31m-    // prop2: number;[m
+[31m-  }[m
+[31m-[m
+[31m-  const MainEditor: React.FC<MainEditorProps>;[m
+[31m-[m
+[31m-  export default MainEditor;[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/code-editor-client/src/components/MainEditor.tsx b/code-editor-client/src/components/MainEditor.tsx[m
+[1mindex 4ef2bba..2c4af18 100644[m
+[1m--- a/code-editor-client/src/components/MainEditor.tsx[m
+[1m+++ b/code-editor-client/src/components/MainEditor.tsx[m
+[36m@@ -3,13 +3,16 @@[m [mimport { vscodeDark } from '@uiw/codemirror-theme-vscode'[m
+ import { langs } from '@uiw/codemirror-extensions-langs';[m
+ import React, { useState, useEffect, useRef } from 'react';[m
+ [m
+[32m+[m[32mexport type MainEditorProps = {[m
+[32m+[m[32m  code: string;[m
+[32m+[m[32m  setCode: (code: string) => void;[m
+[32m+[m[32m}[m
+ [m
+[31m-export const MainEditor: React.FC<{}> = () => {[m
+[31m-  const [code, setCode] = useState<string>("");[m
+[32m+[m[32mexport const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {[m
+ [m
+   return ([m
+     <CodeMirror [m
+[31m-      value={"test"}[m
+[32m+[m[32m      value={code}[m
+       height="200px"[m
+       width="800px"[m
+       theme={vscodeDark}[m
+[1mdiff --git a/code-editor-client/src/components/OutputDisplay.tsx b/code-editor-client/src/components/OutputDisplay.tsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fd30317[m
+[1m--- /dev/null[m
+[1m+++ b/code-editor-client/src/components/OutputDisplay.tsx[m
+[36m@@ -0,0 +1,90 @@[m
+[32m+[m[32m// OutputDisplay.tsx[m[41m[m
+[32m+[m[32mimport React from "react";[m[41m[m
+[32m+[m[32mimport CodeMirror from '@uiw/react-codemirror';[m[41m[m
+[32m+[m[32mimport { vscodeDark } from '@uiw/codemirror-theme-vscode'[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32mimport { createTheme } from '@uiw/codemirror-themes';[m[41m[m
+[32m+[m[32mimport { javascript } from '@codemirror/lang-javascript';[m[41m[m
+[32m+[m[32mimport { tags as t } from '@lezer/highlight';[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32mconst myTheme = createTheme({[m[41m[m
+[32m+[m[32m  dark: 'light',[m[41m[m
+[32m+[m[32m  settings: {[m[41m[m
+[32m+[m[32m    background: '#000000',[m[41m[m
+[32m+[m[32m    backgroundImage: '',[m[41m[m
+[32m+[m[32m    foreground: '#f50f54',[m[41m[m
+[32m+[m[32m    caret: '#AEAFAD',[m[41m[m
+[32m+[m[32m    selection: '#D6D6D6',[m[41m[m
+[32m+[m[32m    selectionMatch: '#D6D6D6',[m[41m[m
+[32m+[m[32m    gutterBackground: '#FFFFFF',[m[41m[m
+[32m+[m[32m    gutterForeground: '#f4230b',[m[41m[m
+[32m+[m[32m    gutterBorder: '#dddddd',[m[41m[m
+[32m+[m[32m    gutterActiveForeground: '#d02525',[m[41m[m
+[32m+[m[32m    lineHighlight: '#EFEFEF',[m[41m[m
+[32m+[m[32m  },[m[41m[m
+[32m+[m[32m  styles: [[m[41m[m
+[32m+[m[32m    { tag: t.comment, color: '#787b80' },[m[41m[m
+[32m+[m[32m    { tag: t.definition(t.typeName), color: '#194a7b' },[m[41m[m
+[32m+[m[32m    { tag: t.typeName, color: '#194a7b' },[m[41m[m
+[32m+[m[32m    { tag: t.tagName, color: '#008a02' },[m[41m[m
+[32m+[m[32m    { tag: t.variableName, color: '#1a00db' },[m[41m[m
+[32m+[m[32m  ],[m[41m[m
+[32m+[m[32m});[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32minterface OutputDisplayProps {[m[41m[m
+[32m+[m[32m  output: string;[m[41m[m
+[32m+[m[32m  error: string;[m[41m[m
+[32m+[m[32m}[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32mconst OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {[m[41m[m
+[32m+[m[32m  const parsedOutput = output ? JSON.parse(output) : {};[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32m  let errorText = parsedOutput.error ? parsedOutput.error : null;[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32m  // Remove ANSI escape codes[m[41m[m
+[32m+[m[32m  if (errorText) {[m[41m[m
+[32m+[m[32m    const ansiEscapeCodes = new RegExp([m[41m[m
+[32m+[m[32m      [[m[41m[m
+[32m+[m[32m        '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*' +[m[41m[m
+[32m+[m[32m          '(?:;[a-zA-Z\\d]*)*)?\\u0007)',[m[41m[m
+[32m+[m[32m        '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))',[m[41m[m
+[32m+[m[32m      ].join('|'),[m[41m[m
+[32m+[m[32m      'g'[m[41m[m
+[32m+[m[32m    );[m[41m[m
+[32m+[m[32m    errorText = errorText.replace(ansiEscapeCodes, '');[m[41m[m
+[32m+[m[32m  }[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32m  if (!errorText) {[m[41m[m
+[32m+[m[32m    return ([m[41m[m
+[32m+[m[32m      <div>[m[41m[m
+[32m+[m[32m        <h2>Output</h2>[m[41m[m
+[32m+[m[32m        <CodeMirror[m[41m[m
+[32m+[m[32m          value={parsedOutput.output}[m[41m[m
+[32m+[m[32m          height="400px"[m[41m[m
+[32m+[m[32m          width="800px"[m[41m[m
+[32m+[m[32m          theme={vscodeDark}[m[41m[m
+[32m+[m[32m          readOnly={true}[m[41m[m
+[32m+[m[32m          />[m[41m[m
+[32m+[m[32m        <div style={{whiteSpace: 'pre-line', fontFamily: 'monospace', maxHeight: '200px', overflowY: 'auto'}}>[m[41m[m
+[32m+[m[32m          {parsedOutput.output}[m[41m[m
+[32m+[m[32m        </div>[m[41m[m
+[32m+[m[32m      </div>[m[41m[m
+[32m+[m[32m    );[m[41m[m
+[32m+[m[32m  } else {[m[41m[m
+[32m+[m[32m    return ([m[41m[m
+[32m+[m[32m      <div>[m[41m[m
+[32m+[m[32m        <h2>Errors</h2>[m[41m[m
+[32m+[m[41m      [m
+[32m+[m[32m      <CodeMirror[m[41m[m
+[32m+[m[32m        value={errorText}[m[41m[m
+[32m+[m[32m        height="400px"[m[41m[m
+[32m+[m[32m        width="800px"[m[41m[m
+[32m+[m[32m        theme={myTheme}[m[41m[m
+[32m+[m[32m        readOnly={true}[m[41m[m
+[32m+[m[32m        />[m[41m[m
+[32m+[m[32m      </div>[m[41m[m
+[32m+[m[32m    );[m[41m[m
+[32m+[m[32m  }[m[41m[m
+[32m+[m[32m};[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32mexport default OutputDisplay;[m[41m[m
+[1mdiff --git a/code-editor-server/package-lock.json b/code-editor-server/package-lock.json[m
+[1mindex 8abd704..d132b8c 100644[m
+[1m--- a/code-editor-server/package-lock.json[m
+[1m+++ b/code-editor-server/package-lock.json[m
+[36m@@ -9,14 +9,19 @@[m
+       "version": "1.0.0",[m
+       "license": "ISC",[m
+       "dependencies": {[m
+[32m+[m[32m        "@nyariv/sandboxjs": "^0.8.23",[m
+         "@types/codemirror": "^5.60.10",[m
+         "cors": "^2.8.5",[m
+[32m+[m[32m        "esprima": "^4.0.1",[m
+         "express": "^4.18.2",[m
+[32m+[m[32m        "isolated-vm": "^4.6.0",[m
+         "nodemon": "^3.0.1",[m
+[31m-        "ts-node": "^10.9.1"[m
+[32m+[m[32m        "ts-node": "^10.9.1",[m
+[32m+[m[32m        "vm": "^0.1.0"[m
+       },[m
+       "devDependencies": {[m
+         "@types/cors": "^2.8.14",[m
+[32m+[m[32m        "@types/esprima": "^4.0.5",[m
+         "@types/express": "^4.17.19",[m
+         "ts-node-dev": "^2.0.0"[m
+       }[m
+[36m@@ -54,6 +59,11 @@[m
+         "@jridgewell/sourcemap-codec": "^1.4.10"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/@nyariv/sandboxjs": {[m
+[32m+[m[32m      "version": "0.8.23",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@nyariv/sandboxjs/-/sandboxjs-0.8.23.tgz",[m
+[32m+[m[32m      "integrity": "sha512-OaD3i0czFTZzQFQdwgFVEqNyZVK19N6Jzmx/LjmDc+kiV751FQ2h3xscYkAeY4jfau2vZTZau+xR8fpkKrv/Ng=="[m
+[32m+[m[32m    },[m
+     "node_modules/@tsconfig/node10": {[m
+       "version": "1.0.9",[m
+       "resolved": "https://registry.npmjs.org/@tsconfig/node10/-/node10-1.0.9.tgz",[m
+[36m@@ -110,6 +120,15 @@[m
+         "@types/node": "*"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/@types/esprima": {[m
+[32m+[m[32m      "version": "4.0.5",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/@types/esprima/-/esprima-4.0.5.tgz",[m
+[32m+[m[32m      "integrity": "sha512-i1/wCCoHMGLSfEn68SZvao+ICYR7clqRfUAiCkxzqB7DuOMLVAgiiAcxSixtY7NukBnbQNDt5C1zmaLqCX8jDw==",[m
+[32m+[m[32m      "dev": true,[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@types/estree": "*"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/@types/estree": {[m
+       "version": "1.0.2",[m
+       "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.2.tgz",[m
+[36m@@ -275,6 +294,25 @@[m
+       "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",[m
+       "integrity": "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="[m
+     },[m
+[32m+[m[32m    "node_modules/base64-js": {[m
+[32m+[m[32m      "version": "1.5.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==",[m
+[32m+[m[32m      "funding": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "github",[m
+[32m+[m[32m          "url": "https://github.com/sponsors/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "patreon",[m
+[32m+[m[32m          "url": "https://www.patreon.com/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "consulting",[m
+[32m+[m[32m          "url": "https://feross.org/support"[m
+[32m+[m[32m        }[m
+[32m+[m[32m      ][m
+[32m+[m[32m    },[m
+     "node_modules/binary-extensions": {[m
+       "version": "2.2.0",[m
+       "resolved": "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz",[m
+[36m@@ -283,6 +321,16 @@[m
+         "node": ">=8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/bl": {[m
+[32m+[m[32m      "version": "4.1.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/bl/-/bl-4.1.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "buffer": "^5.5.0",[m
+[32m+[m[32m        "inherits": "^2.0.4",[m
+[32m+[m[32m        "readable-stream": "^3.4.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/body-parser": {[m
+       "version": "1.20.1",[m
+       "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-1.20.1.tgz",[m
+[36m@@ -326,6 +374,29 @@[m
+         "node": ">=8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/buffer": {[m
+[32m+[m[32m      "version": "5.7.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/buffer/-/buffer-5.7.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==",[m
+[32m+[m[32m      "funding": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "github",[m
+[32m+[m[32m          "url": "https://github.com/sponsors/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "patreon",[m
+[32m+[m[32m          "url": "https://www.patreon.com/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "consulting",[m
+[32m+[m[32m          "url": "https://feross.org/support"[m
+[32m+[m[32m        }[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "base64-js": "^1.3.1",[m
+[32m+[m[32m        "ieee754": "^1.1.13"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/buffer-from": {[m
+       "version": "1.1.2",[m
+       "resolved": "https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz",[m
+[36m@@ -378,6 +449,11 @@[m
+         "fsevents": "~2.3.2"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/chownr": {[m
+[32m+[m[32m      "version": "1.1.4",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/chownr/-/chownr-1.1.4.tgz",[m
+[32m+[m[32m      "integrity": "sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg=="[m
+[32m+[m[32m    },[m
+     "node_modules/concat-map": {[m
+       "version": "0.0.1",[m
+       "resolved": "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz",[m
+[36m@@ -440,6 +516,28 @@[m
+         "ms": "2.0.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/decompress-response": {[m
+[32m+[m[32m      "version": "6.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/decompress-response/-/decompress-response-6.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "mimic-response": "^3.1.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=10"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "funding": {[m
+[32m+[m[32m        "url": "https://github.com/sponsors/sindresorhus"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/deep-extend": {[m
+[32m+[m[32m      "version": "0.6.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/deep-extend/-/deep-extend-0.6.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=4.0.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/depd": {[m
+       "version": "2.0.0",[m
+       "resolved": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz",[m
+[36m@@ -457,6 +555,14 @@[m
+         "npm": "1.2.8000 || >= 1.4.16"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/detect-libc": {[m
+[32m+[m[32m      "version": "2.0.2",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.2.tgz",[m
+[32m+[m[32m      "integrity": "sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=8"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/diff": {[m
+       "version": "4.0.2",[m
+       "resolved": "https://registry.npmjs.org/diff/-/diff-4.0.2.tgz",[m
+[36m@@ -487,11 +593,31 @@[m
+         "node": ">= 0.8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/end-of-stream": {[m
+[32m+[m[32m      "version": "1.4.4",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.4.tgz",[m
+[32m+[m[32m      "integrity": "sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "once": "^1.4.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/escape-html": {[m
+       "version": "1.0.3",[m
+       "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",[m
+       "integrity": "sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow=="[m
+     },[m
+[32m+[m[32m    "node_modules/esprima": {[m
+[32m+[m[32m      "version": "4.0.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==",[m
+[32m+[m[32m      "bin": {[m
+[32m+[m[32m        "esparse": "bin/esparse.js",[m
+[32m+[m[32m        "esvalidate": "bin/esvalidate.js"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=4"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/etag": {[m
+       "version": "1.8.1",[m
+       "resolved": "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz",[m
+[36m@@ -500,6 +626,14 @@[m
+         "node": ">= 0.6"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/expand-template": {[m
+[32m+[m[32m      "version": "2.0.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/expand-template/-/expand-template-2.0.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/express": {[m
+       "version": "4.18.2",[m
+       "resolved": "https://registry.npmjs.org/express/-/express-4.18.2.tgz",[m
+[36m@@ -585,6 +719,11 @@[m
+         "node": ">= 0.6"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/fs-constants": {[m
+[32m+[m[32m      "version": "1.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/fs-constants/-/fs-constants-1.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow=="[m
+[32m+[m[32m    },[m
+     "node_modules/fs.realpath": {[m
+       "version": "1.0.0",[m
+       "resolved": "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz",[m
+[36m@@ -626,6 +765,11 @@[m
+         "url": "https://github.com/sponsors/ljharb"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/github-from-package": {[m
+[32m+[m[32m      "version": "0.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/github-from-package/-/github-from-package-0.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw=="[m
+[32m+[m[32m    },[m
+     "node_modules/glob": {[m
+       "version": "7.2.3",[m
+       "resolved": "https://registry.npmjs.org/glob/-/glob-7.2.3.tgz",[m
+[36m@@ -721,6 +865,25 @@[m
+         "node": ">=0.10.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/ieee754": {[m
+[32m+[m[32m      "version": "1.2.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==",[m
+[32m+[m[32m      "funding": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "github",[m
+[32m+[m[32m          "url": "https://github.com/sponsors/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "patreon",[m
+[32m+[m[32m          "url": "https://www.patreon.com/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "consulting",[m
+[32m+[m[32m          "url": "https://feross.org/support"[m
+[32m+[m[32m        }[m
+[32m+[m[32m      ][m
+[32m+[m[32m    },[m
+     "node_modules/ignore-by-default": {[m
+       "version": "1.0.1",[m
+       "resolved": "https://registry.npmjs.org/ignore-by-default/-/ignore-by-default-1.0.1.tgz",[m
+[36m@@ -741,6 +904,11 @@[m
+       "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",[m
+       "integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="[m
+     },[m
+[32m+[m[32m    "node_modules/ini": {[m
+[32m+[m[32m      "version": "1.3.8",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/ini/-/ini-1.3.8.tgz",[m
+[32m+[m[32m      "integrity": "sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew=="[m
+[32m+[m[32m    },[m
+     "node_modules/ipaddr.js": {[m
+       "version": "1.9.1",[m
+       "resolved": "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz",[m
+[36m@@ -799,6 +967,18 @@[m
+         "node": ">=0.12.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/isolated-vm": {[m
+[32m+[m[32m      "version": "4.6.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/isolated-vm/-/isolated-vm-4.6.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-MEnfC/54q5PED3VJ9UJYJPOlU6mYFHS3ivR9E8yeNNBEFRFUNBnY0xO4Rj3D/SOtFKPNmsQp9NWUYSKZqAoZiA==",[m
+[32m+[m[32m      "hasInstallScript": true,[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "prebuild-install": "^7.1.1"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=16.0.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/lru-cache": {[m
+       "version": "6.0.0",[m
+       "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-6.0.0.tgz",[m
+[36m@@ -866,6 +1046,17 @@[m
+         "node": ">= 0.6"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/mimic-response": {[m
+[32m+[m[32m      "version": "3.1.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/mimic-response/-/mimic-response-3.1.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=10"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "funding": {[m
+[32m+[m[32m        "url": "https://github.com/sponsors/sindresorhus"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/minimatch": {[m
+       "version": "3.1.2",[m
+       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",[m
+[36m@@ -881,7 +1072,6 @@[m
+       "version": "1.2.8",[m
+       "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",[m
+       "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",[m
+[31m-      "dev": true,[m
+       "funding": {[m
+         "url": "https://github.com/sponsors/ljharb"[m
+       }[m
+[36m@@ -898,11 +1088,21 @@[m
+         "node": ">=10"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/mkdirp-classic": {[m
+[32m+[m[32m      "version": "0.5.3",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz",[m
+[32m+[m[32m      "integrity": "sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A=="[m
+[32m+[m[32m    },[m
+     "node_modules/ms": {[m
+       "version": "2.0.0",[m
+       "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",[m
+       "integrity": "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A=="[m
+     },[m
+[32m+[m[32m    "node_modules/napi-build-utils": {[m
+[32m+[m[32m      "version": "1.0.2",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/napi-build-utils/-/napi-build-utils-1.0.2.tgz",[m
+[32m+[m[32m      "integrity": "sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg=="[m
+[32m+[m[32m    },[m
+     "node_modules/negotiator": {[m
+       "version": "0.6.3",[m
+       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz",[m
+[36m@@ -911,6 +1111,17 @@[m
+         "node": ">= 0.6"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/node-abi": {[m
+[32m+[m[32m      "version": "3.51.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.51.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-SQkEP4hmNWjlniS5zdnfIXTk1x7Ome85RDzHlTbBtzE97Gfwz/Ipw4v/Ryk20DWIy3yCNVLVlGKApCnmvYoJbA==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "semver": "^7.3.5"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=10"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/nodemon": {[m
+       "version": "3.0.1",[m
+       "resolved": "https://registry.npmjs.org/nodemon/-/nodemon-3.0.1.tgz",[m
+[36m@@ -1004,7 +1215,6 @@[m
+       "version": "1.4.0",[m
+       "resolved": "https://registry.npmjs.org/once/-/once-1.4.0.tgz",[m
+       "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",[m
+[31m-      "dev": true,[m
+       "dependencies": {[m
+         "wrappy": "1"[m
+       }[m
+[36m@@ -1048,6 +1258,31 @@[m
+         "url": "https://github.com/sponsors/jonschlinkert"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/prebuild-install": {[m
+[32m+[m[32m      "version": "7.1.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/prebuild-install/-/prebuild-install-7.1.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-jAXscXWMcCK8GgCoHOfIr0ODh5ai8mj63L2nWrjuAgXE6tDyYGnx4/8o/rCgU+B4JSyZBKbeZqzhtwtC3ovxjw==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "detect-libc": "^2.0.0",[m
+[32m+[m[32m        "expand-template": "^2.0.3",[m
+[32m+[m[32m        "github-from-package": "0.0.0",[m
+[32m+[m[32m        "minimist": "^1.2.3",[m
+[32m+[m[32m        "mkdirp-classic": "^0.5.3",[m
+[32m+[m[32m        "napi-build-utils": "^1.0.1",[m
+[32m+[m[32m        "node-abi": "^3.3.0",[m
+[32m+[m[32m        "pump": "^3.0.0",[m
+[32m+[m[32m        "rc": "^1.2.7",[m
+[32m+[m[32m        "simple-get": "^4.0.0",[m
+[32m+[m[32m        "tar-fs": "^2.0.0",[m
+[32m+[m[32m        "tunnel-agent": "^0.6.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "bin": {[m
+[32m+[m[32m        "prebuild-install": "bin.js"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=10"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/proxy-addr": {[m
+       "version": "2.0.7",[m
+       "resolved": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.7.tgz",[m
+[36m@@ -1065,6 +1300,15 @@[m
+       "resolved": "https://registry.npmjs.org/pstree.remy/-/pstree.remy-1.1.8.tgz",[m
+       "integrity": "sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w=="[m
+     },[m
+[32m+[m[32m    "node_modules/pump": {[m
+[32m+[m[32m      "version": "3.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/pump/-/pump-3.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "end-of-stream": "^1.1.0",[m
+[32m+[m[32m        "once": "^1.3.1"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/qs": {[m
+       "version": "6.11.0",[m
+       "resolved": "https://registry.npmjs.org/qs/-/qs-6.11.0.tgz",[m
+[36m@@ -1101,6 +1345,33 @@[m
+         "node": ">= 0.8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/rc": {[m
+[32m+[m[32m      "version": "1.2.8",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/rc/-/rc-1.2.8.tgz",[m
+[32m+[m[32m      "integrity": "sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "deep-extend": "^0.6.0",[m
+[32m+[m[32m        "ini": "~1.3.0",[m
+[32m+[m[32m        "minimist": "^1.2.0",[m
+[32m+[m[32m        "strip-json-comments": "~2.0.1"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "bin": {[m
+[32m+[m[32m        "rc": "cli.js"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/readable-stream": {[m
+[32m+[m[32m      "version": "3.6.2",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",[m
+[32m+[m[32m      "integrity": "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "inherits": "^2.0.3",[m
+[32m+[m[32m        "string_decoder": "^1.1.1",[m
+[32m+[m[32m        "util-deprecate": "^1.0.1"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">= 6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/readdirp": {[m
+       "version": "3.6.0",[m
+       "resolved": "https://registry.npmjs.org/readdirp/-/readdirp-3.6.0.tgz",[m
+[36m@@ -1239,6 +1510,49 @@[m
+         "url": "https://github.com/sponsors/ljharb"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/simple-concat": {[m
+[32m+[m[32m      "version": "1.0.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/simple-concat/-/simple-concat-1.0.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==",[m
+[32m+[m[32m      "funding": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "github",[m
+[32m+[m[32m          "url": "https://github.com/sponsors/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "patreon",[m
+[32m+[m[32m          "url": "https://www.patreon.com/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "consulting",[m
+[32m+[m[32m          "url": "https://feross.org/support"[m
+[32m+[m[32m        }[m
+[32m+[m[32m      ][m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/simple-get": {[m
+[32m+[m[32m      "version": "4.0.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/simple-get/-/simple-get-4.0.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==",[m
+[32m+[m[32m      "funding": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "github",[m
+[32m+[m[32m          "url": "https://github.com/sponsors/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "patreon",[m
+[32m+[m[32m          "url": "https://www.patreon.com/feross"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m          "type": "consulting",[m
+[32m+[m[32m          "url": "https://feross.org/support"[m
+[32m+[m[32m        }[m
+[32m+[m[32m      ],[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "decompress-response": "^6.0.0",[m
+[32m+[m[32m        "once": "^1.3.1",[m
+[32m+[m[32m        "simple-concat": "^1.0.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/simple-update-notifier": {[m
+       "version": "2.0.0",[m
+       "resolved": "https://registry.npmjs.org/simple-update-notifier/-/simple-update-notifier-2.0.0.tgz",[m
+[36m@@ -1277,6 +1591,14 @@[m
+         "node": ">= 0.8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/string_decoder": {[m
+[32m+[m[32m      "version": "1.3.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "safe-buffer": "~5.2.0"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/strip-bom": {[m
+       "version": "3.0.0",[m
+       "resolved": "https://registry.npmjs.org/strip-bom/-/strip-bom-3.0.0.tgz",[m
+[36m@@ -1290,7 +1612,6 @@[m
+       "version": "2.0.1",[m
+       "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz",[m
+       "integrity": "sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==",[m
+[31m-      "dev": true,[m
+       "engines": {[m
+         "node": ">=0.10.0"[m
+       }[m
+[36m@@ -1318,6 +1639,32 @@[m
+         "url": "https://github.com/sponsors/ljharb"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/tar-fs": {[m
+[32m+[m[32m      "version": "2.1.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/tar-fs/-/tar-fs-2.1.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "chownr": "^1.1.1",[m
+[32m+[m[32m        "mkdirp-classic": "^0.5.2",[m
+[32m+[m[32m        "pump": "^3.0.0",[m
+[32m+[m[32m        "tar-stream": "^2.1.4"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "node_modules/tar-stream": {[m
+[32m+[m[32m      "version": "2.2.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-2.2.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "bl": "^4.0.3",[m
+[32m+[m[32m        "end-of-stream": "^1.4.1",[m
+[32m+[m[32m        "fs-constants": "^1.0.0",[m
+[32m+[m[32m        "inherits": "^2.0.3",[m
+[32m+[m[32m        "readable-stream": "^3.1.1"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": ">=6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/to-regex-range": {[m
+       "version": "5.0.1",[m
+       "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",[m
+[36m@@ -1445,6 +1792,17 @@[m
+         "strip-json-comments": "^2.0.0"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/tunnel-agent": {[m
+[32m+[m[32m      "version": "0.6.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.6.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "safe-buffer": "^5.0.1"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": "*"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/type-is": {[m
+       "version": "1.6.18",[m
+       "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.18.tgz",[m
+[36m@@ -1488,6 +1846,11 @@[m
+         "node": ">= 0.8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/util-deprecate": {[m
+[32m+[m[32m      "version": "1.0.2",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",[m
+[32m+[m[32m      "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="[m
+[32m+[m[32m    },[m
+     "node_modules/utils-merge": {[m
+       "version": "1.0.1",[m
+       "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",[m
+[36m@@ -1509,11 +1872,15 @@[m
+         "node": ">= 0.8"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/vm": {[m
+[32m+[m[32m      "version": "0.1.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/vm/-/vm-0.1.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-1aKVjgohVDnVhGrJLhl2k8zIrapH+7HsdnIjGvBp3XX2OCj6XGzsIbDp9rZ3r7t6qgDfXEE1EoEAEOLJm9LKnw=="[m
+[32m+[m[32m    },[m
+     "node_modules/wrappy": {[m
+       "version": "1.0.2",[m
+       "resolved": "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz",[m
+[31m-      "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",[m
+[31m-      "dev": true[m
+[32m+[m[32m      "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ=="[m
+     },[m
+     "node_modules/xtend": {[m
+       "version": "4.0.2",[m
+[1mdiff --git a/code-editor-server/package.json b/code-editor-server/package.json[m
+[1mindex 79d0bcb..8df1337 100644[m
+[1m--- a/code-editor-server/package.json[m
+[1m+++ b/code-editor-server/package.json[m
+[36m@@ -11,14 +11,19 @@[m
+   "author": "",[m
+   "license": "ISC",[m
+   "dependencies": {[m
+[32m+[m[32m    "@nyariv/sandboxjs": "^0.8.23",[m
+     "@types/codemirror": "^5.60.10",[m
+     "cors": "^2.8.5",[m
+[32m+[m[32m    "esprima": "^4.0.1",[m
+     "express": "^4.18.2",[m
+[32m+[m[32m    "isolated-vm": "^4.6.0",[m
+     "nodemon": "^3.0.1",[m
+[31m-    "ts-node": "^10.9.1"[m
+[32m+[m[32m    "ts-node": "^10.9.1",[m
+[32m+[m[32m    "vm": "^0.1.0"[m
+   },[m
+   "devDependencies": {[m
+     "@types/cors": "^2.8.14",[m
+[32m+[m[32m    "@types/esprima": "^4.0.5",[m
+     "@types/express": "^4.17.19",[m
+     "ts-node-dev": "^2.0.0"[m
+   }[m
+[1mdiff --git a/code-editor-server/src/routes/routes.ts b/code-editor-server/src/routes/routes.ts[m
+[1mindex 5af01f8..9407587 100644[m
+[1m--- a/code-editor-server/src/routes/routes.ts[m
+[1m+++ b/code-editor-server/src/routes/routes.ts[m
+[36m@@ -1,9 +1,33 @@[m
+ import express, { Request, Response } from 'express';[m
+[32m+[m[32mimport Sandbox from '@nyariv/sandboxjs';[m
+[32m+[m[32mimport * as esprima from 'esprima';[m
+ [m
+ const router = express.Router();[m
+ [m
+[31m-router.get('/', (req: Request, res: Response) => {[m
+[31m-  res.send('Hello World!');[m
+[32m+[m[32mrouter.post('/', async (req: Request, res: Response) => {[m
+[32m+[m[32m  const code = req.body.code;[m
+[32m+[m
+[32m+[m[32m  // Syntax validation[m
+[32m+[m[32m  try {[m
+[32m+[m[32m    console.log('Validating JavaScript syntax: ', code);[m
+[32m+[m[32m    esprima.parseScript(code);[m
+[32m+[m[32m  } catch (e) {[m
+[32m+[m[32m    console.log(`Invalid JavaScript syntax: ${e}`)[m
+[32m+[m[32m    res.status(400).send({ error: 'Invalid JavaScript syntax' });[m
+[32m+[m[32m    return;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  // Code execution in a sandbox[m
+[32m+[m[32m  const sandbox = new Sandbox();[m
+[32m+[m[32m  const exec = sandbox.compile(code);[m
+[32m+[m
+[32m+[m[32m  try {[m
+[32m+[m[32m    const result = exec({}).run();[m
+[32m+[m[32m    console.log('Code execution result: ', result);[m
+[32m+[m[32m    res.send({ output: result });[m
+[32m+[m[32m  } catch (e) {[m
+[32m+[m[32m    res.status(500).send({ error: 'Error executing code' });[m
+[32m+[m[32m  }[m
+ });[m
+ [m
+[31m-export default router[m
+\ No newline at end of file[m
+[32m+[m[32mexport default router;[m
+\ No newline at end of file[m
+[1mdiff --git a/code-editor-server/src/server.ts b/code-editor-server/src/server.ts[m
+[1mindex 2fe3c74..1b5c99f 100644[m
+[1m--- a/code-editor-server/src/server.ts[m
+[1m+++ b/code-editor-server/src/server.ts[m
+[36m@@ -6,6 +6,7 @@[m [mconst app = express();[m
+ const port = 3001;[m
+ [m
+ app.use(cors() as RequestHandler);[m
+[32m+[m[32mapp.use(express.json());[m
+ app.use('/api/codeEval', codeRouter);[m
+ [m
+ app.listen(port, () => {[m
+[1mdiff --git a/code-execution-server/deno.json b/code-execution-server/deno.json[m
+[1mnew file mode 100644[m
+[1mindex 0000000..bb3c8f1[m
+[1m--- /dev/null[m
+[1m+++ b/code-execution-server/deno.json[m
+[36m@@ -0,0 +1,5 @@[m
+[32m+[m[32m{[m
+[32m+[m[32m  "tasks": {[m
+[32m+[m[32m    "dev": "deno run --allow-net --allow-run --watch main.ts"[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[1mdiff --git a/code-execution-server/deno.lock b/code-execution-server/deno.lock[m
+[1mnew file mode 100644[m
+[1mindex 0000000..0c8618d[m
+[1m--- /dev/null[m
+[1m+++ b/code-execution-server/deno.lock[m
+[36m@@ -0,0 +1,161 @@[m
+[32m+[m[32m{[m
+[32m+[m[32m  "version": "3",[m
+[32m+[m[32m  "redirects": {[m
+[32m+[m[32m    "https://deno.land/x/cors/mod.ts": "https://deno.land/x/cors@v1.2.2/mod.ts",[m
+[32m+[m[32m    "https://deno.land/x/oak/mod.ts": "https://deno.land/x/oak@v12.6.1/mod.ts"[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "remote": {[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/_util/os.ts": "d932f56d41e4f6a6093d56044e29ce637f8dcc43c5a90af43504a889cf1775e3",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/assert/assert.ts": "9a97dad6d98c238938e7540736b826440ad8c1c1e54430ca4c4e623e585607ee",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/assert/assertion_error.ts": "4d0bde9b374dfbcbe8ac23f54f567b77024fb67dbb1906a852d67fe050d42f56",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/async/deferred.ts": "42790112f36a75a57db4a96d33974a936deb7b04d25c6084a9fa8a49f135def8",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/bytes_list.ts": "31d664f4d42fa922066405d0e421c56da89d751886ee77bbe25a88bf0310c9d0",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/concat.ts": "d26d6f3d7922e6d663dacfcd357563b7bf4a380ce5b9c2bbe0c8586662f25ce2",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/copy.ts": "939d89e302a9761dcf1d9c937c7711174ed74c59eef40a1e4569a05c9de88219",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/ends_with.ts": "4228811ebc71615d27f065c54b5e815ec1972538772b0f413c0efe05245b472e",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/equals.ts": "fc190cce412b2136979181b163ec7e05f7e7a947e39102eee4b8c0d62519ddf9",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/includes_needle.ts": "76a8163126fb2f8bf86fd7f22192c3bb04bf6a20b987a095127c2ca08adf3ba6",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/index_of_needle.ts": "9c06610e9611b5647ac25952e71a22e09227c9f1b8cbeeb33399bf8bf8a7f649",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/last_index_of_needle.ts": "f1602f221c3b678bc4f1e1c88a70a15ab7da32c21751dbbc6c957c956951d784",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/mod.ts": "e869bba1e7a2e3a9cc6c2d55471888429a544e70a840c087672e656e7ba21815",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/repeat.ts": "6f5e490d8d72bcbf8d84a6bb04690b9b3eb5822c5a11687bca73a2318a842294",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/bytes/starts_with.ts": "3e607a70c9c09f5140b7a7f17a695221abcc7244d20af3eb47ccbb63f5885135",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/crypto/keystack.ts": "877ab0f19eb7d37ad6495190d3c3e39f58e9c52e0b6a966f82fd6df67ca55f90",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/crypto/timing_safe_equal.ts": "7b0a4d2ef1c17590e0ad6c0cb1776369d2ba80cd99e945005e117851690507fe",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/encoding/base64.ts": "144ae6234c1fbe5b68666c711dc15b1e9ee2aef6d42b3b4345bf9a6c91d70d0d",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/encoding/base64url.ts": "2ed4ba122b20fedf226c5d337cf22ee2024fa73a8f85d915d442af7e9ce1fae1",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/_negotiation/common.ts": "14d1a52427ab258a4b7161cd80e1d8a207b7cc64b46e911780f57ead5f4323c6",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/_negotiation/encoding.ts": "ff747d107277c88cb7a6a62a08eeb8d56dad91564cbcccb30694d5dc126dcc53",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/_negotiation/language.ts": "7bcddd8db3330bdb7ce4fc00a213c5547c1968139864201efd67ef2d0d51887d",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/_negotiation/media_type.ts": "58847517cd549384ad677c0fe89e0a4815be36fe7a303ea63cee5f6a1d7e1692",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/cookie_map.ts": "64601025a7d24c3ebd80a169ccc99145bdbfc60606935348e1d4366d0bf9010d",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/etag.ts": "807382795850cde5c437c74bcc09392bc0fc56de348fc1271f383f4b28935b9f",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/http_errors.ts": "bbda34819060af86537cecc9dc8e045f877130808b7e7acde4197c5328e852d0",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/http_status.ts": "8a7bcfe3ac025199ad804075385e57f63d055b2aed539d943ccc277616d6f932",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/method.ts": "e66c2a015cb46c21ab0bb3589aa4fca43143a506cb324ffdfd42d2edef7bc0c4",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/negotiation.ts": "46e74a6bad4b857333a58dc5b50fe8e5a4d5267e97292293ea65f980bd918086",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/server_sent_event.ts": "29f707c1afa5278ac0315ac115ee679d6b93596d5af3fad5ef33f04254ca76c1",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/http/user_agent.ts": "35d3c70d0926b0e121b8c1bbc324b3522479158acaa4f0c43928362b7bf4e6f4",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/buf_reader.ts": "2bccff0878537ef201c5051fc0db0ce8196388c5ea69d2be6be1900fe48c5f4b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/buf_writer.ts": "48c33c8f00b61dcbc7958706741cec8e59810bd307bc6a326cbd474fe8346dfd",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/buffer.ts": "4d6883daeb2e698579c4064170515683d69f40f3de019bfe46c5cf31e74ae793",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/copy_n.ts": "c055296297b9d4897d90d1ac056b072dc02614e60c67f438e23fbce052ea4c69",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/limited_reader.ts": "6c9a216f8eef39c1ee2a6b37a29372c8fc63455b2eeb91f06d9646f8f759fc8b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/mod.ts": "2665bcccc1fd6e8627cca167c3e92aaecbd9897556b6f69e6d258070ef63fd9b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/multi_reader.ts": "9c2a0a31686c44b277e16da1d97b4686a986edcee48409b84be25eedbc39b271",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_delim.ts": "c02b93cc546ae8caad8682ae270863e7ace6daec24c1eddd6faabc95a9d876a3",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_int.ts": "7cb8bcdfaf1107586c3bacc583d11c64c060196cb070bb13ae8c2061404f911f",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_lines.ts": "c526c12a20a9386dc910d500f9cdea43cba974e853397790bd146817a7eef8cc",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_long.ts": "f0aaa420e3da1261c5d33c5e729f09922f3d9fa49f046258d4ff7a00d800c71e",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_range.ts": "46a2263d0f8369b6d9abb0b25d99ceb65ff08d621fc57bcc53832e6979295043",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_short.ts": "805cb329574b850b84bf14a92c052c59b5977a492cd780c41df8ad40826c1a20",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/read_string_delim.ts": "5dc9f53bdf78e7d4ee1e56b9b60352238ab236a71c3e3b2a713c3d78472a53ce",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/slice_long_to_bytes.ts": "48d9bace92684e880e46aa4a2520fc3867f9d7ce212055f76ecc11b22f9644b7",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/string_reader.ts": "da0f68251b3d5b5112485dfd4d1b1936135c9b4d921182a7edaf47f74c25cc8f",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/io/string_writer.ts": "8a03c5858c24965a54c6538bed15f32a7c72f5704a12bda56f83a40e28e5433e",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/_db.ts": "7606d83e31f23ce1a7968cbaee852810c2cf477903a095696cdc62eaab7ce570",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/_util.ts": "916efbd30b6148a716f110e67a4db29d6949bf4048997b754415dd7e42c52378",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/content_type.ts": "ad98a5aa2d95f5965b2796072284258710a25e520952376ed432b0937ce743bc",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/extension.ts": "a7cd28c9417143387cdfed27d4e8607ebcf5b1ec27eb8473d5b000144689fe65",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/extensions_by_type.ts": "43806d6a52a0d6d965ada9d20e60a982feb40bc7a82268178d94edb764694fed",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/format_media_type.ts": "f5e1073c05526a6f5a516ac5c5587a1abd043bf1039c71cde1166aa4328c8baf",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/get_charset.ts": "18b88274796fda5d353806bf409eb1d2ddb3f004eb4bd311662c4cdd8ac173db",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/mod.ts": "d3f0b99f85053bc0b98ecc24eaa3546dfa09b856dc0bbaf60d8956d2cdd710c8",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/parse_media_type.ts": "8cb0144385c555c9ce81881b7cee3fbb746f23b4af988fecdb7bd01ef8cc35b1",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/type_by_extension.ts": "daa801eb0f11cdf199445d0f1b656cf116d47dcf9e5b85cc1e6b4469f5ee0432",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/media_types/vendor/mime-db.v1.52.0.ts": "6925bbcae81ca37241e3f55908d0505724358cda3384eaea707773b2c7e99586",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_basename.ts": "057d420c9049821f983f784fd87fa73ac471901fb628920b67972b0f44319343",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_constants.ts": "e49961f6f4f48039c0dfed3c3f93e963ca3d92791c9d478ac5b43183413136e0",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_dirname.ts": "355e297236b2218600aee7a5301b937204c62e12da9db4b0b044993d9e658395",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_extname.ts": "eaaa5aae1acf1f03254d681bd6a8ce42a9cb5b7ff2213a9d4740e8ab31283664",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_format.ts": "4a99270d6810f082e614309164fad75d6f1a483b68eed97c830a506cc589f8b4",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_from_file_url.ts": "7e4e5626089785adddb061f1b9f4932d6b21c7df778e7449531a11e32048245c",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_interface.ts": "6471159dfbbc357e03882c2266d21ef9afdb1e4aa771b0545e90db58a0ba314b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_is_absolute.ts": "05dac10b5e93c63198b92e3687baa2be178df5321c527dc555266c0f4f51558c",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_join.ts": "fd78555bc34d5f188918fc7018dfe8fe2df5bbad94a3b30a433666c03934d77f",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_normalize.ts": "a19ec8706b2707f9dd974662a5cd89fad438e62ab1857e08b314a8eb49a34d81",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_parse.ts": "0f9b0ff43682dd9964eb1c4398610c4e165d8db9d3ac9d594220217adf480cfa",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_relative.ts": "27bdeffb5311a47d85be26d37ad1969979359f7636c5cd9fcf05dcd0d5099dc5",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_resolve.ts": "7a3616f1093735ed327e758313b79c3c04ea921808ca5f19ddf240cb68d0adf6",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_to_file_url.ts": "739bfda583598790b2e77ce227f2bb618f6ebdb939788cea47555b43970ec58c",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_to_namespaced_path.ts": "0d5f4caa2ed98ef7a8786286df6af804b50e38859ae897b5b5b4c8c5930a75c8",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/_util.ts": "4e191b1bac6b3bf0c31aab42e5ca2e01a86ab5a0d2e08b75acf8585047a86221",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/basename.ts": "6f08fbb90dbfcf320765b3abb01f995b1723f75e2534acfd5380e202c802a3aa",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/common.ts": "ee7505ab01fd22de3963b64e46cff31f40de34f9f8de1fff6a1bd2fe79380000",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/dirname.ts": "098996822a31b4c46e1eb52a19540d3c6f9f54b772fc8a197939eeabc29fca2f",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/extname.ts": "9b83c62fd16505739541f7a3ab447d8972da39dbf668d47af2f93206c2480893",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/format.ts": "cb22f95cc7853d590b87708cc9441785e760d711188facff3d225305a8213aca",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/from_file_url.ts": "a6221cfc928928ec4d9786d767dfac98fa2ab746af0786446c9834a07b98817e",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/glob.ts": "d479e0a695621c94d3fd7fe7abd4f9499caf32a8de13f25073451c6ef420a4e1",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/is_absolute.ts": "6b3d36352eb7fa29edb53f9e7b09b1aeb022a3c5465764f6cc5b8c41f9736197",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/join.ts": "4a2867ff2f3c81ffc9eb3d56dade16db6f8bd3854f269306d23dad4115089c84",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/mod.ts": "7765507696cb321994cdacfc19ee3ba61e8e3ebf4bd98fa75a276cf5dc18ce2a",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/normalize.ts": "7d992cd262b2deefa842d93a8ba2ed51f3949ba595b1d07f627ac2cddbc74808",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/parse.ts": "031fe488b3497fb8312fc1dc3c3d6c2d80707edd9c661e18ee9fd20f95edf322",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/posix.ts": "0a1c1952d132323a88736d03e92bd236f3ed5f9f079e5823fae07c8d978ee61b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/relative.ts": "7db80c5035016174267da16321a742d76e875215c317859a383b12f413c6f5d6",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/resolve.ts": "103b62207726a27f28177f397008545804ecb20aaf00623af1f622b18cd80b9f",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/separator.ts": "0fb679739d0d1d7bf45b68dacfb4ec7563597a902edbaf3c59b50d5bcadd93b1",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/to_file_url.ts": "dd32f7a01bbf3b15b5df46796659984b372973d9b2d7d59bcf0eb990763a0cb5",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/to_namespaced_path.ts": "4e643ab729bf49ccdc166ad48d2de262ff462938fcf2a44a4425588f4a0bd690",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/path/win32.ts": "8b3f80ef7a462511d5e8020ff490edcaa0a0d118f1b1e9da50e2916bdd73f9dd",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/_common.ts": "f45cba84f0d813de3326466095539602364a9ba521f804cc758f7a475cda692d",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/buffer.ts": "6cd773d22cf21bb988a98cc551b5abfc4c3b03516f93eaa3fb6f2f6e16032deb",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/byte_slice_stream.ts": "c46d7c74836fc8c1a9acd9fe211cbe1bbaaee1b36087c834fb03af4991135c3a",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/copy.ts": "75cbc795ff89291df22ddca5252de88b2e16d40c85d02840593386a8a1454f71",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/delimiter_stream.ts": "f69e849b3d1f59f02424497273f411105a6f76a9f13da92aeeb9a2d554236814",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/early_zip_readable_streams.ts": "4005fa74162b943f79899e5d7cb96adcbc0a6b867f9144974ed12d30e0a556e1",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/iterate_reader.ts": "bbec1d45c2df2c0c5920bad0549351446fdc8e0886d99e95959b259dbcdb6072",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/limited_bytes_transform_stream.ts": "05dc592ffaab83257494d22dd53917e56243c26e5e3129b3f13ddbbbc4785048",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/limited_transform_stream.ts": "d69ab790232c1b86f53621ad41ef03c235f2abb4b7a1cd51960ad6e12ee55e38",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/merge_readable_streams.ts": "dc2db0cbf1b14d999aa2aa2a2a1ba24ce58953878f29845ed9319321d0a01fab",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/mod.ts": "c07ec010e700b9ea887dc36ca08729828bc7912f711e4054e24d33fd46282252",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/read_all.ts": "ee319772fb0fd28302f97343cc48dfcf948f154fd0d755d8efe65814b70533be",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/readable_stream_from_iterable.ts": "a355e97ba8671a4611ae9671c1f33c4a7e6a1b42fbdc9a399338ac3d6f875364",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/readable_stream_from_reader.ts": "bfc416c4576a30aac6b9af22c9dc292c20c6742141ee7c55b5e85460beb0c54e",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/reader_from_iterable.ts": "55f68110dce3f8f2c87b834d95f153bc904257fc65175f9f2abe78455cb8047c",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/reader_from_stream_reader.ts": "fa4971e5615a010e49492c5d1688ca1a4d17472a41e98b498ab89a64ebd7ac73",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/text_delimiter_stream.ts": "20e680ab8b751390e359288ce764f9c47d164af11a263870746eeca4bc7d976b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/text_line_stream.ts": "0f2c4b33a5fdb2476f2e060974cba1347cefe99a4af33c28a57524b1a34750fa",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/to_transform_stream.ts": "89fd367cafb3b6d80d61e2f4f1fcf66cc75723ecee8d474b495f022264ec6c3b",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/writable_stream_from_writer.ts": "56fff5c82fb736fdd669b567cc0b2bbbe0351002cd13254eae26c366e2bed89a",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/write_all.ts": "aec90152978581ea62d56bb53a5cbf487e6a89c902f87c5969681ffbdf32b998",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/writer_from_stream_writer.ts": "07c7ee025151a190f37fc42cbb01ff93afc949119ebddc6e0d0df14df1bf6950",[m
+[32m+[m[32m    "https://deno.land/std@0.200.0/streams/zip_readable_streams.ts": "a9d81aa451240f79230add674809dbee038d93aabe286e2d9671e66591fc86ca",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/abcCors.ts": "cdf83a7eaa69a1bf3ab910d18b9422217902fac47601adcaf0afac5a61845d48",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/attainCors.ts": "7d6aba0f942495cc31119604e0895c9bb8edd8f8baa7fe78e6c655bd0b4cbf59",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/cors.ts": "0e2d9167e3685f9bcf48f565e312b6e1883fa458f7337e5ce7bc2e3b29767980",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/mithCors.ts": "3a359d6e716e0410ede278ab54d875b293a2d66d838aaa7cfbf9ddc1e9e990d3",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/mod.ts": "2b351913f56d77ad80cb3b8633d4539c9eeddb426dae79437ada0e6a9cb4f1a6",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/oakCors.ts": "1348dc7673c61b85d2e80559a7b44f8e0246eaa6bcc6ec744fafe5d9b13b5c71",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/opineCors.ts": "fb5790115c26b7061d84b8d6c17d258a1e241bcab75b0bc3ca1fdb2e57bc5072",[m
+[32m+[m[32m    "https://deno.land/x/cors@v1.2.2/types.ts": "97546633ccc7f0df7a29bacba5d91dc6f61decdd1b65258300244dba905d34b8",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/application.ts": "3028d3f6fa5ee743de013881550d054372c11d83c45099c2d794033786d27008",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/body.ts": "1899761b97fc9d776f3710b2637fb047ba29b968609afc6c0e5219b1108e703c",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/buf_reader.ts": "26640736541598dbd9f2b84a9d0595756afff03c9ca55b66eef1911f7798b56d",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/content_disposition.ts": "8b8c3cb2fba7138cd5b7f82fc3b5ea39b33db924a824b28261659db7e164621e",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/context.ts": "895a2d40186b89c28ba3947bf08a9335f1a11fc33133f760082536b74c53d1ca",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/deps.ts": "267ef76c25592101fe1f6c6d7730664015a9179c974da4f7441297d9367a9514",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/etag.ts": "32e47726b41698aefdd71faac5aaf2907c9bdd41ef18a7693863be4f8fee115d",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/forwarded.ts": "e656f96a85574e2a6ee54dc35efc9f72d543c9ae0923760ef426ee7369eef01c",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/headers.ts": "769fd042d34fbcd5667cbd745b5c65d335cc8430e822dbf1f87d65313cab4b47",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/helpers.ts": "6b03c6a2be06ec775d54449e442a2bac234aa952948ca758356eab6dc87af618",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/http_server_native.ts": "98e12c50a959553cfc144bc00999c969fa69ca781cbd96bec563f55691ab82db",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/http_server_native_request.ts": "552b174b5e13e92de8897d5b6f716b1e5a53543115481d65a651a41e4ca29ec9",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/isMediaType.ts": "62d638abcf837ece3a8f07a4b7ca59794135cb0d4b73194c7d5837efd4161005",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/mediaTyper.ts": "042b853fc8e9c3f6c628dd389e03ef481552bf07242efc3f8a1af042102a6105",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/middleware.ts": "c7f7a0424a6dd99a00e4b8d7d6e131efc0facc8dea781845d713b63df8ef1862",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/middleware/proxy.ts": "6f2799cf60d926e7a8d13ff757a59d7f0f930407db7ee9b81e7c064138eb89ff",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/mod.ts": "f6aa47ad1b6099470c9a884cccad9d3ac0fd242ba940896291ab76cd26cf554b",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/multipart.ts": "1484e01b98f5135f2aa09f7d0ce1e7be39109bf9f045ac660e941619d04e3d29",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/range.ts": "1ca15fc1ac21c650c34e6997a75af2af9d9d8eb6fe2d5d1dadeac3dfd4a9c152",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/request.ts": "32409827e285ee65889b22bbaaea5d6b280258124c2e9a4f724baa8e6d6375b7",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/response.ts": "094d950a5158f5b3446ca8a7b6e975dd23afb42b38c38517cc2f41dc75b16b4c",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/router.ts": "0f53d6249f9e8f89f2522b2b810b9302d0f22593c184b16b24b03bf2b7d42ea1",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/send.ts": "5ec49f106294593f468317a0c885da4f3274bf6d0fe9e16a7304391730b4f4fb",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/structured_clone.ts": "c3888b14d1eec558345bfbf13d0993d59bd45aaa8588444e35dd558c3a921cd8",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/testing.ts": "37d684d57bb8e5150fb5eb2677e66b04dcb422709cf2c5a74c1df94d52aa02e2",[m
+[32m+[m[32m    "https://deno.land/x/oak@v12.6.1/util.ts": "0a3fdffb114859c2de84e1783efa3a544af4d2af8c6f08e0d25655de9d3e69bb",[m
+[32m+[m[32m    "https://deno.land/x/path_to_regexp@v6.2.1/index.ts": "894060567837bae8fc9c5cbd4d0a05e9024672083d5883b525c031eea940e556"[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[1mdiff --git a/code-execution-server/main.ts b/code-execution-server/main.ts[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b7d2f85[m
+[1m--- /dev/null[m
+[1m+++ b/code-execution-server/main.ts[m
+[36m@@ -0,0 +1,46 @@[m
+[32m+[m[32mimport { Application, Router } from "https://deno.land/x/oak/mod.ts";[m
+[32m+[m[32mimport { oakCors } from "https://deno.land/x/cors/mod.ts";[m
+[32m+[m
+[32m+[m[32mconst router = new Router();[m
+[32m+[m[32mrouter[m
+[32m+[m[32m  .get("/", (context) => {[m
+[32m+[m[32m    console.log("Hello world!");[m
+[32m+[m[32m    context.response.body = "Hello world!";[m
+[32m+[m[32m  })[m
+[32m+[m[32m  .post("/run", async (context) => {[m
+[32m+[m[32m    // Here you can add your code sanitization and running logic[m
+[32m+[m[32m    const { code } = await context.request.body().value;[m
+[32m+[m[32m    // Sanitize the code (more robust sanitization is advisable)[m
+[32m+[m[32m    const sanitizedCode = code;  // Assume code is safe for demonstration[m
+[32m+[m[32m    console.log("Code received: ", code);[m
+[32m+[m[32m    // Run the code[m
+[32m+[m[32m    const result = await Deno.run({[m
+[32m+[m[32m      cmd: ["deno", "eval", sanitizedCode],[m
+[32m+[m[32m      stdout: "piped",[m
+[32m+[m[32m      stderr: "piped",[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m
+[32m+[m[32m    // context.response.body = "Code received!";[m
+[32m+[m[32m    // Read and decode the stdout and stderr[m
+[32m+[m[32m    const [outputBytes, errorBytes] = await Promise.all([[m
+[32m+[m[32m      result.output(),[m
+[32m+[m[32m      result.stderrOutput()[m
+[32m+[m[32m    ]);[m
+[32m+[m[32m    const outputText = new TextDecoder().decode(outputBytes);[m
+[32m+[m[32m    const errorText = new TextDecoder().decode(errorBytes);[m
+[32m+[m
+[32m+[m[32m    // Send the stdout and stderr in the response[m
+[32m+[m[32m    context.response.body = {[m
+[32m+[m[32m      output: outputText,[m
+[32m+[m[32m      error: errorText,[m
+[32m+[m[32m    };[m
+[32m+[m[32m  });[m
+[32m+[m
+[32m+[m[32mconst app = new Application();[m
+[32m+[m[32mapp.use(oakCors());[m
+[32m+[m[32mapp.use(router.routes());[m
+[32m+[m[32mapp.use(router.allowedMethods());[m
+[32m+[m
+[32m+[m[32mconsole.log("Server running on http://localhost:8000");[m
+[32m+[m[32mawait app.listen({ port: 8000 });[m
+\ No newline at end of file[m
+[1mdiff --git a/code-execution-server/main_test.ts b/code-execution-server/main_test.ts[m
+[1mnew file mode 100644[m
+[1mindex 0000000..88b9351[m
+[1m--- /dev/null[m
+[1m+++ b/code-execution-server/main_test.ts[m
+[36m@@ -0,0 +1,6 @@[m
+[32m+[m[32mimport { assertEquals } from "https://deno.land/std@0.204.0/assert/mod.ts";[m
+[32m+[m[32mimport { add } from "./main.ts";[m
+[32m+[m
+[32m+[m[32mDeno.test(function addTest() {[m
+[32m+[m[32m  assertEquals(add(2, 3), 5);[m
+[32m+[m[32m});[m
+[1mdiff --git a/code-execution-server/request.rest b/code-execution-server/request.rest[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/code-execution-server/tsconfig.json b/code-execution-server/tsconfig.json[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8ea3907[m
+[1m--- /dev/null[m
+[1m+++ b/code-execution-server/tsconfig.json[m
+[36m@@ -0,0 +1,26 @@[m
+[32m+[m[32m{[m[41m[m
+[32m+[m[32m    "compilerOptions": {[m[41m[m
+[32m+[m[32m      "lib": ["deno.ns", "dom.iterable", "esnext", "dom"],[m[41m[m
+[32m+[m[32m      "strict": true,[m[41m[m
+[32m+[m[32m      "noImplicitAny": false,[m[41m[m
+[32m+[m[32m      "noImplicitThis": true,[m[41m[m
+[32m+[m[32m      "alwaysStrict": true,[m[41m[m
+[32m+[m[32m      "unstable": true,[m[41m[m
+[32m+[m[32m      "isolatedModules": true,[m[41m[m
+[32m+[m[32m      "allowJs": true,[m[41m[m
+[32m+[m[32m      "moduleResolution": "node",[m[41m[m
+[32m+[m[32m      "target": "esnext",[m[41m[m
+[32m+[m[32m      "jsx": "react",[m[41m[m
+[32m+[m[32m      "experimentalDecorators": true,[m[41m[m
+[32m+[m[32m      "emitDecoratorMetadata": true,[m[41m[m
+[32m+[m[32m      "esModuleInterop": true,[m[41m[m
+[32m+[m[32m      "allowSyntheticDefaultImports": true,[m[41m[m
+[32m+[m[32m      "importHelpers": true,[m[41m[m
+[32m+[m[32m      "downlevelIteration": true,[m[41m[m
+[32m+[m[32m      "strictBindCallApply": true,[m[41m[m
+[32m+[m[32m      "strictFunctionTypes": true,[m[41m[m
+[32m+[m[32m      "strictPropertyInitialization": true,[m[41m[m
+[32m+[m[32m      "noEmit": true,[m[41m[m
+[32m+[m[32m      "sourceMap": true[m[41m[m
+[32m+[m[32m    }[m[41m[m
+[32m+[m[32m  }[m
+\ No newline at end of file[m
