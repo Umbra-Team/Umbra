@@ -15,6 +15,7 @@ function App() {
   useEffect(() => {
     const fetchClientToken = async () => {
       const response = await axios.get('http://localhost:3001/get-token/my-room');
+      console.log(`Response: ${JSON.stringify(response)}`)
       setClientToken(response.data.clientToken);
     };
 

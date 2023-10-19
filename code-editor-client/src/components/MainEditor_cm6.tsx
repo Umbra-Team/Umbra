@@ -45,7 +45,7 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
       autoFocus={true}
       extensions={[
         langs.tsx(),
-        yCollab(yText, awareness),
+        yCollab(yText, awareness), // returns [ySincFace.of(ySyncConfig), ySync, yRemoteSelectionsTheme, yRemoteSelections]
       ]}
     />
     <button onClick={logEditorState} />

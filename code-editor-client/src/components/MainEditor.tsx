@@ -22,8 +22,6 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
   const editorRef = useRef<EditorFromTextArea | null>(null)
   const bindingRef = useRef<CodemirrorBinding | null>(null)
 
-  
-
   const codeMirrorRef = useCallback(
     (ref: HTMLTextAreaElement | null) => {
       if (ref == null) {
