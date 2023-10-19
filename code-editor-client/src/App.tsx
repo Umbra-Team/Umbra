@@ -1,7 +1,7 @@
 // import "./App.css";
 import { MainEditor } from "./components/MainEditor";
 import OutputDisplay from './components/OutputDisplay';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
 import { YDocProvider } from '@y-sweet/react'
@@ -21,6 +21,12 @@ function App() {
     fetchClientToken();
   }, []);
 
+  const extensions = useMemo(() => {
+    // Compute extensions array here
+    return [];
+  }, [/* dependencies */]);
+  
+
   const sendCode = async (code: string) => {
     const codeEndpoint = "http://localhost:8000/run";
     console.log(`Sending code to ${codeEndpoint}, code: ${code}`)
@@ -34,7 +40,11 @@ function App() {
   return clientToken ? (
     <YDocProvider clientToken={clientToken} setQueryParam="doc">
       <h1>CodeShare</h1>
-      <MainEditor code={code} setCode={setCode} />
+      <MainEditor 
+        value={code}
+        onChange={(newCode: string) => setCode(newCode)}
+        extensions={extensions}
+      />
       <button onClick={() => sendCode(code)}>
         Run Code
       </button>
