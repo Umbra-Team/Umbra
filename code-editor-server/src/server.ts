@@ -13,8 +13,13 @@ app.use(express.json());
 app.use('/api/codeEval', codeRouter);
 
 app.get('/get-token/:docId', async (req, res) => {
-  const docId = req.params.docId;
-  const clientToken = await getOrCreateDoc(undefined, CONNECTION_STRING);
+  let docId: string | undefined = req.params.docId;
+  if (docId === "default") {
+    docId = undefined;
+  }
+  // const clientToken = await getOrCreateDoc(undefined, CONNECTION_STRING);
+  // const clientToken = await getOrCreateDoc(`PrBqaP_Hrd2UkLNzECPwI`, CONNECTION_STRING);
+  const clientToken = await getOrCreateDoc(docId, CONNECTION_STRING);
   res.json({ clientToken });
 });
 

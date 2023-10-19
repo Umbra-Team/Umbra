@@ -10,15 +10,22 @@ import { ClientToken } from '@y-sweet/sdk'
 function App() {
   const [code, setCode] = useState<string>("console.log(2+2);\nconsole.log('hello world')");
   const [output, setOutput] = useState<string>("");
+  const [docParam, setDocParam] = useState<string | null>(null);
   const [clientToken, setClientToken] = useState<ClientToken | null>(null);
 
   useEffect(() => {
-    const fetchClientToken = async () => {
-      const response = await axios.get('http://localhost:3001/get-token/my-room');
+    const fetchClientToken = async (doc: string) => {
+      const response = await axios.get(`http://localhost:3001/get-token/${doc}`);
       setClientToken(response.data.clientToken);
     };
 
-    fetchClientToken();
+    const params = new URLSearchParams(window.location.search);
+    const doc = params.get('doc');
+    if (doc) {
+      setDocParam(doc);
+    }
+
+    fetchClientToken(doc || "default");
   }, []);
 
   const sendCode = async (code: string) => {
