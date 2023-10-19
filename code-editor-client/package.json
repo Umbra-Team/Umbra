@@ -10,14 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/state": "^6.3.1",
+    "@codemirror/view": "^6.21.3",
     "@uiw/codemirror-extensions-langs": "^4.21.20",
     "@uiw/codemirror-theme-vscode": "^4.21.20",
     "@uiw/react-codemirror": "^4.21.20",
+    "@y-sweet/react": "^0.0.9",
+    "@y-sweet/sdk": "^0.0.9",
     "axios": "^1.5.1",
     "codemirror": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "uuid": "^9.0.1",
     "y-codemirror.next": "^0.3.2",
+    "y-webrtc": "^10.2.5",
     "y-websocket": "^1.5.0",
     "yjs": "^13.6.8"
   },

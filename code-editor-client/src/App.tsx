@@ -4,9 +4,22 @@ import OutputDisplay from './components/OutputDisplay';
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
+import { YDocProvider } from '@y-sweet/react'
+import { ClientToken } from '@y-sweet/sdk'
+
 function App() {
   const [code, setCode] = useState<string>("console.log(2+2);\nconsole.log('hello world')");
   const [output, setOutput] = useState<string>("");
+  const [clientToken, setClientToken] = useState<ClientToken | null>(null);
+
+  useEffect(() => {
+    const fetchClientToken = async () => {
+      const response = await axios.get('http://localhost:3001/get-token/my-room');
+      setClientToken(response.data.clientToken);
+    };
+
+    fetchClientToken();
+  }, []);
 
   const sendCode = async (code: string) => {
     const codeEndpoint = "http://localhost:8000/run";
@@ -18,16 +31,16 @@ function App() {
     setOutput(JSON.stringify(response.data, null, 2));
   }
 
-  return (
-    <>
+  return clientToken ? (
+    <YDocProvider clientToken={clientToken} setQueryParam="doc">
       <h1>CodeShare</h1>
       <MainEditor code={code} setCode={setCode} />
       <button onClick={() => sendCode(code)}>
         Run Code
       </button>
       <OutputDisplay output={output} />
-    </>
-  );
+    </YDocProvider>
+  ) : null;
 }
 
 export default App;
