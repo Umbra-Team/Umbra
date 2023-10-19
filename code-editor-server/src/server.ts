@@ -1,5 +1,5 @@
 import express, { RequestHandler, Request, Response } from 'express';
-const { getOrCreateDoc } = require('@y-sweet/sdk');
+const { getClientToken, getOrCreateDoc } = require('@y-sweet/sdk');
 import cors from 'cors';
 import codeRouter from './routes/routes';
 
@@ -14,7 +14,7 @@ app.use('/api/codeEval', codeRouter);
 
 app.get('/get-token/:docId', async (req, res) => {
   const docId = req.params.docId;
-  const clientToken = await getOrCreateDoc(undefined, CONNECTION_STRING);
+  const clientToken = await getOrCreateDoc(`PrBqaP_Hrd2UkLNzECPwI`, CONNECTION_STRING);
   res.json({ clientToken });
 });
 

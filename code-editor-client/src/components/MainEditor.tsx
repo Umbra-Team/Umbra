@@ -1,10 +1,15 @@
-import CodeMirror from '@uiw/react-codemirror';
-import { vscodeDark } from '@uiw/codemirror-theme-vscode'
-import { langs } from '@uiw/codemirror-extensions-langs';
-import React, { useState, useEffect, useRef } from 'react';
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { EditorState } from '@codemirror/state';
 import { useAwareness, useText } from '@y-sweet/react'
-import { yCollab } from 'y-codemirror.next'
+
+import { CodemirrorBinding } from 'y-codemirror'
+import { EditorFromTextArea } from 'codemirror'
+import CodeMirror from 'codemirror'
+
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/javascript/javascript'
+import './caret.css'
 
 export type MainEditorProps = {
   code: string;
@@ -12,43 +17,55 @@ export type MainEditorProps = {
 }
 
 export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
-  const editorRef = useRef<EditorState | null>(null);
-
-  const yText = useText(code, { observe: 'none' })
+  const yText = useText('text', { observe: 'none' })
   const awareness = useAwareness()
+  const editorRef = useRef<EditorFromTextArea | null>(null)
+  const bindingRef = useRef<CodemirrorBinding | null>(null)
 
-  const logEditorState = () => {
-    console.log(`editorRef.current: ${JSON.stringify(editorRef.current)}`);
-  }
+  
+
+  const codeMirrorRef = useCallback(
+    (ref: HTMLTextAreaElement | null) => {
+      if (ref == null) {
+        if (editorRef.current != null) {
+          editorRef.current.toTextArea();
+          editorRef.current = null;
+        }
+
+        if (bindingRef.current != null) {
+          bindingRef.current.destroy();
+          bindingRef.current = null;
+        }
+
+        return;
+      }
+
+      if (bindingRef.current !== null) {
+        bindingRef.current.awareness = awareness;
+        return;
+      }
+
+      editorRef.current = CodeMirror.fromTextArea(ref, {
+        lineNumbers: true,
+        mode: 'javascript',
+      });
+
+      bindingRef.current = new CodemirrorBinding(yText!, editorRef.current, awareness);
+
+      // Add a change event listener to update the code prop
+      editorRef.current.on('change', () => {
+        setCode(editorRef.current!.getValue());
+      });
+    },
+    [awareness, yText, setCode],
+  );
 
   return (
-    <>
-    <CodeMirror 
-      value={code}
-      height="200px"
-      width="800px"
-      theme={vscodeDark}
-      onChange={(editorValue, viewUpdate) => {
-        if (!editorRef.current) {
-          editorRef.current = viewUpdate.state;
-          console.log(`editorRef.current: ${JSON.stringify(editorRef.current)}`);
-        }
-        setCode(editorValue);
-        // console.log(editorValue);
-      }}
-      basicSetup={{
-        foldGutter: true,
-        dropCursor: false,
-        allowMultipleSelections: false,
-        indentOnInput: false,
-      }}
-      autoFocus={true}
-      extensions={[
-        langs.tsx(),
-        yCollab(yText, awareness),
-      ]}
-    />
-    <button onClick={logEditorState} />
-    </>
-  )
+    <div className="p-4 lg:p-8 space-y-4">
+      <h3>Code Editor</h3>
+      <div>
+        <textarea ref={codeMirrorRef} />
+      </div>
+    </div>
+  );
 }

@@ -20,6 +20,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     // "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "y-codemirror": ["node_modules/y-codemirror/dist/src/y-codemirror.d.ts"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

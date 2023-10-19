@@ -33,7 +33,6 @@ function App() {
 
   return clientToken ? (
     <YDocProvider clientToken={clientToken} setQueryParam="doc">
-      <h1>CodeShare</h1>
       <MainEditor code={code} setCode={setCode} />
       <button onClick={() => sendCode(code)}>
         Run Code
