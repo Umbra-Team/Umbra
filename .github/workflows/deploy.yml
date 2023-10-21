@@ -54,6 +54,6 @@ jobs:
             --label ${service_name} \
             --image ${service_name}:release
           aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container.json
+          jq --arg image $(cat code-execution-server/image.txt) '.containers.app.image = $image' container.template.json > container.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
         working-directory: code-execution-server
