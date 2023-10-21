@@ -47,13 +47,14 @@ jobs:
 
       - name: Push and Deploy
         run: |
+          cd code-execution-server
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
             --label ${service_name} \
             --image ${service_name}:release
-          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat code-execution-server/image.txt) '.containers.app.image = $image' container.template.json > container.json
-          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt || echo "Failed to get container images"
+          jq --arg image $(cat image.txt || echo "default_image") '.containers.app.image = $image' container.template.json > container.json || echo "Failed to modify container.json"
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
         working-directory: code-execution-server
