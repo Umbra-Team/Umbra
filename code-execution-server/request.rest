@@ -1,1 +1,6 @@
-POST http://localhost:8000/run -d '{"code": "print(1)"}'
+POST http://localhost:8000/run
+
+content-Type: application/json
+{
+    "code": "console.log('Hello World');"
+}

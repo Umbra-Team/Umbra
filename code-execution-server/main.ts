@@ -3,11 +3,22 @@ import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 const router = new Router();
 router
-  .get("/", (context) => {
+  .get("/hello", (context) => {
     console.log("Hello world!");
     context.response.body = "Hello world!";
   })
   .post("/run", async (context) => {
+    // Inspecting the request
+    console.log("Method:", context.request.method);
+    console.log("URL:", context.request.url);
+    console.log("Headers:", context.request.headers);
+
+     // Memory usage before processing the request
+    const beforeMemoryUsage = Deno.memoryUsage().heapUsed;
+
+    const body = await context.request.body().value;
+    console.log("Body:", body);
+
     // Here you can add your code sanitization and running logic
     const { code } = await context.request.body().value;
     // Sanitize the code (more robust sanitization is advisable)
@@ -35,6 +46,10 @@ router
       output: outputText,
       error: errorText,
     };
+
+    // Memory usage after processing the request
+    const afterMemoryUsage = Deno.memoryUsage().heapUsed;
+    console.log(`Memory usage before: ${beforeMemoryUsage}, after: ${afterMemoryUsage}, difference: ${afterMemoryUsage - beforeMemoryUsage}`);
   });
 
 const app = new Application();

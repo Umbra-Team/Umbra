@@ -16,7 +16,6 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
 
   const yText = useText(code, { observe: 'none' })
   const awareness = useAwareness()
-  console.log(awareness);
   
   const logEditorState = () => {
     console.log(`editorRef.current: ${JSON.stringify(editorRef.current)}`);

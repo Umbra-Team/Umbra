@@ -28,8 +28,10 @@ function App() {
     fetchClientToken(doc || "default");
   }, []);
 
+  const CODE_EXECUTION_ENDPOINT = "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
+
   const sendCode = async (code: string) => {
-    const codeEndpoint = "http://localhost:8000/run";
+    const codeEndpoint = CODE_EXECUTION_ENDPOINT;
     console.log(`Sending code to ${codeEndpoint}, code: ${code}`);
     const response = await axios.post(codeEndpoint, {
       code: code,
