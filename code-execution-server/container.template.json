@@ -6,7 +6,7 @@
         "APP_ENV": "release"
       },
       "ports": {
-        "8000": "HTTPS"
+        "8000": "HTTP"
       }
     }
   },
