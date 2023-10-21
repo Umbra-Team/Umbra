@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dd-10-20
+  workflow_dispatch:
 
 env:
   AWS_REGION: us-west-2
