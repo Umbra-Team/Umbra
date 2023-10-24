@@ -7,7 +7,7 @@ import { createTheme } from '@uiw/codemirror-themes';
 import { tags as t } from '@lezer/highlight';
 
 const myTheme = createTheme({
-  dark: 'light',
+  theme: 'light',
   settings: {
     background: '#000000',
     backgroundImage: '',

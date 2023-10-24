@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import Sandbox from '@nyariv/sandboxjs';
-import * as esprima from 'esprima';
 
 const router = express.Router();
 
@@ -10,7 +9,6 @@ router.post('/', async (req: Request, res: Response) => {
   // Syntax validation
   try {
     console.log('Validating JavaScript syntax: ', code);
-    esprima.parseScript(code);
   } catch (e) {
     console.log(`Invalid JavaScript syntax: ${e}`)
     res.status(400).send({ error: 'Invalid JavaScript syntax' });

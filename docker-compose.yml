@@ -1,0 +1,9 @@
+version: '3'
+services:
+  express_app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    

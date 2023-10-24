@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev --respawn src/server.ts"
+    "dev": "ts-node-dev --respawn src/server.ts",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +17,7 @@
     "@types/codemirror": "^5.60.10",
     "@y-sweet/sdk": "^0.0.9",
     "cors": "^2.8.5",
-    "esprima": "^4.0.1",
     "express": "^4.18.2",
-    "isolated-vm": "^4.6.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "vm": "^0.1.0"

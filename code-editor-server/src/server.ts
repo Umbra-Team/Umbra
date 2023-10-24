@@ -2,6 +2,7 @@ import express, { RequestHandler, Request, Response } from 'express';
 const { getOrCreateDoc } = require('@y-sweet/sdk');
 import cors from 'cors';
 import codeRouter from './routes/routes';
+import path from 'path';
 
 const app = express();
 const port = 3001;
@@ -12,6 +13,9 @@ const CONNECTION_STRING="yss://y-sweet-server-worker-staging.davidrd123.workers.
 app.use(cors() as RequestHandler);
 app.use(express.json());
 app.use('/api/codeEval', codeRouter);
+
+console.log("dirname: ", __dirname);
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/get-token/:docId', async (req, res) => {
   let docId: string | undefined = req.params.docId;
