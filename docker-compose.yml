@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: deno-container
-    image: deno-image
+    container_name: express-container
+    image: express-image
     ports:
-      - "8000:8000"
+      - "3001:3001"

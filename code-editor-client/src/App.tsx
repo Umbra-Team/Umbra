@@ -1,7 +1,7 @@
 // import "./App.css";
 import { MainEditor } from "./components/MainEditor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 
 import { YDocProvider } from "@y-sweet/react";

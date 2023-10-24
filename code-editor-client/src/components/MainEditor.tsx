@@ -1,7 +1,7 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode'
 import { langs } from '@uiw/codemirror-extensions-langs';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { EditorState } from '@codemirror/state';
 import { useAwareness, useText } from '@y-sweet/react'
 import { yCollab } from 'y-codemirror.next'
