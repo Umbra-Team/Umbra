@@ -13,6 +13,7 @@
   "dependencies": {
     "@nyariv/sandboxjs": "^0.8.23",
     "@types/codemirror": "^5.60.10",
+    "@y-sweet/sdk": "^0.0.9",
     "cors": "^2.8.5",
     "esprima": "^4.0.1",
     "express": "^4.18.2",
