@@ -14,10 +14,13 @@ function App() {
   const [output, setOutput] = useState<string>("");
   const [clientToken, setClientToken] = useState<ClientToken | null>(null);
 
+  // If process.env.REACT_APP_EXPRESS_SERVER_ENDPOINT is not set, use the default endpoint
+  const EXPRESS_SERVER_ENDPOINT = process.env.REACT_APP_EXPRESS_SERVER_ENDPOINT || "http://localhost:3001"; 
+
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
       const response = await axios.get(
-        `http://localhost:3001/get-token/${doc}`
+        `${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
       );
       setClientToken(response.data.clientToken);
     };

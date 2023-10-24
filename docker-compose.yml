@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  web:
+  express-app:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,3 +9,5 @@ services:
     image: express-image
     ports:
       - "3001:3001"
+    environment:
+      - REACT_APP_API_URL=http://express-app:3001
