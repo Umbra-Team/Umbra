@@ -1,7 +1,7 @@
 // import "./App.css";
 import { MainEditor } from "./components/MainEditor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 
 import { YDocProvider } from "@y-sweet/react";
@@ -14,10 +14,14 @@ function App() {
   const [output, setOutput] = useState<string>("");
   const [clientToken, setClientToken] = useState<ClientToken | null>(null);
 
+  // If process.env.REACT_APP_EXPRESS_SERVER_ENDPOINT is not set, use the default endpoint
+  const EXPRESS_SERVER_ENDPOINT = '/api'
+  console.log(`EXPRESS_SERVER_ENDPOINT: ${EXPRESS_SERVER_ENDPOINT}`);    
+
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
       const response = await axios.get(
-        `http://localhost:3001/get-token/${doc}`
+        `${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
       );
       setClientToken(response.data.clientToken);
     };
