@@ -17,11 +17,6 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
   const yText = useText(code, { observe: "none" });
   const awareness = useAwareness();
 
-  const logEditorState = () => {
-    console.log(`editorRef.current: ${JSON.stringify(editorRef.current)}`);
-  };
-
-  console.log(`yText.toString() value: ${yText.toString()}`);
   return (
     <>
       <CodeMirror
@@ -37,7 +32,6 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
             );
           }
           setCode(editorValue);
-          // console.log(editorValue);
         }}
         basicSetup={{
           foldGutter: true,
@@ -52,7 +46,6 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
           placeholder("console.log('hello!')"),
         ]}
       />
-      <button onClick={logEditorState} />
     </>
   );
 };
