@@ -9,5 +9,3 @@ services:
     image: express-image
     ports:
       - "3001:3001"
-    environment:
-      - NODE_ENV=production

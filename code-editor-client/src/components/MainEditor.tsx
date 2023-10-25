@@ -14,9 +14,9 @@ export type MainEditorProps = {
 export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
   const editorRef = useRef<EditorState | null>(null);
 
-  const yText = useText(code, { observe: "none" });
+  const yText = useText(code, { observe: "none" }); // Is this integrating correctly?
   const awareness = useAwareness();
-
+  console.log(`yText.toString(): ${yText.toString()}`);
   return (
     <>
       <CodeMirror

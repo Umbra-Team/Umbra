@@ -14,7 +14,7 @@ function App() {
 
   // If process.env.REACT_APP_EXPRESS_SERVER_ENDPOINT is not set, use the default endpoint
   const EXPRESS_SERVER_ENDPOINT = "/api";
-  console.log(`EXPRESS_SERVER_ENDPOINT: ${EXPRESS_SERVER_ENDPOINT}`);
+  // console.log(`EXPRESS_SERVER_ENDPOINT: ${EXPRESS_SERVER_ENDPOINT}`);
 
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
