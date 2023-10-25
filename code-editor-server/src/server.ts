@@ -1,30 +1,21 @@
-import express, { RequestHandler, Request, Response } from 'express';
-const { getOrCreateDoc } = require('@y-sweet/sdk');
-import cors from 'cors';
-// import codeRouter from './routes/routes';
-import path from 'path';
+import express, { RequestHandler, Request, Response } from "express";
+import cors from "cors";
+import path from "path";
+import apiRouter from "./routes/api";
 
 const app = express();
 const port = 3001;
-const CONNECTION_STRING="yss://y-sweet-server-worker-staging.davidrd123.workers.dev"
 
 app.use(cors() as RequestHandler);
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../build')))
-// app.use('/api/codeEval', codeRouter);
-console.log(path.join(__dirname, '../build'))
 
-app.get('/hello', (req, res) => {
-  res.send('Hello World From Editor Server!');
-});
+app.use(express.static(path.join(__dirname, "../build")));
+app.use("/api", apiRouter);
 
-app.get('/get-token/:docId', async (req, res) => {
-  let docId: string | undefined = req.params.docId;
-  if (docId === "default") {
-    docId = undefined;
-  }
-  const clientToken = await getOrCreateDoc(docId, CONNECTION_STRING);
-  res.json({ clientToken });
+console.log(path.join(__dirname, "../build"));
+
+app.get("/hello", (req, res) => {
+  res.send("Hello World From Editor Server!");
 });
 
 app.listen(port, () => {
