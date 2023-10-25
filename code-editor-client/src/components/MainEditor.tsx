@@ -1,4 +1,4 @@
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { placeholder } from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import React, { useRef } from "react";
@@ -21,11 +21,11 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
     console.log(`editorRef.current: ${JSON.stringify(editorRef.current)}`);
   };
 
-  console.log(`Initial value: ${yText.toString()}`);
+  console.log(`yText.toString() value: ${yText.toString()}`);
   return (
     <>
       <CodeMirror
-        value={code}
+        value={yText.toString()}
         height='200px'
         width='800px'
         theme={vscodeDark}
@@ -46,7 +46,11 @@ export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
           indentOnInput: false,
         }}
         autoFocus={true}
-        extensions={[langs.tsx(), yCollab(yText, awareness)]}
+        extensions={[
+          langs.tsx(),
+          yCollab(yText, awareness),
+          placeholder("console.log('hello!')"),
+        ]}
       />
       <button onClick={logEditorState} />
     </>

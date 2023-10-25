@@ -1,22 +1,20 @@
 // import "./App.css";
 import { MainEditor } from "./components/MainEditor";
 import OutputDisplay from "./components/OutputDisplay";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { YDocProvider } from "@y-sweet/react";
 import { ClientToken } from "@y-sweet/sdk";
 
 function App() {
-  const [code, setCode] = useState<string>(
-    "console.log(2+2);\nconsole.log('hello world')"
-  );
+  const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   const [clientToken, setClientToken] = useState<ClientToken | null>(null);
 
   // If process.env.REACT_APP_EXPRESS_SERVER_ENDPOINT is not set, use the default endpoint
-  const EXPRESS_SERVER_ENDPOINT = '/api'
-  console.log(`EXPRESS_SERVER_ENDPOINT: ${EXPRESS_SERVER_ENDPOINT}`);    
+  const EXPRESS_SERVER_ENDPOINT = "/api";
+  console.log(`EXPRESS_SERVER_ENDPOINT: ${EXPRESS_SERVER_ENDPOINT}`);
 
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
@@ -32,7 +30,8 @@ function App() {
     fetchClientToken(doc || "default");
   }, []);
 
-  const CODE_EXECUTION_ENDPOINT = "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
+  const CODE_EXECUTION_ENDPOINT =
+    "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
 
   const sendCode = async (code: string) => {
     const codeEndpoint = CODE_EXECUTION_ENDPOINT;
@@ -45,7 +44,7 @@ function App() {
   };
 
   return clientToken ? (
-    <YDocProvider clientToken={clientToken} setQueryParam="doc">
+    <YDocProvider clientToken={clientToken} setQueryParam='doc'>
       <h1>CodeShare</h1>
       <MainEditor code={code} setCode={setCode} />
       <button onClick={() => sendCode(code)}>Run Code</button>

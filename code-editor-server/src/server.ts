@@ -21,6 +21,9 @@ app.get("/hello", (req, res) => {
   res.send("Hello World From Editor Server!");
 });
 
+// temporarily adding '/api/' in front of '/get-token' to make local development work properly
+// removing before merging changes into main until can talk to David and understand the recent change
+
 app.get("/api/get-token/:docId", async (req, res) => {
   let docId: string | undefined = req.params.docId;
   if (docId === "default") {
