@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   express-app:
@@ -9,3 +9,5 @@ services:
     image: express-image
     ports:
       - "3001:3001"
+    environment:
+      - NODE_ENV=production
