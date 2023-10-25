@@ -21,7 +21,7 @@ app.get("/hello", (req, res) => {
   res.send("Hello World From Editor Server!");
 });
 
-app.get("/get-token/:docId", async (req, res) => {
+app.get("/api/get-token/:docId", async (req, res) => {
   let docId: string | undefined = req.params.docId;
   if (docId === "default") {
     docId = undefined;
