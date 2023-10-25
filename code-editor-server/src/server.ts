@@ -1,12 +1,12 @@
 import express, { RequestHandler, Request, Response } from 'express';
-const { getOrCreateDoc } = require('@y-sweet/sdk');
+
 import cors from 'cors';
-// import codeRouter from './routes/routes';
+import apiRouter from './routes/api';
 import path from 'path';
 
 const app = express();
 const port = 3001;
-const CONNECTION_STRING="yss://y-sweet-server-worker-staging.davidrd123.workers.dev"
+
 
 app.use(cors() as RequestHandler);
 app.use(express.json());
@@ -18,14 +18,9 @@ app.get('/hello', (req, res) => {
   res.send('Hello World From Editor Server!');
 });
 
-app.get('/get-token/:docId', async (req, res) => {
-  let docId: string | undefined = req.params.docId;
-  if (docId === "default") {
-    docId = undefined;
-  }
-  const clientToken = await getOrCreateDoc(docId, CONNECTION_STRING);
-  res.json({ clientToken });
-});
+app.use('/api', apiRouter);
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
