@@ -1,39 +1,21 @@
-// import "./App.css";
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { YDocProvider, useYDoc } from "@y-sweet/react";
-import { ClientToken } from "@y-sweet/sdk";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import HamburgerMenuButton from "./components/HamburgerMenuButton";
+import { useAwareness, useText } from "@y-sweet/react";
 
-function App() {
+
+function App({ clientToken }) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  const [clientToken, setClientToken] = useState<ClientToken | null>(null);
+  const [editorViewReference, setEditorViewReference] = useState(null);
 
-  // If process.env.REACT_APP_EXPRESS_SERVER_ENDPOINT is not set, use the default endpoint
-  const EXPRESS_SERVER_ENDPOINT = "/api";
-  // console.log(`EXPRESS_SERVER_ENDPOINT: ${EXPRESS_SERVER_ENDPOINT}`);
-  // const ydoc = useYDoc();
+  const yText = useText("input", { observe: "none" }); // Is this integrating correctly?
 
-  useEffect(() => {
-    const fetchClientToken = async (doc: string) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
-        );
-        setClientToken(response.data.clientToken);
-      } catch (error) {
-        console.log(`Error in fetchClientToken: ${error}`);
-      }
-    };
-
-    const params = new URLSearchParams(window.location.search);
-    const doc = params.get("doc") || "default";
-
-    fetchClientToken(doc || "default");
-  }, []);
+  const awareness = useAwareness();
 
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
@@ -48,17 +30,35 @@ function App() {
     setOutput(JSON.stringify(response.data, null, 2));
   };
   
-  // const logYDoc = async () => {
-  //   console.log(`ydoc: ${JSON.stringify(ydoc)}`);
-  // };
 
   return clientToken ? (
-    <YDocProvider clientToken={clientToken} setQueryParam='doc'>
-      <h1>CodeShare</h1>
-      <Editor code={code} onChange={e => setCode(e.target.value)} />
-      <button onClick={() => sendCode(code)}>Run Code</button>
-      <OutputDisplay output={output} />
-    </YDocProvider>
+    <Box minH='100vh' bg='gray.100'>
+      <Flex
+        align='center'
+        justify='space-between'
+        p={6}
+        bg='gray.200'
+        border='2px'
+        borderColor='gray.200'
+      >
+        <Heading size='lg' fontWeight='bold' color='gray.900'>
+          CodeShare
+        </Heading>
+        <HamburgerMenuButton setCode={setCode} yText={yText} />
+      </Flex>
+      <Flex direction='column' h='full' p={6} space={6}>
+        <MainEditor
+          code={code}
+          setCode={setCode}
+          yText={yText}
+          awareness={awareness}
+        />
+        <Button onClick={() => sendCode(code)} colorScheme='blue'>
+          Run Code
+        </Button>
+        <OutputDisplay output={output} />
+      </Flex>
+    </Box>
   ) : null;
 }
 
