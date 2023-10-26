@@ -3,21 +3,31 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import React, { useRef } from "react";
 import { EditorState } from "@codemirror/state";
-import { useAwareness, useText } from "@y-sweet/react";
 import { yCollab } from "y-codemirror.next";
 import { Box } from "@chakra-ui/react";
+import { useText, useAwareness } from "@y-sweet/react";
+import { Awareness } from "y-protocols/awareness";
 
 export type MainEditorProps = {
   code: string;
   setCode: (code: string) => void;
+  yText: Text;
+  awareness: Awareness;
 };
 
-export const MainEditor: React.FC<MainEditorProps> = ({ code, setCode }) => {
+// export type MainEditorProps = {
+//   code: string;
+//   setCode: (code: string) => void;
+// };
+
+export const MainEditor: React.FC<MainEditorProps> = ({
+  code,
+  setCode,
+  yText,
+  awareness,
+}) => {
   const editorRef = useRef<EditorState | null>(null);
 
-  const yText = useText(code, { observe: "none" }); // Is this integrating correctly?
-  const awareness = useAwareness();
-  console.log(`yText.toString(): ${yText.toString()}`);
   return (
     <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
       <CodeMirror
