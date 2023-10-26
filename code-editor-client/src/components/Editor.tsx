@@ -35,6 +35,7 @@ export const Editor: React.FC<EditorProps> = ({ code, onChange }) => {
   const onUpdate = EditorView.updateListener.of((v) => {
     if (v.docChanged) {
       onChange({target: {value: v.state.doc.toString()}});
+      console.log(yText);
     }
   })
 
@@ -45,46 +46,36 @@ export const Editor: React.FC<EditorProps> = ({ code, onChange }) => {
     }
   })
 
-  useEffect(() => {
-    // initializes CodeMirror editor
-    const state = EditorState.create({
-      doc: yText.toString(),
-      extensions: [
-        basicSetup,
-        history(),
-        keymap.of([
-          ...defaultKeymap,
-          indentWithTab,
-          { key: "Mod-z", run: undo, preventDefault: true },
-          { key: "Mod-Shift-z", run: redo, preventDefault: true },
-        ]),
-        oneDark,
-        theme,
-        onUpdate,
-        javascript(),
-        yCollab(yText, awareness)
-      ]
-    })
+  // initializes CodeMirror editor state
+  const state = EditorState.create({
+    doc: yText.toString(),
+    extensions: [
+      basicSetup,
+      history(),
+      keymap.of([
+        ...defaultKeymap,
+        indentWithTab,
+      ]),
+      oneDark,
+      theme,
+      onUpdate,
+      javascript(),
+      yCollab(yText, awareness)
+    ]
+  })
 
+  useEffect(() => {
     // renders the CodeMirror editor in the browser; sets the parent element to the div that holds the ref
     view.current = new EditorView({ state, parent: editorRef.current});
 
-    // cleanup function (?)
+    // cleanup function 
     return () => {
       if (view.current) {
         view.current.destroy();
+        view.current = undefined;
       }
     }
   }, [])
-
-  // should maybe add a timer to this for debouncing
-  useEffect(() => {
-    if (view.current && view.current.state.doc.toString() !== code) {
-      view.current.dispatch({
-        changes: { from: 0, to: view.current.state.doc.length, insert: "" }
-      });
-    }
-  }, [code])
 
   return <div ref={editorRef} />
 }

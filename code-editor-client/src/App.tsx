@@ -1,5 +1,5 @@
 // import "./App.css";
-import { MainEditor } from "./components/MainEditor";
+import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { YDocProvider } from "@y-sweet/react";
 import { ClientToken } from "@y-sweet/sdk";
 
 function App() {
-  const [code, setCode] = useState<string>("");
+  const [code, setCode] = useState<string>("const hi = 'hi'");
   const [output, setOutput] = useState<string>("");
   const [clientToken, setClientToken] = useState<ClientToken | null>(null);
 
@@ -46,7 +46,7 @@ function App() {
   return clientToken ? (
     <YDocProvider clientToken={clientToken} setQueryParam='doc'>
       <h1>CodeShare</h1>
-      <MainEditor code={code} setCode={setCode} />
+      <Editor code={code} onChange={e => setCode(e.target.value)} />
       <button onClick={() => sendCode(code)}>Run Code</button>
       <OutputDisplay output={output} />
     </YDocProvider>
