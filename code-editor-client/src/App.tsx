@@ -6,6 +6,8 @@ import axios from "axios";
 
 import { YDocProvider } from "@y-sweet/react";
 import { ClientToken } from "@y-sweet/sdk";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 function App() {
   const [code, setCode] = useState<string>("");
@@ -44,12 +46,30 @@ function App() {
   };
 
   return clientToken ? (
-    <YDocProvider clientToken={clientToken} setQueryParam='doc'>
-      <h1>CodeShare</h1>
-      <MainEditor code={code} setCode={setCode} />
-      <button onClick={() => sendCode(code)}>Run Code</button>
-      <OutputDisplay output={output} />
-    </YDocProvider>
+    <Box minH='100vh' bg='gray.100'>
+      <Flex
+        align='center'
+        justify='space-between'
+        p={6}
+        bg='gray.200'
+        border='2px'
+        borderColor='gray.200'
+      >
+        <Heading size='lg' fontWeight='bold' color='gray.900'>
+          CodeShare
+        </Heading>
+        <HamburgerIcon boxSize={6} color='gray.900' />
+      </Flex>
+      <Flex direction='column' h='full' p={6} space={6}>
+        <YDocProvider clientToken={clientToken} setQueryParam='doc'>
+          <MainEditor code={code} setCode={setCode} />
+          <Button onClick={() => sendCode(code)} colorScheme='blue'>
+            Run Code
+          </Button>
+          <OutputDisplay output={output} />
+        </YDocProvider>
+      </Flex>
+    </Box>
   ) : null;
 }
 

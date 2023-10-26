@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.1",
     "@codemirror/lang-javascript": "^6.2.1",
     "@codemirror/state": "^6.3.1",
     "@codemirror/view": "^6.21.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@uiw/codemirror-extensions-langs": "^4.21.20",
     "@uiw/codemirror-theme-vscode": "^4.21.20",
     "@uiw/react-codemirror": "^4.21.20",
@@ -20,6 +24,7 @@
     "@y-sweet/sdk": "^0.0.9",
     "axios": "^1.5.1",
     "codemirror": "^6.0.1",
+    "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.17.0",
