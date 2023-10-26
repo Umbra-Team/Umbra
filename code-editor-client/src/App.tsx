@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
       const response = await axios.get(
-        `${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
+        `http://localhost:3001${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
       );
       setClientToken(response.data.clientToken);
     };
