@@ -6,7 +6,7 @@ import { Box } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
-import { EditorState, Extension } from "@codemirror/state";
+import { EditorState } from "@codemirror/state";
 import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 
 // CM6 editor options
@@ -22,7 +22,6 @@ import { oneDark } from "@codemirror/theme-one-dark";
 // yjs and associates
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
-import { yUndoManagerKeymap } from "y-codemirror.next";
 import { useAwareness, useText } from "@y-sweet/react";
 
 // Awareness consts
@@ -92,13 +91,11 @@ type SetEditorViewRef = (
 
 // Editor component
 export type EditorProps = {
-  code: string;
-  onChange: (e: Object) => void;
+  onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
 };
 
 export const Editor: React.FC<EditorProps> = ({
-  code,
   onChange,
   setEditorViewRef,
 }) => {
@@ -133,7 +130,7 @@ export const Editor: React.FC<EditorProps> = ({
   const onUpdate = useCallback(
     (v: ViewUpdate) => {
       if (v.docChanged) {
-        onChange({ target: { value: v.state.doc.toString() } });
+        onChange(v.state.doc.toString());
       }
     },
     [onChange]
@@ -151,10 +148,6 @@ export const Editor: React.FC<EditorProps> = ({
       }),
     []
   );
-
-  yText.observe((event) => {
-    // console.log(`yText.observe: ${JSON.stringify(event)}`)
-  });
 
   useEffect(() => {
     if (!editorRef.current) return;

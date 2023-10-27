@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
 import App from "./App";
