@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
 import App from "./App";
 import axios from "axios";
@@ -59,4 +59,4 @@ const AppWrapper = () => {
   );
 };
 
-ReactDOM.render(<AppWrapper />, document.getElementById("root"));
+ReactDOM.createRoot(document.getElementById("root")!).render(<AppWrapper />);

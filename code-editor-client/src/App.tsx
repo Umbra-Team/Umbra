@@ -7,7 +7,6 @@ import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { useAwareness, useText } from "@y-sweet/react";
 
-
 function App({ clientToken }) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
@@ -29,7 +28,6 @@ function App({ clientToken }) {
     console.log(`Response: ${JSON.stringify(response)}`);
     setOutput(JSON.stringify(response.data, null, 2));
   };
-  
 
   return clientToken ? (
     <Box minH='100vh' bg='gray.100'>
@@ -47,12 +45,7 @@ function App({ clientToken }) {
         <HamburgerMenuButton setCode={setCode} yText={yText} />
       </Flex>
       <Flex direction='column' h='full' p={6} space={6}>
-        <MainEditor
-          code={code}
-          setCode={setCode}
-          yText={yText}
-          awareness={awareness}
-        />
+        <Editor code={code} onChange={(e) => setCode(e.target.value)} />
         <Button onClick={() => sendCode(code)} colorScheme='blue'>
           Run Code
         </Button>
