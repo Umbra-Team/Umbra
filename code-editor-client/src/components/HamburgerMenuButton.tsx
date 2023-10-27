@@ -19,7 +19,7 @@ const HamburgerMenuButton = ({
           _focus={{ color: "blue.500" }}
           onClick={() => replaceEditorContent("this is some new content")}
         >
-          Settings
+          Replace Editor Content
         </MenuItem>
         <MenuItem
           bgColor='gray.100'
@@ -29,7 +29,7 @@ const HamburgerMenuButton = ({
             appendEditorContent("const hello = () => console.log('hello!');")
           }
         >
-          Library
+          Append Editor Content
         </MenuItem>
       </MenuList>
     </Menu>
