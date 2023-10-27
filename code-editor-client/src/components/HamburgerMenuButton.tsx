@@ -1,12 +1,15 @@
 import { Menu, MenuButton, MenuItem, Button, MenuList } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
+interface HamburgerMenuButtonProps {
+  replaceEditorContent: (content: string) => void;
+  appendEditorContent: (content: string) => void;
+}
+
 const HamburgerMenuButton = ({
-  setCode,
-  yText,
   replaceEditorContent,
   appendEditorContent,
-}) => {
+}: HamburgerMenuButtonProps) => {
   return (
     <Menu>
       <MenuButton as={Button}>

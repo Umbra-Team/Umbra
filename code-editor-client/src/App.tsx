@@ -1,22 +1,23 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
-import { useAwareness, useText } from "@y-sweet/react";
 import { EditorView } from "codemirror";
 
-function App({ clientToken }) {
+interface AppProps {
+  clientToken: string;
+}
+
+function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
     useState<React.MutableRefObject<EditorView | undefined>>();
-
-  const yText = useText("input", { observe: "none" }); // Is this integrating correctly?
 
   // const awareness = useAwareness();
 
@@ -71,19 +72,13 @@ function App({ clientToken }) {
           WeNeedAName
         </Heading>
         <HamburgerMenuButton
-          setCode={setCode}
-          yText={yText}
           replaceEditorContent={replaceEditorContent}
           appendEditorContent={appendEditorContent}
         />
       </Flex>
-      <Flex direction='column' h='full' p={6} space={6}>
-        <Editor
-          code={code}
-          setEditorViewRef={setEditorViewRef}
-          onChange={(e) => setCode(e.target.value)}
-        />
-        <Button onClick={() => sendCode(code)} colorScheme='blue'>
+      <Flex direction='column' h='full' p={6} gap={3}>
+        <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
+        <Button onClick={() => sendCode(code)} colorScheme='messenger'>
           Run Code
         </Button>
         <OutputDisplay output={output} />
