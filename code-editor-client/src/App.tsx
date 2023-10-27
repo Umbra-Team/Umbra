@@ -59,7 +59,7 @@ function App({ clientToken }: AppProps) {
   };
 
   return clientToken ? (
-    <Box bg='gray.100'>
+    <Box minH='100vh' bg='gray.100'>
       <Flex
         align='center'
         justify='space-between'
