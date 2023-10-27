@@ -66,7 +66,7 @@ function App({ clientToken }: AppProps) {
         p={6}
         bg='gray.200'
         border='2px'
-        borderColor=''
+        borderColor='gray.200'
       >
         <Heading size='lg' fontWeight='bold' color='gray.900'>
           WeNeedAName
