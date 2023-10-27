@@ -3,32 +3,33 @@ import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
-import { createTheme } from "@uiw/codemirror-themes";
-import { tags as t } from "@lezer/highlight";
+// import { createTheme } from "@uiw/codemirror-themes";
+// import { tags as t } from "@lezer/highlight";
+import { Box } from "@chakra-ui/react";
 
-const myTheme = createTheme({
-  theme: "light",
-  settings: {
-    background: "#000000",
-    backgroundImage: "",
-    foreground: "#f50f54",
-    caret: "#AEAFAD",
-    selection: "#D6D6D6",
-    selectionMatch: "#D6D6D6",
-    gutterBackground: "#FFFFFF",
-    gutterForeground: "#f4230b",
-    gutterBorder: "#dddddd",
-    gutterActiveForeground: "#d02525",
-    lineHighlight: "#EFEFEF",
-  },
-  styles: [
-    { tag: t.comment, color: "#787b80" },
-    { tag: t.definition(t.typeName), color: "#194a7b" },
-    { tag: t.typeName, color: "#194a7b" },
-    { tag: t.tagName, color: "#008a02" },
-    { tag: t.variableName, color: "#1a00db" },
-  ],
-});
+// const myTheme = createTheme({
+//   theme: "light",
+//   settings: {
+//     background: "#000000",
+//     backgroundImage: "",
+//     foreground: "#f50f54",
+//     caret: "#AEAFAD",
+//     selection: "#D6D6D6",
+//     selectionMatch: "#D6D6D6",
+//     gutterBackground: "#FFFFFF",
+//     gutterForeground: "#f4230b",
+//     gutterBorder: "#dddddd",
+//     gutterActiveForeground: "#d02525",
+//     lineHighlight: "#EFEFEF",
+//   },
+//   styles: [
+//     { tag: t.comment, color: "#787b80" },
+//     { tag: t.definition(t.typeName), color: "#194a7b" },
+//     { tag: t.typeName, color: "#194a7b" },
+//     { tag: t.tagName, color: "#008a02" },
+//     { tag: t.variableName, color: "#1a00db" },
+//   ],
+// });
 
 interface OutputDisplayProps {
   output: string;
@@ -54,30 +55,29 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
 
   if (!errorText) {
     return (
-      <div>
+      <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
         <h2>Output</h2>
         <CodeMirror
           value={parsedOutput.output}
-          height='400px'
-          width='800px'
+          height='35vh'
+          width='100%'
           theme={vscodeDark}
           readOnly={true}
         />
-      </div>
+      </Box>
     );
   } else {
     return (
-      <div>
+      <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
         <h2>Errors</h2>
-
         <CodeMirror
           value={errorText}
-          height='400px'
-          width='800px'
-          theme={myTheme}
+          height='35vh'
+          width='100%'
+          theme={vscodeDark}
           readOnly={true}
         />
-      </div>
+      </Box>
     );
   }
 };
