@@ -1,19 +1,16 @@
 import { useRef, useEffect, useCallback, useMemo } from "react";
 import * as random from "lib0/random";
 
+// Chakra UI related
+import { Box } from "@chakra-ui/react";
+
 // CM6 core modules
 import { basicSetup } from "codemirror";
 import { EditorState, Extension } from "@codemirror/state";
 import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 
 // CM6 editor options
-import {
-  defaultKeymap,
-  indentWithTab,
-  history,
-  redo,
-  undo,
-} from "@codemirror/commands";
+import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
 // import {
 //   syntaxHighlighting,
 //   defaultHighlightStyle,
@@ -88,13 +85,23 @@ function generateRandomName(): string {
   return newName;
 }
 
+// state setter for editor view
+type SetEditorViewRef = (
+  viewRef: React.MutableRefObject<EditorView | undefined>
+) => void;
+
 // Editor component
 export type EditorProps = {
   code: string;
   onChange: (e: Object) => void;
+  setEditorViewRef: SetEditorViewRef;
 };
 
-export const Editor: React.FC<EditorProps> = ({ code, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({
+  code,
+  onChange,
+  setEditorViewRef,
+}) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
   const editorRef = useRef<HTMLDivElement>(null);
@@ -107,6 +114,10 @@ export const Editor: React.FC<EditorProps> = ({ code, onChange }) => {
 
   const awareness = useAwareness();
   const userColor = usercolors[random.uint32() % usercolors.length];
+
+  useEffect(() => {
+    setEditorViewRef(view);
+  });
 
   useEffect(() => {
     if (awareness) {
@@ -134,8 +145,8 @@ export const Editor: React.FC<EditorProps> = ({ code, onChange }) => {
     () =>
       EditorView.theme({
         "&": {
-          height: "300px",
-          width: "800px",
+          height: "40vh",
+          width: "100%",
         },
       }),
     []
@@ -183,7 +194,10 @@ export const Editor: React.FC<EditorProps> = ({ code, onChange }) => {
   //     });
   //   }
   // }, [code])
-  // bleh
-
-  return <div ref={editorRef} />;
+  //
+  return (
+    <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
+      <div ref={editorRef} />;
+    </Box>
+  );
 };

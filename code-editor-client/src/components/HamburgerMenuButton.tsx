@@ -1,7 +1,12 @@
 import { Menu, MenuButton, MenuItem, Button, MenuList } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
-const HamburgerMenuButton = ({ setCode, yText }) => {
+const HamburgerMenuButton = ({
+  setCode,
+  yText,
+  replaceEditorContent,
+  appendEditorContent,
+}) => {
   return (
     <Menu>
       <MenuButton as={Button}>
@@ -12,12 +17,7 @@ const HamburgerMenuButton = ({ setCode, yText }) => {
           bgColor='gray.100'
           _hover={{ color: "blue.500" }}
           _focus={{ color: "blue.500" }}
-          onClick={() =>
-            yText.insert(
-              0,
-              "function testFunction() { console.log('This is a function'); }"
-            )
-          }
+          onClick={() => replaceEditorContent("this is some new content")}
         >
           Settings
         </MenuItem>
@@ -25,7 +25,9 @@ const HamburgerMenuButton = ({ setCode, yText }) => {
           bgColor='gray.100'
           _hover={{ color: "blue.500" }}
           _focus={{ color: "blue.500" }}
-          onClick={() => yText.insert(0, "You clicked the library button")}
+          onClick={() =>
+            appendEditorContent("const hello = () => console.log('hello!');")
+          }
         >
           Library
         </MenuItem>

@@ -6,18 +6,46 @@ import axios from "axios";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { useAwareness, useText } from "@y-sweet/react";
+import { EditorView } from "codemirror";
 
 function App({ clientToken }) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  const [editorViewReference, setEditorViewReference] = useState(null);
+
+  // state to hold a reference to the code editor window
+  const [editorViewRef, setEditorViewRef] =
+    useState<React.MutableRefObject<EditorView | undefined>>();
 
   const yText = useText("input", { observe: "none" }); // Is this integrating correctly?
 
-  const awareness = useAwareness();
+  // const awareness = useAwareness();
 
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
+
+  // function to replace entire editor view state
+  const replaceEditorContent = (newContent: string) => {
+    if (editorViewRef?.current) {
+      const transaction = editorViewRef.current.state.update({
+        changes: {
+          from: 0,
+          to: editorViewRef.current.state.doc.length,
+          insert: newContent,
+        },
+      });
+      editorViewRef.current.dispatch(transaction);
+    }
+  };
+
+  const appendEditorContent = (newContent: string) => {
+    if (editorViewRef?.current) {
+      const docLength = editorViewRef.current.state.doc.length;
+      const transaction = editorViewRef.current.state.update({
+        changes: [{ from: docLength, insert: "\n" + newContent + "\n" }],
+      });
+      editorViewRef.current.dispatch(transaction);
+    }
+  };
 
   const sendCode = async (code: string) => {
     const codeEndpoint = CODE_EXECUTION_ENDPOINT;
@@ -40,12 +68,21 @@ function App({ clientToken }) {
         borderColor='gray.200'
       >
         <Heading size='lg' fontWeight='bold' color='gray.900'>
-          CodeShare
+          WeNeedAName
         </Heading>
-        <HamburgerMenuButton setCode={setCode} yText={yText} />
+        <HamburgerMenuButton
+          setCode={setCode}
+          yText={yText}
+          replaceEditorContent={replaceEditorContent}
+          appendEditorContent={appendEditorContent}
+        />
       </Flex>
       <Flex direction='column' h='full' p={6} space={6}>
-        <Editor code={code} onChange={(e) => setCode(e.target.value)} />
+        <Editor
+          code={code}
+          setEditorViewRef={setEditorViewRef}
+          onChange={(e) => setCode(e.target.value)}
+        />
         <Button onClick={() => sendCode(code)} colorScheme='blue'>
           Run Code
         </Button>
