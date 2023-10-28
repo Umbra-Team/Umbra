@@ -87,7 +87,7 @@ function App({ clientToken }: AppProps) {
             onClick={onOpen}
             _active={{ bg: "transparent" }}
           >
-            Library
+            Code Library
           </Button>
           <HamburgerMenuButton
             replaceEditorContent={replaceEditorContent}

@@ -27,7 +27,7 @@ const LibraryDrawer = ({ placement, onClose, isOpen, size }) => {
           bgGradient='linear(to-r, black, gray.100, blue.800)'
           borderBottomWidth='1px'
         >
-          Snippet Library
+          Code Library
         </DrawerHeader>
         <DrawerCloseButton />
         <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
