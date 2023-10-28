@@ -29,6 +29,7 @@ const LibraryDrawer = ({ placement, onClose, isOpen, size }) => {
         >
           Snippet Library
         </DrawerHeader>
+        <DrawerCloseButton />
         <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
           <SimpleGrid
             spacing={5}
