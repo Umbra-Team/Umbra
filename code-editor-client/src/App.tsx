@@ -6,6 +6,8 @@ import axios from "axios";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
+import LibraryDrawer from "./components/LibraryDrawer";
+import { useDisclosure } from "@chakra-ui/react";
 
 interface AppProps {
   clientToken: string;
@@ -14,6 +16,7 @@ interface AppProps {
 function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
@@ -71,7 +74,7 @@ function App({ clientToken }: AppProps) {
         borderColor='gray.200'
       >
         <Heading size='lg' fontWeight='bold' color='gray.900'>
-          WeNeedAName
+          Our Code Thing
         </Heading>
         <Flex align='center' gap={10}>
           <Button
@@ -81,6 +84,7 @@ function App({ clientToken }: AppProps) {
               fontWeight: "bold",
               textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
             }}
+            onClick={onOpen}
             _active={{ bg: "transparent" }}
           >
             Library
@@ -108,6 +112,12 @@ function App({ clientToken }: AppProps) {
         </Button>
         <OutputDisplay output={output} />
       </Flex>
+      <LibraryDrawer
+        placement={"left"}
+        onClose={onClose}
+        isOpen={isOpen}
+        size={"xl"}
+      />
     </Flex>
   ) : null;
 }
