@@ -59,31 +59,56 @@ function App({ clientToken }: AppProps) {
   };
 
   return clientToken ? (
-    <Box minH='100vh' bg='gray.100'>
+    <Flex direction={"column"} minH='100vh' bg='gray.100'>
       <Flex
+        flex={1}
         align='center'
         justify='space-between'
         p={6}
-        bg='gray.200'
+        // bg='gray.200'
+        bgGradient='linear(to-r, black, gray.100, blue.800)'
         border='2px'
         borderColor='gray.200'
       >
         <Heading size='lg' fontWeight='bold' color='gray.900'>
           WeNeedAName
         </Heading>
-        <HamburgerMenuButton
-          replaceEditorContent={replaceEditorContent}
-          appendEditorContent={appendEditorContent}
-        />
+        <Flex align='center' gap={10}>
+          <Button
+            bg='transparent'
+            _hover={{
+              color: "white",
+              fontWeight: "bold",
+              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+            }}
+            _active={{ bg: "transparent" }}
+          >
+            Library
+          </Button>
+          <HamburgerMenuButton
+            replaceEditorContent={replaceEditorContent}
+            appendEditorContent={appendEditorContent}
+          />
+        </Flex>
       </Flex>
-      <Flex direction='column' h='full' p={6} gap={3}>
+      <Flex
+        direction='column'
+        p={6}
+        gap={3}
+        bgGradient='linear(to-r, black, gray.100, blue.800)'
+      >
         <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
-        <Button onClick={() => sendCode(code)} colorScheme='messenger'>
+        <Button
+          bg='blue.700'
+          borderRadius='20'
+          _hover={{ bg: "blue.900" }}
+          onClick={() => sendCode(code)}
+        >
           Run Code
         </Button>
         <OutputDisplay output={output} />
       </Flex>
-    </Box>
+    </Flex>
   ) : null;
 }
 

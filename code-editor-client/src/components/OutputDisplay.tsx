@@ -55,7 +55,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
 
   if (!errorText) {
     return (
-      <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
+      <Box flex='1' bg='gray.200' p={4} borderRadius='20' overflow='auto'>
         <h2>Output</h2>
         <CodeMirror
           value={parsedOutput.output}
