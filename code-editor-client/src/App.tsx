@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
@@ -8,6 +8,7 @@ import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 import { useDisclosure } from "@chakra-ui/react";
+import fetchCards from "./utils/fetchCards";
 
 interface AppProps {
   clientToken: string;
@@ -17,6 +18,16 @@ function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [cards, setCards] = useState<React.ReactElement[]>([]);
+
+  useEffect(() => {
+    const fetchAndSetCards = async () => {
+      const codeCards = await fetchCards();
+      setCards(codeCards);
+    };
+
+    fetchAndSetCards();
+  }, []);
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
@@ -117,6 +128,7 @@ function App({ clientToken }: AppProps) {
         onClose={onClose}
         isOpen={isOpen}
         size={"xl"}
+        codeCards={cards}
       />
     </Flex>
   ) : null;
