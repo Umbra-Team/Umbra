@@ -1,25 +1,31 @@
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
   SimpleGrid,
-  Heading,
-  Button,
-  Text,
-  Code,
-  Flex,
 } from "@chakra-ui/react";
 import * as React from "react";
 
-const LibraryDrawer = ({ placement, onClose, isOpen, size, codeCards }) => {
+type DrawerPlacement = "top" | "right" | "bottom" | "left";
+
+type LibraryDrawerProps = {
+  placement: DrawerPlacement;
+  onClose: () => void;
+  isOpen: boolean;
+  size: string;
+  codeCards: React.ReactNode[];
+};
+
+const LibraryDrawer = ({
+  placement,
+  onClose,
+  isOpen,
+  size,
+  codeCards,
+}: LibraryDrawerProps) => {
   return (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />

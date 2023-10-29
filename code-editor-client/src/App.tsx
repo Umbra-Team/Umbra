@@ -3,7 +3,7 @@ import OutputDisplay from "./components/OutputDisplay";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";

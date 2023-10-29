@@ -1,25 +1,15 @@
 import { cards } from "../mockData/mockCards";
 import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
-  SimpleGrid,
   Heading,
   Button,
-  Text,
-  Code,
   Flex,
 } from "@chakra-ui/react";
 
-const fetchCards = (appendEditorContent) => {
+const fetchCards = (appendEditorContent: Function) => {
   const results = [];
 
   for (let card of cards) {
