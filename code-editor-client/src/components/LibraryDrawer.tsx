@@ -37,9 +37,9 @@ const LibraryDrawer = ({ placement, onClose, isOpen, size, codeCards }) => {
             spacing={5}
             templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
           >
-            {codeCards.map((card, index) => (
-              <React.Fragment key={card.id}>{card}</React.Fragment>
-            ))}
+            {codeCards.map((card, index) => {
+              return <React.Fragment key={index}>{card}</React.Fragment>;
+            })}
           </SimpleGrid>
         </DrawerBody>
       </DrawerContent>

@@ -19,12 +19,19 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-const fetchCards = () => {
+const fetchCards = (appendEditorContent) => {
   const results = [];
 
   for (let card of cards) {
     results.push(
-      <Card bgColor='gray.800' pl='2' pr='2' minH='300px' align='center'>
+      <Card
+        bgColor='gray.800'
+        pl='2'
+        pr='2'
+        minH='300px'
+        align='center'
+        id={String(card.id)}
+      >
         <CardHeader textAlign='center'>
           <Heading size='md' color='gray.100'>
             {card.heading}
@@ -50,6 +57,7 @@ const fetchCards = () => {
               w='49%'
               bgColor='blue.700'
               _hover={{ bg: "blue.900" }}
+              onClick={() => appendEditorContent(card.code)}
             >
               Insert Into Editor
             </Button>

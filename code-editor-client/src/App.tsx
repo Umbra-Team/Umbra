@@ -20,18 +20,19 @@ function App({ clientToken }: AppProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [cards, setCards] = useState<React.ReactElement[]>([]);
 
-  useEffect(() => {
-    const fetchAndSetCards = async () => {
-      const codeCards = await fetchCards();
-      setCards(codeCards);
-    };
-
-    fetchAndSetCards();
-  }, []);
-
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
     useState<React.MutableRefObject<EditorView | undefined>>();
+
+  useEffect(() => {
+    if (editorViewRef) {
+      const fetchAndSetCards = async () => {
+        const codeCards = await fetchCards(appendEditorContent);
+        setCards(codeCards);
+      };
+      fetchAndSetCards();
+    }
+  }, [editorViewRef]);
 
   // const awareness = useAwareness();
 
@@ -40,6 +41,7 @@ function App({ clientToken }: AppProps) {
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
+    console.log(editorViewRef);
     if (editorViewRef?.current) {
       const transaction = editorViewRef.current.state.update({
         changes: {
