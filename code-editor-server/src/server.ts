@@ -3,7 +3,9 @@ import cors from "cors";
 import path from "path";
 import apiRouter from "./routes/api";
 import sequelize from "./utils/sequelize";
-import File from "./models/File";
+import './models/associations'
+import { syncUsers } from "./scripts/syncUsers";
+
 import { info, error } from "./utils/logger";
 import morgan from "morgan"; 
 
@@ -18,6 +20,7 @@ sequelize.authenticate()
     return sequelize.sync({ alter: true });  // Update tables if needed
   })
   .then(() => {
+    return syncUsers();  // Sync users from Cognito
     console.log('All PostgreSQL tables have been successfully created.');
   })
   .catch((error) => {

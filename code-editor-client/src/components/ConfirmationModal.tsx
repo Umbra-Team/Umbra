@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 
-import { handleConfirm } from '../utils/aws-amplify-helpers';
+import { confirmUserCode } from '../utils/aws-amplify-helpers';
 
 const ConfirmationModal: React.FC = () => {
   const [username, setUsername] = useState('');
   const [confirmationCode, setConfirmationCode] = useState('');
 
   const onSubmit = async () => {
-    const result = await handleConfirm(username, confirmationCode);
+    const result = await confirmUserCode(username, confirmationCode);
     if (result.success) {
       console.log(`Successfully confirmed user ${username}`);
       // TODO: redirect to login page?

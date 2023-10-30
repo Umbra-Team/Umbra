@@ -1,23 +1,18 @@
 // models/User.ts
 import { Model, DataTypes, HasManyAddAssociationMixin, Association } from 'sequelize';
-import File from './File';
 import sequelize from '../utils/sequelize';
 
 class User extends Model {
   public id!: number;
   public email!: string;
+  public username!: string;
   public cognitoId!: string;
-  
   
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
   public addFile!: HasManyAddAssociationMixin<File, number>;
   public getFiles!: HasManyAddAssociationMixin<File, number>;
-
-  public static associations: {
-    files: Association<User, File>;
-  }
 }
 
 User.init({
@@ -25,6 +20,10 @@ User.init({
     type: DataTypes.INTEGER.UNSIGNED,
     autoIncrement: true,
     primaryKey: true,
+  },
+  username: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
   },
   email: {
     type: DataTypes.STRING(128),
@@ -38,18 +37,7 @@ User.init({
 }, {
   sequelize,
   modelName: 'User',
-  tableName: 'users',
   timestamps: true,
 });
 
-User.hasMany(File, {
-  sourceKey: 'id',
-  foreignKey: 'user_id',
-  as: 'files',
-});
-
-// models/File.ts
-// ... Previous definitions
-File.belongsTo(User);
-
-export default File;
+export default User;

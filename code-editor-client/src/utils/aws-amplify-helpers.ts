@@ -7,6 +7,8 @@ const TEST_USER = {
   phone_number: "+15555555555",
 }
 
+const USER_CODE = "647787";
+
 export const signUp = async (
   username = TEST_USER.username,
   password = TEST_USER.password,
@@ -28,9 +30,12 @@ export const signUp = async (
   }
 }
 
-export const confirmUserCode = async () => {
+export const confirmUserCode = async (
+  username = TEST_USER.username,
+  code = USER_CODE
+) => {
   try {
-    await Auth.confirmSignUp("davidrd123", "647787");
+    await Auth.confirmSignUp(username, code);
     alert("User successfully confirmed");
     return { success: true, message: 'User successfully confirmed' };
   } catch (error) {

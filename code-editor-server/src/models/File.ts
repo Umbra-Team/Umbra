@@ -1,9 +1,7 @@
 // models/File.ts
 
-import { Model, DataTypes, BelongsToGetAssociationMixin } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../utils/sequelize';
-import User from './User';
-
 
 class File extends Model {
   public id!: number;
@@ -12,8 +10,6 @@ class File extends Model {
   // timestamps!
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
-
-  public getUser!: BelongsToGetAssociationMixin<User>;
 }
 
 File.init({
@@ -34,18 +30,18 @@ File.init({
   },
   userId: {
     type: DataTypes.INTEGER.UNSIGNED,
+    references: {
+      model: 'Users',
+      key: 'id',
+    },
     allowNull: false,
-    field: 'user_id',
-  }
+  },
   // add more attributes here
 }, {
   sequelize,
   modelName: 'File',
-  tableName: 'files',
   timestamps: true,
   createdAt: 'created_at',
-  underscored: true,
 });
-
 
 export default File;
