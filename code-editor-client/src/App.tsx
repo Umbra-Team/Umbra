@@ -8,7 +8,7 @@ import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import './utils/aws-config'
 import { Auth } from "aws-amplify";
-import { signUp, signIn, confirmUserCode } from "./utils/aws-amplify-helpers";
+import { signUp, signIn, confirmUserCode, logout } from "./utils/aws-amplify-helpers";
 
 interface AppProps {
   clientToken: string;
@@ -87,14 +87,17 @@ function App({ clientToken }: AppProps) {
           appendEditorContent={appendEditorContent}
         />
       </Flex>
-      <Button onClick={signUp} colorScheme='messenger'>
+      <Button onClick={() => signUp()} colorScheme='messenger'>
         Sign Up
       </Button>
-      <Button onClick={confirmUserCode} colorScheme='messenger'>
+      <Button onClick={() => confirmUserCode()} colorScheme='messenger'>
         Confirm User Code
       </Button>
-      <Button onClick={signIn} colorScheme='messenger'>
+      <Button onClick={() => signIn()} colorScheme='messenger'>
         Sign In
+      </Button>
+      <Button onClick={() => logout()} colorScheme='messenger'>
+        Logout
       </Button>
       <Flex direction='column' h='full' p={6} gap={3}>
         <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />

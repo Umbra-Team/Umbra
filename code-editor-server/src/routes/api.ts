@@ -1,5 +1,6 @@
 // routes/api.ts
 import express, { Request, Response } from "express";
+import { verifyToken } from "../utils/middleware";
 import { getOrCreateDoc } from "@y-sweet/sdk";
 import { CONNECTION_STRING } from "../utils/constants";
 import { StatusCodes } from 'http-status-codes';
@@ -17,6 +18,18 @@ router.get("/get-token/:docId", async (req, res) => {
   res.json({ clientToken });
 });
 
+// AUTHENTICATION
+
+router.post("/auth/login", async (req, res) => {
+  // Authenticate user and generate JWT
+
+  // Send JWT in response
+});
+
+router.post("/auth/logout", async (req, res) => {
+  // Invalidate JWT
+});
+
 /*
 ```
 - `GET /files`: List files for authenticated user
@@ -26,19 +39,19 @@ router.get("/get-token/:docId", async (req, res) => {
 - `DELETE /files/:id`: Delete file
 */
 
-router.get("/files", async (req: Request, res: Response) => {
+router.get("/files", verifyToken, async (req: Request, res: Response) => {
   const files = await File.findAll();
   res.json(files);
 });
 
-router.post("/files", async (req: Request, res: Response) => {
+router.post("/files", verifyToken, async (req: Request, res: Response) => {
   const { name, content } = req.body;
   console.log(`/files: name=${name}, content=${content}`);
   const file = await File.create({ name, content });
   res.json(file);
 });
 
-router.get("/files/:id", async (req: Request, res: Response) => {
+router.get("/files/:id", verifyToken, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const file = await File.findByPk(id);
@@ -54,7 +67,7 @@ router.get("/files/:id", async (req: Request, res: Response) => {
 });
 
 // PUT /files/:id
-router.put('/files/:id', async (req, res) => {
+router.put('/files/:id', verifyToken, async (req, res) => {
   const [numberOfAffectedRows, affectedRows] = await File.update(req.body, {
     where: { id: req.params.id },
     returning: true,
@@ -67,7 +80,7 @@ router.put('/files/:id', async (req, res) => {
 });
 
 // DELETE /files/:id
-router.delete('/files/:id', async (req, res) => {
+router.delete('/files/:id', verifyToken, async (req, res) => {
   const numberOfDestroyedRows = await File.destroy({
     where: { id: req.params.id },
   });

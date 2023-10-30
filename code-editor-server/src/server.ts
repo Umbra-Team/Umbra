@@ -1,12 +1,11 @@
 import express, { RequestHandler, Request, Response } from "express";
+import './utils/awsConfig';
 import cors from "cors";
 import path from "path";
 import apiRouter from "./routes/api";
 import sequelize from "./utils/sequelize";
 import './models/associations'
 import { syncUsers } from "./scripts/syncUsers";
-
-import { info, error } from "./utils/logger";
 import morgan from "morgan"; 
 
 const app = express();
