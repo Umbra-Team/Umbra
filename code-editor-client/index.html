@@ -9,5 +9,10 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Workaround for AWS Amplify per https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/#vue-vite-config-->
+    <script>
+      window.global = window;
+      var exports = {};
+    </script>
   </body>
 </html>

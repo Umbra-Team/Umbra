@@ -5,6 +5,9 @@ import App from "./App";
 import axios from "axios";
 import { YDocProvider } from "@y-sweet/react";
 
+import './utils/aws-config'
+import { Auth } from "aws-amplify";
+
 const EXPRESS_SERVER_ENDPOINT = "/api";
 
 const theme = extendTheme({
@@ -31,6 +34,13 @@ const theme = extendTheme({
 
 const AppWrapper = () => {
   const [clientToken, setClientToken] = useState(null);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => setUser(user))
+      .catch(() => setUser(null));
+  }, []);
 
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
@@ -53,6 +63,7 @@ const AppWrapper = () => {
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <YDocProvider clientToken={clientToken} setQueryParam='doc'>
+        {user ? <div>Logged in as {user.username}</div> : <div>Not logged in</div>}
         <App clientToken={clientToken} />
       </YDocProvider>
     </ChakraProvider>

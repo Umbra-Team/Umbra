@@ -1,11 +1,14 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Button } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
+import './utils/aws-config'
+import { Auth } from "aws-amplify";
+import { signUp, signIn, confirmUserCode } from "./utils/aws-amplify-helpers";
 
 interface AppProps {
   clientToken: string;
@@ -14,6 +17,14 @@ interface AppProps {
 function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(user => setUser(user))
+      .catch(() => setUser(null));
+  }, []);
+  
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
@@ -76,6 +87,15 @@ function App({ clientToken }: AppProps) {
           appendEditorContent={appendEditorContent}
         />
       </Flex>
+      <Button onClick={signUp} colorScheme='messenger'>
+        Sign Up
+      </Button>
+      <Button onClick={confirmUserCode} colorScheme='messenger'>
+        Confirm User Code
+      </Button>
+      <Button onClick={signIn} colorScheme='messenger'>
+        Sign In
+      </Button>
       <Flex direction='column' h='full' p={6} gap={3}>
         <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
         <Button onClick={() => sendCode(code)} colorScheme='messenger'>

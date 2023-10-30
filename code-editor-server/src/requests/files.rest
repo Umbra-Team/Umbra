@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/files
+Content-Type: application/json
+
+{
+  "name": "test.txt",
+  "content": "test"
+}
