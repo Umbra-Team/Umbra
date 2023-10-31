@@ -11,6 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import * as React from "react";
+import NewCodeCard from "./NewCodeCard";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -60,6 +61,7 @@ const LibraryDrawer = ({
             // templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
             templateColumns='repeat(1, minmax(600px, 1fr))'
           >
+            <NewCodeCard />
             {codeCards.map((card, index) => {
               return <React.Fragment key={index}>{card}</React.Fragment>;
             })}

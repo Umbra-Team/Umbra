@@ -7,27 +7,22 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-
 import { EditorView } from "@codemirror/view";
 import CodeCardEditor from "./CodeCardEditor";
 import { useState, useRef } from "react";
 
-type CodeCardType = {
-  id: number;
-  title: string;
-  code: string;
-  appendEditorContent: Function;
-};
+// type CodeCardType = {
+//   id: number;
+//   title: string;
+//   code: string;
+//   appendEditorContent: Function;
+// };
 
-const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [cardCode, setCardCode] = useState(code);
-  const [cardTitle, setCardTitle] = useState(title);
+const NewCodeCard = () => {
+  const [isEditing, setIsEditing] = useState(true);
+  const [cardCode, setCardCode] = useState("");
+  const [cardTitle, setCardTitle] = useState("Untitled");
   const editorViewRef = useRef<EditorView | undefined>(undefined);
-
-  const handleEditClick = () => {
-    setIsEditing((prevState) => !prevState);
-  };
 
   const handleSaveClick = () => {
     if (editorViewRef.current) {
@@ -35,6 +30,8 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
       setCardCode(currentContent);
     }
     setIsEditing((prevState) => !prevState);
+
+    // somehow send the new info up to codeCards state (code and title)
   };
 
   return (
@@ -44,7 +41,8 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
       pr='2'
       minH='300px'
       align='center'
-      id={String(id)}
+      // FIX THIS ID LATER
+      id={String("test")}
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
@@ -78,9 +76,9 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={() => appendEditorContent(cardCode)}
+            // onClick={() => appendEditorContent(cardCode)}
           >
-            Insert Into Editor
+            Save Snippet
           </Button>
           <Button
             borderRadius='15'
@@ -90,11 +88,12 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={isEditing ? handleSaveClick : handleEditClick}
+            // onClick={isEditing ? handleSaveClick : handleEditClick}
           >
-            {isEditing ? "Save Snippet" : "Edit Snippet"}
+            Cancel
+            {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}
           </Button>
-          <Button
+          {/* <Button
             borderRadius='15'
             color='white'
             whiteSpace='normal'
@@ -104,11 +103,11 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
             _hover={{ bg: "blue.900" }}
           >
             Delete Snippet
-          </Button>
+          </Button> */}
         </Flex>
       </CardFooter>
     </Card>
   );
 };
 
-export default CodeCard;
+export default NewCodeCard;
