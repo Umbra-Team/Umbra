@@ -22,7 +22,7 @@ type CodeCardType = {
 const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardCode, setCardCode] = useState(code);
-  const [cardTitle, setCardTitle] = useState(title);
+  const [cardTitle, _] = useState(title);
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleEditClick = () => {

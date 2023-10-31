@@ -21,7 +21,7 @@ import { useState, useRef } from "react";
 const NewCodeCard = () => {
   const [isEditing, setIsEditing] = useState(true);
   const [cardCode, setCardCode] = useState("");
-  const [cardTitle, setCardTitle] = useState("Untitled");
+  const [cardTitle, _] = useState("Untitled");
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleSaveClick = () => {
@@ -88,7 +88,7 @@ const NewCodeCard = () => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            // onClick={isEditing ? handleSaveClick : handleEditClick}
+            onClick={isEditing ? handleSaveClick : handleSaveClick}
           >
             Cancel
             {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}
