@@ -5,7 +5,7 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 // import { createTheme } from "@uiw/codemirror-themes";
 // import { tags as t } from "@lezer/highlight";
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 // const myTheme = createTheme({
 //   theme: "light",
@@ -55,8 +55,10 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
 
   if (!errorText) {
     return (
-      <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
-        <h2>Output</h2>
+      <Box flex='1' bg='gray.200' p={3} borderRadius='15' overflow='auto'>
+        <Heading color='white' size='md' mb='3'>
+          Output
+        </Heading>
         <CodeMirror
           value={parsedOutput.output}
           height='35vh'
@@ -68,8 +70,10 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
     );
   } else {
     return (
-      <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
-        <h2>Errors</h2>
+      <Box flex='1' bg='gray.200' p={4} borderRadius='15' overflow='auto'>
+        <Heading color='red' size='md' mb='3'>
+          Errors
+        </Heading>
         <CodeMirror
           value={errorText}
           height='35vh'

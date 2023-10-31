@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useMemo } from "react";
 import * as random from "lib0/random";
 
 // Chakra UI related
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -189,8 +189,11 @@ export const Editor: React.FC<EditorProps> = ({
   // }, [code])
   //
   return (
-    <Box flex='1' bg='gray.200' p={4} borderRadius='md' overflow='auto'>
-      <div ref={editorRef} />;
+    <Box flex='1' bg='gray.200' p={3} borderRadius='15' overflow='auto'>
+      <Heading size='md' mb='3' color='white'>
+        Code Editor
+      </Heading>
+      <div ref={editorRef} />
     </Box>
   );
 };
