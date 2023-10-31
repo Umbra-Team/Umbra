@@ -13,8 +13,6 @@ import LibraryDrawer from "./components/LibraryDrawer";
 import { useDisclosure } from "@chakra-ui/react";
 import fetchCards from "./utils/fetchCards";
 import './utils/aws-config'
-import { Auth } from "aws-amplify";
-import { signUp, signIn, confirmUserCode, logout } from "./utils/aws-amplify-helpers";
 
 interface AppProps {
   clientToken: string;
@@ -25,14 +23,6 @@ function App({ clientToken }: AppProps) {
   const [output, setOutput] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [cards, setCards] = useState<React.ReactElement[]>([]);
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(user => setUser(user))
-      .catch(() => setUser(null));
-  }, []);
-  
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =

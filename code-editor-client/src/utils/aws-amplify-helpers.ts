@@ -1,18 +1,18 @@
 import { Auth } from "aws-amplify";
 
-const TEST_USER1 = {
-  username: "davidrd123",
-  password: "bread-first",
-  email: "davidrd123@gmail.com",
-  phone_number: "+15555555555",
-}
+// const TEST_USER1 = {
+//   username: "davidrd123",
+//   password: "bread-first",
+//   email: "davidrd123@gmail.com",
+//   phone_number: "+15555555555",
+// }
 
-const TEST_USER2 = {
-  username: "davidrd_mit",
-  password: "bread-first",
-  email: "davidrd@alum.mit.edu",
-  phone_number: "+15555555555",
-}
+// const TEST_USER2 = {
+//   username: "davidrd_mit",
+//   password: "bread-first",
+//   email: "davidrd@alum.mit.edu",
+//   phone_number: "+15555555555",
+// }
 
 const TEST_USER = {
   username: "davidrd_deepen",

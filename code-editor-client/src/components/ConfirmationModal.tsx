@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
 
 import { confirmUserCode } from '../utils/aws-amplify-helpers';
 

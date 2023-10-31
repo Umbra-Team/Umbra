@@ -5,7 +5,6 @@ import React, { useRef } from "react";
 import { EditorState } from "@codemirror/state";
 import { yCollab } from "y-codemirror.next";
 import { Box } from "@chakra-ui/react";
-import { useText, useAwareness } from "@y-sweet/react";
 import { Awareness } from "y-protocols/awareness";
 
 export type MainEditorProps = {
@@ -21,7 +20,6 @@ export type MainEditorProps = {
 // };
 
 export const MainEditor: React.FC<MainEditorProps> = ({
-  code,
   setCode,
   yText,
   awareness,
