@@ -12,18 +12,29 @@ import { useState } from "react";
 
 type CodeCardType = {
   id: number;
-  heading: string;
+  title: string;
   code: string;
   appendEditorContent: Function;
+  replaceEditorContent: Function;
 };
 
-const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
+const CodeCard = ({
+  id,
+  title,
+  code,
+  appendEditorContent,
+  replaceEditorContent,
+}: CodeCardType) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [cardCode, setCardCode] = useState(code);
+  const [cardTitle, setCardTitle] = useState(title);
 
   const handleEditClick = () => {
     setIsEditing((prevState) => !prevState);
-    console.log("edit button was clicked");
-    console.log(isEditing);
+  };
+
+  const handleSaveClick = () => {
+    setIsEditing((prevState) => !prevState);
   };
 
   return (
@@ -38,7 +49,7 @@ const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
     >
       <CardHeader textAlign='center'>
         <Heading size='md' color='gray.100'>
-          {heading}
+          {cardTitle}
         </Heading>
       </CardHeader>
       <CardBody
@@ -50,7 +61,7 @@ const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
         w='90%'
       >
         <CardBody>
-          <CodeCardEditor code={code} isEditMode={isEditing} />
+          <CodeCardEditor code={cardCode} isEditMode={isEditing} />
         </CardBody>
       </CardBody>
       <CardFooter p={2}>
@@ -75,7 +86,7 @@ const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={handleEditClick}
+            onClick={isEditing ? handleSaveClick : handleEditClick}
           >
             {isEditing ? "Save Snippet" : "Edit Snippet"}
           </Button>
