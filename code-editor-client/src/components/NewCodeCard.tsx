@@ -3,9 +3,9 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Heading,
   Button,
   Flex,
+  Input
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import CodeCardEditor from "./CodeCardEditor";
@@ -19,7 +19,6 @@ import { useState, useRef } from "react";
 // };
 
 const NewCodeCard = () => {
-  const [isEditing, setIsEditing] = useState(true);
   const [cardCode, setCardCode] = useState("");
   const [cardTitle, setCardTitle] = useState("Untitled");
   const editorViewRef = useRef<EditorView | undefined>(undefined);
@@ -29,10 +28,17 @@ const NewCodeCard = () => {
       const currentContent = editorViewRef.current.state.doc.toString();
       setCardCode(currentContent);
     }
-    setIsEditing((prevState) => !prevState);
 
     // somehow send the new info up to codeCards state (code and title)
   };
+
+  const handleCancel = () => {
+
+  }
+
+  const handleTitleChange = (event) => {
+    setCardTitle(event.target.value);
+  }
 
   return (
     <Card
@@ -46,9 +52,16 @@ const NewCodeCard = () => {
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
-        <Heading size='md' color='gray.100'>
-          {cardTitle}
-        </Heading>
+        <Input
+          size='md'
+          color='gray.100'
+          bg='azure'
+          placeholder={cardTitle}
+          _placeholder={{ color: 'gray', fontWeight: 'bold' }}
+          textAlign='center'
+          fontWeight='bold'
+          onChange={handleTitleChange}
+        />
       </CardHeader>
       <CardBody
         bg='#232D3F'
@@ -62,7 +75,7 @@ const NewCodeCard = () => {
           <CodeCardEditor
             editorViewRef={editorViewRef}
             code={cardCode}
-            isEditMode={isEditing}
+            isEditMode={true}
           />
         </CardBody>
       </CardBody>
@@ -76,7 +89,7 @@ const NewCodeCard = () => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            // onClick={() => appendEditorContent(cardCode)}
+            onClick={handleSaveClick}
           >
             Save Snippet
           </Button>
@@ -88,7 +101,7 @@ const NewCodeCard = () => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            // onClick={isEditing ? handleSaveClick : handleEditClick}
+            onClick={handleCancel}
           >
             Cancel
             {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}

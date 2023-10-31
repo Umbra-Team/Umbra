@@ -30,6 +30,8 @@ const LibraryDrawer = ({
   size,
   codeCards,
 }: LibraryDrawerProps) => {
+  const [addSnippetMode, setAddSnippetMode] = React.useState(true); // temporarily showing this by default
+
   return (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
@@ -61,7 +63,7 @@ const LibraryDrawer = ({
             // templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
             templateColumns='repeat(1, minmax(600px, 1fr))'
           >
-            <NewCodeCard />
+            {addSnippetMode ? <NewCodeCard /> : null}
             {codeCards.map((card, index) => {
               return <React.Fragment key={index}>{card}</React.Fragment>;
             })}
