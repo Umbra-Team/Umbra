@@ -11,7 +11,7 @@ services:
       - POSTGRES_PASSWORD=bread
       - POSTGRES_DB=code_editor
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
 volumes:
   pgdata:

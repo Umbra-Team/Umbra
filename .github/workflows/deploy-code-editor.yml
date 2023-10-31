@@ -16,6 +16,22 @@ jobs:
     steps:
       - name: Checkout pg-api
         uses: actions/checkout@v2
+      
+      - uses: KengoTODA/actions-setup-docker-compose@v1
+        with:
+          version: '2.14.2' # the full version of `docker-compose` command
+
+      - name: Create .env file
+        run: |
+          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
+          echo AWS_COGNITO_REGION=${{ secrets.AWS_COGNITO_REGION }} >> .env
+          echo COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }} >> .env
 
       - name: Install Utilities
         run: |
@@ -40,7 +56,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
+        run: docker-compose -f docker-compose.prod.yml up -d --build
 
       - name: Push and Deploy
         run: |
