@@ -7,14 +7,21 @@ const TEST_USER1 = {
   phone_number: "+15555555555",
 }
 
-const TEST_USER = {
+const TEST_USER2 = {
   username: "davidrd_mit",
   password: "bread-first",
   email: "davidrd@alum.mit.edu",
   phone_number: "+15555555555",
 }
 
-const USER_CODE = "022959";
+const TEST_USER = {
+  username: "davidrd_deepen",
+  password: "bread-first",
+  email: "d@wedeepen.com",
+  phone_number: "+15555555555",
+}
+
+const USER_CODE = "396375";
 
 export const signUp = async (
   username = TEST_USER.username,
