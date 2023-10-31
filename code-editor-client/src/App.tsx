@@ -138,6 +138,8 @@ function App({ clientToken }: AppProps) {
         isOpen={isOpen}
         size={"xl"}
         codeCards={cards}
+        setCodeCards={setCards}
+        appendEditorContent={appendEditorContent}
       />
     </Flex>
   ) : null;

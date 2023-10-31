@@ -5,40 +5,36 @@ import {
   CardFooter,
   Button,
   Flex,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import CodeCardEditor from "./CodeCardEditor";
 import { useState, useRef } from "react";
+import generateId from "../utils/generateId";
 
-// type CodeCardType = {
-//   id: number;
-//   title: string;
-//   code: string;
-//   appendEditorContent: Function;
-// };
+type NewCodeCardProps = {
+  handleAddSnippet: Function;
+  handleCancel: React.MouseEventHandler<HTMLButtonElement>;
+};
 
-const NewCodeCard = () => {
+const NewCodeCard = ({ handleAddSnippet, handleCancel }: NewCodeCardProps) => {
   const [cardCode, setCardCode] = useState("");
   const [cardTitle, setCardTitle] = useState("Untitled");
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault;
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
-      setCardCode(currentContent);
+      handleAddSnippet(currentContent, cardTitle);
     }
-
-    // somehow send the new info up to codeCards state (code and title)
   };
 
-  const handleCancel = () => {
-
-  }
-
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCardTitle(event.target.value);
-  }
+  };
 
   return (
     <Card
@@ -48,7 +44,7 @@ const NewCodeCard = () => {
       minH='300px'
       align='center'
       // FIX THIS ID LATER
-      id={String("test")}
+      id={String(generateId())}
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
@@ -57,7 +53,7 @@ const NewCodeCard = () => {
           color='gray.100'
           bg='azure'
           placeholder={cardTitle}
-          _placeholder={{ color: 'gray', fontWeight: 'bold' }}
+          _placeholder={{ color: "gray", fontWeight: "bold" }}
           textAlign='center'
           fontWeight='bold'
           onChange={handleTitleChange}

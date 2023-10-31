@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import NewCodeCard from "./NewCodeCard";
+import CodeCard from "./CodeCard";
+import generateId from "../utils/generateId";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -21,6 +23,8 @@ type LibraryDrawerProps = {
   isOpen: boolean;
   size: string;
   codeCards: React.ReactNode[];
+  setCodeCards: Function;
+  appendEditorContent: Function;
 };
 
 const LibraryDrawer = ({
@@ -29,8 +33,23 @@ const LibraryDrawer = ({
   isOpen,
   size,
   codeCards,
+  setCodeCards,
+  appendEditorContent,
 }: LibraryDrawerProps) => {
-  const [addSnippetMode, setAddSnippetMode] = React.useState(true); // temporarily showing this by default
+  const [addSnippetMode, setAddSnippetMode] = React.useState(false); // temporarily showing this by default
+
+  const handleAddSnippet = (code: string, title: string) => {
+    const newCard = (
+      <CodeCard
+        id={generateId()}
+        title={title}
+        code={code}
+        appendEditorContent={appendEditorContent}
+      />
+    );
+    setCodeCards((prevCards: React.ReactNode[]) => [...prevCards, newCard]);
+    setAddSnippetMode(false);
+  };
 
   return (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
@@ -50,6 +69,7 @@ const LibraryDrawer = ({
               color='white'
               bgColor='blue.700'
               _hover={{ bg: "blue.900" }}
+              onClick={() => setAddSnippetMode(true)}
             >
               New Code Snippet
             </Button>
@@ -63,7 +83,12 @@ const LibraryDrawer = ({
             // templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
             templateColumns='repeat(1, minmax(600px, 1fr))'
           >
-            {addSnippetMode ? <NewCodeCard /> : null}
+            {addSnippetMode ? (
+              <NewCodeCard
+                handleAddSnippet={handleAddSnippet}
+                handleCancel={() => setAddSnippetMode(false)}
+              />
+            ) : null}
             {codeCards.map((card, index) => {
               return <React.Fragment key={index}>{card}</React.Fragment>;
             })}
