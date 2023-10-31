@@ -1,11 +1,14 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
+import LibraryDrawer from "./components/LibraryDrawer";
+import { useDisclosure } from "@chakra-ui/react";
+import fetchCards from "./utils/fetchCards";
 
 interface AppProps {
   clientToken: string;
@@ -14,10 +17,22 @@ interface AppProps {
 function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [cards, setCards] = useState<React.ReactElement[]>([]);
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
     useState<React.MutableRefObject<EditorView | undefined>>();
+
+  useEffect(() => {
+    if (editorViewRef) {
+      const fetchAndSetCards = async () => {
+        const codeCards = await fetchCards(appendEditorContent);
+        setCards(codeCards);
+      };
+      fetchAndSetCards();
+    }
+  }, [editorViewRef]);
 
   // const awareness = useAwareness();
 
@@ -26,6 +41,7 @@ function App({ clientToken }: AppProps) {
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
+    console.log(editorViewRef);
     if (editorViewRef?.current) {
       const transaction = editorViewRef.current.state.update({
         changes: {
@@ -59,31 +75,64 @@ function App({ clientToken }: AppProps) {
   };
 
   return clientToken ? (
-    <Box minH='100vh' bg='gray.100'>
+    <Flex direction={"column"} minH='100vh' bg='gray.100'>
       <Flex
+        flex={1}
         align='center'
         justify='space-between'
         p={6}
-        bg='gray.200'
+        // bg='gray.200'
+        bgGradient='linear(to-r, black, gray.100, blue.800)'
         border='2px'
         borderColor='gray.200'
       >
         <Heading size='lg' fontWeight='bold' color='gray.900'>
-          WeNeedAName
+          Our Code Thing
         </Heading>
-        <HamburgerMenuButton
-          replaceEditorContent={replaceEditorContent}
-          appendEditorContent={appendEditorContent}
-        />
+        <Flex align='center' gap={10}>
+          <Button
+            bg='transparent'
+            _hover={{
+              color: "white",
+              fontWeight: "bold",
+              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+            }}
+            onClick={onOpen}
+            _active={{ bg: "transparent" }}
+          >
+            Code Library
+          </Button>
+          <HamburgerMenuButton
+            replaceEditorContent={replaceEditorContent}
+            appendEditorContent={appendEditorContent}
+          />
+        </Flex>
       </Flex>
-      <Flex direction='column' h='full' p={6} gap={3}>
+      <Flex
+        direction='column'
+        p={6}
+        gap={3}
+        bgGradient='linear(to-r, black, gray.100, blue.800)'
+      >
         <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
-        <Button onClick={() => sendCode(code)} colorScheme='messenger'>
+        <Button
+          bg='blue.700'
+          borderRadius='20'
+          _hover={{ bg: "blue.900" }}
+          onClick={() => sendCode(code)}
+        >
           Run Code
         </Button>
         <OutputDisplay output={output} />
       </Flex>
-    </Box>
+      <LibraryDrawer
+        placement={"left"}
+        onClose={onClose}
+        isOpen={isOpen}
+        size={"xl"}
+        codeCards={cards}
+      />
+    </Flex>
   ) : null;
 }
 

@@ -20,9 +20,9 @@ const HamburgerMenuButton = ({
           bgColor='gray.100'
           _hover={{ color: "blue.500" }}
           _focus={{ color: "blue.500" }}
-          onClick={() => replaceEditorContent("this is some new content")}
+          onClick={() => replaceEditorContent("")}
         >
-          Replace Editor Content
+          Clear Editor
         </MenuItem>
         <MenuItem
           bgColor='gray.100'
