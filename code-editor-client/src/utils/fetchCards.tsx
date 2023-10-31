@@ -2,7 +2,10 @@ import { cards } from "../mockData/mockCards";
 import CodeCard from "../components/CodeCard";
 import generateId from "./generateId";
 
-const fetchCards = (appendEditorContent: Function) => {
+const fetchCards = (
+  appendEditorContent: Function,
+  handleDeleteSnippet: Function
+) => {
   const results = [];
 
   for (let card of cards) {
@@ -13,6 +16,7 @@ const fetchCards = (appendEditorContent: Function) => {
         title={card.title}
         code={card.code}
         appendEditorContent={appendEditorContent}
+        handleDeleteSnippet={handleDeleteSnippet}
       />
     );
   }

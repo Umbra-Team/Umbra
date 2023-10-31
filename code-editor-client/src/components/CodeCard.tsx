@@ -17,13 +17,24 @@ type CodeCardType = {
   title: string;
   code: string;
   appendEditorContent: Function;
+  handleDeleteSnippet: Function;
 };
 
-const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
+const CodeCard = ({
+  id,
+  title,
+  code,
+  appendEditorContent,
+  handleDeleteSnippet,
+}: CodeCardType) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardCode, setCardCode] = useState(code);
   const [cardTitle, setCardTitle] = useState(title);
   const editorViewRef = useRef<EditorView | undefined>(undefined);
+
+  const handleDeleteClick = () => {
+    handleDeleteSnippet(id);
+  };
 
   const handleEditClick = () => {
     setIsEditing((prevState) => !prevState);
@@ -102,6 +113,7 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
+            onClick={handleDeleteClick}
           >
             Delete Snippet
           </Button>

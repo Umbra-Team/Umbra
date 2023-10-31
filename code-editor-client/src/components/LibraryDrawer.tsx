@@ -22,8 +22,8 @@ type LibraryDrawerProps = {
   onClose: () => void;
   isOpen: boolean;
   size: string;
-  codeCards: React.ReactNode[];
-  setCodeCards: Function;
+  cards: React.ReactNode[];
+  setCards: Function;
   appendEditorContent: Function;
 };
 
@@ -32,11 +32,15 @@ const LibraryDrawer = ({
   onClose,
   isOpen,
   size,
-  codeCards,
-  setCodeCards,
+  cards,
+  setCards,
   appendEditorContent,
 }: LibraryDrawerProps) => {
   const [addSnippetMode, setAddSnippetMode] = React.useState(false); // temporarily showing this by default
+
+  const handleDeleteSnippet = (id: number) => {
+    setCards((prevCards) => prevCards.filter((card) => card.id !== id));
+  };
 
   const handleAddSnippet = (code: string, title: string) => {
     const newCard = (
@@ -45,9 +49,10 @@ const LibraryDrawer = ({
         title={title}
         code={code}
         appendEditorContent={appendEditorContent}
+        handleDeleteSnippet={handleDeleteSnippet}
       />
     );
-    setCodeCards((prevCards: React.ReactNode[]) => [...prevCards, newCard]);
+    setCards((prevCards: React.ReactNode[]) => [...prevCards, newCard]);
     setAddSnippetMode(false);
   };
 
@@ -89,7 +94,7 @@ const LibraryDrawer = ({
                 handleCancel={() => setAddSnippetMode(false)}
               />
             ) : null}
-            {codeCards.map((card, index) => {
+            {cards.map((card, index) => {
               return <React.Fragment key={index}>{card}</React.Fragment>;
             })}
           </SimpleGrid>

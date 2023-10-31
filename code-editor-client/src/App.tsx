@@ -137,8 +137,8 @@ function App({ clientToken }: AppProps) {
         onClose={onClose}
         isOpen={isOpen}
         size={"xl"}
-        codeCards={cards}
-        setCodeCards={setCards}
+        cards={cards}
+        setCards={setCards}
         appendEditorContent={appendEditorContent}
       />
     </Flex>
