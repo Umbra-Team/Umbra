@@ -7,9 +7,11 @@ import { EditorView } from "@codemirror/view";
 import { oneDark } from "@uiw/react-codemirror";
 
 const CodeCardEditor = ({
+  editorViewRef,
   code,
   isEditMode,
 }: {
+  editorViewRef: React.MutableRefObject<EditorView | undefined>;
   code: string;
   isEditMode: boolean;
 }) => {
@@ -36,6 +38,9 @@ const CodeCardEditor = ({
       });
       // Save the new EditorView instance
       setEditorView(newEditorView);
+
+      // Update the editorViewRef with the new EditorView instance
+      editorViewRef.current = newEditorView;
     }
 
     // Cleanup function that destroys the EditorView instance

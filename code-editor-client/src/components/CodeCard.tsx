@@ -7,33 +7,32 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
+import { EditorView } from "@codemirror/view";
 import CodeCardEditor from "./CodeCardEditor";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type CodeCardType = {
   id: number;
   title: string;
   code: string;
   appendEditorContent: Function;
-  replaceEditorContent: Function;
 };
 
-const CodeCard = ({
-  id,
-  title,
-  code,
-  appendEditorContent,
-  replaceEditorContent,
-}: CodeCardType) => {
+const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardCode, setCardCode] = useState(code);
   const [cardTitle, setCardTitle] = useState(title);
+  const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleEditClick = () => {
     setIsEditing((prevState) => !prevState);
   };
 
   const handleSaveClick = () => {
+    if (editorViewRef.current) {
+      const currentContent = editorViewRef.current.state.doc.toString();
+      setCardCode(currentContent);
+    }
     setIsEditing((prevState) => !prevState);
   };
 
@@ -61,7 +60,11 @@ const CodeCard = ({
         w='90%'
       >
         <CardBody>
-          <CodeCardEditor code={cardCode} isEditMode={isEditing} />
+          <CodeCardEditor
+            editorViewRef={editorViewRef}
+            code={cardCode}
+            isEditMode={isEditing}
+          />
         </CardBody>
       </CardBody>
       <CardFooter p={2}>
@@ -74,7 +77,7 @@ const CodeCard = ({
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={() => appendEditorContent(code)}
+            onClick={() => appendEditorContent(cardCode)}
           >
             Insert Into Editor
           </Button>

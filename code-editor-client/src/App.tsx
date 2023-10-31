@@ -27,10 +27,7 @@ function App({ clientToken }: AppProps) {
   useEffect(() => {
     if (editorViewRef) {
       const fetchAndSetCards = async () => {
-        const codeCards = await fetchCards(
-          appendEditorContent,
-          replaceEditorContent
-        );
+        const codeCards = await fetchCards(appendEditorContent);
         setCards(codeCards);
       };
       fetchAndSetCards();
