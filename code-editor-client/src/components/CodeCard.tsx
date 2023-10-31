@@ -8,6 +8,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import CodeCardEditor from "./CodeCardEditor";
+import { useState } from "react";
 
 type CodeCardType = {
   id: number;
@@ -17,7 +18,13 @@ type CodeCardType = {
 };
 
 const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
-  const handleEditClick = () => {};
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing((prevState) => !prevState);
+    console.log("edit button was clicked");
+    console.log(isEditing);
+  };
 
   return (
     <Card
@@ -43,7 +50,7 @@ const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
         w='90%'
       >
         <CardBody>
-          <CodeCardEditor code={code} />
+          <CodeCardEditor code={code} isEditMode={isEditing} />
         </CardBody>
       </CardBody>
       <CardFooter p={2}>
@@ -70,7 +77,7 @@ const CodeCard = ({ id, heading, code, appendEditorContent }: CodeCardType) => {
             _hover={{ bg: "blue.900" }}
             onClick={handleEditClick}
           >
-            Edit Snippet
+            {isEditing ? "Save Snippet" : "Edit Snippet"}
           </Button>
           <Button
             borderRadius='15'

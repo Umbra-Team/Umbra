@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { basicSetup } from "codemirror";
 
 import { javascript } from "@codemirror/lang-javascript";
@@ -6,12 +6,23 @@ import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { oneDark } from "@uiw/react-codemirror";
 
-const CodeCardEditor = ({ code }: { code: string }) => {
+const CodeCardEditor = ({
+  code,
+  isEditMode,
+}: {
+  code: string;
+  isEditMode: boolean;
+}) => {
   const ref = useRef<HTMLDivElement | null>(null);
+  const [editorView, setEditorView] = useState<EditorView | null>(null);
 
   useEffect(() => {
     if (ref.current) {
-      new EditorView({
+      // Destroy the previous EditorView instance if it exists
+      editorView?.destroy();
+
+      // Create a newEditorView instance
+      const newEditorView = new EditorView({
         parent: ref.current,
         state: EditorState.create({
           doc: code,
@@ -19,12 +30,19 @@ const CodeCardEditor = ({ code }: { code: string }) => {
             basicSetup,
             javascript(),
             oneDark,
-            EditorView.editable.of(false),
+            EditorView.editable.of(isEditMode),
           ],
         }),
       });
+      // Save the new EditorView instance
+      setEditorView(newEditorView);
     }
-  }, [code]);
+
+    // Cleanup function that destroys the EditorView instance
+    return () => {
+      editorView?.destroy();
+    };
+  }, [code, isEditMode]);
 
   return <div ref={ref} />;
 };
