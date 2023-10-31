@@ -6,6 +6,9 @@ import {
   DrawerContent,
   DrawerCloseButton,
   SimpleGrid,
+  Button,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
 import * as React from "react";
 
@@ -33,15 +36,29 @@ const LibraryDrawer = ({
         <DrawerHeader
           color='white'
           bgGradient='linear(to-r, black, gray.100, blue.800)'
-          borderBottomWidth='1px'
+          borderBottomWidth='2px'
+          borderBottomColor='white'
         >
-          Code Library
+          <Flex justifyContent='space-between'>
+            <Text>Code Library</Text>
+            <Button
+              marginRight={10}
+              borderRadius='15'
+              color='white'
+              bgColor='blue.700'
+              _hover={{ bg: "blue.900" }}
+            >
+              New Code Snippet
+            </Button>
+            <DrawerCloseButton />
+          </Flex>
         </DrawerHeader>
-        <DrawerCloseButton />
+
         <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
           <SimpleGrid
             spacing={5}
-            templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
+            // templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
+            templateColumns='repeat(1, minmax(600px, 1fr))'
           >
             {codeCards.map((card, index) => {
               return <React.Fragment key={index}>{card}</React.Fragment>;

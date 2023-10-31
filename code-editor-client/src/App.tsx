@@ -3,7 +3,7 @@ import OutputDisplay from "./components/OutputDisplay";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Button, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading, Box } from "@chakra-ui/react";
 import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
@@ -87,7 +87,7 @@ function App({ clientToken }: AppProps) {
         borderColor='gray.200'
       >
         <Heading size='lg' fontWeight='bold' color='gray.900'>
-          Our Code Thing
+          Umbra
         </Heading>
         <Flex align='center' gap={10}>
           <Button
@@ -113,20 +113,27 @@ function App({ clientToken }: AppProps) {
         p={6}
         gap={3}
         bgGradient='linear(to-r, black, gray.100, blue.800)'
+        align='center'
+        maxWidth='75%'
+        width='100%'
+        justifyContent='center'
+        margin='auto'
       >
-        <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
-        <Button
-          bg='blue.700'
-          borderRadius='20'
-          _hover={{ bg: "blue.900" }}
-          onClick={() => sendCode(code)}
-        >
-          Run Code
-        </Button>
-        <OutputDisplay output={output} />
+        <Box width='100%'>
+          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
+          <Button
+            bg='blue.700'
+            borderRadius='20'
+            _hover={{ bg: "blue.900" }}
+            onClick={() => sendCode(code)}
+          >
+            Run Code
+          </Button>
+          <OutputDisplay output={output} />
+        </Box>
       </Flex>
       <LibraryDrawer
-        placement={"left"}
+        placement={"right"}
         onClose={onClose}
         isOpen={isOpen}
         size={"xl"}
