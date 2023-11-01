@@ -135,6 +135,7 @@ function App({ clientToken }: AppProps) {
           </Button>
           <Button
             bg='transparent'
+            fontSize='20px'
             _hover={{
               color: "white",
               fontWeight: "bold",
