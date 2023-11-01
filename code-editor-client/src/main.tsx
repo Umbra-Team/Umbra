@@ -10,6 +10,8 @@ import { Auth } from "aws-amplify";
 import { snippets } from "@codemirror/lang-javascript";
 import { Snippet } from "./types/types"
 
+import { getAllUserFiles } from "./services/files";
+
 const EXPRESS_SERVER_ENDPOINT = "/api";
 
 const theme = extendTheme({
@@ -36,23 +38,21 @@ const theme = extendTheme({
 
 const AppWrapper = () => {
   // Y-Sweet token
-  const [clientToken, setClientToken] = useState(null);
+  const [YSweetClientToken, setYSweetClientToken] = useState(null);
 
   // AWS Amplify
   const [user, setUser] = useState<any>(null);
+  const [cognitoClientToken, setCognitoClientToken] = useState<string>('');
   const [userSnippets, setUserSnippets] = useState<Snippet[]>([]);
 
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then(user => {
-        Auth.currentSession()
-        .then(session => {
-          console.log(user);
-          console.log(session.getIdToken().getJwtToken());
-          setUser(user);
-        })
-        .catch(err => console.log(err));
+        setUser(user);
+        setCognitoClientToken(user.signInUserSession.accessToken.jwtToken);
+        console.log(`AUTHENTICATED USER: ${JSON.stringify(user)}`);
+        console.log(`AUTHENTICATED USER TOKEN: ${JSON.stringify(user.signInUserSession.accessToken.jwtToken)}`);
       })
       .catch(() => setUser(null));
       }, []);
@@ -61,16 +61,10 @@ const AppWrapper = () => {
     if (user) {
       const loadClientLibrary = async () => {
         try {
-          const response = await axios.get(
-            `${EXPRESS_SERVER_ENDPOINT}/users/files`,
-            {
-              headers: {
-                'Authorization': `Bearer ${user.signInUserSession.accessToken.jwtToken}`
-              }
-            }
-          );
-          console.log(`User snippets response: ${JSON.stringify(response)}`)
-          setUserSnippets(response.data as Snippet[]);
+          const snippets: Snippet[] = await getAllUserFiles(cognitoClientToken);
+
+          console.log(`User snippets response: ${JSON.stringify(snippets)}`)
+          setUserSnippets(snippets);
         }
         catch (err) {
           console.log(err);
@@ -86,7 +80,7 @@ const AppWrapper = () => {
       const response = await axios.get(
         `${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
       );
-      setClientToken(response.data.clientToken);
+      setYSweetClientToken(response.data.clientToken);
     };
 
     const params = new URLSearchParams(window.location.search);
@@ -94,18 +88,18 @@ const AppWrapper = () => {
     fetchClientToken(doc || "default");
   }, []);
 
-  if (!clientToken) {
+  if (!YSweetClientToken) {
     return null;
   }
 
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <YDocProvider clientToken={clientToken} setQueryParam='doc'>
+      <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
         {user ? <div>Logged in as {user.username}</div> : <div>Not logged in</div>}
         {userSnippets ? 
           <div>
-            {JSON.stringify(userSnippets)}
+            <div>{JSON.stringify(userSnippets)}</div>
             <ul>
               {userSnippets.map((snippet: Snippet) => (
                 <li key={snippet.id}>{snippet.name} | {snippet.content}</li>
@@ -113,7 +107,7 @@ const AppWrapper = () => {
             </ul>
           </div> 
           : null}
-        <App clientToken={clientToken} />
+        <App clientToken={YSweetClientToken} />
       </YDocProvider>
     </ChakraProvider>
   );

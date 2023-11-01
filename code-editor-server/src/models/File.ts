@@ -7,6 +7,7 @@ class File extends Model {
   public id!: number;
   public name!: string;
   public content!: string;
+  public userId!: number;
   // timestamps!
   public readonly created_at!: Date;
   public readonly updated_at!: Date;

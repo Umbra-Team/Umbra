@@ -2,18 +2,15 @@ import axios from 'axios';
 const baseUrl = `/api`;
 import { Snippet } from '../types/types';
 
-let token = null;
+const tokenToHeader = (token: string) => {
+  return { Authorization: `Bearer ${token}` };
+}
 
-const setToken = (newToken: string) => {
-  token = `Bearer ${newToken}`;
-};
-
-const getAllUserFiles = async (): Promise<Snippet[]> => {
+export const getAllUserFiles = async (cognitoClientToken: string): Promise<Snippet[]> => {
   const config = {
-    headers: { Authorization: token },
+    headers: tokenToHeader(cognitoClientToken),
   };
   
-  const response = await axios.get(`${baseUrl}/users/files`, config);
+  const response = await axios.get(`${baseUrl}/files`, config);
   return response.data as Snippet[];
-
 };
