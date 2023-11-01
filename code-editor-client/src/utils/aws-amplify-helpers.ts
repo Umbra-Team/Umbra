@@ -1,11 +1,11 @@
 import { Auth } from "aws-amplify";
 
-// const TEST_USER1 = {
-//   username: "davidrd123",
-//   password: "bread-first",
-//   email: "davidrd123@gmail.com",
-//   phone_number: "+15555555555",
-// }
+const TEST_USER = {
+  username: "davidrd123",
+  password: "bread-first",
+  email: "davidrd123@gmail.com",
+  phone_number: "+15555555555",
+}
 
 // const TEST_USER2 = {
 //   username: "davidrd_mit",
@@ -14,12 +14,12 @@ import { Auth } from "aws-amplify";
 //   phone_number: "+15555555555",
 // }
 
-const TEST_USER = {
-  username: "davidrd_deepen",
-  password: "bread-first",
-  email: "d@wedeepen.com",
-  phone_number: "+15555555555",
-}
+// const TEST_USER3 = {
+//   username: "davidrd_deepen",
+//   password: "bread-first",
+//   email: "d@wedeepen.com",
+//   phone_number: "+15555555555",
+// }
 
 const USER_CODE = "396375";
 

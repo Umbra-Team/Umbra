@@ -1,10 +1,22 @@
 import { CognitoIdentityServiceProvider } from "aws-sdk";
 import { Request, Response, NextFunction } from "express";
-import { CustomRequest } from "../types/CustomRequest";
+import { RequestWithUser, MiddlewareFunction } from "../types/types";
 
-export const verifyToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
-  const token = req.header("Authorization");
-  if (!token) return res.status(401).send("Access denied.");
+export const verifyToken = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const authHeader = req.header("Authorization");
+  if (!authHeader) return res.status(401).send("Access denied.");
+
+  // Split the Authorization header value by space
+  const parts = authHeader.split(' ');
+
+  // Check if the Authorization header has the correct format
+  if (parts.length !== 2 || parts[0] !== 'Bearer') {
+    return res.status(401).send("Invalid Authorization header format.");
+  }
+
+  // Get the token part
+  const token = parts[1];
+  console.log(`Token: ${token}`);
 
   try {
     const cognito = new CognitoIdentityServiceProvider();

@@ -1,7 +1,33 @@
-POST http://localhost:3001/api/files
+POST http://localhost:3001/api/file
 Content-Type: application/json
 
 {
   "name": "test.txt",
   "content": "test"
+}
+
+###
+
+POST http://localhost:3001/api/fileCreate
+Content-Type: application/json
+
+{
+  "username": "davidrd_mit"
+}
+
+###
+
+GET http://localhost:3001/api/users/3/files
+
+###
+
+GET http://localhost:3001/api/files/7
+
+###
+
+PATCH http://localhost:3001/api/files/7
+Content-Type: application/json
+
+{
+  "content": "new content"
 }

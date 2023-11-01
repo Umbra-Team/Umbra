@@ -32,6 +32,7 @@ User.init({
   cognitoId: {
     type: DataTypes.STRING(128),
     allowNull: false,
+    unique: true,
   },
   // Add more attributes here
 }, {

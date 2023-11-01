@@ -9,7 +9,7 @@ import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 
 
-
+import { signUp, confirmUserCode, logout, signIn } from "./utils/aws-amplify-helpers";
 import { useDisclosure } from "@chakra-ui/react";
 import fetchCards from "./utils/fetchCards";
 import './utils/aws-config'
@@ -113,7 +113,7 @@ function App({ clientToken }: AppProps) {
         </Flex>
       </Flex>
 
-      {/* <Button onClick={() => signUp()} colorScheme='messenger'>
+      <Button onClick={() => signUp()} colorScheme='messenger'>
         Sign Up
       </Button>
       <Button onClick={() => confirmUserCode()} colorScheme='messenger'>
@@ -124,7 +124,7 @@ function App({ clientToken }: AppProps) {
       </Button>
       <Button onClick={() => logout()} colorScheme='messenger'>
         Logout
-      </Button> */}
+      </Button>
 
       <Flex
         direction='column'
