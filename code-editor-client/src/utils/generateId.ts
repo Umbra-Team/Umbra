@@ -1,5 +1,5 @@
 const generateId = () => {
-  return Math.random() * 1000;
+  return Math.trunc(Math.random() * 1000);
 };
 
 export default generateId;

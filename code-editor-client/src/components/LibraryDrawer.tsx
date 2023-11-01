@@ -11,9 +11,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import * as React from "react";
-import NewCodeCard from "./NewCodeCard";
-import CodeCard from "./CodeCard";
+import NewLibrarySnippet from "./NewLibrarySnippet";
+import LibrarySnippet from "./LibrarySnippet";
 import generateId from "../utils/generateId";
+import { LibrarySnippetData } from "../utils/fetchLibraryData";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -22,8 +23,8 @@ type LibraryDrawerProps = {
   onClose: () => void;
   isOpen: boolean;
   size: string;
-  cards: React.ReactNode[];
-  setCards: Function;
+  librarySnippets: LibrarySnippetData[];
+  setLibrarySnippets: Function;
   appendEditorContent: Function;
 };
 
@@ -32,30 +33,39 @@ const LibraryDrawer = ({
   onClose,
   isOpen,
   size,
-  cards,
-  setCards,
+  librarySnippets,
+  setLibrarySnippets,
   appendEditorContent,
 }: LibraryDrawerProps) => {
   const [addSnippetMode, setAddSnippetMode] = React.useState(false); // temporarily showing this by default
 
-  const handleDeleteSnippet = (id: number) => {
-    setCards((prevCards) => prevCards.filter((card) => card.id !== id));
-  };
-
   const handleAddSnippet = (code: string, title: string) => {
-    const newCard = (
-      <CodeCard
-        id={generateId()}
-        title={title}
-        code={code}
-        appendEditorContent={appendEditorContent}
-        handleDeleteSnippet={handleDeleteSnippet}
-      />
-    );
-    setCards((prevCards: React.ReactNode[]) => [...prevCards, newCard]);
+    const newSnippetData = {
+      id: generateId(),
+      title,
+      code,
+    };
+
+    // <CodeCard
+    //   id={generateId()}
+    //   title={title}
+    //   code={code}
+    //   appendEditorContent={appendEditorContent}
+    //   handleDeleteSnippet={handleDeleteSnippet}
+    // />
+
+    setLibrarySnippets((prevSnippets: LibrarySnippetData[]) => [
+      ...prevSnippets,
+      newSnippetData,
+    ]);
     setAddSnippetMode(false);
   };
 
+  const handleDeleteSnippet = (id: number) => {
+    setLibrarySnippets((prevSnippets: LibrarySnippetData[]) =>
+      prevSnippets.filter((snippet: LibrarySnippetData) => snippet.id !== id)
+    );
+  };
   return (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
@@ -89,14 +99,21 @@ const LibraryDrawer = ({
             templateColumns='repeat(1, minmax(600px, 1fr))'
           >
             {addSnippetMode ? (
-              <NewCodeCard
+              <NewLibrarySnippet
                 handleAddSnippet={handleAddSnippet}
                 handleCancel={() => setAddSnippetMode(false)}
               />
             ) : null}
-            {cards.map((card, index) => {
-              return <React.Fragment key={index}>{card}</React.Fragment>;
-            })}
+            {librarySnippets.map((snippet: LibrarySnippetData) => (
+              <LibrarySnippet
+                key={snippet.id}
+                id={snippet.id}
+                title={snippet.title}
+                code={snippet.code}
+                appendEditorContent={appendEditorContent}
+                handleDeleteSnippet={handleDeleteSnippet}
+              />
+            ))}
           </SimpleGrid>
         </DrawerBody>
       </DrawerContent>

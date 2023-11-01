@@ -8,7 +8,7 @@ import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 import { useDisclosure } from "@chakra-ui/react";
-import fetchCards from "./utils/fetchCards";
+import { fetchLibraryData, LibrarySnippetData } from "./utils/fetchLibraryData";
 
 interface AppProps {
   clientToken: string;
@@ -18,7 +18,9 @@ function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [cards, setCards] = useState<React.ReactElement[]>([]);
+  const [librarySnippets, setLibrarySnippets] = useState<LibrarySnippetData[]>(
+    []
+  );
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
@@ -26,15 +28,14 @@ function App({ clientToken }: AppProps) {
 
   useEffect(() => {
     if (editorViewRef) {
-      const fetchAndSetCards = async () => {
-        const codeCards = await fetchCards(appendEditorContent);
-        setCards(codeCards);
+      const fetchAndSetLibrarySnippetData = async () => {
+        const librarySnippetData = await fetchLibraryData();
+
+        setLibrarySnippets(librarySnippetData);
       };
-      fetchAndSetCards();
+      fetchAndSetLibrarySnippetData();
     }
   }, [editorViewRef]);
-
-  // const awareness = useAwareness();
 
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
@@ -137,8 +138,8 @@ function App({ clientToken }: AppProps) {
         onClose={onClose}
         isOpen={isOpen}
         size={"xl"}
-        cards={cards}
-        setCards={setCards}
+        librarySnippets={librarySnippets}
+        setLibrarySnippets={setLibrarySnippets}
         appendEditorContent={appendEditorContent}
       />
     </Flex>

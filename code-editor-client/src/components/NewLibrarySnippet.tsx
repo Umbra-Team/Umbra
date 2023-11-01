@@ -3,49 +3,40 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Heading,
   Button,
   Flex,
+  Input,
 } from "@chakra-ui/react";
-
 import { EditorView } from "@codemirror/view";
-import CodeCardEditor from "./CodeCardEditor";
+import LibrarySnippetEditor from "./LibrarySnippetEditor";
 import { useState, useRef } from "react";
+import generateId from "../utils/generateId";
 
-type CodeCardType = {
-  id: number;
-  title: string;
-  code: string;
-  appendEditorContent: Function;
-  handleDeleteSnippet: Function;
+type NewLibrarySnippetProps = {
+  handleAddSnippet: Function;
+  handleCancel: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const CodeCard = ({
-  id,
-  title,
-  code,
-  appendEditorContent,
-  handleDeleteSnippet,
-}: CodeCardType) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [cardCode, setCardCode] = useState(code);
-  const [cardTitle, setCardTitle] = useState(title);
+const NewLibrarySnippet = ({
+  handleAddSnippet,
+  handleCancel,
+}: NewLibrarySnippetProps) => {
+  const [snippetCode, setSnippetCode] = useState("");
+  const [snippetTitle, setSnippetTitle] = useState("Untitled");
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
-  const handleDeleteClick = () => {
-    handleDeleteSnippet(id);
-  };
-
-  const handleEditClick = () => {
-    setIsEditing((prevState) => !prevState);
-  };
-
-  const handleSaveClick = () => {
+  const handleSaveClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault;
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
-      setCardCode(currentContent);
+      handleAddSnippet(currentContent, snippetTitle);
     }
-    setIsEditing((prevState) => !prevState);
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSnippetTitle(event.target.value);
   };
 
   return (
@@ -55,13 +46,21 @@ const CodeCard = ({
       pr='2'
       minH='300px'
       align='center'
-      id={String(id)}
+      // FIX THIS ID LATER
+      id={String(generateId())}
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
-        <Heading size='md' color='gray.100'>
-          {cardTitle}
-        </Heading>
+        <Input
+          size='md'
+          color='gray.100'
+          bg='azure'
+          placeholder={snippetTitle}
+          _placeholder={{ color: "gray", fontWeight: "bold" }}
+          textAlign='center'
+          fontWeight='bold'
+          onChange={handleTitleChange}
+        />
       </CardHeader>
       <CardBody
         bg='#232D3F'
@@ -72,10 +71,10 @@ const CodeCard = ({
         w='90%'
       >
         <CardBody>
-          <CodeCardEditor
+          <LibrarySnippetEditor
             editorViewRef={editorViewRef}
-            code={cardCode}
-            isEditMode={isEditing}
+            code={snippetCode}
+            isEditMode={true}
           />
         </CardBody>
       </CardBody>
@@ -89,9 +88,9 @@ const CodeCard = ({
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={() => appendEditorContent(cardCode)}
+            onClick={handleSaveClick}
           >
-            Insert Into Editor
+            Save Snippet
           </Button>
           <Button
             borderRadius='15'
@@ -101,11 +100,12 @@ const CodeCard = ({
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={isEditing ? handleSaveClick : handleEditClick}
+            onClick={handleCancel}
           >
-            {isEditing ? "Save Snippet" : "Edit Snippet"}
+            Cancel
+            {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}
           </Button>
-          <Button
+          {/* <Button
             borderRadius='15'
             color='white'
             whiteSpace='normal'
@@ -113,14 +113,13 @@ const CodeCard = ({
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={handleDeleteClick}
           >
             Delete Snippet
-          </Button>
+          </Button> */}
         </Flex>
       </CardFooter>
     </Card>
   );
 };
 
-export default CodeCard;
+export default NewLibrarySnippet;
