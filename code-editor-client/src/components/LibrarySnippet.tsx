@@ -18,6 +18,7 @@ type LibrarySnippetType = {
   code: string;
   appendEditorContent: Function;
   handleDeleteSnippet: Function;
+  handleUpdateSnippet: Function;
 };
 
 const LibrarySnippet = ({
@@ -26,6 +27,7 @@ const LibrarySnippet = ({
   code,
   appendEditorContent,
   handleDeleteSnippet,
+  handleUpdateSnippet,
 }: LibrarySnippetType) => {
   const [isEditing, setIsEditing] = useState(false);
   const [snippetCode, setSnippetCode] = useState(code);
@@ -44,6 +46,7 @@ const LibrarySnippet = ({
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
       setSnippetCode(currentContent);
+      handleUpdateSnippet(id, currentContent, snippetTitle);
     }
     setIsEditing((prevState) => !prevState);
   };

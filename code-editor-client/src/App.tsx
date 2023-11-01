@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import { Button, Flex, Heading, Box } from "@chakra-ui/react";
@@ -26,8 +26,9 @@ function App({ clientToken }: AppProps) {
   // );
 
   // state to hold a reference to the code editor window
-  const [editorViewRef, setEditorViewRef] =
-    useState<React.MutableRefObject<EditorView | undefined>>({ current: undefined });
+  const [editorViewRef, setEditorViewRef] = useState<
+    React.MutableRefObject<EditorView | undefined>
+  >({ current: undefined });
 
   // useEffect(() => {
   //   if (editorViewRef) {
