@@ -14,7 +14,9 @@ import * as React from "react";
 import NewLibrarySnippet from "./NewLibrarySnippet";
 import LibrarySnippet from "./LibrarySnippet";
 import generateId from "../utils/generateId";
-import { LibrarySnippetData } from "../utils/fetchLibraryData";
+// import { LibrarySnippetData } from "../utils/fetchLibraryData";
+import { EditorView } from "codemirror";
+import { fetchLibraryData, LibrarySnippetData } from "../utils/fetchLibraryData";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -23,9 +25,10 @@ type LibraryDrawerProps = {
   onClose: () => void;
   isOpen: boolean;
   size: string;
-  librarySnippets: LibrarySnippetData[];
-  setLibrarySnippets: Function;
+  // librarySnippets: LibrarySnippetData[];
+  // setLibrarySnippets: Function;
   appendEditorContent: Function;
+  editorViewRef: React.MutableRefObject<EditorView | undefined>
 };
 
 const LibraryDrawer = ({
@@ -33,11 +36,24 @@ const LibraryDrawer = ({
   onClose,
   isOpen,
   size,
-  librarySnippets,
-  setLibrarySnippets,
+  // librarySnippets,
+  // setLibrarySnippets,
   appendEditorContent,
+  editorViewRef,
 }: LibraryDrawerProps) => {
-  const [addSnippetMode, setAddSnippetMode] = React.useState(false); // temporarily showing this by default
+  const [librarySnippets, setLibrarySnippets] = React.useState<LibrarySnippetData[]>([]);
+  const [addSnippetMode, setAddSnippetMode] = React.useState(false);
+
+  React.useEffect(() => {
+    if (editorViewRef) {
+      const fetchAndSetLibrarySnippetData = async () => {
+        const librarySnippetData = await fetchLibraryData();
+
+        setLibrarySnippets(librarySnippetData);
+      };
+      fetchAndSetLibrarySnippetData();
+    }
+  }, [editorViewRef]);
 
   const handleAddSnippet = (code: string, title: string) => {
     const newSnippetData = {

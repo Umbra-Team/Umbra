@@ -8,7 +8,7 @@ import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 import { useDisclosure } from "@chakra-ui/react";
-import { fetchLibraryData, LibrarySnippetData } from "./utils/fetchLibraryData";
+// import { fetchLibraryData, LibrarySnippetData } from "./utils/fetchLibraryData";
 
 interface AppProps {
   clientToken: string;
@@ -18,24 +18,24 @@ function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [librarySnippets, setLibrarySnippets] = useState<LibrarySnippetData[]>(
-    []
-  );
+  // const [librarySnippets, setLibrarySnippets] = useState<LibrarySnippetData[]>(
+  //   []
+  // );
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] =
-    useState<React.MutableRefObject<EditorView | undefined>>();
+    useState<React.MutableRefObject<EditorView | undefined>>({ current: undefined });
 
-  useEffect(() => {
-    if (editorViewRef) {
-      const fetchAndSetLibrarySnippetData = async () => {
-        const librarySnippetData = await fetchLibraryData();
+  // useEffect(() => {
+  //   if (editorViewRef) {
+  //     const fetchAndSetLibrarySnippetData = async () => {
+  //       const librarySnippetData = await fetchLibraryData();
 
-        setLibrarySnippets(librarySnippetData);
-      };
-      fetchAndSetLibrarySnippetData();
-    }
-  }, [editorViewRef]);
+  //       setLibrarySnippets(librarySnippetData);
+  //     };
+  //     fetchAndSetLibrarySnippetData();
+  //   }
+  // }, [editorViewRef]);
 
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
@@ -138,9 +138,10 @@ function App({ clientToken }: AppProps) {
         onClose={onClose}
         isOpen={isOpen}
         size={"xl"}
-        librarySnippets={librarySnippets}
-        setLibrarySnippets={setLibrarySnippets}
+        // librarySnippets={librarySnippets}
+        // setLibrarySnippets={setLibrarySnippets}
         appendEditorContent={appendEditorContent}
+        editorViewRef={editorViewRef}
       />
     </Flex>
   ) : null;
