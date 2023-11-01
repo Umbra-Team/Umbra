@@ -97,16 +97,6 @@ const AppWrapper = () => {
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
         {user ? <div>Logged in as {user.username}</div> : <div>Not logged in</div>}
-        {userSnippets ? 
-          <div>
-            <div>{JSON.stringify(userSnippets)}</div>
-            <ul>
-              {userSnippets.map((snippet: Snippet) => (
-                <li key={snippet.id}>{snippet.name} | {snippet.content}</li>
-              ))}
-            </ul>
-          </div> 
-          : null}
         <App clientToken={YSweetClientToken} />
       </YDocProvider>
     </ChakraProvider>

@@ -9,21 +9,32 @@ import {
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
-import CodeCardEditor from "./CodeCardEditor";
+import LibrarySnippetEditor from "./LibrarySnippetEditor";
 import { useState, useRef } from "react";
 
-type CodeCardType = {
+type LibrarySnippetType = {
   id: number;
   title: string;
   code: string;
   appendEditorContent: Function;
+  handleDeleteSnippet: Function;
 };
 
-const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
+const LibrarySnippet = ({
+  id,
+  title,
+  code,
+  appendEditorContent,
+  handleDeleteSnippet,
+}: LibrarySnippetType) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [cardCode, setCardCode] = useState(code);
-  const [cardTitle, _] = useState(title);
+  const [snippetCode, setSnippetCode] = useState(code);
+  const [snippetTitle, setSnippetTitle] = useState(title);
   const editorViewRef = useRef<EditorView | undefined>(undefined);
+
+  const handleDeleteClick = () => {
+    handleDeleteSnippet(id);
+  };
 
   const handleEditClick = () => {
     setIsEditing((prevState) => !prevState);
@@ -32,7 +43,7 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
   const handleSaveClick = () => {
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
-      setCardCode(currentContent);
+      setSnippetCode(currentContent);
     }
     setIsEditing((prevState) => !prevState);
   };
@@ -49,7 +60,7 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
     >
       <CardHeader textAlign='center'>
         <Heading size='md' color='gray.100'>
-          {cardTitle}
+          {snippetTitle}
         </Heading>
       </CardHeader>
       <CardBody
@@ -61,9 +72,9 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
         w='90%'
       >
         <CardBody>
-          <CodeCardEditor
+          <LibrarySnippetEditor
             editorViewRef={editorViewRef}
-            code={cardCode}
+            code={snippetCode}
             isEditMode={isEditing}
           />
         </CardBody>
@@ -78,7 +89,7 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={() => appendEditorContent(cardCode)}
+            onClick={() => appendEditorContent(snippetCode)}
           >
             Insert Into Editor
           </Button>
@@ -102,6 +113,7 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
+            onClick={handleDeleteClick}
           >
             Delete Snippet
           </Button>
@@ -111,4 +123,4 @@ const CodeCard = ({ id, title, code, appendEditorContent }: CodeCardType) => {
   );
 };
 
-export default CodeCard;
+export default LibrarySnippet;

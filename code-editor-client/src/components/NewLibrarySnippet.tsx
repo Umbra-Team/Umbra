@@ -3,35 +3,40 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Heading,
   Button,
   Flex,
+  Input,
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
-import CodeCardEditor from "./CodeCardEditor";
+import LibrarySnippetEditor from "./LibrarySnippetEditor";
 import { useState, useRef } from "react";
+import generateId from "../utils/generateId";
 
-// type CodeCardType = {
-//   id: number;
-//   title: string;
-//   code: string;
-//   appendEditorContent: Function;
-// };
+type NewLibrarySnippetProps = {
+  handleAddSnippet: Function;
+  handleCancel: React.MouseEventHandler<HTMLButtonElement>;
+};
 
-const NewCodeCard = () => {
-  const [isEditing, setIsEditing] = useState(true);
-  const [cardCode, setCardCode] = useState("");
-  const [cardTitle, _] = useState("Untitled");
+const NewLibrarySnippet = ({
+  handleAddSnippet,
+  handleCancel,
+}: NewLibrarySnippetProps) => {
+  const [snippetCode, setSnippetCode] = useState("");
+  const [snippetTitle, setSnippetTitle] = useState("Untitled");
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault;
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
-      setCardCode(currentContent);
+      handleAddSnippet(currentContent, snippetTitle);
     }
-    setIsEditing((prevState) => !prevState);
+  };
 
-    // somehow send the new info up to codeCards state (code and title)
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSnippetTitle(event.target.value);
   };
 
   return (
@@ -42,13 +47,20 @@ const NewCodeCard = () => {
       minH='300px'
       align='center'
       // FIX THIS ID LATER
-      id={String("test")}
+      id={String(generateId())}
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
-        <Heading size='md' color='gray.100'>
-          {cardTitle}
-        </Heading>
+        <Input
+          size='md'
+          color='gray.100'
+          bg='azure'
+          placeholder={snippetTitle}
+          _placeholder={{ color: "gray", fontWeight: "bold" }}
+          textAlign='center'
+          fontWeight='bold'
+          onChange={handleTitleChange}
+        />
       </CardHeader>
       <CardBody
         bg='#232D3F'
@@ -59,10 +71,10 @@ const NewCodeCard = () => {
         w='90%'
       >
         <CardBody>
-          <CodeCardEditor
+          <LibrarySnippetEditor
             editorViewRef={editorViewRef}
-            code={cardCode}
-            isEditMode={isEditing}
+            code={snippetCode}
+            isEditMode={true}
           />
         </CardBody>
       </CardBody>
@@ -76,7 +88,7 @@ const NewCodeCard = () => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            // onClick={() => appendEditorContent(cardCode)}
+            onClick={handleSaveClick}
           >
             Save Snippet
           </Button>
@@ -88,7 +100,7 @@ const NewCodeCard = () => {
             w='49%'
             bgColor='blue.700'
             _hover={{ bg: "blue.900" }}
-            onClick={isEditing ? handleSaveClick : handleSaveClick}
+            onClick={handleCancel}
           >
             Cancel
             {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}
@@ -110,4 +122,4 @@ const NewCodeCard = () => {
   );
 };
 
-export default NewCodeCard;
+export default NewLibrarySnippet;

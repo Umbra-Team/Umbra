@@ -6,7 +6,7 @@ import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { oneDark } from "@uiw/react-codemirror";
 
-const CodeCardEditor = ({
+const LibrarySnippetEditor = ({
   editorViewRef,
   code,
   isEditMode,
@@ -52,4 +52,4 @@ const CodeCardEditor = ({
   return <div ref={ref} />;
 };
 
-export default CodeCardEditor;
+export default LibrarySnippetEditor;
