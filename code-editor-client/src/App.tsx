@@ -8,8 +8,12 @@ import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 
-
-import { signUp, confirmUserCode, logout, signIn } from "./utils/aws-amplify-helpers";
+import {
+  signUp,
+  confirmUserCode,
+  logout,
+  signIn,
+} from "./utils/aws-amplify-helpers";
 import { useDisclosure } from "@chakra-ui/react";
 
 interface AppProps {
@@ -68,20 +72,24 @@ function App({ clientToken }: AppProps) {
   // Click handlers
   const handleLoginClick = () => {
     console.log("Login button was clicked");
-    setIsLoggedIn((prevState) => !prevState);
+    signIn();
+    setIsLoggedIn(true);
   };
 
   const handleLogoutClick = () => {
     console.log("Logout button was clicked");
-    setIsLoggedIn((prevState) => !prevState);
+    logout();
+    setIsLoggedIn(false);
   };
 
   const handleSignUpClick = () => {
     console.log("SignUp button was clicked");
+    signUp();
   };
 
   const handleConfirmCodeClick = () => {
     console.log("Confirm user code was clicked");
+    confirmUserCode();
   };
 
   return clientToken ? (
@@ -155,19 +163,6 @@ function App({ clientToken }: AppProps) {
           />
         </Flex>
       </Flex>
-
-      <Button onClick={() => signUp()} colorScheme='messenger'>
-        Sign Up
-      </Button>
-      <Button onClick={() => confirmUserCode()} colorScheme='messenger'>
-        Confirm User Code
-      </Button>
-      <Button onClick={() => signIn()} colorScheme='messenger'>
-        Sign In
-      </Button>
-      <Button onClick={() => logout()} colorScheme='messenger'>
-        Logout
-      </Button>
 
       <Flex
         direction='column'
