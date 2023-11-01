@@ -16,7 +16,10 @@ import LibrarySnippet from "./LibrarySnippet";
 import generateId from "../utils/generateId";
 // import { LibrarySnippetData } from "../utils/fetchLibraryData";
 import { EditorView } from "codemirror";
-import { fetchLibraryData, LibrarySnippetData } from "../utils/fetchLibraryData";
+import {
+  fetchLibraryData,
+  LibrarySnippetData,
+} from "../utils/fetchLibraryData";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -28,7 +31,7 @@ type LibraryDrawerProps = {
   // librarySnippets: LibrarySnippetData[];
   // setLibrarySnippets: Function;
   appendEditorContent: Function;
-  editorViewRef: React.MutableRefObject<EditorView | undefined>
+  editorViewRef: React.MutableRefObject<EditorView | undefined>;
 };
 
 const LibraryDrawer = ({
@@ -41,7 +44,9 @@ const LibraryDrawer = ({
   appendEditorContent,
   editorViewRef,
 }: LibraryDrawerProps) => {
-  const [librarySnippets, setLibrarySnippets] = React.useState<LibrarySnippetData[]>([]);
+  const [librarySnippets, setLibrarySnippets] = React.useState<
+    LibrarySnippetData[]
+  >([]);
   const [addSnippetMode, setAddSnippetMode] = React.useState(false);
 
   React.useEffect(() => {
@@ -75,6 +80,20 @@ const LibraryDrawer = ({
       newSnippetData,
     ]);
     setAddSnippetMode(false);
+  };
+
+  const handleUpdateSnippet = (
+    id: number,
+    newCode: string,
+    newTitle: string
+  ) => {
+    setLibrarySnippets((prevSnippets: LibrarySnippetData[]) =>
+      prevSnippets.map((snippet) =>
+        snippet.id === id
+          ? { ...snippet, code: newCode, title: newTitle }
+          : snippet
+      )
+    );
   };
 
   const handleDeleteSnippet = (id: number) => {
@@ -128,6 +147,7 @@ const LibraryDrawer = ({
                 code={snippet.code}
                 appendEditorContent={appendEditorContent}
                 handleDeleteSnippet={handleDeleteSnippet}
+                handleUpdateSnippet={handleUpdateSnippet}
               />
             ))}
           </SimpleGrid>
