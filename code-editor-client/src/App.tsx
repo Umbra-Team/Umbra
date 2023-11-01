@@ -3,18 +3,12 @@ import OutputDisplay from "./components/OutputDisplay";
 import React, { useState } from "react";
 import axios from "axios";
 
-import { Button, Flex, Heading, Box } from "@chakra-ui/react";
-import HamburgerMenuButton from "./components/HamburgerMenuButton";
+import { Button, Flex, Box } from "@chakra-ui/react";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 
-import {
-  signUp,
-  confirmUserCode,
-  logout,
-  signIn,
-} from "./utils/aws-amplify-helpers";
 import { useDisclosure } from "@chakra-ui/react";
+import MainHeader from "./components/MainHeader";
 
 interface AppProps {
   clientToken: string;
@@ -69,101 +63,15 @@ function App({ clientToken }: AppProps) {
     setOutput(JSON.stringify(response.data, null, 2));
   };
 
-  // Click handlers
-  const handleLoginClick = () => {
-    console.log("Login button was clicked");
-    signIn();
-    setIsLoggedIn(true);
-  };
-
-  const handleLogoutClick = () => {
-    console.log("Logout button was clicked");
-    logout();
-    setIsLoggedIn(false);
-  };
-
-  const handleSignUpClick = () => {
-    console.log("SignUp button was clicked");
-    signUp();
-  };
-
-  const handleConfirmCodeClick = () => {
-    console.log("Confirm user code was clicked");
-    confirmUserCode();
-  };
-
   return clientToken ? (
     <Flex direction={"column"} minH='100vh' bg='gray.100'>
-      <Flex
-        flex={1}
-        align='center'
-        justify='space-between'
-        p={6}
-        // bg='gray.200'
-        bgGradient='linear(to-r, black, gray.100, blue.800)'
-        border='2px'
-        borderColor='gray.200'
-      >
-        <Heading size='lg' fontWeight='bold' color='gray.900'>
-          Umbra
-        </Heading>
-        <Flex align='center' gap={10}>
-          <Button
-            bg='transparent'
-            _hover={{
-              color: "white",
-              fontWeight: "bold",
-              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={isLoggedIn ? handleLogoutClick : handleLoginClick}
-            _active={{ bg: "transparent" }}
-          >
-            {isLoggedIn ? "Logout" : "Login"}
-          </Button>
-          <Button
-            bg='transparent'
-            _hover={{
-              color: "white",
-              fontWeight: "bold",
-              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={handleSignUpClick}
-            _active={{ bg: "transparent" }}
-          >
-            Sign Up
-          </Button>
-          <Button
-            bg='transparent'
-            _hover={{
-              color: "white",
-              fontWeight: "bold",
-              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={handleConfirmCodeClick}
-            _active={{ bg: "transparent" }}
-          >
-            Confirm User Code
-          </Button>
-          <Button
-            bg='transparent'
-            fontSize='20px'
-            _hover={{
-              color: "white",
-              fontWeight: "bold",
-              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={onOpen}
-            _active={{ bg: "transparent" }}
-          >
-            Code Library
-          </Button>
-          <HamburgerMenuButton
-            replaceEditorContent={replaceEditorContent}
-            appendEditorContent={appendEditorContent}
-          />
-        </Flex>
-      </Flex>
-
+      <MainHeader
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        replaceEditorContent={replaceEditorContent}
+        appendEditorContent={appendEditorContent}
+        onOpen={onOpen}
+      />
       <Flex
         direction='column'
         p={6}
