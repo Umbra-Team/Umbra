@@ -1,14 +1,14 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-import { Button, Flex, Heading } from "@chakra-ui/react";
-import HamburgerMenuButton from "./components/HamburgerMenuButton";
+import { Button, Flex, Box } from "@chakra-ui/react";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
+
 import { useDisclosure } from "@chakra-ui/react";
-import fetchCards from "./utils/fetchCards";
+import MainHeader from "./components/MainHeader";
 
 interface AppProps {
   clientToken: string;
@@ -17,24 +17,22 @@ interface AppProps {
 function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [cards, setCards] = useState<React.ReactElement[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Modal actions for Snippet Library
+  const {
+    isOpen: isLibraryOpen,
+    onClose: onLibraryClose,
+    onOpen: onLibraryOpen,
+  } = useDisclosure();
+
+  // Modal actions for Login Form
+  // const { onOpen: onLoginOpen } = useDisclosure();
 
   // state to hold a reference to the code editor window
-  const [editorViewRef, setEditorViewRef] =
-    useState<React.MutableRefObject<EditorView | undefined>>();
-
-  useEffect(() => {
-    if (editorViewRef) {
-      const fetchAndSetCards = async () => {
-        const codeCards = await fetchCards(appendEditorContent);
-        setCards(codeCards);
-      };
-      fetchAndSetCards();
-    }
-  }, [editorViewRef]);
-
-  // const awareness = useAwareness();
+  const [editorViewRef, setEditorViewRef] = useState<
+    React.MutableRefObject<EditorView | undefined>
+  >({ current: undefined });
 
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
@@ -76,61 +74,44 @@ function App({ clientToken }: AppProps) {
 
   return clientToken ? (
     <Flex direction={"column"} minH='100vh' bg='gray.100'>
-      <Flex
-        flex={1}
-        align='center'
-        justify='space-between'
-        p={6}
-        // bg='gray.200'
-        bgGradient='linear(to-r, black, gray.100, blue.800)'
-        border='2px'
-        borderColor='gray.200'
-      >
-        <Heading size='lg' fontWeight='bold' color='gray.900'>
-          Our Code Thing
-        </Heading>
-        <Flex align='center' gap={10}>
-          <Button
-            bg='transparent'
-            _hover={{
-              color: "white",
-              fontWeight: "bold",
-              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={onOpen}
-            _active={{ bg: "transparent" }}
-          >
-            Code Library
-          </Button>
-          <HamburgerMenuButton
-            replaceEditorContent={replaceEditorContent}
-            appendEditorContent={appendEditorContent}
-          />
-        </Flex>
-      </Flex>
+      <MainHeader
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        replaceEditorContent={replaceEditorContent}
+        appendEditorContent={appendEditorContent}
+        onLibraryOpen={onLibraryOpen}
+      />
       <Flex
         direction='column'
         p={6}
         gap={3}
         bgGradient='linear(to-r, black, gray.100, blue.800)'
+        align='center'
+        maxWidth='75%'
+        width='100%'
+        justifyContent='center'
+        margin='auto'
       >
-        <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
-        <Button
-          bg='blue.700'
-          borderRadius='20'
-          _hover={{ bg: "blue.900" }}
-          onClick={() => sendCode(code)}
-        >
-          Run Code
-        </Button>
-        <OutputDisplay output={output} />
+        <Box width='100%'>
+          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
+          <Button
+            bg='blue.700'
+            borderRadius='20'
+            _hover={{ bg: "blue.900" }}
+            onClick={() => sendCode(code)}
+          >
+            Run Code
+          </Button>
+          <OutputDisplay output={output} />
+        </Box>
       </Flex>
       <LibraryDrawer
-        placement={"left"}
-        onClose={onClose}
-        isOpen={isOpen}
+        placement={"right"}
+        onClose={onLibraryClose}
+        isOpen={isLibraryOpen}
         size={"xl"}
-        codeCards={cards}
+        appendEditorContent={appendEditorContent}
+        editorViewRef={editorViewRef}
       />
     </Flex>
   ) : null;

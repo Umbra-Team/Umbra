@@ -16,10 +16,18 @@
   "dependencies": {
     "@nyariv/sandboxjs": "^0.8.23",
     "@types/codemirror": "^5.60.10",
+    "@types/http-status-codes": "^1.2.0",
     "@y-sweet/sdk": "^0.0.9",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "http-status-codes": "^2.3.0",
+    "lib0": "^0.2.87",
+    "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.33.0",
     "ts-node": "^10.9.1",
     "vm": "^0.1.0"
   },
@@ -27,6 +35,8 @@
     "@types/cors": "^2.8.14",
     "@types/esprima": "^4.0.5",
     "@types/express": "^4.17.19",
+    "@types/morgan": "^1.9.7",
+    "aws-sdk": "^2.1483.0",
     "ts-node-dev": "^2.0.0"
   }
 }

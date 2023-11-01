@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Get the commit message from the command line argument
+commit_message=$1
+
+# Custom git commit
+git commit -m "$commit_message
+
+Co-authored-by: Bethany Pietroniro <bethany.pietroniro28@gmail.com>
+Co-authored-by: Michael Johnson <elsif.maj@gmail.com>
+Co-authored-by: David Dickinson <davidrd123@gmail.com>"

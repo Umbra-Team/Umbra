@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  express-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: express-container
+    image: ${AWS_LIGHTSAIL_SERVICE_NAME}
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
