@@ -11,16 +11,3 @@ services:
       - "3001:3001"
     env_file:
       - .env
-  db:
-    image: "postgres:latest"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=team1
-      - POSTGRES_PASSWORD=bread
-      - POSTGRES_DB=code_editor
-    ports:
-      - "5432:5432"
-
-volumes:
-  pgdata:
