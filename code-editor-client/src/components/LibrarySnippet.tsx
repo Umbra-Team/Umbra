@@ -6,11 +6,12 @@ import {
   Heading,
   Button,
   Flex,
+  Input,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 type LibrarySnippetType = {
   id: number;
@@ -51,6 +52,10 @@ const LibrarySnippet = ({
     setIsEditing((prevState) => !prevState);
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSnippetTitle(event.target.value);
+  };
+
   return (
     <Card
       bgColor='gray.800'
@@ -61,10 +66,29 @@ const LibrarySnippet = ({
       id={String(id)}
       minHeight='400px'
     >
-      <CardHeader textAlign='center'>
-        <Heading size='md' color='gray.100'>
-          {snippetTitle}
-        </Heading>
+      <CardHeader textAlign='center' width='80%'>
+        {isEditing ? (
+          <Input
+            width='60%'
+            size='md'
+            color='gray.100'
+            bg='azure'
+            placeholder={snippetTitle}
+            _placeholder={{ color: "gray", fontWeight: "bold" }}
+            textAlign='center'
+            fontWeight='bold'
+            onChange={handleTitleChange}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+              if (event.key === "Enter" && event.ctrlKey) {
+                handleSaveClick();
+              }
+            }}
+          />
+        ) : (
+          <Heading size='md' color='gray.100'>
+            {snippetTitle}
+          </Heading>
+        )}
       </CardHeader>
       <CardBody
         bg='#232D3F'
