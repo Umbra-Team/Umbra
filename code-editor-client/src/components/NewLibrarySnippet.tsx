@@ -31,6 +31,7 @@ const NewLibrarySnippet = ({
     event.preventDefault;
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
+      setSnippetCode(currentContent);
       handleAddSnippet(currentContent, snippetTitle);
     }
   };

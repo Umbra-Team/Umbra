@@ -7,8 +7,6 @@ import {
   Button,
   Flex,
   Input,
-  Box,
-  Text,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
