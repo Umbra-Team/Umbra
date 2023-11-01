@@ -67,14 +67,6 @@ const LibraryDrawer = ({
       code,
     };
 
-    // <CodeCard
-    //   id={generateId()}
-    //   title={title}
-    //   code={code}
-    //   appendEditorContent={appendEditorContent}
-    //   handleDeleteSnippet={handleDeleteSnippet}
-    // />
-
     setLibrarySnippets((prevSnippets: LibrarySnippetData[]) => [
       ...prevSnippets,
       newSnippetData,
@@ -123,7 +115,7 @@ const LibraryDrawer = ({
             >
               New Code Snippet
             </Button>
-            <DrawerCloseButton />
+            <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
 
