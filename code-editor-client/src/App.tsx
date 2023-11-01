@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import { Button, Flex, Heading, Box } from "@chakra-ui/react";
