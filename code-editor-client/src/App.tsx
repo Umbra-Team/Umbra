@@ -17,8 +17,17 @@ interface AppProps {
 function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Modal actions for Snippet Library
+  const {
+    isOpen: isLibraryOpen,
+    onClose: onLibraryClose,
+    onOpen: onLibraryOpen,
+  } = useDisclosure();
+
+  // Modal actions for Login Form
+  // const { onOpen: onLoginOpen } = useDisclosure();
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] = useState<
@@ -70,7 +79,7 @@ function App({ clientToken }: AppProps) {
         setIsLoggedIn={setIsLoggedIn}
         replaceEditorContent={replaceEditorContent}
         appendEditorContent={appendEditorContent}
-        onOpen={onOpen}
+        onLibraryOpen={onLibraryOpen}
       />
       <Flex
         direction='column'
@@ -98,8 +107,8 @@ function App({ clientToken }: AppProps) {
       </Flex>
       <LibraryDrawer
         placement={"right"}
-        onClose={onClose}
-        isOpen={isOpen}
+        onClose={onLibraryClose}
+        isOpen={isLibraryOpen}
         size={"xl"}
         appendEditorContent={appendEditorContent}
         editorViewRef={editorViewRef}

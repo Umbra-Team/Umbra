@@ -13,7 +13,7 @@ interface MainHeaderProps {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   replaceEditorContent: (content: string) => void;
   appendEditorContent: (content: string) => void;
-  onOpen: MouseEventHandler;
+  onLibraryOpen: MouseEventHandler;
 }
 
 const MainHeader = ({
@@ -21,7 +21,7 @@ const MainHeader = ({
   setIsLoggedIn,
   replaceEditorContent,
   appendEditorContent,
-  onOpen,
+  onLibraryOpen,
 }: MainHeaderProps) => {
   // Click handlers
   const handleLoginClick = () => {
@@ -105,7 +105,7 @@ const MainHeader = ({
             fontWeight: "bold",
             textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
           }}
-          onClick={onOpen}
+          onClick={onLibraryOpen}
           _active={{ bg: "transparent" }}
         >
           Code Library
