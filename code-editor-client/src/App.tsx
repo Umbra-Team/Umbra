@@ -8,7 +8,6 @@ import HamburgerMenuButton from "./components/HamburgerMenuButton";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 import { useDisclosure } from "@chakra-ui/react";
-// import { fetchLibraryData, LibrarySnippetData } from "./utils/fetchLibraryData";
 
 interface AppProps {
   clientToken: string;
@@ -18,25 +17,12 @@ function App({ clientToken }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [librarySnippets, setLibrarySnippets] = useState<LibrarySnippetData[]>(
-  //   []
-  // );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] = useState<
     React.MutableRefObject<EditorView | undefined>
   >({ current: undefined });
-
-  // useEffect(() => {
-  //   if (editorViewRef) {
-  //     const fetchAndSetLibrarySnippetData = async () => {
-  //       const librarySnippetData = await fetchLibraryData();
-
-  //       setLibrarySnippets(librarySnippetData);
-  //     };
-  //     fetchAndSetLibrarySnippetData();
-  //   }
-  // }, [editorViewRef]);
 
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
@@ -76,6 +62,25 @@ function App({ clientToken }: AppProps) {
     setOutput(JSON.stringify(response.data, null, 2));
   };
 
+  // Click handlers
+  const handleLoginClick = () => {
+    console.log("Login button was clicked");
+    setIsLoggedIn((prevState) => !prevState);
+  };
+
+  const handleLogoutClick = () => {
+    console.log("Logout button was clicked");
+    setIsLoggedIn((prevState) => !prevState);
+  };
+
+  const handleSignUpClick = () => {
+    console.log("SignUp button was clicked");
+  };
+
+  const handleConfirmCodeClick = () => {
+    console.log("Confirm user code was clicked");
+  };
+
   return clientToken ? (
     <Flex direction={"column"} minH='100vh' bg='gray.100'>
       <Flex
@@ -92,6 +97,42 @@ function App({ clientToken }: AppProps) {
           Umbra
         </Heading>
         <Flex align='center' gap={10}>
+          <Button
+            bg='transparent'
+            _hover={{
+              color: "white",
+              fontWeight: "bold",
+              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+            }}
+            onClick={isLoggedIn ? handleLogoutClick : handleLoginClick}
+            _active={{ bg: "transparent" }}
+          >
+            {isLoggedIn ? "Logout" : "Login"}
+          </Button>
+          <Button
+            bg='transparent'
+            _hover={{
+              color: "white",
+              fontWeight: "bold",
+              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+            }}
+            onClick={handleSignUpClick}
+            _active={{ bg: "transparent" }}
+          >
+            Sign Up
+          </Button>
+          <Button
+            bg='transparent'
+            _hover={{
+              color: "white",
+              fontWeight: "bold",
+              textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+            }}
+            onClick={handleConfirmCodeClick}
+            _active={{ bg: "transparent" }}
+          >
+            Confirm User Code
+          </Button>
           <Button
             bg='transparent'
             _hover={{
@@ -139,8 +180,6 @@ function App({ clientToken }: AppProps) {
         onClose={onClose}
         isOpen={isOpen}
         size={"xl"}
-        // librarySnippets={librarySnippets}
-        // setLibrarySnippets={setLibrarySnippets}
         appendEditorContent={appendEditorContent}
         editorViewRef={editorViewRef}
       />
