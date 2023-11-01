@@ -5,10 +5,9 @@ import App from "./App";
 import axios from "axios";
 import { YDocProvider } from "@y-sweet/react";
 
-import './utils/aws-config'
+import "./utils/aws-config";
 import { Auth } from "aws-amplify";
-import { snippets } from "@codemirror/lang-javascript";
-import { Snippet } from "./types/types"
+import { Snippet } from "./types/types";
 
 import { getAllUserFiles } from "./services/files";
 
@@ -42,20 +41,23 @@ const AppWrapper = () => {
 
   // AWS Amplify
   const [user, setUser] = useState<any>(null);
-  const [cognitoClientToken, setCognitoClientToken] = useState<string>('');
+  const [cognitoClientToken, setCognitoClientToken] = useState<string>("");
   const [userSnippets, setUserSnippets] = useState<Snippet[]>([]);
-
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
-      .then(user => {
+      .then((user) => {
         setUser(user);
         setCognitoClientToken(user.signInUserSession.accessToken.jwtToken);
         console.log(`AUTHENTICATED USER: ${JSON.stringify(user)}`);
-        console.log(`AUTHENTICATED USER TOKEN: ${JSON.stringify(user.signInUserSession.accessToken.jwtToken)}`);
+        console.log(
+          `AUTHENTICATED USER TOKEN: ${JSON.stringify(
+            user.signInUserSession.accessToken.jwtToken
+          )}`
+        );
       })
       .catch(() => setUser(null));
-      }, []);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -63,17 +65,19 @@ const AppWrapper = () => {
         try {
           const snippets: Snippet[] = await getAllUserFiles(cognitoClientToken);
 
-          console.log(`User snippets response: ${JSON.stringify(snippets)}`)
+          console.log(`User snippets response: ${JSON.stringify(snippets)}`);
+          console.log(
+            `This is to get rid of error with not usin userSnippets until I understand what's going on: ${userSnippets}`
+          );
           setUserSnippets(snippets);
-        }
-        catch (err) {
+        } catch (err) {
           console.log(err);
         }
-      }
+      };
       loadClientLibrary();
     }
   }, [user]);
-  
+
   // YSweet
   useEffect(() => {
     const fetchClientToken = async (doc: string) => {
@@ -96,7 +100,11 @@ const AppWrapper = () => {
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
-        {user ? <div>Logged in as {user.username}</div> : <div>Not logged in</div>}
+        {user ? (
+          <div>Logged in as {user.username}</div>
+        ) : (
+          <div>Not logged in</div>
+        )}
         <App clientToken={YSweetClientToken} />
       </YDocProvider>
     </ChakraProvider>
