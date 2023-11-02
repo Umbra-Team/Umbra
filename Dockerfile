@@ -14,6 +14,7 @@ COPY code-editor-server/package*.json ./
 RUN npm install
 COPY code-editor-server ./
 COPY --from=react-build /app/dist ./build
+COPY .env .env  
 RUN npm run build
 
 EXPOSE 3001

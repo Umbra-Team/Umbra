@@ -3,7 +3,7 @@ name: Build and Deploy to AWS Lightsail
 on:
   push:
     branches:
-      - pg-api
+      - github-workflow-11-02
   workflow_dispatch:
 
 env:
@@ -16,10 +16,6 @@ jobs:
     steps:
       - name: Checkout pg-api
         uses: actions/checkout@v2
-      
-      - uses: KengoTODA/actions-setup-docker-compose@v1
-        with:
-          version: '2.14.2' # the full version of `docker-compose` command
 
       - name: Create .env file
         run: |
@@ -56,7 +52,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Build Docker Image
-        run: docker-compose -f docker-compose.prod.yml up -d --build
+        run: docker build -t ${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
 
       - name: Push and Deploy
         run: |
