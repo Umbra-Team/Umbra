@@ -125,7 +125,7 @@ const LibraryDrawer = ({
     }
   };
 
-  return (
+  return user ? (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
@@ -150,36 +150,39 @@ const LibraryDrawer = ({
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-        {user ? (
-          <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
-            <SimpleGrid
-              spacing={5}
-              templateColumns='repeat(1, minmax(600px, 1fr))'
-            >
-              {addSnippetMode ? (
-                <NewLibrarySnippet
-                  handleAddSnippet={handleAddSnippet}
-                  handleCancel={() => setAddSnippetMode(false)}
-                />
-              ) : null}
-              {librarySnippets.map((snippet: Snippet) => (
-                <LibrarySnippet
-                  key={snippet.id}
-                  id={snippet.id}
-                  title={snippet.title}
-                  code={snippet.code}
-                  appendEditorContent={appendEditorContent}
-                  handleDeleteSnippet={handleDeleteSnippet}
-                  handleUpdateSnippet={handleUpdateSnippet}
-                />
-              ))}
-            </SimpleGrid>
-          </DrawerBody>
-        ) : (
-          <Box>
-            <Text>Nope</Text>
-          </Box>
-        )}
+        <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
+          <SimpleGrid
+            spacing={5}
+            templateColumns='repeat(1, minmax(600px, 1fr))'
+          >
+            {addSnippetMode ? (
+              <NewLibrarySnippet
+                handleAddSnippet={handleAddSnippet}
+                handleCancel={() => setAddSnippetMode(false)}
+              />
+            ) : null}
+            {librarySnippets.map((snippet: Snippet) => (
+              <LibrarySnippet
+                key={snippet.id}
+                id={snippet.id}
+                title={snippet.title}
+                code={snippet.code}
+                appendEditorContent={appendEditorContent}
+                handleDeleteSnippet={handleDeleteSnippet}
+                handleUpdateSnippet={handleUpdateSnippet}
+              />
+            ))}
+          </SimpleGrid>
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
+      <DrawerOverlay />
+      <DrawerContent>
+        <Box>
+          <Text>Nope</Text>
+        </Box>
       </DrawerContent>
     </Drawer>
   );
