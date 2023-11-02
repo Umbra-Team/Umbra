@@ -9,7 +9,7 @@ import "./utils/aws-config";
 import { Auth } from "aws-amplify";
 import { Snippet } from "./types/types";
 
-import { getAllUserFiles } from "./services/files";
+import { getAllUserSnippets } from "./services/snippets";
 
 const EXPRESS_SERVER_ENDPOINT = "/api";
 
@@ -63,7 +63,7 @@ const AppWrapper = () => {
     if (user) {
       const loadClientLibrary = async () => {
         try {
-          const snippets: Snippet[] = await getAllUserFiles(cognitoClientToken);
+          const snippets: Snippet[] = await getAllUserSnippets(cognitoClientToken);
 
           console.log(`User snippets response: ${JSON.stringify(snippets)}`);
           console.log(

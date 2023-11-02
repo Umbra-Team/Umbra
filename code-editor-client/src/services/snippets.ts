@@ -6,7 +6,7 @@ const tokenToHeader = (token: string) => {
   return { Authorization: `Bearer ${token}` };
 }
 
-export const getAllUserFiles = async (cognitoClientToken: string): Promise<Snippet[]> => {
+export const getAllUserSnippets = async (cognitoClientToken: string): Promise<Snippet[]> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),
   };

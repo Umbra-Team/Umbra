@@ -1,6 +1,7 @@
 // models/User.ts
 import { Model, DataTypes, HasManyAddAssociationMixin, Association } from 'sequelize';
 import sequelize from '../utils/sequelize';
+import Snippet from './Snippet';
 
 class User extends Model {
   public id!: number;
@@ -11,8 +12,8 @@ class User extends Model {
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
-  public addSnippet!: HasManyAddAssociationMixin<File, number>;
-  public getSnippets!: HasManyAddAssociationMixin<File, number>;
+  public addSnippet!: HasManyAddAssociationMixin<Snippet, number>;
+  public getSnippets!: HasManyAddAssociationMixin<Snippet, number>;
 }
 
 User.init({

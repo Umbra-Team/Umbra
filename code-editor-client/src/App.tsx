@@ -93,15 +93,15 @@ function App({ clientToken }: AppProps) {
         margin='auto'
       >
         <Box width='100%'>
-          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} sendCode={sendCode} code={code} />
-          {/* <Button
+          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
+          <Button
             bg='blue.700'
             borderRadius='20'
             _hover={{ bg: "blue.900" }}
             onClick={() => sendCode(code)}
           >
             Run Code
-          </Button> */}
+          </Button>
           <OutputDisplay output={output} />
         </Box>
       </Flex>

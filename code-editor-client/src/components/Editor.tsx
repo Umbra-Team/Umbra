@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useMemo } from "react";
 import * as random from "lib0/random";
 
 // Chakra UI related
-import { Box, Heading, Flex, Button } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -93,15 +93,11 @@ type SetEditorViewRef = (
 export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
-  sendCode: Function;
-  code: string,
 };
 
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
-  sendCode,
-  code,
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -194,15 +190,9 @@ export const Editor: React.FC<EditorProps> = ({
   //
   return (
     <Box flex='1' bg='gray.200' p={3} borderRadius='15' overflow='auto'>
-      <Flex flexDirection="row" justifyContent="space-between" alignContent="center" alignItems="center">
-      <Heading size='md' color='white'>
+      <Heading size='md' mb='3' color='white'>
         Code Editor
       </Heading>
-      <Button mb={3} bg='blue.700'
-            borderRadius='20'
-            _hover={{ bg: "blue.900" }}
-            onClick={() => sendCode(code)}>Run Code</Button>
-      </Flex>
       <div ref={editorRef} />
     </Box>
   );
