@@ -9,9 +9,9 @@ import {
   Button,
   Flex,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { CognitoContext } from "../context/cognito";
 import NewLibrarySnippet from "./NewLibrarySnippet";
 import LibrarySnippet from "./LibrarySnippet";
 import { EditorView } from "codemirror";
@@ -26,7 +26,7 @@ import { Snippet } from "../types/types";
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
 type LibraryDrawerProps = {
-  user?: any;
+  user: any;
   placement: DrawerPlacement;
   onClose: () => void;
   isOpen: boolean;
@@ -36,6 +36,7 @@ type LibraryDrawerProps = {
 };
 
 const LibraryDrawer = ({
+  user,
   placement,
   onClose,
   isOpen,
@@ -45,23 +46,27 @@ const LibraryDrawer = ({
 }: LibraryDrawerProps) => {
   const [librarySnippets, setLibrarySnippets] = React.useState<Snippet[]>([]);
   const [addSnippetMode, setAddSnippetMode] = React.useState(false);
-  const cognitoClientToken = React.useContext(CognitoContext);
+  const cognitoClientToken = user?.signInUserSession.accessToken.jwtToken;
 
   React.useEffect(() => {
-    if (editorViewRef) {
-      const fetchAndSetLibrarySnippetData = async () => {
-        try {
-          const librarySnippetData = await getAllUserSnippets(
-            cognitoClientToken
-          );
-          setLibrarySnippets(librarySnippetData);
-        } catch (e) {
-          console.error(e);
-        }
-      };
-      fetchAndSetLibrarySnippetData();
+    if (user) {
+      if (editorViewRef) {
+        const fetchAndSetLibrarySnippetData = async () => {
+          try {
+            const librarySnippetData = await getAllUserSnippets(
+              cognitoClientToken
+            );
+            setLibrarySnippets(librarySnippetData);
+          } catch (e) {
+            console.error(e);
+          }
+        };
+        fetchAndSetLibrarySnippetData();
+      }
+    } else {
+      setLibrarySnippets([]);
     }
-  }, [editorViewRef]);
+  }, [editorViewRef, user]);
 
   const handleAddSnippet = async (code: string, title: string) => {
     try {
@@ -145,31 +150,36 @@ const LibraryDrawer = ({
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-
-        <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
-          <SimpleGrid
-            spacing={5}
-            templateColumns='repeat(1, minmax(600px, 1fr))'
-          >
-            {addSnippetMode ? (
-              <NewLibrarySnippet
-                handleAddSnippet={handleAddSnippet}
-                handleCancel={() => setAddSnippetMode(false)}
-              />
-            ) : null}
-            {librarySnippets.map((snippet: Snippet) => (
-              <LibrarySnippet
-                key={snippet.id}
-                id={snippet.id}
-                title={snippet.title}
-                code={snippet.code}
-                appendEditorContent={appendEditorContent}
-                handleDeleteSnippet={handleDeleteSnippet}
-                handleUpdateSnippet={handleUpdateSnippet}
-              />
-            ))}
-          </SimpleGrid>
-        </DrawerBody>
+        {user ? (
+          <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
+            <SimpleGrid
+              spacing={5}
+              templateColumns='repeat(1, minmax(600px, 1fr))'
+            >
+              {addSnippetMode ? (
+                <NewLibrarySnippet
+                  handleAddSnippet={handleAddSnippet}
+                  handleCancel={() => setAddSnippetMode(false)}
+                />
+              ) : null}
+              {librarySnippets.map((snippet: Snippet) => (
+                <LibrarySnippet
+                  key={snippet.id}
+                  id={snippet.id}
+                  title={snippet.title}
+                  code={snippet.code}
+                  appendEditorContent={appendEditorContent}
+                  handleDeleteSnippet={handleDeleteSnippet}
+                  handleUpdateSnippet={handleUpdateSnippet}
+                />
+              ))}
+            </SimpleGrid>
+          </DrawerBody>
+        ) : (
+          <Box>
+            <Text>Nope</Text>
+          </Box>
+        )}
       </DrawerContent>
     </Drawer>
   );

@@ -46,8 +46,7 @@ const NewLibrarySnippet = ({
       pr='2'
       minH='300px'
       align='center'
-      // FIX THIS ID LATER
-      id={String(generateId())}
+      id='new'
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
