@@ -28,6 +28,7 @@ jobs:
           echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
           echo AWS_COGNITO_REGION=${{ secrets.AWS_COGNITO_REGION }} >> .env
           echo COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }} >> .env
+          echo .env
 
       - name: Install Utilities
         run: |
