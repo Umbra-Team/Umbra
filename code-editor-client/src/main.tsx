@@ -5,6 +5,7 @@ import App from "./App";
 import axios from "axios";
 import { YDocProvider } from "@y-sweet/react";
 import { CognitoContext } from "./context/cognito";
+// import { CognitoUser } from "@aws-amplify/auth";
 
 import "./utils/aws-config";
 import { Auth } from "aws-amplify";
@@ -109,7 +110,7 @@ const AppWrapper = () => {
           ) : (
             <div>Not logged in</div>
           )}
-          <App clientToken={YSweetClientToken} />
+          <App user={user} clientToken={YSweetClientToken} />
         </YDocProvider>
       </ChakraProvider>
     </CognitoContext.Provider>

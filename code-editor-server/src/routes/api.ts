@@ -73,13 +73,29 @@ router.get(
   }
 );
 
-router.post("/snippets", verifyToken, async (req: Request, res: Response) => {
-  const { title, code } = req.body;
-  console.log(`/snippets: title=${title}, code=${code}`);
-  const snippet = await Snippet.create({ title, code });
-  res.json(snippet);
-});
+// add a new snippet to user's library
+router.post(
+  "/snippets",
+  verifyToken,
+  async (req: RequestWithUser, res: Response) => {
+    if (!req.user) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: "User not found" });
+    }
 
+    const { title, code } = req.body;
+    console.log(`/snippets: title=${title}, code=${code}`);
+
+    const username = req.user.Username;
+    const user = await User.findOne({ where: { username: req.user.Username } });
+    const userId = user?.id;
+    const snippet = await Snippet.create({ title, code, userId });
+    res.json(snippet);
+  }
+);
+
+// get a single snippet
 router.get(
   "/snippets/:snippetId",
   verifyToken,

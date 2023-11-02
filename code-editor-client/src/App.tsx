@@ -12,9 +12,10 @@ import MainHeader from "./components/MainHeader";
 
 interface AppProps {
   clientToken: string;
+  user?: any;
 }
 
-function App({ clientToken }: AppProps) {
+function App({ clientToken, user }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -105,7 +106,9 @@ function App({ clientToken }: AppProps) {
           <OutputDisplay output={output} />
         </Box>
       </Flex>
+
       <LibraryDrawer
+        user={user}
         placement={"right"}
         onClose={onLibraryClose}
         isOpen={isLibraryOpen}

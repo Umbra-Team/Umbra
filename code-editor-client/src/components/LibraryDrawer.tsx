@@ -32,6 +32,7 @@ import { Snippet } from "../types/types";
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
 type LibraryDrawerProps = {
+  user?: any;
   placement: DrawerPlacement;
   onClose: () => void;
   isOpen: boolean;
