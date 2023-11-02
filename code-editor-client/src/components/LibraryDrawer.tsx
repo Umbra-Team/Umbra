@@ -117,8 +117,14 @@ const LibraryDrawer = ({
 
   const handleDeleteSnippet = async (id: number) => {
     try {
-      const allSnippets = await deleteSnippet(cognitoClientToken, id);
-      setLibrarySnippets(allSnippets);
+      const status = await deleteSnippet(cognitoClientToken, id);
+      if (status === 204) {
+        setLibrarySnippets((prevSnippets) =>
+          prevSnippets.filter((snippet) => snippet.id !== id)
+        );
+      } else {
+        throw new Error("Deletion of snippet failed");
+      }
     } catch (e) {
       console.error(e);
     }

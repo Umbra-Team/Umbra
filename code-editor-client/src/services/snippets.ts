@@ -72,7 +72,7 @@ export const editSnippet = async (
 export const deleteSnippet = async (
   cognitoClientToken: string,
   snippetId: number
-): Promise<Snippet[]> => {
+): Promise<number> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),
   };
@@ -81,5 +81,5 @@ export const deleteSnippet = async (
     `${baseUrl}/snippets/${snippetId}`,
     config
   );
-  return response.data as Snippet[];
+  return response.status;
 };
