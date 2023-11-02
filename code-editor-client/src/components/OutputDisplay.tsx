@@ -3,6 +3,10 @@ import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
+import { EditorView } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
+import { oneDark } from '@codemirror/theme-one-dark';
+
 // import { createTheme } from "@uiw/codemirror-themes";
 // import { tags as t } from "@lezer/highlight";
 import { Box, Heading } from "@chakra-ui/react";
@@ -37,8 +41,20 @@ interface OutputDisplayProps {
 
 const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
   const parsedOutput = output ? JSON.parse(output) : {};
-
   let errorText = parsedOutput.error ? parsedOutput.error : null;
+  const editorRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (editorRef.current) {
+      new EditorView({
+        state: EditorState.create({
+          doc: parsedOutput.output,
+          extensions: [oneDark, EditorView.editable.of(false)],
+        }),
+        parent: editorRef.current,
+      })
+    }
+  }, [parsedOutput.output])
 
   // Remove ANSI escape codes
   if (errorText) {
@@ -59,13 +75,14 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
         <Heading color='white' size='md' mb='3'>
           Output
         </Heading>
-        <CodeMirror
+        <div ref={editorRef} style={{ height: '35vh', width: '100%'}} />
+        {/* <CodeMirror
           value={parsedOutput.output}
           height='35vh'
           width='100%'
           theme={vscodeDark}
           readOnly={true}
-        />
+        /> */}
       </Box>
     );
   } else {
