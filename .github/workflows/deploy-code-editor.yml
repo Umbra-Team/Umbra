@@ -63,10 +63,17 @@ jobs:
             --service-name ${service_name} \
             --label ${service_name} \
             --image ${service_name}:release
-          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt || echo "Failed to get container images"
-          jq --arg image $(cat image.txt || echo "default_image") '.containers.app.image = $image' container.template.json > container.json || echo "Failed to modify container.json"
+          echo "Pushed image: ${service_name}:release"
+          container_images=$(aws lightsail get-container-images --service-name ${service_name})
+          echo "Container images: $container_images"
+          image=$(echo "$container_images" | jq --raw-output ".containerImages[0].image")
+          echo "Extracted image: $image"
+          echo $image > image.txt
+          jq --arg image $(cat image.txt || echo "default_image") '.containers.express-server.image = $image' container.template.json > container.json || echo "Failed to modify container.json"
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
+
       - name: Echo image.txt file
         run: cat image.txt
+
       - name: Echo container.json file
         run: cat container.json
