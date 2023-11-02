@@ -4,7 +4,7 @@ import { verifyToken } from "../utils/middleware";
 import { getOrCreateDoc } from "@y-sweet/sdk";
 import { CONNECTION_STRING } from "../utils/constants";
 import { StatusCodes } from "http-status-codes";
-import File from "../models/File";
+import Snippet from "../models/Snippet";
 import User from "../models/User";
 import sequelize from "../utils/sequelize";
 import { RequestWithUser } from "../types/types";
@@ -34,28 +34,28 @@ router.post("/auth/logout", async (req, res) => {
 });
 
 /*
-- `GET /files`: List files for authenticated user
-- `POST /files`: Save new file
-- `GET /files/:fileId`: Retrieve file details
-- `PATCH /files/:fileId`: Update file
-- `DELETE /files/:fileId`: Delete file
+- `GET /snippets`: List snippets for authenticated user
+- `POST /snippets`: Save new snippet
+- `GET /snippets/:snippetId`: Retrieve snippet details
+- `PATCH /snippets/:snippetId`: Update snippet
+- `DELETE /snippets/:snippetId`: Delete snippet
 
   DEVELOPMENT ONLY:
-- `GET /filesNoAuth`: List all files (no auth required)
-- `POST /fileCreateRandom`: 
-      Create a file (for current user in request body pulled out by middleware)
-      with random name and content "test"
+- `GET /snippetsNoAuth`: List all snippets (no auth required)
+- `POST /snippetCreateRandom`: 
+      Create a snippet (for current user in request body pulled out by middleware)
+      with random title and code "console.log('Hello <random name>');"
 */
 
 /**
- * Get all files for a user
- * @route GET /users/files
+ * Get all snippets for a user
+ * @route GET /users/snippets
  * @requires Authentication header
- * @returns {File[]} - array of files
+ * @returns {Snippet[]} - array of snippets
  */
 
 router.get(
-  "/files",
+  "/snippets",
   verifyToken,
   async (req: RequestWithUser, res: Response) => {
     if (!req.user) {
@@ -67,21 +67,21 @@ router.get(
     const username = req.user.Username;
     const user = await User.findOne({ where: { username: username } });
     console.log(`user: ${JSON.stringify(user)}`);
-    const files = await File.findAll({ where: { userId: user?.id } });
+    const snippets = await Snippet.findAll({ where: { userId: user?.id } });
 
-    return res.json(files);
+    return res.json(snippets);
   }
 );
 
-router.post("/files", verifyToken, async (req: Request, res: Response) => {
-  const { name, content } = req.body;
-  console.log(`/files: name=${name}, content=${content}`);
-  const file = await File.create({ name, content });
-  res.json(file);
+router.post("/snippets", verifyToken, async (req: Request, res: Response) => {
+  const { title, code } = req.body;
+  console.log(`/snippets: title=${title}, code=${code}`);
+  const snippet = await Snippet.create({ title, code });
+  res.json(snippet);
 });
 
 router.get(
-  "/files/:fileId",
+  "/snippets/:snippetId",
   verifyToken,
   async (req: RequestWithUser, res: Response) => {
     if (!req.user) {
@@ -94,20 +94,20 @@ router.get(
     console.log(`user: ${JSON.stringify(user)}`);
 
     try {
-      const { fileId } = req.params;
-      const file = await File.findByPk(fileId);
-      if (!file) {
+      const { snippetId } = req.params;
+      const snippet = await Snippet.findByPk(snippetId);
+      if (!snippet) {
         return res
           .status(StatusCodes.NOT_FOUND)
-          .json({ error: "File not found" });
+          .json({ error: "Snippet not found" });
       }
-      if (file.userId !== user?.id) {
+      if (snippet.userId !== user?.id) {
         return res
           .status(StatusCodes.FORBIDDEN)
-          .json({ error: "File does not belong to user" });
+          .json({ error: "Snippet does not belong to user" });
       }
 
-      res.json(file);
+      res.json(snippet);
     } catch (err) {
       const error = err as Error;
       res
@@ -117,9 +117,9 @@ router.get(
   }
 );
 
-// PATCH /files/:id
+// PATCH /snippets/:id
 router.patch(
-  "/files/:fileId",
+  "/snippets/:snippetId",
   verifyToken,
   async (req: RequestWithUser, res: Response) => {
     if (!req.user) {
@@ -131,30 +131,30 @@ router.patch(
     try {
       const username = req.user.Username;
       const user = await User.findOne({ where: { username: username } });
-      const { fileId } = req.params;
-      const file = await File.findByPk(fileId);
+      const { snippetId } = req.params;
+      const snippet = await Snippet.findByPk(snippetId);
 
-      if (!file) {
+      if (!snippet) {
         return res
           .status(StatusCodes.NOT_FOUND)
-          .json({ error: "File not found" });
+          .json({ error: "Snippet not found" });
       }
 
-      if (file.userId !== user?.id) {
+      if (snippet.userId !== user?.id) {
         return res
           .status(StatusCodes.FORBIDDEN)
-          .json({ error: "File does not belong to user" });
+          .json({ error: "Snippet does not belong to user" });
       }
 
-      const [numberOfAffectedRows, affectedRows] = await File.update(req.body, {
-        where: { id: file.id },
+      const [numberOfAffectedRows, affectedRows] = await Snippet.update(req.body, {
+        where: { id: snippet.id },
         returning: true,
       });
 
       if (numberOfAffectedRows > 0) {
         res.json(affectedRows[0]);
       } else {
-        res.status(404).send("File not found");
+        res.status(404).send("Snippet not found");
       }
     } catch (err) {
       const error = err as Error;
@@ -165,9 +165,9 @@ router.patch(
   }
 );
 
-// DELETE /files/:id
+// DELETE /snippets/:id
 router.delete(
-  "/files/:fileId",
+  "/snippets/:snippetId",
   verifyToken,
   async (req: RequestWithUser, res: Response) => {
     if (!req.user) {
@@ -179,28 +179,28 @@ router.delete(
     try {
       const username = req.user.Username;
       const user = await User.findOne({ where: { username: username } });
-      const { fileId } = req.params;
-      const file = await File.findByPk(fileId);
+      const { snippetId } = req.params;
+      const snippet = await Snippet.findByPk(snippetId);
 
-      if (!file) {
+      if (!snippet) {
         return res
           .status(StatusCodes.NOT_FOUND)
-          .json({ error: "File not found" });
+          .json({ error: "Snippet not found" });
       }
 
-      if (file.userId !== user?.id) {
+      if (snippet.userId !== user?.id) {
         return res
           .status(StatusCodes.FORBIDDEN)
-          .json({ error: "File does not belong to user" });
+          .json({ error: "Snippet does not belong to user" });
       }
 
-      const numberOfDestroyedRows = await File.destroy({
-        where: { id: file.id },
+      const numberOfDestroyedRows = await Snippet.destroy({
+        where: { id: snippet.id },
       });
       if (numberOfDestroyedRows > 0) {
         res.status(204).end();
       } else {
-        res.status(404).send("File not found");
+        res.status(404).send("Snippet not found");
       }
     } catch (err) {
       const error = err as Error;
@@ -210,30 +210,30 @@ router.delete(
     }
 
     // These are for testing and development:
-    router.get("/filesNoAuth", async (req: Request, res: Response) => {
-      const files = await File.findAll();
-      res.json(files);
+    router.get("/snippetsNoAuth", async (req: Request, res: Response) => {
+      const snippets = await Snippet.findAll();
+      res.json(snippets);
     });
   }
 );
 
-router.post("/fileCreateRandom", verifyToken, async (req, res) => {
+router.post("/snippetCreateRandom", verifyToken, async (req, res) => {
   // from verifyToken, req.user has all the user info
   const username = req.body.username;
 
   const user = await User.findOne({ where: { username: username } });
 
-  const randName = Math.random().toString(36).substring(7);
+  const randTitle = Math.random().toString(36).substring(7);
 
-  const content = `console.log("Hello, ${generateRandomName()}");`;
+  const code = `console.log("Hello, ${generateRandomName()}");`;
 
   if (user) {
-    const file = await File.create({
-      name: randName,
-      content: content,
+    const snippet = await Snippet.create({
+      title: randTitle,
+      code: code,
       userId: user.id,
     });
-    res.json(file);
+    res.json(snippet);
   } else {
     res.status(StatusCodes.NOT_FOUND).json({ error: "User not found" });
   }
