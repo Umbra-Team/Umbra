@@ -73,7 +73,7 @@ function App({ clientToken }: AppProps) {
   };
 
   return clientToken ? (
-    <Flex direction={"column"} minH='100vh' bg='gray.100'>
+    <Flex direction={"column"} minH='100vh' bg='white'>
       <MainHeader
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
@@ -85,23 +85,24 @@ function App({ clientToken }: AppProps) {
         direction='column'
         p={6}
         gap={3}
-        bgGradient='linear(to-r, black, gray.100, blue.800)'
+        // bgGradient='linear(to-r, black, gray.100, blue.800)'
+        bg='white'
         align='center'
         maxWidth='75%'
         width='100%'
         justifyContent='center'
         margin='auto'
       >
-        <Box width='100%'>
-          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
-          <Button
+        <Box width='90%' margin='50px 0'>
+          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} onClick={() => sendCode(code)}/>
+          {/* <Button
             bg='blue.700'
             borderRadius='20'
             _hover={{ bg: "blue.900" }}
             onClick={() => sendCode(code)}
           >
             Run Code
-          </Button>
+          </Button> */}
           <OutputDisplay output={output} />
         </Box>
       </Flex>
@@ -109,7 +110,7 @@ function App({ clientToken }: AppProps) {
         placement={"right"}
         onClose={onLibraryClose}
         isOpen={isLibraryOpen}
-        size={"xl"}
+        size={"lg"}
         appendEditorContent={appendEditorContent}
         editorViewRef={editorViewRef}
       />

@@ -1,5 +1,6 @@
-import { Button, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading, Image } from "@chakra-ui/react";
 import HamburgerMenuButton from "./HamburgerMenuButton";
+import logo from '../../public/logo-transparent.png';
 import {
   signUp,
   confirmUserCode,
@@ -52,13 +53,16 @@ const MainHeader = ({
       align='center'
       justify='space-between'
       p={6}
-      // bg='gray.200'
-      bgGradient='linear(to-r, black, gray.100, blue.800)'
-      border='2px'
-      borderColor='gray.200'
+      bg='black'
+      // bgGradient='linear(to-r, black, gray.100, blue.800)'
+      // border='2px'
+      // borderColor='gray.200'
     >
-      <Heading size='lg' fontWeight='bold' color='gray.900'>
-        Umbra
+      <Heading size='lg' fontWeight='bold' color='white'>
+        <Flex align='center'>
+          <Image src={logo} boxSize="40px" alt="Logo" mr={2} />
+          Umbra
+        </Flex>
       </Heading>
       <Flex align='center' gap={10}>
         <Button

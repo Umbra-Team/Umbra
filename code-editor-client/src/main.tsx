@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import { theme } from './theme';
 import App from "./App";
 import axios from "axios";
 import { YDocProvider } from "@y-sweet/react";
@@ -12,28 +13,6 @@ import { Snippet } from "./types/types";
 import { getAllUserFiles } from "./services/files";
 
 const EXPRESS_SERVER_ENDPOINT = "/api";
-
-const theme = extendTheme({
-  colors: {
-    gray: {
-      100: "#1E1E1E",
-      200: "#252526",
-      800: "#D4D4D4",
-      900: "#F8F8F8",
-    },
-    blue: {
-      500: "#007ACC",
-    },
-  },
-  fonts: {
-    body: "Georgia, serif",
-    heading: "Georgia, serif",
-  },
-  config: {
-    initialColorMode: "dark",
-    useSystemColorMode: false,
-  },
-});
 
 const AppWrapper = () => {
   // Y-Sweet token

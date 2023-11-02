@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useMemo } from "react";
 import * as random from "lib0/random";
 
 // Chakra UI related
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Button } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -11,11 +11,6 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 
 // CM6 editor options
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
-// import {
-//   syntaxHighlighting,
-//   defaultHighlightStyle,
-//   bracketMatching
-// } from '@codemirror/language';
 import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 
@@ -93,11 +88,13 @@ type SetEditorViewRef = (
 export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
+  onClick: () => void;
 };
 
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
+  onClick,
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -170,7 +167,7 @@ export const Editor: React.FC<EditorProps> = ({
     // renders the CodeMirror editor in the browser; sets the parent element to the div that holds the ref
     view.current = new EditorView({ state, parent: editorRef.current });
 
-    // cleanup function (?)
+    // cleanup function 
     return () => {
       if (view.current) {
         view.current.destroy();
@@ -179,21 +176,25 @@ export const Editor: React.FC<EditorProps> = ({
     };
   }, []);
 
-  // should maybe add a timer to this for debouncing
-  // useEffect(() => {
-  //   if (view.current && view.current.state.doc.toString() !== code) {
-  //     view.current.dispatch({
-  //       changes: { from: 0, to: view.current.state.doc.length, insert: "" }
-  //     });
-  //   }
-  // }, [code])
-  //
   return (
-    <Box flex='1' bg='gray.200' p={3} borderRadius='15' overflow='auto'>
-      <Heading size='md' mb='3' color='white'>
+    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' margin='10px 0'>
+
+      {/* <Heading size='md' mb='3' color='white'>
         Code Editor
-      </Heading>
+      </Heading> */}
       <div ref={editorRef} />
+      <Box display='flex' justifyContent='flex-end'>
+        <Button
+          size='sm'
+          bg='blue.700'
+          borderRadius='20'
+          _hover={{ bg: "blue.900" }}
+          onClick={onClick}
+          marginTop='2'
+        >
+          Run Code
+        </Button>
+      </Box>
     </Box>
   );
 };
