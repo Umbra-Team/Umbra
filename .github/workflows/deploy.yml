@@ -1,4 +1,4 @@
-name: Build and Deploy to AWS Lightsail
+name: Build and Deploy Code Execution Server to AWS Lightsail
 
 on:
   push:

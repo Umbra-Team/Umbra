@@ -1,4 +1,4 @@
-name: Build and Deploy to AWS Lightsail
+name: Build and Deploy Code Execution Server to AWS Lightsail
 
 on:
   push:
@@ -58,23 +58,26 @@ jobs:
       - name: Print container.template.json
         run: cat container.template.json
 
-      - name: Push and Deploy
+      - name: Push Image
         run: |
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
-            --service-name ${service_name} \
-            --label ${service_name} \
-            --image ${service_name}:release
-          echo "Pushed image: ${service_name}:release"
-          container_images=$(aws lightsail get-container-images --service-name ${service_name})
+            --service-name ${service_name}} \
+            --label ${service_name}} \
+            --image ${service_name}}:release
+          echo "Pushed image: ${service_name}}:release"
+          container_images=$(aws lightsail get-container-images --service-name ${service_name}})
           echo "Container images: $container_images"
           image=$(echo "$container_images" | jq --raw-output ".containerImages[0].image")
           echo "Extracted image: $image"
           echo $image > image.txt
-          jq --arg image $(cat image.txt || echo "default_image") '.containers.express-server.image = $image' container.template.json > container.json || echo "Failed to modify container.json"
-          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
-
+      
+      - name: Update container image with Python and Deploy
+        run: |
+          python3 update_image.py
+          service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
+          aws lightsail create-container-service-deployment --service-name ${service_name}} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
       - name: Echo image.txt file
         run: cat image.txt
 
