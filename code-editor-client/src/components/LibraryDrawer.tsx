@@ -14,13 +14,7 @@ import * as React from "react";
 import { CognitoContext } from "../context/cognito";
 import NewLibrarySnippet from "./NewLibrarySnippet";
 import LibrarySnippet from "./LibrarySnippet";
-// import generateId from "../utils/generateId";
-// import { LibrarySnippetData } from "../utils/fetchLibraryData";
 import { EditorView } from "codemirror";
-// import {
-//   fetchLibraryData,
-//   LibrarySnippetData,
-// } from "../utils/fetchLibraryData";
 import {
   createSnippet,
   editSnippet,
@@ -60,10 +54,6 @@ const LibraryDrawer = ({
           const librarySnippetData = await getAllUserSnippets(
             cognitoClientToken
           );
-          console.log(`Cognito token is ${cognitoClientToken}`);
-          console.log(`librarySnippetData is ${librarySnippetData}`);
-          // const librarySnippetData = await fetchLibraryData();
-
           setLibrarySnippets(librarySnippetData);
         } catch (e) {
           console.error(e);
@@ -159,7 +149,6 @@ const LibraryDrawer = ({
         <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
           <SimpleGrid
             spacing={5}
-            // templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
             templateColumns='repeat(1, minmax(600px, 1fr))'
           >
             {addSnippetMode ? (

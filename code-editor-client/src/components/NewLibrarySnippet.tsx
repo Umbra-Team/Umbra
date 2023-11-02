@@ -10,7 +10,6 @@ import {
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
 import { useState, useRef } from "react";
-import generateId from "../utils/generateId";
 
 type NewLibrarySnippetProps = {
   handleAddSnippet: Function;
