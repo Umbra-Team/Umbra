@@ -11,8 +11,8 @@ class User extends Model {
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
-  public addFile!: HasManyAddAssociationMixin<File, number>;
-  public getFiles!: HasManyAddAssociationMixin<File, number>;
+  public addSnippet!: HasManyAddAssociationMixin<File, number>;
+  public getSnippets!: HasManyAddAssociationMixin<File, number>;
 }
 
 User.init({

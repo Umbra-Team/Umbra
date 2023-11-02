@@ -11,6 +11,6 @@ export const getAllUserFiles = async (cognitoClientToken: string): Promise<Snipp
     headers: tokenToHeader(cognitoClientToken),
   };
   
-  const response = await axios.get(`${baseUrl}/files`, config);
+  const response = await axios.get(`${baseUrl}/snippets`, config);
   return response.data as Snippet[];
 };

@@ -3,29 +3,29 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../utils/sequelize';
 
-class File extends Model {
+class Snippet extends Model {
   public id!: number;
-  public name!: string;
-  public content!: string;
+  public title!: string;
+  public code!: string;
   public userId!: number;
   // timestamps!
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 }
 
-File.init({
+Snippet.init({
   // attributes
   id: {
     type: DataTypes.INTEGER.UNSIGNED,
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  content: {
+  code: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
@@ -40,9 +40,9 @@ File.init({
   // add more attributes here
 }, {
   sequelize,
-  modelName: 'File',
+  modelName: 'Snippet',
   timestamps: true,
   createdAt: 'created_at',
 });
 
-export default File;
+export default Snippet;
