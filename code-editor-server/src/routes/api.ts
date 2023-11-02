@@ -133,6 +133,7 @@ router.patch(
       const user = await User.findOne({ where: { username: username } });
       const { snippetId } = req.params;
       const snippet = await Snippet.findByPk(snippetId);
+      console.log(`PATCH: snippetId = ${snippetId}`);
 
       if (!snippet) {
         return res
@@ -146,10 +147,13 @@ router.patch(
           .json({ error: "Snippet does not belong to user" });
       }
 
-      const [numberOfAffectedRows, affectedRows] = await Snippet.update(req.body, {
-        where: { id: snippet.id },
-        returning: true,
-      });
+      const [numberOfAffectedRows, affectedRows] = await Snippet.update(
+        req.body,
+        {
+          where: { id: snippet.id },
+          returning: true,
+        }
+      );
 
       if (numberOfAffectedRows > 0) {
         res.json(affectedRows[0]);

@@ -4,6 +4,7 @@ import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
 import App from "./App";
 import axios from "axios";
 import { YDocProvider } from "@y-sweet/react";
+import { CognitoContext } from "./context/cognito";
 
 import "./utils/aws-config";
 import { Auth } from "aws-amplify";
@@ -63,7 +64,9 @@ const AppWrapper = () => {
     if (user) {
       const loadClientLibrary = async () => {
         try {
-          const snippets: Snippet[] = await getAllUserSnippets(cognitoClientToken);
+          const snippets: Snippet[] = await getAllUserSnippets(
+            cognitoClientToken
+          );
 
           console.log(`User snippets response: ${JSON.stringify(snippets)}`);
           console.log(
@@ -97,17 +100,19 @@ const AppWrapper = () => {
   }
 
   return (
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
-        {user ? (
-          <div>Logged in as {user.username}</div>
-        ) : (
-          <div>Not logged in</div>
-        )}
-        <App clientToken={YSweetClientToken} />
-      </YDocProvider>
-    </ChakraProvider>
+    <CognitoContext.Provider value={cognitoClientToken}>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
+          {user ? (
+            <div>Logged in as {user.username}</div>
+          ) : (
+            <div>Not logged in</div>
+          )}
+          <App clientToken={YSweetClientToken} />
+        </YDocProvider>
+      </ChakraProvider>
+    </CognitoContext.Provider>
   );
 };
 

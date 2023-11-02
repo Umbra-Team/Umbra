@@ -11,15 +11,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 import * as React from "react";
+import { CognitoContext } from "../context/cognito";
 import NewLibrarySnippet from "./NewLibrarySnippet";
 import LibrarySnippet from "./LibrarySnippet";
-import generateId from "../utils/generateId";
+// import generateId from "../utils/generateId";
 // import { LibrarySnippetData } from "../utils/fetchLibraryData";
 import { EditorView } from "codemirror";
+// import {
+//   fetchLibraryData,
+//   LibrarySnippetData,
+// } from "../utils/fetchLibraryData";
 import {
-  fetchLibraryData,
-  LibrarySnippetData,
-} from "../utils/fetchLibraryData";
+  createSnippet,
+  editSnippet,
+  deleteSnippet,
+  getAllUserSnippets,
+} from "../services/snippets";
+import { Snippet } from "../types/types";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -28,8 +36,6 @@ type LibraryDrawerProps = {
   onClose: () => void;
   isOpen: boolean;
   size: string;
-  // librarySnippets: LibrarySnippetData[];
-  // setLibrarySnippets: Function;
   appendEditorContent: Function;
   editorViewRef: React.MutableRefObject<EditorView | undefined>;
 };
@@ -39,60 +45,84 @@ const LibraryDrawer = ({
   onClose,
   isOpen,
   size,
-  // librarySnippets,
-  // setLibrarySnippets,
   appendEditorContent,
   editorViewRef,
 }: LibraryDrawerProps) => {
-  const [librarySnippets, setLibrarySnippets] = React.useState<
-    LibrarySnippetData[]
-  >([]);
+  const [librarySnippets, setLibrarySnippets] = React.useState<Snippet[]>([]);
   const [addSnippetMode, setAddSnippetMode] = React.useState(false);
+  const cognitoClientToken = React.useContext(CognitoContext);
 
   React.useEffect(() => {
     if (editorViewRef) {
       const fetchAndSetLibrarySnippetData = async () => {
-        const librarySnippetData = await fetchLibraryData();
+        try {
+          const librarySnippetData = await getAllUserSnippets(
+            cognitoClientToken
+          );
+          console.log(`Cognito token is ${cognitoClientToken}`);
+          console.log(`librarySnippetData is ${librarySnippetData}`);
+          // const librarySnippetData = await fetchLibraryData();
 
-        setLibrarySnippets(librarySnippetData);
+          setLibrarySnippets(librarySnippetData);
+        } catch (e) {
+          console.error(e);
+        }
       };
       fetchAndSetLibrarySnippetData();
     }
   }, [editorViewRef]);
 
-  const handleAddSnippet = (code: string, title: string) => {
-    const newSnippetData = {
-      id: generateId(),
-      title,
-      code,
-    };
+  const handleAddSnippet = async (code: string, title: string) => {
+    try {
+      const newSnippet = await createSnippet(cognitoClientToken, title, code);
 
-    setLibrarySnippets((prevSnippets: LibrarySnippetData[]) => [
-      ...prevSnippets,
-      newSnippetData,
-    ]);
-    setAddSnippetMode(false);
+      setLibrarySnippets((prevSnippets: Snippet[]) => [
+        ...prevSnippets,
+        newSnippet,
+      ]);
+      setAddSnippetMode(false);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const handleUpdateSnippet = (
+  const handleUpdateSnippet = async (
     id: number,
     newCode: string,
     newTitle: string
   ) => {
-    setLibrarySnippets((prevSnippets: LibrarySnippetData[]) =>
-      prevSnippets.map((snippet) =>
-        snippet.id === id
-          ? { ...snippet, code: newCode, title: newTitle }
-          : snippet
-      )
-    );
+    try {
+      const updatedSnippet = await editSnippet(
+        cognitoClientToken,
+        id,
+        newTitle,
+        newCode
+      );
+      setLibrarySnippets((prevSnippets: Snippet[]) =>
+        prevSnippets.map((snippet) =>
+          snippet.id === updatedSnippet.id
+            ? {
+                ...snippet,
+                code: updatedSnippet.code,
+                title: updatedSnippet.title,
+              }
+            : snippet
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleDeleteSnippet = (id: number) => {
-    setLibrarySnippets((prevSnippets: LibrarySnippetData[]) =>
-      prevSnippets.filter((snippet: LibrarySnippetData) => snippet.id !== id)
-    );
+  const handleDeleteSnippet = async (id: number) => {
+    try {
+      const allSnippets = await deleteSnippet(cognitoClientToken, id);
+      setLibrarySnippets(allSnippets);
+    } catch (e) {
+      console.error(e);
+    }
   };
+
   return (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
@@ -131,7 +161,7 @@ const LibraryDrawer = ({
                 handleCancel={() => setAddSnippetMode(false)}
               />
             ) : null}
-            {librarySnippets.map((snippet: LibrarySnippetData) => (
+            {librarySnippets.map((snippet: Snippet) => (
               <LibrarySnippet
                 key={snippet.id}
                 id={snippet.id}
