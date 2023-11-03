@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, Image, Spacer, Divider } from "@chakra-ui/react";
 import HamburgerMenuButton from "./HamburgerMenuButton";
-import logo from '../../public/logo-transparent.png';
+import logo from '../assets/logo-transparent.png';
 import {
   signUp,
   confirmUserCode,

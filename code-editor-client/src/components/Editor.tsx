@@ -1,8 +1,8 @@
-import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useRef, useEffect, useCallback, useMemo, Dispatch, SetStateAction } from "react";
 import * as random from "lib0/random";
 
-// Chakra UI related
-import { Box, Heading, Button } from "@chakra-ui/react";
+// UI related
+import { Box, Button } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -89,12 +89,20 @@ export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
   onClick: () => void;
+  setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
+  orientationIcon: React.ReactElement;
+  width: string;
+  height: string;
 };
 
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
   onClick,
+  setOrientation,
+  orientationIcon,
+  width,
+  height
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -108,6 +116,12 @@ export const Editor: React.FC<EditorProps> = ({
 
   const awareness = useAwareness();
   const userColor = usercolors[random.uint32() % usercolors.length];
+
+  const toggleOrientation = () => {
+    setOrientation(prev => prev === 'horizontal' ? 'vertical' : 'horizontal')
+  }
+
+
 
   useEffect(() => {
     setEditorViewRef(view);
@@ -139,8 +153,8 @@ export const Editor: React.FC<EditorProps> = ({
     () =>
       EditorView.theme({
         "&": {
-          height: "40vh",
-          width: "100%",
+          height,
+          width,
         }
       }),
     []
@@ -177,7 +191,7 @@ export const Editor: React.FC<EditorProps> = ({
   }, []);
 
   return (
-    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' margin='10px 0'>
+    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' >
 
       {/* <Heading size='md' mb='3' color='white'>
         Code Editor
@@ -189,6 +203,9 @@ export const Editor: React.FC<EditorProps> = ({
         </Button>
       </Box> */}
       <Box display='flex' justifyContent='flex-end'>
+        <Button size='sm' marginTop='2' onClick={toggleOrientation}>
+          {orientationIcon}
+        </Button>
         <Button
           color="white"
           size='sm'
