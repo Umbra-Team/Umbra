@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useMemo } from "react";
+import React, { useRef, useEffect, useCallback, useMemo } from "react";
 import * as random from "lib0/random";
 
 // Chakra UI related
