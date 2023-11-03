@@ -1,9 +1,9 @@
-name: Build and Deploy to AWS Lightsail
+name: Build and Deploy Code Execution Server to AWS Lightsail
 
 on:
   push:
     branches:
-      - pg-api
+      - main
   workflow_dispatch:
 
 env:
@@ -14,12 +14,8 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout pg-api
+      - name: Checkout main
         uses: actions/checkout@v2
-      
-      - uses: KengoTODA/actions-setup-docker-compose@v1
-        with:
-          version: '2.14.2' # the full version of `docker-compose` command
 
       - name: Create .env file
         run: |
@@ -28,10 +24,13 @@ jobs:
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+          echo USE_SSL=${{ secrets.USE_SSL }} >> .env
+          echo WHICH_ENV=${{ secrets.WHICH_ENV }} >> .env
           echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
           echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
           echo AWS_COGNITO_REGION=${{ secrets.AWS_COGNITO_REGION }} >> .env
           echo COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }} >> .env
+          echo .env
 
       - name: Install Utilities
         run: |
@@ -56,9 +55,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Build Docker Image
-        run: docker-compose -f docker-compose.prod.yml up -d --build
+        run: docker build -t ${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
 
-      - name: Push and Deploy
+      - name: Print container.template.json
+        run: cat container.template.json
+
+      - name: Push Image
         run: |
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail push-container-image \
@@ -66,6 +68,20 @@ jobs:
             --service-name ${service_name} \
             --label ${service_name} \
             --image ${service_name}:release
-          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt || echo "Failed to get container images"
-          jq --arg image $(cat image.txt || echo "default_image") '.containers.app.image = $image' container.template.json > container.json || echo "Failed to modify container.json"
+          echo "Pushed image: ${service_name}:release"
+          container_images=$(aws lightsail get-container-images --service-name ${service_name})
+          echo "Container images: $container_images"
+          image=$(echo "$container_images" | jq --raw-output ".containerImages[0].image")
+          echo "Extracted image: $image"
+          echo $image > image.txt
+      
+      - name: Update container image with Python and Deploy
+        run: |
+          python3 update_image.py
+          service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
+      - name: Echo image.txt file
+        run: cat image.txt
+
+      - name: Echo container.json file
+        run: cat container.json
