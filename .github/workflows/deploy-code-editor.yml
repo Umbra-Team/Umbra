@@ -3,7 +3,7 @@ name: Build and Deploy Code Execution Server to AWS Lightsail
 on:
   push:
     branches:
-      - github-workflow-11-02
+      - main
   workflow_dispatch:
 
 env:
@@ -14,7 +14,7 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout fred_bethany_api
+      - name: Checkout main
         uses: actions/checkout@v2
 
       - name: Create .env file
