@@ -73,7 +73,7 @@ function App({ clientToken }: AppProps) {
   };
 
   return clientToken ? (
-    <Flex direction={"column"} minH='100vh' bg='white'>
+    <Flex direction={"column"} minH='100vh' bg='#FFFFFF'>
       <MainHeader
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
@@ -93,7 +93,7 @@ function App({ clientToken }: AppProps) {
         justifyContent='center'
         margin='auto'
       >
-        <Box width='90%' margin='50px 0'>
+        <Box width='70%' margin='30px 0'>
           <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} onClick={() => sendCode(code)}/>
           {/* <Button
             bg='blue.700'

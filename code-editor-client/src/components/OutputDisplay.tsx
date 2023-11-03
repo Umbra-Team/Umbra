@@ -61,7 +61,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
         </Heading>
         <CodeMirror
           value={parsedOutput.output}
-          height='35vh'
+          height='25vh'
           width='100%'
           theme={vscodeDark}
           readOnly={true}
@@ -76,7 +76,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
         </Heading>
         <CodeMirror
           value={errorText}
-          height='35vh'
+          height='25vh'
           width='100%'
           theme={vscodeDark}
           readOnly={true}

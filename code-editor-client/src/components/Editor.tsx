@@ -12,7 +12,7 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 // CM6 editor options
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
-import { oneDark } from "@codemirror/theme-one-dark";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 // yjs and associates
 import * as Y from "yjs";
@@ -141,7 +141,7 @@ export const Editor: React.FC<EditorProps> = ({
         "&": {
           height: "40vh",
           width: "100%",
-        },
+        }
       }),
     []
   );
@@ -156,7 +156,7 @@ export const Editor: React.FC<EditorProps> = ({
         basicSetup,
         history(),
         keymap.of([...defaultKeymap, indentWithTab]),
-        oneDark,
+        vscodeDark,
         theme,
         updateListener,
         javascript(),
@@ -183,12 +183,18 @@ export const Editor: React.FC<EditorProps> = ({
         Code Editor
       </Heading> */}
       <div ref={editorRef} />
+      {/* <Box display='flex' justifyContent='flex-start'>
+        <Button marginTop='2'>
+         Test 
+        </Button>
+      </Box> */}
       <Box display='flex' justifyContent='flex-end'>
         <Button
+          color="white"
           size='sm'
-          bg='blue.700'
-          borderRadius='20'
-          _hover={{ bg: "blue.900" }}
+          bg='#0096FF'
+          // borderRadius='20'
+          _hover={{ bg: "#04BCF9" }}
           onClick={onClick}
           marginTop='2'
         >

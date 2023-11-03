@@ -17,7 +17,7 @@ export const theme = extendTheme({
     },
   },
   fonts: {
-    body: "'Crimson Pro', sans-serif",
+    body: "'Nunito', serif",
     heading: "'Nunito', serif",
   },
   config: {
