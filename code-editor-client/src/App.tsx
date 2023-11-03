@@ -16,13 +16,15 @@ import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 interface AppProps {
-  clientToken: string;
+  ySweetClientToken: string;
+  user?: any;
+  setUser: Function;
 }
 
-function App({ clientToken }: AppProps) {
+function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(!!user);
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
 
   // Modal actions for Snippet Library
@@ -90,12 +92,12 @@ function App({ clientToken }: AppProps) {
   const outputWidth = orientation === 'horizontal' ? '100vh' : '75vh';
   const outputHeight = orientation === 'horizontal' ? '25vh' : '50vh';
 
-  return clientToken ? (
+  return ySweetClientToken ? (
     <Flex direction={"column"} minH='100vh' bg='#FFFFFF' justify='space-between'>
-      <Flex direction='column'>
+    <Flex direction='column'>
       <MainHeader
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+        setUser={setUser}
         replaceEditorContent={replaceEditorContent}
         appendEditorContent={appendEditorContent}
         onLibraryOpen={onLibraryOpen}
@@ -129,6 +131,7 @@ function App({ clientToken }: AppProps) {
         </Box>
       </Flex>
       <LibraryDrawer
+        user={user}
         placement={"right"}
         onClose={onLibraryClose}
         isOpen={isLibraryOpen}

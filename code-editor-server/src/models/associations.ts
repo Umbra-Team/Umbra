@@ -1,11 +1,11 @@
 import sequelize from '../utils/sequelize';
 import User from './User';
-import File from './File';
+import Snippet from './Snippet';
 
-User.hasMany(File, {
+User.hasMany(Snippet, {
   sourceKey: 'id',
   foreignKey: 'userId',
-  as: 'files',
+  as: 'snippets',
 });
 
-File.belongsTo(User, { foreignKey: 'userId' });
+Snippet.belongsTo(User, { foreignKey: 'userId' });

@@ -8,18 +8,19 @@ import {
   signIn,
 } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler } from "react";
+import { CognitoUser } from "@aws-amplify/auth";
 
 interface MainHeaderProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
+  user: CognitoUser | null;
+  setUser: Function;
   replaceEditorContent: (content: string) => void;
   appendEditorContent: (content: string) => void;
   onLibraryOpen: MouseEventHandler;
 }
 
 const MainHeader = ({
-  isLoggedIn,
-  setIsLoggedIn,
+  user,
+  setUser,
   replaceEditorContent,
   appendEditorContent,
   onLibraryOpen,
@@ -27,14 +28,13 @@ const MainHeader = ({
   // Click handlers
   const handleLoginClick = () => {
     console.log("Login button was clicked");
-    signIn();
-    setIsLoggedIn(true);
+    signIn(setUser);
   };
 
   const handleLogoutClick = () => {
     console.log("Logout button was clicked");
     logout();
-    setIsLoggedIn(false);
+    setUser(null);
   };
 
   const handleSignUpClick = () => {
@@ -60,6 +60,7 @@ const MainHeader = ({
       // border='2px'
       // borderColor='gray.200'
     >
+<<<<<<< HEAD
 
       <Flex align="center">
         <Heading size='lg' fontWeight='bold' color='#0096FF'>
@@ -131,6 +132,65 @@ const MainHeader = ({
         replaceEditorContent={replaceEditorContent}
         appendEditorContent={appendEditorContent}
       />
+=======
+      <Heading size='lg' fontWeight='bold' color='gray.900'>
+        Umbra
+      </Heading>
+      <Flex align='center' gap={10}>
+        <Button
+          bg='transparent'
+          _hover={{
+            color: "white",
+            fontWeight: "bold",
+            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+          }}
+          onClick={user ? handleLogoutClick : handleLoginClick}
+          _active={{ bg: "transparent" }}
+        >
+          {user ? "Logout" : "Login"}
+        </Button>
+        <Button
+          bg='transparent'
+          _hover={{
+            color: "white",
+            fontWeight: "bold",
+            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+          }}
+          onClick={handleSignUpClick}
+          _active={{ bg: "transparent" }}
+        >
+          Sign Up
+        </Button>
+        <Button
+          bg='transparent'
+          _hover={{
+            color: "white",
+            fontWeight: "bold",
+            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+          }}
+          onClick={handleConfirmCodeClick}
+          _active={{ bg: "transparent" }}
+        >
+          Confirm User Code
+        </Button>
+        <Button
+          bg='transparent'
+          fontSize='20px'
+          _hover={{
+            color: "white",
+            fontWeight: "bold",
+            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+          }}
+          onClick={onLibraryOpen}
+          _active={{ bg: "transparent" }}
+        >
+          Code Library
+        </Button>
+        <HamburgerMenuButton
+          replaceEditorContent={replaceEditorContent}
+          appendEditorContent={appendEditorContent}
+        />
+>>>>>>> main
       </Flex>
     </Flex>
   );
