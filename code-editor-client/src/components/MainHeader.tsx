@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Image, Spacer, Divider } from "@chakra-ui/react";
+import { Button, Flex, Heading, Image, Spacer } from "@chakra-ui/react";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import logo from '../assets/logo-transparent.png';
 import {
@@ -60,7 +60,6 @@ const MainHeader = ({
       // border='2px'
       // borderColor='gray.200'
     >
-<<<<<<< HEAD
 
       <Flex align="center">
         <Heading size='lg' fontWeight='bold' color='#0096FF'>
@@ -80,10 +79,10 @@ const MainHeader = ({
           fontWeight: "bold",
           // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
         }}
-        onClick={isLoggedIn ? handleLogoutClick : handleLoginClick}
+        onClick={user ? handleLogoutClick : handleLoginClick}
         _active={{ bg: "transparent" }}
       >
-        {isLoggedIn ? "Logout" : "Login"}
+        {user ? "Logout" : "Login"}
       </Button>
       <Button
         bg='transparent'
@@ -132,66 +131,7 @@ const MainHeader = ({
         replaceEditorContent={replaceEditorContent}
         appendEditorContent={appendEditorContent}
       />
-=======
-      <Heading size='lg' fontWeight='bold' color='gray.900'>
-        Umbra
-      </Heading>
-      <Flex align='center' gap={10}>
-        <Button
-          bg='transparent'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={user ? handleLogoutClick : handleLoginClick}
-          _active={{ bg: "transparent" }}
-        >
-          {user ? "Logout" : "Login"}
-        </Button>
-        <Button
-          bg='transparent'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={handleSignUpClick}
-          _active={{ bg: "transparent" }}
-        >
-          Sign Up
-        </Button>
-        <Button
-          bg='transparent'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={handleConfirmCodeClick}
-          _active={{ bg: "transparent" }}
-        >
-          Confirm User Code
-        </Button>
-        <Button
-          bg='transparent'
-          fontSize='20px'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={onLibraryOpen}
-          _active={{ bg: "transparent" }}
-        >
-          Code Library
-        </Button>
-        <HamburgerMenuButton
-          replaceEditorContent={replaceEditorContent}
-          appendEditorContent={appendEditorContent}
-        />
->>>>>>> main
-      </Flex>
+    </Flex>
     </Flex>
   );
 };

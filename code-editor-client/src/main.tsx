@@ -10,7 +10,6 @@ import "./utils/aws-config";
 import { Auth } from "aws-amplify";
 import { Snippet } from "./types/types";
 
-import { getAllUserSnippets } from "./services/snippets";
 
 const EXPRESS_SERVER_ENDPOINT = "/api";
 
