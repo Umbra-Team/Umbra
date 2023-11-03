@@ -7,18 +7,19 @@ import {
   signIn,
 } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler } from "react";
+import { CognitoUser } from "@aws-amplify/auth";
 
 interface MainHeaderProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
+  user: CognitoUser | null;
+  setUser: Function;
   replaceEditorContent: (content: string) => void;
   appendEditorContent: (content: string) => void;
   onLibraryOpen: MouseEventHandler;
 }
 
 const MainHeader = ({
-  isLoggedIn,
-  setIsLoggedIn,
+  user,
+  setUser,
   replaceEditorContent,
   appendEditorContent,
   onLibraryOpen,
@@ -26,14 +27,13 @@ const MainHeader = ({
   // Click handlers
   const handleLoginClick = () => {
     console.log("Login button was clicked");
-    signIn();
-    setIsLoggedIn(true);
+    signIn(setUser);
   };
 
   const handleLogoutClick = () => {
     console.log("Logout button was clicked");
     logout();
-    setIsLoggedIn(false);
+    setUser(null);
   };
 
   const handleSignUpClick = () => {
@@ -68,10 +68,10 @@ const MainHeader = ({
             fontWeight: "bold",
             textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
           }}
-          onClick={isLoggedIn ? handleLogoutClick : handleLoginClick}
+          onClick={user ? handleLogoutClick : handleLoginClick}
           _active={{ bg: "transparent" }}
         >
-          {isLoggedIn ? "Logout" : "Login"}
+          {user ? "Logout" : "Login"}
         </Button>
         <Button
           bg='transparent'
