@@ -63,11 +63,11 @@ jobs:
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
-            --service-name ${service_name}} \
-            --label ${service_name}} \
-            --image ${service_name}}:release
-          echo "Pushed image: ${service_name}}:release"
-          container_images=$(aws lightsail get-container-images --service-name ${service_name}})
+            --service-name ${service_name} \
+            --label ${service_name} \
+            --image ${service_name}:release
+          echo "Pushed image: ${service_name}:release"
+          container_images=$(aws lightsail get-container-images --service-name ${service_name})
           echo "Container images: $container_images"
           image=$(echo "$container_images" | jq --raw-output ".containerImages[0].image")
           echo "Extracted image: $image"
@@ -77,7 +77,7 @@ jobs:
         run: |
           python3 update_image.py
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
-          aws lightsail create-container-service-deployment --service-name ${service_name}} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json || echo "Failed to deploy"
       - name: Echo image.txt file
         run: cat image.txt
 
