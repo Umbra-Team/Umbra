@@ -170,7 +170,7 @@ export const Editor: React.FC<EditorProps> = ({
     // renders the CodeMirror editor in the browser; sets the parent element to the div that holds the ref
     view.current = new EditorView({ state, parent: editorRef.current });
 
-    // cleanup function (?)
+    // cleanup 
     return () => {
       if (view.current) {
         view.current.destroy();

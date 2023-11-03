@@ -34,6 +34,7 @@ function App({ clientToken }: AppProps) {
     React.MutableRefObject<EditorView | undefined>
   >({ current: undefined });
 
+
   const CODE_EXECUTION_ENDPOINT =
     "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
 
