@@ -9,18 +9,12 @@ import {
   Button,
   Flex,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { CognitoContext } from "../context/cognito";
 import NewLibrarySnippet from "./NewLibrarySnippet";
 import LibrarySnippet from "./LibrarySnippet";
-// import generateId from "../utils/generateId";
-// import { LibrarySnippetData } from "../utils/fetchLibraryData";
 import { EditorView } from "codemirror";
-// import {
-//   fetchLibraryData,
-//   LibrarySnippetData,
-// } from "../utils/fetchLibraryData";
 import {
   createSnippet,
   editSnippet,
@@ -32,7 +26,7 @@ import { Snippet } from "../types/types";
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
 type LibraryDrawerProps = {
-  user?: any;
+  user: any;
   placement: DrawerPlacement;
   onClose: () => void;
   isOpen: boolean;
@@ -42,6 +36,7 @@ type LibraryDrawerProps = {
 };
 
 const LibraryDrawer = ({
+  user,
   placement,
   onClose,
   isOpen,
@@ -51,27 +46,27 @@ const LibraryDrawer = ({
 }: LibraryDrawerProps) => {
   const [librarySnippets, setLibrarySnippets] = React.useState<Snippet[]>([]);
   const [addSnippetMode, setAddSnippetMode] = React.useState(false);
-  const cognitoClientToken = React.useContext(CognitoContext);
+  const cognitoClientToken = user?.signInUserSession.accessToken.jwtToken;
 
   React.useEffect(() => {
-    if (editorViewRef) {
-      const fetchAndSetLibrarySnippetData = async () => {
-        try {
-          const librarySnippetData = await getAllUserSnippets(
-            cognitoClientToken
-          );
-          console.log(`Cognito token is ${cognitoClientToken}`);
-          console.log(`librarySnippetData is ${librarySnippetData}`);
-          // const librarySnippetData = await fetchLibraryData();
-
-          setLibrarySnippets(librarySnippetData);
-        } catch (e) {
-          console.error(e);
-        }
-      };
-      fetchAndSetLibrarySnippetData();
+    if (user) {
+      if (editorViewRef) {
+        const fetchAndSetLibrarySnippetData = async () => {
+          try {
+            const librarySnippetData = await getAllUserSnippets(
+              cognitoClientToken
+            );
+            setLibrarySnippets(librarySnippetData);
+          } catch (e) {
+            console.error(e);
+          }
+        };
+        fetchAndSetLibrarySnippetData();
+      }
+    } else {
+      setLibrarySnippets([]);
     }
-  }, [editorViewRef]);
+  }, [editorViewRef, user]);
 
   const handleAddSnippet = async (code: string, title: string) => {
     try {
@@ -130,7 +125,7 @@ const LibraryDrawer = ({
     }
   };
 
-  return (
+  return user ? (
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
@@ -155,11 +150,9 @@ const LibraryDrawer = ({
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-
         <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
           <SimpleGrid
             spacing={5}
-            // templateColumns='repeat(auto-fill, minmax(300px, 1fr))'
             templateColumns='repeat(1, minmax(600px, 1fr))'
           >
             {addSnippetMode ? (
@@ -181,6 +174,15 @@ const LibraryDrawer = ({
             ))}
           </SimpleGrid>
         </DrawerBody>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
+      <DrawerOverlay />
+      <DrawerContent>
+        <Box>
+          <Text>Nope</Text>
+        </Box>
       </DrawerContent>
     </Drawer>
   );

@@ -10,7 +10,6 @@ import {
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
 import { useState, useRef } from "react";
-import generateId from "../utils/generateId";
 
 type NewLibrarySnippetProps = {
   handleAddSnippet: Function;
@@ -47,8 +46,7 @@ const NewLibrarySnippet = ({
       pr='2'
       minH='300px'
       align='center'
-      // FIX THIS ID LATER
-      id={String(generateId())}
+      id='new'
       minHeight='400px'
     >
       <CardHeader textAlign='center'>
