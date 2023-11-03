@@ -33,9 +33,11 @@ import { Box, Heading } from "@chakra-ui/react";
 
 interface OutputDisplayProps {
   output: string;
+  width: string;
+  height: string;
 }
 
-const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
+const OutputDisplay: React.FC<OutputDisplayProps> = ({ output, width, height }) => {
   const parsedOutput = output ? JSON.parse(output) : {};
 
   let errorText = parsedOutput.error ? parsedOutput.error : null;
@@ -55,14 +57,14 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
 
   if (!errorText) {
     return (
-      <Box flex='1' bg='gray.200' p={3} borderRadius='15' overflow='auto'>
+      <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto'>
         <Heading color='white' size='md' mb='3'>
           Output
         </Heading>
         <CodeMirror
           value={parsedOutput.output}
-          height='35vh'
-          width='100%'
+          height={height}
+          width={width}
           theme={vscodeDark}
           readOnly={true}
         />
@@ -76,7 +78,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output }) => {
         </Heading>
         <CodeMirror
           value={errorText}
-          height='35vh'
+          height='25vh'
           width='100%'
           theme={vscodeDark}
           readOnly={true}

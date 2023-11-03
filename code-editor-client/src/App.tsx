@@ -3,9 +3,14 @@ import OutputDisplay from "./components/OutputDisplay";
 import React, { useState } from "react";
 import axios from "axios";
 
-import { Button, Flex, Box } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
+
+// icons
+import { Image } from "@chakra-ui/react";
+import horizontal from './assets/horizontal.png'
+import vertical from './assets/vertical.png'
 
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
@@ -20,6 +25,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   // const [isLoggedIn, setIsLoggedIn] = useState(!!user);
+  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
 
   // Modal actions for Snippet Library
   const {
@@ -74,8 +80,21 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     setOutput(JSON.stringify(response.data, null, 2));
   };
 
+  const orientationIcon = () => {
+    return (
+      orientation === 'horizontal' ? 
+      <Image bg='white' boxSize='20px' src={vertical} /> : 
+      <Image bg='white' boxSize='20px' src={horizontal} />
+    );
+  }
+  const editorWidth = orientation === 'horizontal' ? '100vh' : '50vh';
+  const editorHeight = orientation === 'horizontal' ? '50vh' : '100vh';
+  const outputWidth = orientation === 'horizontal' ? '100vh' : '75vh';
+  const outputHeight = orientation === 'horizontal' ? '25vh' : '50vh';
+
   return ySweetClientToken ? (
-    <Flex direction={"column"} minH='100vh' bg='gray.100'>
+    <Flex direction={"column"} minH='100vh' bg='#FFFFFF' justify='space-between'>
+    <Flex direction='column'>
       <MainHeader
         user={user}
         setUser={setUser}
@@ -83,37 +102,40 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         appendEditorContent={appendEditorContent}
         onLibraryOpen={onLibraryOpen}
       />
+      </Flex>
       <Flex
-        direction='column'
+        direction={orientation === 'horizontal' ? 'column' : 'row'}
         p={6}
         gap={3}
-        bgGradient='linear(to-r, black, gray.100, blue.800)'
+        // bgGradient='linear(to-r, black, gray.100, blue.800)'
+        bg='white'
         align='center'
-        maxWidth='75%'
+        // maxWidth='75%'
         width='100%'
         justifyContent='center'
         margin='auto'
       >
-        <Box width='100%'>
-          <Editor setEditorViewRef={setEditorViewRef} onChange={setCode} />
-          <Button
-            bg='blue.700'
-            borderRadius='20'
-            _hover={{ bg: "blue.900" }}
+        <Box width={editorWidth} height={editorHeight} >
+          <Editor 
+            setEditorViewRef={setEditorViewRef} 
+            onChange={setCode} 
             onClick={() => sendCode(code)}
-          >
-            Run Code
-          </Button>
-          <OutputDisplay output={output} />
+            setOrientation={setOrientation}
+            orientationIcon={orientationIcon()}
+            width={editorWidth} 
+            height={editorHeight}
+          />
+        </Box>
+        <Box width={editorWidth} height={editorHeight}>
+          <OutputDisplay width={outputWidth} height={outputHeight} output={output} />
         </Box>
       </Flex>
-
       <LibraryDrawer
         user={user}
         placement={"right"}
         onClose={onLibraryClose}
         isOpen={isLibraryOpen}
-        size={"xl"}
+        size={"lg"}
         appendEditorContent={appendEditorContent}
         editorViewRef={editorViewRef}
       />

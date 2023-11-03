@@ -1,5 +1,6 @@
-import { Button, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading, Image, Spacer } from "@chakra-ui/react";
 import HamburgerMenuButton from "./HamburgerMenuButton";
+import logo from '../assets/logo-transparent.png';
 import {
   signUp,
   confirmUserCode,
@@ -48,73 +49,89 @@ const MainHeader = ({
 
   return (
     <Flex
-      flex={1}
+      height="100px"
+      flex={0.4}
       align='center'
       justify='space-between'
-      p={6}
-      // bg='gray.200'
-      bgGradient='linear(to-r, black, gray.100, blue.800)'
-      border='2px'
-      borderColor='gray.200'
+      p={4}
+      px={6}
+      bg='#FFFFFF'
+      // bgGradient='linear(to-r, black, gray.100, blue.800)'
+      // border='2px'
+      // borderColor='gray.200'
     >
-      <Heading size='lg' fontWeight='bold' color='gray.900'>
-        Umbra
-      </Heading>
-      <Flex align='center' gap={10}>
-        <Button
-          bg='transparent'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={user ? handleLogoutClick : handleLoginClick}
-          _active={{ bg: "transparent" }}
-        >
-          {user ? "Logout" : "Login"}
-        </Button>
-        <Button
-          bg='transparent'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={handleSignUpClick}
-          _active={{ bg: "transparent" }}
-        >
-          Sign Up
-        </Button>
-        <Button
-          bg='transparent'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={handleConfirmCodeClick}
-          _active={{ bg: "transparent" }}
-        >
-          Confirm User Code
-        </Button>
-        <Button
-          bg='transparent'
-          fontSize='20px'
-          _hover={{
-            color: "white",
-            fontWeight: "bold",
-            textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={onLibraryOpen}
-          _active={{ bg: "transparent" }}
-        >
-          Code Library
-        </Button>
-        <HamburgerMenuButton
-          replaceEditorContent={replaceEditorContent}
-          appendEditorContent={appendEditorContent}
-        />
+
+      <Flex align="center">
+        <Heading size='lg' fontWeight='bold' color='#0096FF'>
+        <Flex align='center' px={4}>
+          <Image src={logo} boxSize="40px" alt="Logo" mr={2} />
+          Umbra
+        </Flex>
+        </Heading>
       </Flex>
+      <Flex align='center' justify="center" px={10}>
+      <Button
+        bg='transparent'
+        color='black'
+        fontSize='18px'
+        _hover={{
+          color: "#0096FF",
+          fontWeight: "bold",
+          // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+        }}
+        onClick={user ? handleLogoutClick : handleLoginClick}
+        _active={{ bg: "transparent" }}
+      >
+        {user ? "Logout" : "Login"}
+      </Button>
+      <Button
+        bg='transparent'
+        color='black'
+        fontSize='18px'
+        _hover={{
+          color: "#0096FF",
+          fontWeight: "bold",
+          // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+        }}
+        onClick={handleSignUpClick}
+        _active={{ bg: "transparent" }}
+      >
+        Sign Up
+      </Button>
+      <Button
+        bg='transparent'
+        color='black'
+        fontSize='18px'
+        _hover={{
+          color: "#0096FF",
+          fontWeight: "bold",
+          // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+        }}
+        onClick={handleConfirmCodeClick}
+        _active={{ bg: "transparent" }}
+      >
+        Confirm User Code
+      </Button>
+      </Flex>
+      <Spacer />
+      <Flex align='center'  gap={10}>
+      <Button
+        bg='#0096FF'
+        color='white'
+        fontSize='22px'
+        _hover={{
+         bg: '#04BCF9' 
+        }}
+        onClick={onLibraryOpen}
+        _active={{ bg: "transparent" }}
+      >
+        Library
+      </Button>
+      <HamburgerMenuButton
+        replaceEditorContent={replaceEditorContent}
+        appendEditorContent={appendEditorContent}
+      />
+    </Flex>
     </Flex>
   );
 };

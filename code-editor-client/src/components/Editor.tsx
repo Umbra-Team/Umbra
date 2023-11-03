@@ -1,8 +1,8 @@
-import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useRef, useEffect, useCallback, useMemo, Dispatch, SetStateAction } from "react";
 import * as random from "lib0/random";
 
-// Chakra UI related
-import { Box, Heading } from "@chakra-ui/react";
+// UI related
+import { Box, Button } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -11,13 +11,8 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 
 // CM6 editor options
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
-// import {
-//   syntaxHighlighting,
-//   defaultHighlightStyle,
-//   bracketMatching
-// } from '@codemirror/language';
 import { javascript } from "@codemirror/lang-javascript";
-import { oneDark } from "@codemirror/theme-one-dark";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 // yjs and associates
 import * as Y from "yjs";
@@ -93,11 +88,21 @@ type SetEditorViewRef = (
 export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
+  onClick: () => void;
+  setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
+  orientationIcon: React.ReactElement;
+  width: string;
+  height: string;
 };
 
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
+  onClick,
+  setOrientation,
+  orientationIcon,
+  width,
+  height
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -111,6 +116,12 @@ export const Editor: React.FC<EditorProps> = ({
 
   const awareness = useAwareness();
   const userColor = usercolors[random.uint32() % usercolors.length];
+
+  const toggleOrientation = () => {
+    setOrientation(prev => prev === 'horizontal' ? 'vertical' : 'horizontal')
+  }
+
+
 
   useEffect(() => {
     setEditorViewRef(view);
@@ -142,9 +153,9 @@ export const Editor: React.FC<EditorProps> = ({
     () =>
       EditorView.theme({
         "&": {
-          height: "40vh",
-          width: "100%",
-        },
+          height,
+          width,
+        }
       }),
     []
   );
@@ -159,7 +170,7 @@ export const Editor: React.FC<EditorProps> = ({
         basicSetup,
         history(),
         keymap.of([...defaultKeymap, indentWithTab]),
-        oneDark,
+        vscodeDark,
         theme,
         updateListener,
         javascript(),
@@ -170,7 +181,7 @@ export const Editor: React.FC<EditorProps> = ({
     // renders the CodeMirror editor in the browser; sets the parent element to the div that holds the ref
     view.current = new EditorView({ state, parent: editorRef.current });
 
-    // cleanup function (?)
+    // cleanup function 
     return () => {
       if (view.current) {
         view.current.destroy();
@@ -179,21 +190,34 @@ export const Editor: React.FC<EditorProps> = ({
     };
   }, []);
 
-  // should maybe add a timer to this for debouncing
-  // useEffect(() => {
-  //   if (view.current && view.current.state.doc.toString() !== code) {
-  //     view.current.dispatch({
-  //       changes: { from: 0, to: view.current.state.doc.length, insert: "" }
-  //     });
-  //   }
-  // }, [code])
-  //
   return (
-    <Box flex='1' bg='gray.200' p={3} borderRadius='15' overflow='auto'>
-      <Heading size='md' mb='3' color='white'>
+    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' >
+
+      {/* <Heading size='md' mb='3' color='white'>
         Code Editor
-      </Heading>
+      </Heading> */}
       <div ref={editorRef} />
+      {/* <Box display='flex' justifyContent='flex-start'>
+        <Button marginTop='2'>
+         Test 
+        </Button>
+      </Box> */}
+      <Box display='flex' justifyContent='flex-end'>
+        <Button size='sm' marginTop='2' onClick={toggleOrientation}>
+          {orientationIcon}
+        </Button>
+        <Button
+          color="white"
+          size='sm'
+          bg='#0096FF'
+          // borderRadius='20'
+          _hover={{ bg: "#04BCF9" }}
+          onClick={onClick}
+          marginTop='2'
+        >
+          Run Code
+        </Button>
+      </Box>
     </Box>
   );
 };
