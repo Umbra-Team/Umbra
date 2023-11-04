@@ -87,11 +87,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     });
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);
-    setOutput(() => {
-      const newOutput = JSON.stringify(response.data.run.output);
-      return newOutput;
-    });
-    console.log(output);
+    setOutput(JSON.stringify(response.data.run));
   };
 
   const orientationIcon = () => {

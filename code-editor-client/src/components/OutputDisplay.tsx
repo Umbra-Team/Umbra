@@ -37,7 +37,11 @@ interface OutputDisplayProps {
   height: string;
 }
 
-const OutputDisplay: React.FC<OutputDisplayProps> = ({ output, width, height }) => {
+const OutputDisplay: React.FC<OutputDisplayProps> = ({
+  output,
+  width,
+  height,
+}) => {
   const parsedOutput = output ? JSON.parse(output) : {};
 
   let errorText = parsedOutput.error ? parsedOutput.error : null;
@@ -63,6 +67,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output, width, height }) 
         </Heading>
         <CodeMirror
           value={parsedOutput.output}
+          // value={parsedOutput}
           height={height}
           width={width}
           theme={vscodeDark}
