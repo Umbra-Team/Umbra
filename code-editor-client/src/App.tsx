@@ -15,6 +15,9 @@ import vertical from "./assets/vertical.png";
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
+const CODE_EXECUTION_ENDPOINT = import.meta.env.VITE_CODE_EXECUTION_ENDPOINT;
+console.log(import.meta.env);
+
 interface AppProps {
   ySweetClientToken: string;
   user?: any;
@@ -48,9 +51,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     React.MutableRefObject<EditorView | undefined>
   >({ current: undefined });
 
-  // const CODE_EXECUTION_ENDPOINT =
-  //   "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
-  const CODE_EXECUTION_ENDPOINT = "/api/runCode";
+  // const CODE_EXECUTION_ENDPOINT = "/api/runCode";
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
@@ -78,9 +79,12 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   };
 
   const sendCode = async (code: string) => {
-    const codeEndpoint = CODE_EXECUTION_ENDPOINT;
-    console.log(`Sending code to ${codeEndpoint}, code: ${code}`);
-    const response = await axios.post(codeEndpoint, {
+    if (!CODE_EXECUTION_ENDPOINT) {
+      throw new Error("CODE_EXECUTION_ENDPOINT is not defined");
+    }
+    console.log(`Sending code to ${CODE_EXECUTION_ENDPOINT}, code: ${code}`);
+
+    const response = await axios.post(CODE_EXECUTION_ENDPOINT, {
       language: "deno",
       version: "1.32.3",
       files: [
