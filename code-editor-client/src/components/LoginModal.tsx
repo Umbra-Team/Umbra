@@ -30,6 +30,7 @@ const LoginModal = ({isOpen, onClose, onOpen, setUser}) => {
 
   const handleSignInClick = () => {
     signIn(setUser);
+    isOpen = false;
   }
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

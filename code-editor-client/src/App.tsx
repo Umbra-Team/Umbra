@@ -84,7 +84,17 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     }
     console.log(`Sending code to ${CODE_EXECUTION_ENDPOINT}, code: ${code}`);
 
-    const response = await axios.post(CODE_EXECUTION_ENDPOINT, {
+    const PYTHON = {
+      language: "py",
+      version: "3.12.0",
+      files: [
+        {
+          content: code,
+        },
+      ],
+    };
+
+    const JAVASCRIPT = {
       language: "deno",
       version: "1.32.3",
       files: [
@@ -92,7 +102,21 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           content: code,
         },
       ],
-    });
+    }
+
+    const GO = {
+      language: "go",
+      version: "1.16.2",
+      files: [
+        {
+          content: code,
+        },
+      ],
+    }
+
+    const response = await axios.post(CODE_EXECUTION_ENDPOINT, 
+      GO,
+    );
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);
     setOutput(JSON.stringify(response.data.run));
