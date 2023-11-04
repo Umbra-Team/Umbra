@@ -81,7 +81,7 @@ const AppWrapper = () => {
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
         {user ? (
-          <div>Logged in as {user.username}</div>
+          <div>Logged in as {user.attributes.email}</div>
         ) : (
           <div>Not logged in</div>
         )}

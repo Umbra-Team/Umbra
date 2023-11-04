@@ -21,10 +21,10 @@ const TEST_USER = {
 //   phone_number: "+15555555555",
 // }
 
-const USER_CODE = "396375";
+const USER_CODE = "781733";
 
 export const signUp = async (
-  username = TEST_USER.username,
+  username = TEST_USER.email,
   password = TEST_USER.password,
   email = TEST_USER.email,
   phone_number = TEST_USER.phone_number
@@ -47,7 +47,7 @@ export const signUp = async (
 };
 
 export const confirmUserCode = async (
-  username = TEST_USER.username,
+  username = TEST_USER.email,
   code = USER_CODE
 ) => {
   try {
@@ -63,7 +63,7 @@ export const confirmUserCode = async (
 // Manually triggering signin for testing
 export const signIn = async (
   setUser: Function,
-  username = TEST_USER.username,
+  username = TEST_USER.email,
   password = TEST_USER.password
 ) => {
   try {

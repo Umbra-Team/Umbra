@@ -6,6 +6,7 @@ import apiRouter from "./routes/api";
 import sequelize from "./utils/sequelize";
 import './models/associations'
 import { syncUsers } from "./scripts/syncUsers";
+import { wipeUsers, wipeSnippets } from "./scripts/deleteDB";
 import morgan from "morgan"; 
 
 const app = express();
@@ -19,6 +20,9 @@ sequelize.authenticate()
     return sequelize.sync({ alter: true });  // Update tables if needed
   })
   .then(() => {
+    
+    // wipeUsers();  // Wipe users
+    // wipeSnippets();  // Wipe snippets
     return syncUsers();  // Sync users from Cognito
     console.log('All PostgreSQL tables have been successfully created.');
   })
