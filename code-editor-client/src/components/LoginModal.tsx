@@ -32,6 +32,10 @@ const LoginModal = ({isOpen, onClose, onOpen, setUser}) => {
     signIn(setUser);
     isOpen = false;
   }
+  const handleOpenClick = () => {
+    onOpen();
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
