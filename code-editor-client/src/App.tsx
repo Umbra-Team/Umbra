@@ -35,7 +35,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   } = useDisclosure();
 
   // Modal actions for Login Form
-  // const { onOpen: onLoginOpen } = useDisclosure();
+  const { onOpen: onLoginOpen, onClose: onLoginClose, isOpen:isLoginOpen } = useDisclosure();
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] = useState<
@@ -101,6 +101,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         replaceEditorContent={replaceEditorContent}
         appendEditorContent={appendEditorContent}
         onLibraryOpen={onLibraryOpen}
+        onLoginOpen={onLoginOpen}
+        onLoginClose={onLoginClose}
+        isLoginOpen={isLoginOpen}
       />
       </Flex>
       <Flex

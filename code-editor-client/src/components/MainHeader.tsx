@@ -5,10 +5,10 @@ import {
   signUp,
   confirmUserCode,
   logout,
-  signIn,
 } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler } from "react";
 import { CognitoUser } from "@aws-amplify/auth";
+import LoginModal from "./LoginModal";
 
 interface MainHeaderProps {
   user: CognitoUser | null;
@@ -16,6 +16,9 @@ interface MainHeaderProps {
   replaceEditorContent: (content: string) => void;
   appendEditorContent: (content: string) => void;
   onLibraryOpen: MouseEventHandler;
+  onLoginOpen: MouseEventHandler;
+  onLoginClose: MouseEventHandler;
+  isLoginOpen: boolean;
 }
 
 const MainHeader = ({
@@ -24,12 +27,16 @@ const MainHeader = ({
   replaceEditorContent,
   appendEditorContent,
   onLibraryOpen,
+  onLoginOpen,
+  onLoginClose,
+  isLoginOpen,
 }: MainHeaderProps) => {
   // Click handlers
-  const handleLoginClick = () => {
-    console.log("Login button was clicked");
-    signIn(setUser);
-  };
+  // const handleLoginClick = () => {
+  //   console.log("Login button was clicked");
+  //   signIn(setUser);
+    
+  // };
 
   const handleLogoutClick = () => {
     console.log("Logout button was clicked");
@@ -79,7 +86,7 @@ const MainHeader = ({
           fontWeight: "bold",
           // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
         }}
-        onClick={user ? handleLogoutClick : handleLoginClick}
+        onClick={user ? handleLogoutClick : onLoginOpen}
         _active={{ bg: "transparent" }}
       >
         {user ? "Logout" : "Login"}
@@ -132,6 +139,7 @@ const MainHeader = ({
         appendEditorContent={appendEditorContent}
       />
     </Flex>
+    <LoginModal onOpen={onLoginOpen} onClose={onLoginClose} isOpen={isLoginOpen} setUser={setUser}/>
     </Flex>
   );
 };
