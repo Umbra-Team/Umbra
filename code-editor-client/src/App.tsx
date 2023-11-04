@@ -9,8 +9,8 @@ import LibraryDrawer from "./components/LibraryDrawer";
 
 // icons
 import { Image } from "@chakra-ui/react";
-import horizontal from './assets/horizontal.png'
-import vertical from './assets/vertical.png'
+import horizontal from "./assets/horizontal.png";
+import vertical from "./assets/vertical.png";
 
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
@@ -25,7 +25,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
   // const [isLoggedIn, setIsLoggedIn] = useState(!!user);
-  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
+  const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
+    "horizontal"
+  );
 
   // Modal actions for Snippet Library
   const {
@@ -42,8 +44,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     React.MutableRefObject<EditorView | undefined>
   >({ current: undefined });
 
-  const CODE_EXECUTION_ENDPOINT =
-    "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
+  // const CODE_EXECUTION_ENDPOINT =
+  //   "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
+  const CODE_EXECUTION_ENDPOINT = "/api/runCode";
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
@@ -74,37 +77,53 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     const codeEndpoint = CODE_EXECUTION_ENDPOINT;
     console.log(`Sending code to ${codeEndpoint}, code: ${code}`);
     const response = await axios.post(codeEndpoint, {
-      code: code,
+      language: "deno",
+      version: "1.32.3",
+      files: [
+        {
+          content: code,
+        },
+      ],
     });
     console.log(`Response: ${JSON.stringify(response)}`);
-    setOutput(JSON.stringify(response.data, null, 2));
+    console.log(`output is ${response.data.run.stdout}`);
+    setOutput(() => {
+      const newOutput = JSON.stringify(response.data.run.output);
+      return newOutput;
+    });
+    console.log(output);
   };
 
   const orientationIcon = () => {
-    return (
-      orientation === 'horizontal' ? 
-      <Image bg='white' boxSize='20px' src={vertical} /> : 
+    return orientation === "horizontal" ? (
+      <Image bg='white' boxSize='20px' src={vertical} />
+    ) : (
       <Image bg='white' boxSize='20px' src={horizontal} />
     );
-  }
-  const editorWidth = orientation === 'horizontal' ? '100vh' : '50vh';
-  const editorHeight = orientation === 'horizontal' ? '50vh' : '100vh';
-  const outputWidth = orientation === 'horizontal' ? '100vh' : '75vh';
-  const outputHeight = orientation === 'horizontal' ? '25vh' : '50vh';
+  };
+  const editorWidth = orientation === "horizontal" ? "100vh" : "50vh";
+  const editorHeight = orientation === "horizontal" ? "50vh" : "100vh";
+  const outputWidth = orientation === "horizontal" ? "100vh" : "75vh";
+  const outputHeight = orientation === "horizontal" ? "25vh" : "50vh";
 
   return ySweetClientToken ? (
-    <Flex direction={"column"} minH='100vh' bg='#FFFFFF' justify='space-between'>
-    <Flex direction='column'>
-      <MainHeader
-        user={user}
-        setUser={setUser}
-        replaceEditorContent={replaceEditorContent}
-        appendEditorContent={appendEditorContent}
-        onLibraryOpen={onLibraryOpen}
-      />
+    <Flex
+      direction={"column"}
+      minH='100vh'
+      bg='#FFFFFF'
+      justify='space-between'
+    >
+      <Flex direction='column'>
+        <MainHeader
+          user={user}
+          setUser={setUser}
+          replaceEditorContent={replaceEditorContent}
+          appendEditorContent={appendEditorContent}
+          onLibraryOpen={onLibraryOpen}
+        />
       </Flex>
       <Flex
-        direction={orientation === 'horizontal' ? 'column' : 'row'}
+        direction={orientation === "horizontal" ? "column" : "row"}
         p={6}
         gap={3}
         // bgGradient='linear(to-r, black, gray.100, blue.800)'
@@ -115,19 +134,23 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         justifyContent='center'
         margin='auto'
       >
-        <Box width={editorWidth} height={editorHeight} >
-          <Editor 
-            setEditorViewRef={setEditorViewRef} 
-            onChange={setCode} 
+        <Box width={editorWidth} height={editorHeight}>
+          <Editor
+            setEditorViewRef={setEditorViewRef}
+            onChange={setCode}
             onClick={() => sendCode(code)}
             setOrientation={setOrientation}
             orientationIcon={orientationIcon()}
-            width={editorWidth} 
+            width={editorWidth}
             height={editorHeight}
           />
         </Box>
         <Box width={editorWidth} height={editorHeight}>
-          <OutputDisplay width={outputWidth} height={outputHeight} output={output} />
+          <OutputDisplay
+            width={outputWidth}
+            height={outputHeight}
+            output={output}
+          />
         </Box>
       </Flex>
       <LibraryDrawer

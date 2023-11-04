@@ -10,6 +10,7 @@ import sequelize from "../utils/sequelize";
 import { RequestWithUser } from "../types/types";
 
 import { generateRandomName } from "../utilities/generateRandomName";
+import axios from "axios";
 
 const router = express.Router();
 
@@ -237,6 +238,16 @@ router.delete(
   }
 );
 
+// Code Execution
+router.post("/runCode", async (req: Request, res: Response) => {
+  const response = await axios.post(
+    "http://35.81.242.17:2000/api/v2/execute",
+    req.body
+  );
+  res.json(response.data);
+});
+
+// create a random snippet and enter into database
 router.post("/snippetCreateRandom", verifyToken, async (req, res) => {
   // from verifyToken, req.user has all the user info
   const username = req.body.username;
