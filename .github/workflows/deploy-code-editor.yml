@@ -3,18 +3,18 @@ name: Build and Deploy Code Editor Server to AWS Lightsail
 on:
   push:
     branches:
-      - main
+      - github-workflow-11-04-piston
   workflow_dispatch:
 
 env:
   AWS_REGION: us-west-2
-  AWS_LIGHTSAIL_SERVICE_NAME: ls-capstone-team-1-gh-actions-code-editor-server
+  AWS_LIGHTSAIL_SERVICE_NAME: ls-capstone-team-1-code-editor-server
 jobs:
   build_and_deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout github-workflow-11-04-piston
         uses: actions/checkout@v2
 
       - name: Create .env file
