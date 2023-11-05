@@ -16,7 +16,9 @@ import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 const CODE_EXECUTION_ENDPOINT = import.meta.env.VITE_CODE_EXECUTION_ENDPOINT;
-console.log(`import.meta.env.VITE_CODE_EXECUTION_ENDPOINT: ${CODE_EXECUTION_ENDPOINT}`)
+console.log(
+  `import.meta.env.VITE_CODE_EXECUTION_ENDPOINT: ${CODE_EXECUTION_ENDPOINT}`
+);
 
 interface AppProps {
   ySweetClientToken: string;
@@ -27,7 +29,6 @@ interface AppProps {
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(!!user);
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
   );
@@ -99,7 +100,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           content: code,
         },
       ],
-    }
+    };
 
     const GO = {
       language: "go",
@@ -109,11 +110,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           content: code,
         },
       ],
-    }
+    };
 
-    const response = await axios.post(CODE_EXECUTION_ROUTE, 
-      JAVASCRIPT,
-    );
+    const response = await axios.post(CODE_EXECUTION_ROUTE, JAVASCRIPT);
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);
     setOutput(JSON.stringify(response.data.run));

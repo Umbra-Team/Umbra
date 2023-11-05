@@ -23,21 +23,43 @@ const TEST_USER = {
 
 const USER_CODE = "781733";
 
+// export const signUp = async (
+//   username = TEST_USER.email,
+//   password = TEST_USER.password,
+//   email = TEST_USER.email,
+//   phone_number = TEST_USER.phone_number
+// ) => {
+//   try {
+//     console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
+//     const { user } = await Auth.signUp({
+//       username,
+//       password,
+//       attributes: {
+//         email,
+//         phone_number,
+//       },
+//     });
+//     console.log(`Signed up as ${user.getUsername()}`); // `Signed up as davidrd123
+//   } catch (error) {
+//     const err = error as { code: string; message: string };
+//     console.log(err);
+//   }
+// };
+
 export const signUp = async (
-  username = TEST_USER.email,
-  password = TEST_USER.password,
-  email = TEST_USER.email,
-  phone_number = TEST_USER.phone_number
+  email: string,
+  password: string
+  // username = TEST_USER.email,
+  // password = TEST_USER.password,
+  // email = TEST_USER.email,
+  // phone_number = TEST_USER.phone_number
 ) => {
   try {
-    console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
+    // console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
+    console.log(`Signing up as ${email}`);
     const { user } = await Auth.signUp({
-      username,
+      username: email,
       password,
-      attributes: {
-        email,
-        phone_number,
-      },
     });
     console.log(`Signed up as ${user.getUsername()}`); // `Signed up as davidrd123
   } catch (error) {
@@ -63,11 +85,13 @@ export const confirmUserCode = async (
 // Manually triggering signin for testing
 export const signIn = async (
   setUser: Function,
-  username = TEST_USER.email,
-  password = TEST_USER.password
+  email: string,
+  password: string
+  // username = TEST_USER.email,
+  // password = TEST_USER.password
 ) => {
   try {
-    const user = await Auth.signIn(username, password);
+    const user = await Auth.signIn(email, password);
     setUser(user);
     // Store the JWT token
     // localStorage.setItem('token', user.signInUserSession.idToken.jwtToken);
