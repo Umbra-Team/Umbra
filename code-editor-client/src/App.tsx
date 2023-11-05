@@ -15,9 +15,6 @@ import vertical from "./assets/vertical.png";
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
-const CODE_EXECUTION_ENDPOINT = import.meta.env.VITE_CODE_EXECUTION_ENDPOINT;
-console.log(`import.meta.env.VITE_CODE_EXECUTION_ENDPOINT: ${CODE_EXECUTION_ENDPOINT}`)
-
 interface AppProps {
   ySweetClientToken: string;
   user?: any;
@@ -27,7 +24,6 @@ interface AppProps {
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(!!user);
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
   );
@@ -44,6 +40,13 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     onOpen: onLoginOpen,
     onClose: onLoginClose,
     isOpen: isLoginOpen,
+  } = useDisclosure();
+
+  // Modal actions for SignUp Form
+  const {
+    onOpen: onSignupOpen,
+    onClose: onSignupClose,
+    isOpen: isSignupOpen,
   } = useDisclosure();
 
   // state to hold a reference to the code editor window
@@ -99,7 +102,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           content: code,
         },
       ],
-    }
+    };
 
     const GO = {
       language: "go",
@@ -109,11 +112,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           content: code,
         },
       ],
-    }
+    };
 
-    const response = await axios.post(CODE_EXECUTION_ROUTE, 
-      JAVASCRIPT,
-    );
+    const response = await axios.post(CODE_EXECUTION_ROUTE, JAVASCRIPT);
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);
     setOutput(JSON.stringify(response.data.run));
@@ -148,6 +149,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           onLoginOpen={onLoginOpen}
           onLoginClose={onLoginClose}
           isLoginOpen={isLoginOpen}
+          onSignupOpen={onSignupOpen}
+          onSignupClose={onSignupClose}
+          isSignupOpen={isSignupOpen}
         />
       </Flex>
       <Flex

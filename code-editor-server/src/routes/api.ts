@@ -8,7 +8,7 @@ import Snippet from "../models/Snippet";
 import User from "../models/User";
 import sequelize from "../utils/sequelize";
 import { RequestWithUser } from "../types/types";
-
+import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
 
@@ -239,6 +239,16 @@ router.delete(
     });
   }
 );
+
+// Sync Cognito users to local DB
+router.get("/syncUsers", async (req: Request, res: Response) => {
+  try {
+    await syncUsers();
+    res.send();
+  } catch (error) {
+    res.status(500).send("Error syncing local users with cognito users");
+  }
+});
 
 // Code Execution
 router.post("/runCode", async (req: Request, res: Response) => {
