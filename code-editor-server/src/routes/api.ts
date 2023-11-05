@@ -12,7 +12,7 @@ import { RequestWithUser } from "../types/types";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
 
-const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
+// const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
 
 const router = express.Router();
 
@@ -242,13 +242,13 @@ router.delete(
 
 // Code Execution
 router.post("/runCode", async (req: Request, res: Response) => {
-  // if (!process.env.CODE_EXECUTION_ENDPOINT) {
-  //   throw new Error("CODE_EXECUTION_ENDPOINT is missing");
-  // }
+  if (!process.env.CODE_EXECUTION_ENDPOINT) {
+    throw new Error("CODE_EXECUTION_ENDPOINT is missing");
+  }
 
   console.log(JSON.stringify(req.body));
   const response = await axios.post(
-    CODE_EXECUTION_ENDPOINT,
+    process.env.CODE_EXECUTION_ENDPOINT,
     req.body
   );
   res.json(response.data);

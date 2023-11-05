@@ -5,7 +5,6 @@ COPY code-editor-client/package*.json ./
 RUN npm install
 COPY code-editor-client/ ./
 RUN printenv
-COPY code-editor-client/.env .env
 RUN npm run build
 
 # Build stage for Express server
