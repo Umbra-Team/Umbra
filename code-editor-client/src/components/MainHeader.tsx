@@ -14,6 +14,7 @@ import { CognitoUser } from "@aws-amplify/auth";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import ConfirmCodeModal from "./ConfirmCodeModal";
+import ShareRoomButton from "./ShareRoomButton";
 
 interface MainHeaderProps {
   user: CognitoUser | null;
@@ -113,6 +114,7 @@ const MainHeader = ({
             ? "Pending Signup - Verify Email Code"
             : "Sign Up"}
         </Button>
+        <ShareRoomButton />
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
