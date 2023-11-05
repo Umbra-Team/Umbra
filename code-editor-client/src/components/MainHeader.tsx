@@ -5,6 +5,7 @@ import {
   Image,
   Spacer,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import logo from "../assets/logo-transparent.png";
@@ -118,18 +119,27 @@ const MainHeader = ({
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
-        <Button
-          bg='#0096FF'
-          color='white'
-          fontSize='22px'
-          _hover={{
-            bg: "#04BCF9",
-          }}
-          onClick={onLibraryOpen}
-          _active={{ bg: "transparent" }}
+        <Tooltip
+          label={
+            user
+              ? "Open your code snippet library"
+              : "Sign up for an account to save your snippets"
+          }
+          fontSize='md'
         >
-          Library
-        </Button>
+          <Button
+            bg='#0096FF'
+            color='white'
+            fontSize='22px'
+            _hover={{
+              bg: "#04BCF9",
+            }}
+            onClick={onLibraryOpen}
+            _active={{ bg: "transparent" }}
+          >
+            Library
+          </Button>
+        </Tooltip>
         <HamburgerMenuButton
           replaceEditorContent={replaceEditorContent}
           appendEditorContent={appendEditorContent}
