@@ -21,60 +21,34 @@ const TEST_USER = {
 //   phone_number: "+15555555555",
 // }
 
-const USER_CODE = "781733";
+// const USER_CODE = "781733";
 
-// export const signUp = async (
-//   username = TEST_USER.email,
-//   password = TEST_USER.password,
-//   email = TEST_USER.email,
-//   phone_number = TEST_USER.phone_number
-// ) => {
-//   try {
-//     console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
-//     const { user } = await Auth.signUp({
-//       username,
-//       password,
-//       attributes: {
-//         email,
-//         phone_number,
-//       },
-//     });
-//     console.log(`Signed up as ${user.getUsername()}`); // `Signed up as davidrd123
-//   } catch (error) {
-//     const err = error as { code: string; message: string };
-//     console.log(err);
-//   }
-// };
-
-export const signUp = async (
-  email: string,
-  password: string
-  // username = TEST_USER.email,
-  // password = TEST_USER.password,
-  // email = TEST_USER.email,
-  // phone_number = TEST_USER.phone_number
-) => {
+export const signUp = async (email: string, password: string) => {
   try {
     // console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
     console.log(`Signing up as ${email}`);
     const { user } = await Auth.signUp({
       username: email,
       password,
+      autoSignIn: {
+        enabled: true,
+      },
     });
     console.log(`Signed up as ${user.getUsername()}`); // `Signed up as davidrd123
+    return {
+      success: true,
+      message: "User SignUp Succeeded -- Verify code from email",
+    };
   } catch (error) {
     const err = error as { code: string; message: string };
     console.log(err);
+    return { success: false, message: "User SignUp Failed" };
   }
 };
 
-export const confirmUserCode = async (
-  username = TEST_USER.email,
-  code = USER_CODE
-) => {
+export const confirmUserCode = async (username: string, code: string) => {
   try {
     await Auth.confirmSignUp(username, code);
-    alert("User successfully confirmed");
     return { success: true, message: "User successfully confirmed" };
   } catch (error) {
     console.log("Error confirming sign up", error);

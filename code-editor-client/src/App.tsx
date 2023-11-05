@@ -47,6 +47,13 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     isOpen: isLoginOpen,
   } = useDisclosure();
 
+  // Modal actions for SignUp Form
+  const {
+    onOpen: onSignupOpen,
+    onClose: onSignupClose,
+    isOpen: isSignupOpen,
+  } = useDisclosure();
+
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] = useState<
     React.MutableRefObject<EditorView | undefined>
@@ -147,6 +154,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           onLoginOpen={onLoginOpen}
           onLoginClose={onLoginClose}
           isLoginOpen={isLoginOpen}
+          onSignupOpen={onSignupOpen}
+          onSignupClose={onSignupClose}
+          isSignupOpen={isSignupOpen}
         />
       </Flex>
       <Flex
