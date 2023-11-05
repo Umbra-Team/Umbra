@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import logo from "../assets/logo-transparent.png";
-import { signUp, confirmUserCode, logout } from "../utils/aws-amplify-helpers";
+import { logout } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler, useState } from "react";
 import { CognitoUser } from "@aws-amplify/auth";
 import LoginModal from "./LoginModal";
@@ -42,13 +42,6 @@ const MainHeader = ({
   onSignupClose,
   isSignupOpen,
 }: MainHeaderProps) => {
-  // Click handlers
-  // const handleLoginClick = () => {
-  //   console.log("Login button was clicked");
-  //   signIn(setUser);
-
-  // };
-
   const {
     onOpen: onConfirmOpen,
     onClose: onConfirmClose,
