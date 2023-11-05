@@ -51,7 +51,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     React.MutableRefObject<EditorView | undefined>
   >({ current: undefined });
 
-  // const CODE_EXECUTION_ENDPOINT = "/api/runCode";
+  const CODE_EXECUTION_ROUTE = "/api/runCode";
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
@@ -79,12 +79,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   };
 
   const sendCode = async (code: string) => {
-    if (!CODE_EXECUTION_ENDPOINT) {
-      throw new Error("CODE_EXECUTION_ENDPOINT is not defined");
-    }
-    console.log(`Sending code to ${CODE_EXECUTION_ENDPOINT}, code: ${code}`);
+    console.log(`Sending code to ${CODE_EXECUTION_ROUTE}, code: ${code}`);
 
-    const response = await axios.post(CODE_EXECUTION_ENDPOINT, {
+    const response = await axios.post(CODE_EXECUTION_ROUTE, {
       language: "deno",
       version: "1.32.3",
       files: [
