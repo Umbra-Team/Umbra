@@ -40,10 +40,11 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
       <ModalOverlay />
       <ModalContent>
         <Flex
-          minH={"100vh"}
+          minH={"50vh"}
           align={"center"}
           justify={"center"}
           bg={useColorModeValue("gray.50", "gray.800")}
+          borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
@@ -60,14 +61,14 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
               <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
                   <FormControl id='email' isRequired>
-                    <FormLabel>Email address</FormLabel>
+                    <FormLabel color='black'>Email address</FormLabel>
                     <Input
                       type='email'
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </FormControl>
                   <FormControl id='password' isRequired>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel color='black'>Password</FormLabel>
                     <InputGroup>
                       <Input
                         type={showPassword ? "text" : "password"}

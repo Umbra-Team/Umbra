@@ -36,10 +36,11 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
       <ModalOverlay />
       <ModalContent>
         <Flex
-          minH={"75vh"}
+          minH={"50vh"}
           align={"center"}
           justify={"center"}
           bg={useColorModeValue("gray.50", "gray.800")}
+          borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
@@ -55,14 +56,14 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
             >
               <Stack spacing={4}>
                 <FormControl id='email' isRequired>
-                  <FormLabel>Email address</FormLabel>
+                  <FormLabel color='black'>Email address</FormLabel>
                   <Input
                     type='email'
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormControl>
                 <FormControl id='password' isRequired>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel color='black'>Password</FormLabel>
                   <Input
                     type='password'
                     onChange={(e) => setPassword(e.target.value)}
@@ -74,7 +75,7 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
                     align={"start"}
                     justify={"space-between"}
                   >
-                    <Checkbox>Remember me</Checkbox>
+                    <Checkbox color='black'>Remember me</Checkbox>
                     <Text color={"blue.400"}>Forgot password?</Text>
                   </Stack>
                   <Button
