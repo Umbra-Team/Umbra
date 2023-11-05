@@ -89,6 +89,7 @@ export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
   onClick: () => void;
+  orientation: string;
   setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
   orientationIcon: React.ReactElement;
   width: string;
@@ -153,11 +154,11 @@ export const Editor: React.FC<EditorProps> = ({
     () =>
       EditorView.theme({
         "&": {
-          height,
           width,
+          height,
         }
       }),
-    []
+    [width, height]
   );
 
   useEffect(() => {
@@ -188,7 +189,7 @@ export const Editor: React.FC<EditorProps> = ({
         view.current = undefined;
       }
     };
-  }, []);
+  }, [width, height]);
 
   return (
     <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' >
