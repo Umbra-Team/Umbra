@@ -52,6 +52,7 @@ const MainHeader = ({
   const handleLogoutClick = () => {
     console.log("Logout button was clicked");
     logout();
+    localStorage.removeItem("unconfirmedUser");
     setUser(null);
   };
 

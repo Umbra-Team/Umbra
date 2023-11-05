@@ -23,9 +23,13 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
   const [password, setPassword] = useState("");
 
   const handleSignInClick = async () => {
-    await signIn(setUser, email, password);
-    // isOpen = false;
-    onClose();
+    try {
+      await signIn(setUser, email, password);
+      localStorage.removeItem("unconfirmedUser");
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleOpenClick = () => {
     onOpen();
