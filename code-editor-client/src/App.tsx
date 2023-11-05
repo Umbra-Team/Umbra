@@ -16,7 +16,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 const CODE_EXECUTION_ENDPOINT = import.meta.env.VITE_CODE_EXECUTION_ENDPOINT;
-console.log(import.meta.env);
+console.log(`import.meta.env.VITE_CODE_EXECUTION_ENDPOINT: ${CODE_EXECUTION_ENDPOINT}`)
 
 interface AppProps {
   ySweetClientToken: string;
@@ -115,7 +115,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     }
 
     const response = await axios.post(CODE_EXECUTION_ENDPOINT, 
-      GO,
+      JAVASCRIPT,
     );
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);

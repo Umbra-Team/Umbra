@@ -9,6 +9,7 @@ on:
 env:
   AWS_REGION: us-west-2
   AWS_LIGHTSAIL_SERVICE_NAME: ls-capstone-team-1-code-editor-server
+  VITE_CODE_EXECUTION_ENDPOINT: http://35.81.242.17:2000/api/v2/execute
 jobs:
   build_and_deploy:
     name: Build and Deploy
@@ -16,8 +17,15 @@ jobs:
     steps:
       - name: Checkout github-workflow-11-04-piston
         uses: actions/checkout@v2
+      
+      - name: Echo directory structure
+        run: ls -al
 
-      - name: Create .env file
+      - name: Create .env file for React app
+        run: |
+          echo VITE_CODE_EXECUTION_ENDPOINT=${{ env.VITE_CODE_EXECUTION_ENDPOINT }} >> ./code-editor-client/.env
+
+      - name: Create .env file for Express Server
         run: |
           echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
