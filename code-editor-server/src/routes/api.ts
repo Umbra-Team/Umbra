@@ -243,6 +243,7 @@ router.post("/runCode", async (req: Request, res: Response) => {
   if (!process.env.CODE_EXECUTION_ENDPOINT) {
     throw new Error("CODE_EXECUTION_ENDPOINT is missing");
   }
+  console.log(JSON.stringify(req.body));
   const response = await axios.post(
     process.env.CODE_EXECUTION_ENDPOINT,
     req.body
