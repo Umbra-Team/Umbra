@@ -26,8 +26,8 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
     () =>
       EditorView.theme({
         "&": {
-          height,
           width,
+          height,
         },
       }),
     [width, height]
@@ -69,7 +69,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
       <Heading color='white' size='md' mb='3'>
         Output
       </Heading>
-      <div ref={outputRef}  />
+      <div ref={outputRef} />
     </Box>
   );
 };

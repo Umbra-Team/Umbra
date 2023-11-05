@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useMemo, Dispatch, SetStateAction } fro
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Select } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -203,7 +203,16 @@ export const Editor: React.FC<EditorProps> = ({
          Test 
         </Button>
       </Box> */}
-      <Box display='flex' justifyContent='flex-end'>
+
+      <Box display='flex' justifyContent='space-between'>
+        <Select marginTop='2' width="20%" size="sm" placeholder="select language">
+          <option value="js">JavaScript</option>
+          <option value="ts">TypeScript</option>
+          <option value="py">Python</option>
+          <option value="go">Golang</option>
+          <option value="rb">Ruby</option>
+        </Select> 
+        <Box>
         <Button size='sm' marginTop='2' onClick={toggleOrientation}>
           {orientationIcon}
         </Button>
@@ -218,6 +227,7 @@ export const Editor: React.FC<EditorProps> = ({
         >
           Run Code
         </Button>
+        </Box>
       </Box>
     </Box>
   );
