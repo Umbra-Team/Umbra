@@ -38,6 +38,7 @@ export const signUp = async (email: string, password: string) => {
     return {
       success: true,
       message: "User SignUp Succeeded -- Verify code from email",
+      user,
     };
   } catch (error) {
     const err = error as { code: string; message: string };
@@ -49,7 +50,10 @@ export const signUp = async (email: string, password: string) => {
 export const confirmUserCode = async (username: string, code: string) => {
   try {
     await Auth.confirmSignUp(username, code);
-    return { success: true, message: "User successfully confirmed" };
+    return {
+      success: true,
+      message: "Verification Confirmed - You can Sign In now.",
+    };
   } catch (error) {
     console.log("Error confirming sign up", error);
     return { success: false, message: `Error confirming sign up: ${error}` };

@@ -22,29 +22,50 @@ import {
   PinInput,
   PinInputField,
   AlertDescription,
+  Link,
+  VStack,
 } from "@chakra-ui/react";
-
 import { confirmUserCode } from "../utils/aws-amplify-helpers";
+import { Auth } from "aws-amplify";
 import { useState } from "react";
+import axios from "axios";
 
-const ConfirmCodeModal = ({
-  unconfirmedUser,
-  setUnconfirmedUser,
-  setUser,
-  isOpen,
-  onClose,
-  onOpen,
-}) => {
+const ConfirmCodeModal = ({ setUser, isOpen, onClose, onOpen }) => {
   const [pin, setPin] = useState("");
 
   const handleVerifyClick = async () => {
+    const unconfirmedUser = localStorage.getItem("unconfirmedUser");
+    if (!unconfirmedUser) {
+      alert("No pending user found - try signing up again");
+      localStorage.removeItem("unconfirmedUser");
+      return;
+    }
+
     const response = await confirmUserCode(unconfirmedUser, pin);
     if (response.success) {
-      setUser(setUnconfirmedUser);
-      setUnconfirmedUser("");
+      await axios.get("/api/syncUsers");
+      localStorage.removeItem("unconfirmedUser");
     }
     alert(response.message);
     onClose();
+  };
+
+  const handleResendCodeClick = async (event) => {
+    event.preventDefault();
+
+    const username = localStorage.getItem("unconfirmedUser");
+    if (!username) {
+      alert("No pending user found - try signing up again");
+      return;
+    }
+
+    try {
+      await Auth.resendSignUp(username);
+      console.log(username);
+      alert("Code resent successfully");
+    } catch (err) {
+      console.error("Error resending code: ", err);
+    }
   };
 
   return (
@@ -76,14 +97,24 @@ const ConfirmCodeModal = ({
               fontSize={{ base: "sm", sm: "md" }}
               color={useColorModeValue("gray.800", "gray.400")}
             >
-              Enter the verification code sent to your email
+              <VStack
+                spacing={2}
+                align='center'
+                fontSize={{ base: "sm", sm: "md" }}
+                color={useColorModeValue("gray.800", "gray.400")}
+              >
+                <Text>Enter the verification code sent to your email</Text>
+                <Link onClick={handleResendCodeClick} color='blue.500'>
+                  Resend Verification Code
+                </Link>
+              </VStack>
             </Center>
             <Center
               fontSize={{ base: "sm", sm: "md" }}
               fontWeight='bold'
               color={useColorModeValue("gray.800", "gray.400")}
             >
-              username@mail.com
+              {localStorage.getItem("unconfirmedUser")}
             </Center>
             <FormControl>
               <Center>

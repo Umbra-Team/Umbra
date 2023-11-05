@@ -27,13 +27,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { signUp } from "../utils/aws-amplify-helpers";
 import { useState } from "react";
 
-const SignUpModal = ({
-  unconfirmedUser,
-  setUnconfirmedUser,
-  isOpen,
-  onClose,
-  onOpen,
-}) => {
+const SignUpModal = ({ isOpen, onClose, onOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -42,7 +36,7 @@ const SignUpModal = ({
     e.preventDefault();
     const response = await signUp(email, password);
     if (response.success) {
-      setUnconfirmedUser(email);
+      localStorage.setItem("unconfirmedUser", email);
     }
     alert(response.message);
     onClose();

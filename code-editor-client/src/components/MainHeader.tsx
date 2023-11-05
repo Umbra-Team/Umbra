@@ -49,7 +49,6 @@ const MainHeader = ({
 
   // };
 
-  const [unconfirmedUser, setUncomfirmedUser] = useState("");
   const {
     onOpen: onConfirmOpen,
     onClose: onConfirmClose,
@@ -109,29 +108,18 @@ const MainHeader = ({
           _hover={{
             color: "#0096FF",
             fontWeight: "bold",
-            // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
           }}
-          onClick={onSignupOpen}
+          onClick={
+            localStorage.getItem("unconfirmedUser")
+              ? onConfirmOpen
+              : onSignupOpen
+          }
           _active={{ bg: "transparent" }}
         >
-          Sign Up
+          {localStorage.getItem("unconfirmedUser")
+            ? "Pending Signup - Verify Email Code"
+            : "Sign Up"}
         </Button>
-        {unconfirmedUser !== "" && (
-          <Button
-            bg='transparent'
-            color='black'
-            fontSize='18px'
-            _hover={{
-              color: "#0096FF",
-              fontWeight: "bold",
-              // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={onConfirmOpen}
-            _active={{ bg: "transparent" }}
-          >
-            Confirm User Code
-          </Button>
-        )}
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
@@ -159,15 +147,11 @@ const MainHeader = ({
         setUser={setUser}
       />
       <SignUpModal
-        unconfirmedUser={unconfirmedUser}
-        setUnconfirmedUser={setUncomfirmedUser}
         onOpen={onSignupOpen}
         onClose={onSignupClose}
         isOpen={isSignupOpen}
       />
       <ConfirmCodeModal
-        unconfirmedUser={unconfirmedUser}
-        setUnconfirmedUser={setUncomfirmedUser}
         setUser={setUser}
         isOpen={isConfirmOpen}
         onClose={onConfirmClose}
