@@ -240,8 +240,11 @@ router.delete(
 
 // Code Execution
 router.post("/runCode", async (req: Request, res: Response) => {
+  if (!process.env.CODE_EXECUTION_ENDPOINT) {
+    throw new Error("CODE_EXECUTION_ENDPOINT is missing");
+  }
   const response = await axios.post(
-    "http://35.81.242.17:2000/api/v2/execute",
+    process.env.CODE_EXECUTION_ENDPOINT,
     req.body
   );
   res.json(response.data);
