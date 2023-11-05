@@ -15,11 +15,6 @@ import vertical from "./assets/vertical.png";
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
-const CODE_EXECUTION_ENDPOINT = import.meta.env.VITE_CODE_EXECUTION_ENDPOINT;
-console.log(
-  `import.meta.env.VITE_CODE_EXECUTION_ENDPOINT: ${CODE_EXECUTION_ENDPOINT}`
-);
-
 interface AppProps {
   ySweetClientToken: string;
   user?: any;
