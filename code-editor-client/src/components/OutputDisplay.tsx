@@ -1,6 +1,5 @@
 import React from "react";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-
 import { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { Box, Heading } from "@chakra-ui/react";
@@ -9,7 +8,6 @@ interface OutputDisplayProps {
   output: string;
   height: string;
   width: string;
-  orientation: string;
 }
 
 const OutputDisplay: React.FC<OutputDisplayProps> = ({

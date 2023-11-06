@@ -27,6 +27,7 @@ interface AppProps {
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
+  const [language, setLanguage] = useState<string>("js");
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
   );
@@ -157,16 +158,15 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
             setEditorViewRef={setEditorViewRef}
             onChange={setCode}
             onClick={() => sendCode(code)}
-            orientation={orientation}
             setOrientation={setOrientation}
             orientationIcon={orientationIcon()}
+            setLanguage={setLanguage}
             width={editorWidth}
             height={editorHeight}
           />
         </Box>
         <Box>
           <OutputDisplay
-            orientation={orientation}
             width={outputWidth}
             height={outputHeight}
             output={output}

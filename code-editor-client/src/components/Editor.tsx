@@ -10,9 +10,13 @@ import { EditorState } from "@codemirror/state";
 import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 
 // CM6 editor options
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
-import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import { StreamLanguage } from "@codemirror/language";
+import { python } from "@codemirror/legacy-modes/mode/python";
+import { ruby } from "@codemirror/legacy-modes/mode/ruby"
+import { go } from "@codemirror/legacy-modes/mode/go"
 
 // yjs and associates
 import * as Y from "yjs";
@@ -89,9 +93,9 @@ export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
   onClick: () => void;
-  orientation: string;
   setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
   orientationIcon: React.ReactElement;
+  setLanguage: Dispatch<SetStateAction<string>>; // eventually narrow this type to specific language identifiers
   width: string;
   height: string;
 };
@@ -102,6 +106,7 @@ export const Editor: React.FC<EditorProps> = ({
   onClick,
   setOrientation,
   orientationIcon,
+  setLanguage,
   width,
   height
 }) => {
@@ -175,6 +180,7 @@ export const Editor: React.FC<EditorProps> = ({
         theme,
         updateListener,
         javascript(),
+        // StreamLanguage.define(python),
         yCollab(yText, awareness, { undoManager }),
       ],
     });
@@ -205,7 +211,12 @@ export const Editor: React.FC<EditorProps> = ({
       </Box> */}
 
       <Box display='flex' justifyContent='space-between'>
-        <Select marginTop='2' width="20%" size="sm" placeholder="select language">
+        <Select
+          marginTop='2'
+          width="3mu"
+          size="sm"
+          onChange={event => setLanguage(event.target.value)}
+        >
           <option value="js">JavaScript</option>
           <option value="ts">TypeScript</option>
           <option value="py">Python</option>
