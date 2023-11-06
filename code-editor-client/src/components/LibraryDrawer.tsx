@@ -131,7 +131,7 @@ const LibraryDrawer = ({
       <DrawerContent>
         <DrawerHeader
           color='white'
-          bgGradient='linear(to-r, black, gray.100, blue.800)'
+          bg='#044F65'
           borderBottomWidth='2px'
           borderBottomColor='white'
         >
@@ -141,8 +141,8 @@ const LibraryDrawer = ({
               marginRight={10}
               borderRadius='15'
               color='white'
-              bgColor='blue.700'
-              _hover={{ bg: "blue.900" }}
+              bg='#0096FF'
+              _hover={{ bg: "#04BCF9" }}
               onClick={() => setAddSnippetMode(true)}
             >
               New Code Snippet
@@ -150,7 +150,7 @@ const LibraryDrawer = ({
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-        <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
+        <DrawerBody bg='#FFFFFF'>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
