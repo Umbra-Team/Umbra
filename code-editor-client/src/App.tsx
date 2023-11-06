@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import { Flex, Box } from "@chakra-ui/react";
@@ -24,9 +24,31 @@ interface AppProps {
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
+
+  const [language, setLanguage] = useState<string>("js");
+
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
   );
+
+  const [editorHeight, setEditorHeight] = useState("45vh");
+  const [outputHeight, setOutputHeight] = useState("20vh");
+  const [editorWidth, setEditorWidth] = useState("60vw");
+  const [outputWidth, setOutputWidth] = useState("60vw");
+
+  useEffect(() => {
+    if (orientation === "horizontal") {
+      setEditorHeight("45vh");
+      setOutputHeight("20vh");
+      setEditorWidth("60vw");
+      setOutputWidth("60vw");
+    } else {
+      setEditorHeight("70vh");
+      setOutputHeight("70vh");
+      setEditorWidth("40vw");
+      setOutputWidth("40vw");
+    }
+  }, [orientation]);
 
   // Modal actions for Snippet Library
   const {
@@ -127,10 +149,6 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
       <Image bg='white' boxSize='20px' src={horizontal} />
     );
   };
-  const editorWidth = orientation === "horizontal" ? "100vh" : "50vh";
-  const editorHeight = orientation === "horizontal" ? "50vh" : "100vh";
-  const outputWidth = orientation === "horizontal" ? "100vh" : "75vh";
-  const outputHeight = orientation === "horizontal" ? "25vh" : "50vh";
 
   return ySweetClientToken ? (
     <Flex
@@ -161,23 +179,25 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         // bgGradient='linear(to-r, black, gray.100, blue.800)'
         bg='white'
         align='center'
-        // maxWidth='75%'
-        width='100%'
+        maxWidth='75%'
+        // width='90%'
         justifyContent='center'
         margin='auto'
       >
-        <Box width={editorWidth} height={editorHeight}>
+        <Box>
           <Editor
             setEditorViewRef={setEditorViewRef}
             onChange={setCode}
             onClick={() => sendCode(code)}
             setOrientation={setOrientation}
             orientationIcon={orientationIcon()}
+            language={language}
+            setLanguage={setLanguage}
             width={editorWidth}
             height={editorHeight}
           />
         </Box>
-        <Box width={editorWidth} height={editorHeight}>
+        <Box>
           <OutputDisplay
             width={outputWidth}
             height={outputHeight}
