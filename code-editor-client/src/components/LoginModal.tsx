@@ -13,7 +13,10 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
+  ModalCloseButton,
+  Image,
 } from "@chakra-ui/react";
+import logo from "../assets/logo-transparent.png";
 
 import { signIn } from "../utils/aws-amplify-helpers";
 import { useState } from "react";
@@ -39,6 +42,7 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
+        <ModalCloseButton color='black' />
         <Flex
           minH={"50vh"}
           align={"center"}
@@ -48,8 +52,17 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
-              <Heading fontSize={"4xl"} color='black'>
-                Sign in to your account
+              <Image src={logo} boxSize={32} />
+              <Heading
+                fontSize={"4xl"}
+                textAlign={"center"}
+                fontWeight='bold'
+                color='#0096FF'
+              >
+                Umbra
+              </Heading>
+              <Heading fontSize='xl' color='black' textAlign={"center"}>
+                Sign in to access your code library
               </Heading>
             </Stack>
             <Box

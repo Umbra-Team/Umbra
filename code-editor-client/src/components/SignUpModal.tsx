@@ -12,10 +12,13 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
+  ModalCloseButton,
   InputRightElement,
   InputGroup,
+  Image,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import logo from "../assets/logo-transparent.png";
 
 import { signUp } from "../utils/aws-amplify-helpers";
 import { useState } from "react";
@@ -47,9 +50,26 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
           borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+            <ModalCloseButton color='black' />
             <Stack align={"center"}>
-              <Heading fontSize={"4xl"} textAlign={"center"} color='black'>
+              <Image src={logo} boxSize={32} />
+              <Heading
+                fontSize={"4xl"}
+                textAlign={"center"}
+                fontWeight='bold'
+                color='#0096FF'
+              >
                 Umbra
+              </Heading>
+              <Heading
+                fontSize='lg'
+                color='black'
+                pr={6}
+                pl={6}
+                textAlign={"center"}
+              >
+                Sign up for an account to save code snippets to your personal
+                library
               </Heading>
             </Stack>
             <Box
