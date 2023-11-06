@@ -15,6 +15,9 @@ import vertical from "./assets/vertical.png";
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
+// Code execution mapping object
+import codeExecutionMap from "./utils/codeExecutionMap";
+
 interface AppProps {
   ySweetClientToken: string;
   user?: any;
@@ -104,39 +107,10 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   };
 
   const sendCode = async (code: string) => {
-    console.log(`Sending code to ${CODE_EXECUTION_ROUTE}, code: ${code}`);
-
-    const PYTHON = {
-      language: "py",
-      version: "3.12.0",
-      files: [
-        {
-          content: code,
-        },
-      ],
-    };
-
-    const JAVASCRIPT = {
-      language: "deno",
-      version: "1.32.3",
-      files: [
-        {
-          content: code,
-        },
-      ],
-    };
-
-    const GO = {
-      language: "go",
-      version: "1.16.2",
-      files: [
-        {
-          content: code,
-        },
-      ],
-    };
-
-    const response = await axios.post(CODE_EXECUTION_ROUTE, JAVASCRIPT);
+    const response = await axios.post(
+      CODE_EXECUTION_ROUTE,
+      codeExecutionMap(language, code)
+    );
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);
     setOutput(JSON.stringify(response.data.run));
