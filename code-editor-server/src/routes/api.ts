@@ -11,6 +11,10 @@ import { RequestWithUser } from "../types/types";
 import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
+import AWS from 'aws-sdk';
+
+AWS.config.update({region: 'us-west-2'});
+const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 // const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
 
@@ -29,6 +33,26 @@ router.get("/get-token/:docId", async (req, res) => {
 
 router.post("/auth/login", async (req, res) => {
   // Authenticate user and generate JWT
+  const { username, password } = req.body;
+
+  const params = {
+    AuthFlow: 'USER_PASSWORD_AUTH',
+    ClientId: '3rlpf4ht955dmfkb83oh24nf46',
+    AuthParameters: {
+      USERNAME: username,
+      PASSWORD: password
+    },
+  };
+
+  cognitoidentityserviceprovider.initiateAuth(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      res.status(500).json({ error: err });
+    } else {
+      console.log(data);
+      res.json({ token: data.AuthenticationResult?.AccessToken });
+    }
+  });
   // Send JWT in response
 });
 
@@ -68,6 +92,7 @@ router.get(
     }
     console.log(`req.user: ${JSON.stringify(req.user)}`);
     const username = req.user.Username;
+    console.log(`username: ${username}`);
     const user = await User.findOne({ where: { username: username } });
     console.log(`user: ${JSON.stringify(user)}`);
     const snippets = await Snippet.findAll({ where: { userId: user?.id } });
@@ -267,9 +292,9 @@ router.post("/runCode", async (req: Request, res: Response) => {
 // create a random snippet and enter into database
 router.post("/snippetCreateRandom", verifyToken, async (req, res) => {
   // from verifyToken, req.user has all the user info
-  const username = req.body.username;
+  const email = req.body.email;
 
-  const user = await User.findOne({ where: { username: username } });
+  const user = await User.findOne({ where: { email: email } });
 
   const randTitle = Math.random().toString(36).substring(7);
 
