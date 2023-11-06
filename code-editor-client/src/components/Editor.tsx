@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useMemo, Dispatch, SetStateAction } fro
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Select } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -10,9 +10,13 @@ import { EditorState } from "@codemirror/state";
 import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 
 // CM6 editor options
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
-import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import { StreamLanguage } from "@codemirror/language";
+import { python } from "@codemirror/legacy-modes/mode/python";
+import { ruby } from "@codemirror/legacy-modes/mode/ruby"
+import { go } from "@codemirror/legacy-modes/mode/go"
 
 // yjs and associates
 import * as Y from "yjs";
@@ -91,6 +95,7 @@ export type EditorProps = {
   onClick: () => void;
   setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
   orientationIcon: React.ReactElement;
+  setLanguage: Dispatch<SetStateAction<string>>; // eventually narrow this type to specific language identifiers
   width: string;
   height: string;
 };
@@ -101,6 +106,7 @@ export const Editor: React.FC<EditorProps> = ({
   onClick,
   setOrientation,
   orientationIcon,
+  setLanguage,
   width,
   height
 }) => {
@@ -153,11 +159,11 @@ export const Editor: React.FC<EditorProps> = ({
     () =>
       EditorView.theme({
         "&": {
-          height,
           width,
+          height,
         }
       }),
-    []
+    [width, height]
   );
 
   useEffect(() => {
@@ -174,6 +180,7 @@ export const Editor: React.FC<EditorProps> = ({
         theme,
         updateListener,
         javascript(),
+        // StreamLanguage.define(python),
         yCollab(yText, awareness, { undoManager }),
       ],
     });
@@ -188,7 +195,7 @@ export const Editor: React.FC<EditorProps> = ({
         view.current = undefined;
       }
     };
-  }, []);
+  }, [width, height]);
 
   return (
     <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' >
@@ -202,7 +209,21 @@ export const Editor: React.FC<EditorProps> = ({
          Test 
         </Button>
       </Box> */}
-      <Box display='flex' justifyContent='flex-end'>
+
+      <Box display='flex' justifyContent='space-between'>
+        <Select
+          marginTop='2'
+          width="3mu"
+          size="sm"
+          onChange={event => setLanguage(event.target.value)}
+        >
+          <option value="js">JavaScript</option>
+          <option value="ts">TypeScript</option>
+          <option value="py">Python</option>
+          <option value="go">Golang</option>
+          <option value="rb">Ruby</option>
+        </Select> 
+        <Box>
         <Button size='sm' marginTop='2' onClick={toggleOrientation}>
           {orientationIcon}
         </Button>
@@ -217,6 +238,7 @@ export const Editor: React.FC<EditorProps> = ({
         >
           Run Code
         </Button>
+        </Box>
       </Box>
     </Box>
   );
