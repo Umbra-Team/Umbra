@@ -203,8 +203,8 @@ export const Editor: React.FC<EditorProps> = ({
         vscodeDark,
         theme,
         updateListener,
-        javascript(),
-        // StreamLanguage.define(python),
+        // javascript(),
+        StreamLanguage.define(go),
         yCollab(yText, awareness, { undoManager }),
       ],
     });
