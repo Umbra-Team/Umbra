@@ -1,8 +1,22 @@
-import { useRef, useEffect, useCallback, useMemo, Dispatch, SetStateAction } from "react";
+import {
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select } from "@chakra-ui/react";
+import { Box, Button, Select, Image } from "@chakra-ui/react";
+
+// Image icons
+import python_icon from "../assets/python_icon.png";
+import js_icon from "../assets/js_icon.png";
+import ts_icon from "../assets/ts_icon.png";
+import rb_icon from "../assets/rb_icon.png";
+import go_icon from "../assets/go_icon.png";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -15,8 +29,8 @@ import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
 import { StreamLanguage } from "@codemirror/language";
 import { python } from "@codemirror/legacy-modes/mode/python";
-import { ruby } from "@codemirror/legacy-modes/mode/ruby"
-import { go } from "@codemirror/legacy-modes/mode/go"
+import { ruby } from "@codemirror/legacy-modes/mode/ruby";
+import { go } from "@codemirror/legacy-modes/mode/go";
 
 // yjs and associates
 import * as Y from "yjs";
@@ -95,9 +109,18 @@ export type EditorProps = {
   onClick: () => void;
   setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
   orientationIcon: React.ReactElement;
+  language: string;
   setLanguage: Dispatch<SetStateAction<string>>; // eventually narrow this type to specific language identifiers
   width: string;
   height: string;
+};
+
+const languageIconMap = {
+  js: js_icon,
+  ts: ts_icon,
+  rb: rb_icon,
+  go: go_icon,
+  py: python_icon,
 };
 
 export const Editor: React.FC<EditorProps> = ({
@@ -106,9 +129,10 @@ export const Editor: React.FC<EditorProps> = ({
   onClick,
   setOrientation,
   orientationIcon,
+  language,
   setLanguage,
   width,
-  height
+  height,
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -124,10 +148,10 @@ export const Editor: React.FC<EditorProps> = ({
   const userColor = usercolors[random.uint32() % usercolors.length];
 
   const toggleOrientation = () => {
-    setOrientation(prev => prev === 'horizontal' ? 'vertical' : 'horizontal')
-  }
-
-
+    setOrientation((prev) =>
+      prev === "horizontal" ? "vertical" : "horizontal"
+    );
+  };
 
   useEffect(() => {
     setEditorViewRef(view);
@@ -161,7 +185,7 @@ export const Editor: React.FC<EditorProps> = ({
         "&": {
           width,
           height,
-        }
+        },
       }),
     [width, height]
   );
@@ -188,7 +212,7 @@ export const Editor: React.FC<EditorProps> = ({
     // renders the CodeMirror editor in the browser; sets the parent element to the div that holds the ref
     view.current = new EditorView({ state, parent: editorRef.current });
 
-    // cleanup function 
+    // cleanup function
     return () => {
       if (view.current) {
         view.current.destroy();
@@ -198,8 +222,7 @@ export const Editor: React.FC<EditorProps> = ({
   }, [width, height]);
 
   return (
-    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto' >
-
+    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto'>
       {/* <Heading size='md' mb='3' color='white'>
         Code Editor
       </Heading> */}
@@ -211,33 +234,42 @@ export const Editor: React.FC<EditorProps> = ({
       </Box> */}
 
       <Box display='flex' justifyContent='space-between'>
-        <Select
-          marginTop='2'
-          width="3mu"
-          size="sm"
-          onChange={event => setLanguage(event.target.value)}
-        >
-          <option value="js">JavaScript</option>
-          <option value="ts">TypeScript</option>
-          <option value="py">Python</option>
-          <option value="go">Golang</option>
-          <option value="rb">Ruby</option>
-        </Select> 
+        <Box display='flex' alignItems='center'>
+          <Select
+            marginTop='2'
+            width='3mu'
+            size='sm'
+            onChange={(event) => setLanguage(event.target.value)}
+          >
+            <option value='js'>JavaScript</option>
+            <option value='ts'>TypeScript</option>
+            <option value='py'>Python</option>
+            <option value='go'>Golang</option>
+            <option value='rb'>Ruby</option>
+          </Select>
+          <Image
+            src={languageIconMap[language]}
+            boxSize='32px'
+            alt='Code Language Icon'
+            ml={2}
+            mt={2}
+          />
+        </Box>
         <Box>
-        <Button size='sm' marginTop='2' onClick={toggleOrientation}>
-          {orientationIcon}
-        </Button>
-        <Button
-          color="white"
-          size='sm'
-          bg='#0096FF'
-          // borderRadius='20'
-          _hover={{ bg: "#04BCF9" }}
-          onClick={onClick}
-          marginTop='2'
-        >
-          Run Code
-        </Button>
+          <Button size='sm' marginTop='2' onClick={toggleOrientation}>
+            {orientationIcon}
+          </Button>
+          <Button
+            color='white'
+            size='sm'
+            bg='#0096FF'
+            // borderRadius='20'
+            _hover={{ bg: "#04BCF9" }}
+            onClick={onClick}
+            marginTop='2'
+          >
+            Run Code
+          </Button>
         </Box>
       </Box>
     </Box>

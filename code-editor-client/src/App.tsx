@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import { Flex, Box } from "@chakra-ui/react";
@@ -191,6 +191,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
             onClick={() => sendCode(code)}
             setOrientation={setOrientation}
             orientationIcon={orientationIcon()}
+            language={language}
             setLanguage={setLanguage}
             width={editorWidth}
             height={editorHeight}
