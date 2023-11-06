@@ -12,6 +12,7 @@ import morgan from "morgan";
 const app = express();
 const port = 3001;
 
+const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
 
 // Test and sync database connections
 sequelize.authenticate()

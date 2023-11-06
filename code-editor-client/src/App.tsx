@@ -15,9 +15,6 @@ import vertical from "./assets/vertical.png";
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
-const CODE_EXECUTION_ENDPOINT = import.meta.env.VITE_CODE_EXECUTION_ENDPOINT;
-console.log(import.meta.env);
-
 interface AppProps {
   ySweetClientToken: string;
   user?: any;
@@ -27,7 +24,9 @@ interface AppProps {
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
+
   const [language, setLanguage] = useState<string>("js");
+
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
   );
@@ -65,6 +64,13 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     isOpen: isLoginOpen,
   } = useDisclosure();
 
+  // Modal actions for SignUp Form
+  const {
+    onOpen: onSignupOpen,
+    onClose: onSignupClose,
+    isOpen: isSignupOpen,
+  } = useDisclosure();
+
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] = useState<
     React.MutableRefObject<EditorView | undefined>
@@ -100,7 +106,17 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   const sendCode = async (code: string) => {
     console.log(`Sending code to ${CODE_EXECUTION_ROUTE}, code: ${code}`);
 
-    const response = await axios.post(CODE_EXECUTION_ROUTE, {
+    const PYTHON = {
+      language: "py",
+      version: "3.12.0",
+      files: [
+        {
+          content: code,
+        },
+      ],
+    };
+
+    const JAVASCRIPT = {
       language: "deno",
       version: "1.32.3",
       files: [
@@ -108,7 +124,19 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           content: code,
         },
       ],
-    });
+    };
+
+    const GO = {
+      language: "go",
+      version: "1.16.2",
+      files: [
+        {
+          content: code,
+        },
+      ],
+    };
+
+    const response = await axios.post(CODE_EXECUTION_ROUTE, JAVASCRIPT);
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);
     setOutput(JSON.stringify(response.data.run));
@@ -139,6 +167,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           onLoginOpen={onLoginOpen}
           onLoginClose={onLoginClose}
           isLoginOpen={isLoginOpen}
+          onSignupOpen={onSignupOpen}
+          onSignupClose={onSignupClose}
+          isSignupOpen={isSignupOpen}
         />
       </Flex>
       <Flex

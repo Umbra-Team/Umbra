@@ -8,9 +8,11 @@ import Snippet from "../models/Snippet";
 import User from "../models/User";
 import sequelize from "../utils/sequelize";
 import { RequestWithUser } from "../types/types";
-
+import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
+
+// const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
 
 const router = express.Router();
 
@@ -238,11 +240,23 @@ router.delete(
   }
 );
 
+// Sync Cognito users to local DB
+router.get("/syncUsers", async (req: Request, res: Response) => {
+  try {
+    await syncUsers();
+    res.send();
+  } catch (error) {
+    res.status(500).send("Error syncing local users with cognito users");
+  }
+});
+
 // Code Execution
 router.post("/runCode", async (req: Request, res: Response) => {
   if (!process.env.CODE_EXECUTION_ENDPOINT) {
     throw new Error("CODE_EXECUTION_ENDPOINT is missing");
   }
+
+  console.log(JSON.stringify(req.body));
   const response = await axios.post(
     process.env.CODE_EXECUTION_ENDPOINT,
     req.body

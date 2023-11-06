@@ -14,11 +14,6 @@ export type MainEditorProps = {
   awareness: Awareness;
 };
 
-// export type MainEditorProps = {
-//   code: string;
-//   setCode: (code: string) => void;
-// };
-
 export const MainEditor: React.FC<MainEditorProps> = ({
   setCode,
   yText,

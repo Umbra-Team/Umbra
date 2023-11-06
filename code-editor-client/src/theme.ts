@@ -1,8 +1,8 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme } from "@chakra-ui/react";
 
-import '@fontsource/raleway';
-import '@fontsource/nunito';
-import '@fontsource/crimson-pro';
+import "@fontsource/raleway";
+import "@fontsource/nunito";
+import "@fontsource/crimson-pro";
 
 export const theme = extendTheme({
   colors: {
@@ -13,7 +13,7 @@ export const theme = extendTheme({
       900: "#F8F8F8",
     },
     blue: {
-      500: "#007ACC",
+      500: "#0096FF",
     },
   },
   fonts: {

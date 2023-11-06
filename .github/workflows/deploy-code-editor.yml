@@ -3,21 +3,25 @@ name: Build and Deploy Code Editor Server to AWS Lightsail
 on:
   push:
     branches:
-      - main
+      - github-workflow-11-04-piston
   workflow_dispatch:
 
 env:
   AWS_REGION: us-west-2
-  AWS_LIGHTSAIL_SERVICE_NAME: ls-capstone-team-1-gh-actions-code-editor-server
+  AWS_LIGHTSAIL_SERVICE_NAME: ls-capstone-team-1-code-editor-server
+  CODE_EXECUTION_ENDPOINT: http://35.81.242.17:2000/api/v2/execute
 jobs:
   build_and_deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout github-workflow-11-04-piston
         uses: actions/checkout@v2
-
-      - name: Create .env file
+      
+      - name: Echo directory structure
+        run: ls -al
+        
+      - name: Create .env file for Express Server
         run: |
           echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
@@ -30,6 +34,7 @@ jobs:
           echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
           echo AWS_COGNITO_REGION=${{ secrets.AWS_COGNITO_REGION }} >> .env
           echo COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }} >> .env
+          echo CODE_EXECUTION_ENDPOINT=${{ env.CODE_EXECUTION_ENDPOINT }} >> .env
           echo .env
 
       - name: Install Utilities
