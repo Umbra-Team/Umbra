@@ -184,7 +184,7 @@ const LibraryDrawer = ({
         {/* <Box>
           <Text>Nope</Text>
         </Box> */}
-        <DrawerHeader>Here are some examples; sign up or log in to create your own</DrawerHeader>
+        <DrawerHeader>Here are some examples. Sign up or log in to create your own!</DrawerHeader>
         <DrawerBody bg='#FFFFFF'>
           <SimpleGrid
             spacing={5}

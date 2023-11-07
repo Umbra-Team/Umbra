@@ -26,7 +26,7 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
-import { javascript } from "@codemirror/lang-javascript";
+import { javascript, typescriptLanguage, typescriptSnippets } from "@codemirror/lang-javascript";
 import { StreamLanguage } from "@codemirror/language";
 import { python } from "@codemirror/legacy-modes/mode/python";
 import { ruby } from "@codemirror/legacy-modes/mode/ruby";
@@ -123,6 +123,23 @@ const languageIconMap = {
   py: python_icon,
 };
 
+const getLanguageMode = (language: string) => {
+  switch (language) {
+    case 'js':
+      return javascript();
+    case 'ts':
+      return typescriptLanguage;
+    case 'py':
+      return StreamLanguage.define(python);
+    case 'go':
+      return StreamLanguage.define(go);
+    case 'rb':
+      return StreamLanguage.define(ruby);
+    default:
+      return javascript();
+  }
+};
+
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
@@ -190,6 +207,8 @@ export const Editor: React.FC<EditorProps> = ({
     [width, height]
   );
 
+
+
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -203,8 +222,7 @@ export const Editor: React.FC<EditorProps> = ({
         vscodeDark,
         theme,
         updateListener,
-        // javascript(),
-        StreamLanguage.define(go),
+        getLanguageMode(language),
         yCollab(yText, awareness, { undoManager }),
       ],
     });
@@ -219,7 +237,7 @@ export const Editor: React.FC<EditorProps> = ({
         view.current = undefined;
       }
     };
-  }, [width, height]);
+  }, [width, height, language]);
 
   return (
     <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto'>
