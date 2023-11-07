@@ -75,7 +75,7 @@ const MainHeader = ({
       // borderColor='gray.200'
     >
       <Flex>
-        <Heading size='lg' fontWeight='bold' color='#0096FF'>
+        <Heading size='lg' fontWeight='bold' color='blue.500'>
           <Flex align='center' px={4} mb={1.5}>
             <Image src={logo} boxSize='60px' alt='Logo' mr={2} />
             Umbra
@@ -87,9 +87,10 @@ const MainHeader = ({
           bg='transparent'
           color='black'
           fontSize='18px'
+          fontWeight="bold"
           _hover={{
-            color: "#0096FF",
-            fontWeight: "bold",
+            color: "blue.500",
+            // fontWeight: "bold",
             // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
           }}
           onClick={user ? handleLogoutClick : onLoginOpen}
@@ -101,9 +102,9 @@ const MainHeader = ({
           bg='transparent'
           color='black'
           fontSize='18px'
+          fontWeight='bold'
           _hover={{
-            color: "#0096FF",
-            fontWeight: "bold",
+            color: "blue.500",
           }}
           onClick={
             localStorage.getItem("unconfirmedUser")
@@ -122,6 +123,8 @@ const MainHeader = ({
       <Flex align='center' gap={10}>
         <ShareRoomButton />
         <Tooltip
+          bg={user ? "green.200" : "orange.100"}
+          maxW="200px"
           label={
             user
               ? "Open your code snippet library"

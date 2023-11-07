@@ -240,7 +240,7 @@ export const Editor: React.FC<EditorProps> = ({
   }, [width, height, language]);
 
   return (
-    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto'>
+    <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
       {/* <Heading size='md' mb='3' color='white'>
         Code Editor
       </Heading> */}

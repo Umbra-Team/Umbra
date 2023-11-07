@@ -137,7 +137,15 @@ const LibraryDrawer = ({
           borderBottomColor='lightgray'
         >
           <Flex justifyContent='space-between'>
-            <Text mt={1.5}>Code Library</Text>
+            <Text 
+              mt={1.5}
+              fontSize="24px"
+              fontWeight="900"
+              bgGradient='linear(to-l, blue.600, lightblue.600)'
+              bgClip='text'
+            >
+              Code Library
+            </Text>
             <Button
               marginRight={10}
               borderRadius='15'
