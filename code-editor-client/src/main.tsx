@@ -82,13 +82,15 @@ const AppWrapper = () => {
         {user ? (
           <Alert
             bg="#99EEFD"
-            variant="left-accent"
+            variant="subtle"
             status='success'
           >
             Logged in as {user.attributes.email}
           </Alert>
         ) : (
           <Alert
+            // bg="#99EEFD"
+            variant="subtle"
             status='info'
           >
               Not logged in

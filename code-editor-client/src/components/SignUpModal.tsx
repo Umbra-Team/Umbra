@@ -46,7 +46,7 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
           minH={"50vh"}
           align={"center"}
           justify={"center"}
-          bg={useColorModeValue("gray.50", "gray.800")}
+          bg="white"
           borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
@@ -74,7 +74,7 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
             </Stack>
             <Box
               rounded={"lg"}
-              bg={useColorModeValue("white", "gray.700")}
+              bg="white"
               boxShadow={"lg"}
               p={8}
             >
@@ -83,20 +83,31 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
                   <FormControl id='email' isRequired>
                     <FormLabel color='black'>Email address</FormLabel>
                     <Input
+                      border="1px solid lightgray"
+                      bg="white"
                       type='email'
                       onChange={(e) => setEmail(e.target.value)}
+                      _hover={{
+                        borderColor: "umbra.midnightGreen",
+                      }}
                     />
                   </FormControl>
                   <FormControl id='password' isRequired>
                     <FormLabel color='black'>Password</FormLabel>
                     <InputGroup>
                       <Input
+                        border="1px solid lightgray"
+                        bg="white"
                         type={showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
+                        _hover={{
+                          borderColor: "umbra.midnightGreen",
+                        }}
                       />
                       <InputRightElement h={"full"}>
                         <Button
                           variant={"ghost"}
+                          color={"gray.400"}
                           onClick={() =>
                             setShowPassword((showPassword) => !showPassword)
                           }
@@ -114,7 +125,7 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
                       bg={"blue.400"}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "umbra.deepSkyBlue",
                       }}
                     >
                       Sign up
