@@ -117,7 +117,7 @@ const LibrarySnippet = ({
             overflow='hidden'
             w='49%'
             bgColor='umbra.midnightGreen'
-            _hover={{ bg: "blue.900" }}
+            _hover={{ bg: "umbra.logoText" }}
             onClick={() => appendEditorContent(snippetCode)}
           >
             Insert
@@ -129,7 +129,7 @@ const LibrarySnippet = ({
             overflow='hidden'
             w='49%'
             bgColor='umbra.midnightGreen'
-            _hover={{ bg: "blue.900" }}
+            _hover={{ bg: "umbra.logoText" }}
             onClick={isEditing ? handleSaveClick : handleEditClick}
           >
             {isEditing ? "Save" : "Edit"}
@@ -141,7 +141,7 @@ const LibrarySnippet = ({
             overflow='hidden'
             w='49%'
             bgColor='umbra.midnightGreen'
-            _hover={{ bg: "blue.900" }}
+            _hover={{ bg: "umbra.logoText" }}
             onClick={handleDeleteClick}
           >
             Delete

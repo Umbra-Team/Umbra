@@ -76,8 +76,8 @@ const MainHeader = ({
     >
       <Flex>
         <Heading size='lg' fontWeight='bold' color='#0096FF'>
-          <Flex align='center' px={4}>
-            <Image src={logo} boxSize='40px' alt='Logo' mr={2} />
+          <Flex align='center' px={4} mb={1.5}>
+            <Image src={logo} boxSize='60px' alt='Logo' mr={2} />
             Umbra
           </Flex>
         </Heading>
@@ -116,10 +116,11 @@ const MainHeader = ({
             ? "Pending Signup - Verify Email Code"
             : "Sign Up"}
         </Button>
-        <ShareRoomButton />
+
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
+        <ShareRoomButton />
         <Tooltip
           label={
             user
