@@ -22,6 +22,7 @@ import {
   getAllUserSnippets,
 } from "../services/snippets";
 import { Snippet } from "../types/types";
+import { examples, ExampleSnippet } from "../constants/exampleSnippetData";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -180,9 +181,28 @@ const LibraryDrawer = ({
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
-        <Box>
+        {/* <Box>
           <Text>Nope</Text>
-        </Box>
+        </Box> */}
+        <DrawerHeader>Here are some examples; sign up or log in to create your own</DrawerHeader>
+        <DrawerBody bg='#FFFFFF'>
+          <SimpleGrid
+            spacing={5}
+            templateColumns='repeat(1, minmax(600px, 1fr))'
+          >
+            {examples.map((snippet: ExampleSnippet) => (
+              <LibrarySnippet
+                key={snippet.id}
+                id={snippet.id}
+                title={snippet.title}
+                code={snippet.code}
+                appendEditorContent={appendEditorContent}
+                handleDeleteSnippet={handleDeleteSnippet}
+                handleUpdateSnippet={handleUpdateSnippet}
+              />
+            ))}
+          </SimpleGrid>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   );
