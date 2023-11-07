@@ -2,13 +2,14 @@ import http from 'k6/http';
 import { check, group, fail, sleep } from 'k6';
 
 export const options = {
-    vus: 10,
-    iterations: 100
+    vus: 100,
+    iterations: 1000
 };
 
 const USERNAME = 'davidrd123@gmail.com';
 const PASSWORD = 'bread-first';
-const BASE_URL = 'http://localhost:3001/api';
+// const BASE_URL = 'http://localhost:3001/api';
+const BASE_URL = 'https://ls-capstone-team-1-code-editor-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/api'
 
 export function setup() {
   let token;
@@ -45,6 +46,8 @@ export function setup() {
   return token;
 }
 
+const randomTimeout = () =>(Math.floor(Math.random() * 2000) + 1000) / 1000;
+
 export default (setupData) => {
   const token = setupData;
 
@@ -64,9 +67,9 @@ export default (setupData) => {
 
   group('01. Create a new snippet', () => {
     // Set random title and code
-    const randomNumber = Math.floor(Math.random() * 100000) + 1;
-    snippetTitle = `Hello World ${randomNumber}!`;
-    snippetCode = `console.log("Hello World ${randomNumber}!");`;
+    const randomString = Math.random().toString(36).substring(2, 15);
+    snippetTitle = `Hello World ${randomString}!`;
+    snippetCode = `console.log("Hello World ${randomString}!");`;
     const payload = JSON.stringify({
       title: snippetTitle,
       code: snippetCode,
@@ -84,7 +87,7 @@ export default (setupData) => {
       'snippet created successfully': (r) => r.status === 200 && createdSnippet.id !== '',
     });
 
-    sleep(1);
+    sleep(randomTimeout());
   });
 
   group('02. Get a snippet', () => {
@@ -96,7 +99,7 @@ export default (setupData) => {
 
     check(res, { 'snippet retrieved successfully': (res) => res.status === 200 });
 
-    sleep(1);
+    sleep(randomTimeout());
   });
 
   group('03. Update a snippet', () => {
@@ -113,7 +116,7 @@ export default (setupData) => {
       'snippet updated successfully': (r) => r.status === 200 && updatedSnippet.title === newTitle,
     });
 
-    sleep(1);
+    sleep(randomTimeout());
   });
   
   group('04. Delete a snippet', () => {
@@ -124,7 +127,7 @@ export default (setupData) => {
       'snippet deleted successfully': (r) => r.status === 204,
     });
 
-    sleep(1);
+    sleep(randomTimeout());
   });
 }
 

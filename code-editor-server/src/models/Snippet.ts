@@ -29,6 +29,7 @@ Snippet.init({
   language: {
     type: DataTypes.STRING,
     allowNull: true,
+    defaultValue: 'javascript',
   },
   code: {
     type: DataTypes.TEXT,

@@ -115,14 +115,14 @@ router.post(
         .json({ error: "User not found" });
     }
 
-    const { title, code } = req.body;
+    const { title, code, language } = req.body;
     console.log(`/snippets: title=${title}, code=${code}`);
 
     const username = req.user.Username;
     const user = await User.findOne({ where: { username: req.user.Username } });
     const userId = user?.id;
     try {
-      const snippet = await Snippet.create({ title, code, userId });
+      const snippet = await Snippet.create({ title, code, language, userId });
       res.json(snippet);
     } catch (err: any) {
       if (err instanceof UniqueConstraintError) {
