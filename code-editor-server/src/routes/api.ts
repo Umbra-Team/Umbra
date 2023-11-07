@@ -12,6 +12,7 @@ import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
 import AWS from 'aws-sdk';
+import { UniqueConstraintError } from "sequelize";
 
 AWS.config.update({region: 'us-west-2'});
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
@@ -47,10 +48,12 @@ router.post("/auth/login", async (req, res) => {
   cognitoidentityserviceprovider.initiateAuth(params, function(err, data) {
     if (err) {
       console.log(err, err.stack);
-      res.status(500).json({ error: err });
+      return res.status(500).json({ error: err });
     } else {
       console.log(data);
-      res.json({ token: data.AuthenticationResult?.AccessToken });
+      // return status code 200 and the token
+      return res.status(200).json({ token: data.AuthenticationResult?.AccessToken });
+      // res.json({ token: data.AuthenticationResult?.AccessToken });
     }
   });
   // Send JWT in response
@@ -118,8 +121,16 @@ router.post(
     const username = req.user.Username;
     const user = await User.findOne({ where: { username: req.user.Username } });
     const userId = user?.id;
-    const snippet = await Snippet.create({ title, code, userId });
-    res.json(snippet);
+    try {
+      const snippet = await Snippet.create({ title, code, userId });
+      res.json(snippet);
+    } catch (err: any) {
+      if (err instanceof UniqueConstraintError) {
+        res.status(StatusCodes.BAD_REQUEST).json({ error: "Snippet title must be unique" });
+      } else {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: err.message });
+      }
+    }
   }
 );
 
@@ -205,10 +216,14 @@ router.patch(
         res.status(404).send("Snippet not found");
       }
     } catch (err) {
-      const error = err as Error;
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: error.message });
+      if (err instanceof UniqueConstraintError) {
+        res.status(StatusCodes.BAD_REQUEST).json({ error: "Snippet title must be unique" });
+      } else {
+        const error = err as Error;
+        res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ error: error.message });
+      }
     }
   }
 );
