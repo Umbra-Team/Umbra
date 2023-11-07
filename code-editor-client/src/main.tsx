@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { ChakraProvider, ColorModeScript, Alert } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript, Alert, AlertTitle } from "@chakra-ui/react";
 import { theme } from "./theme";
 import App from "./App";
 import axios from "axios";
@@ -81,19 +81,23 @@ const AppWrapper = () => {
       <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
         {user ? (
           <Alert
-            bg="#99EEFD"
-            variant="subtle"
+            h="5px"
+            bg="#D9FFD1"
+            color="#288215"
             status='success'
+            justifyContent={"center"}
           >
-            Logged in as {user.attributes.email}
+            <AlertTitle>Logged in as {user.attributes.email}</AlertTitle>
           </Alert>
         ) : (
           <Alert
-            // bg="#99EEFD"
-            variant="subtle"
+            h="5px"
+            bg="#FDECE3"
+            color="#F58A51"
+            justifyContent={"center"}
             status='info'
           >
-              Not logged in
+            <AlertTitle>Not logged in</AlertTitle>
           </Alert>
         )}
         <App

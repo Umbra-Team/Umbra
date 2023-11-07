@@ -130,13 +130,13 @@ const LibraryDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader
-          color='white'
-          bg='#044F65'
-          borderBottomWidth='2px'
-          borderBottomColor='white'
+          color='black'
+          bg='white'
+          borderBottomWidth='1px'
+          borderBottomColor='lightgray'
         >
           <Flex justifyContent='space-between'>
-            <Text>Code Library</Text>
+            <Text mt={1.5}>Code Library</Text>
             <Button
               marginRight={10}
               borderRadius='15'

@@ -74,7 +74,7 @@ const MainHeader = ({
       // border='2px'
       // borderColor='gray.200'
     >
-      <Flex align='center'>
+      <Flex>
         <Heading size='lg' fontWeight='bold' color='#0096FF'>
           <Flex align='center' px={4}>
             <Image src={logo} boxSize='40px' alt='Logo' mr={2} />
@@ -82,7 +82,7 @@ const MainHeader = ({
           </Flex>
         </Heading>
       </Flex>
-      <Flex align='center' justify='center' px={10}>
+      <Flex align='baseline' justify='center' px={10}>
         <Button
           bg='transparent'
           color='black'
@@ -129,11 +129,11 @@ const MainHeader = ({
           fontSize='md'
         >
           <Button
-            bg='#0096FF'
+            bg='umbra.logoText'
             color='white'
             fontSize='22px'
             _hover={{
-              bg: "#04BCF9",
+              bg: "umbra.deepSkyBlue",
             }}
             onClick={onLibraryOpen}
             _active={{ bg: "transparent" }}
