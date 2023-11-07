@@ -47,7 +47,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
       setOutputWidth("60vw");
     } else {
       setEditorHeight("70vh");
-      setOutputHeight("70vh");
+      setOutputHeight("70.5vh");
       setEditorWidth("40vw");
       setOutputWidth("40vw");
     }

@@ -47,7 +47,7 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
           minH={"50vh"}
           align={"center"}
           justify={"center"}
-          bg={useColorModeValue("gray.50", "gray.800")}
+          bg={"white"}
           borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
@@ -67,7 +67,7 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
             </Stack>
             <Box
               rounded={"lg"}
-              bg={useColorModeValue("white", "gray.700")}
+              bg={"white"}
               boxShadow={"lg"}
               p={8}
             >
@@ -75,15 +75,25 @@ const LoginModal = ({ isOpen, onClose, onOpen, setUser }) => {
                 <FormControl id='email' isRequired>
                   <FormLabel color='black'>Email address</FormLabel>
                   <Input
+                    border="1px solid lightgray"
+                    bg="white"
                     type='email'
                     onChange={(e) => setEmail(e.target.value)}
+                    _hover={{
+                      borderColor: "umbra.midnightGreen",
+                    }}
                   />
                 </FormControl>
                 <FormControl id='password' isRequired>
                   <FormLabel color='black'>Password</FormLabel>
                   <Input
+                    border="1px solid lightgray"
+                    bg="white"
                     type='password'
                     onChange={(e) => setPassword(e.target.value)}
+                    _hover={{
+                      borderColor: "umbra.midnightGreen",
+                    }}
                   />
                 </FormControl>
                 <Stack spacing={10}>

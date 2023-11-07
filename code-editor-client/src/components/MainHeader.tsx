@@ -74,15 +74,15 @@ const MainHeader = ({
       // border='2px'
       // borderColor='gray.200'
     >
-      <Flex align='center'>
+      <Flex>
         <Heading size='lg' fontWeight='bold' color='#0096FF'>
-          <Flex align='center' px={4}>
-            <Image src={logo} boxSize='40px' alt='Logo' mr={2} />
+          <Flex align='center' px={4} mb={1.5}>
+            <Image src={logo} boxSize='60px' alt='Logo' mr={2} />
             Umbra
           </Flex>
         </Heading>
       </Flex>
-      <Flex align='center' justify='center' px={10}>
+      <Flex align='baseline' justify='center' px={10}>
         <Button
           bg='transparent'
           color='black'
@@ -116,10 +116,11 @@ const MainHeader = ({
             ? "Pending Signup - Verify Email Code"
             : "Sign Up"}
         </Button>
-        <ShareRoomButton />
+
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
+        <ShareRoomButton />
         <Tooltip
           label={
             user
@@ -129,11 +130,11 @@ const MainHeader = ({
           fontSize='md'
         >
           <Button
-            bg='#0096FF'
+            bg='umbra.logoText'
             color='white'
             fontSize='22px'
             _hover={{
-              bg: "#04BCF9",
+              bg: "umbra.deepSkyBlue",
             }}
             onClick={onLibraryOpen}
             _active={{ bg: "transparent" }}

@@ -12,7 +12,15 @@ const HamburgerMenuButton = ({
 }: HamburgerMenuButtonProps) => {
   return (
     <Menu>
-      <MenuButton as={Button} bg='white' border="1p solid gray" borderWidth='1px' borderColor='gray' borderRadius="6px" p={1}>
+      <MenuButton as={Button} 
+        bg='white'
+        border="1p solid gray"
+        borderWidth='1px'
+        borderColor='gray'
+        borderRadius="6px"
+        p={1}
+        _hover={{ bg: "#C2DFFF" }}
+      >
         {/* <HamburgerIcon border="1px solid" borderRadius="3px" p={1} boxSize={8} bg="#FFFFFF" color='gray' /> */}
         <HamburgerIcon color='gray'/>
       </MenuButton>

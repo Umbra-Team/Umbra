@@ -130,19 +130,19 @@ const LibraryDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader
-          color='white'
-          bgGradient='linear(to-r, black, gray.100, blue.800)'
-          borderBottomWidth='2px'
-          borderBottomColor='white'
+          color='black'
+          bg='white'
+          borderBottomWidth='1px'
+          borderBottomColor='lightgray'
         >
           <Flex justifyContent='space-between'>
-            <Text>Code Library</Text>
+            <Text mt={1.5}>Code Library</Text>
             <Button
               marginRight={10}
               borderRadius='15'
               color='white'
-              bgColor='blue.700'
-              _hover={{ bg: "blue.900" }}
+              bg='#0096FF'
+              _hover={{ bg: "#04BCF9" }}
               onClick={() => setAddSnippetMode(true)}
             >
               New Code Snippet
@@ -150,7 +150,7 @@ const LibraryDrawer = ({
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-        <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
+        <DrawerBody bg='#FFFFFF'>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
