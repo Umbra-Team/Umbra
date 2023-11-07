@@ -9,7 +9,7 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image } from "@chakra-ui/react";
+import { Box, Button, Select, Image, Tooltip } from "@chakra-ui/react";
 
 // Image icons
 import python_icon from "../assets/python_icon.png";
@@ -240,6 +240,19 @@ export const Editor: React.FC<EditorProps> = ({
             width='3mu'
             size='sm'
             onChange={(event) => setLanguage(event.target.value)}
+            sx={{
+              option: {
+                backgroundColor: "gray.200",
+                _hover: {
+                  backgroundColor: "blue.500",
+                  color: "white",
+                },
+                _focus: {
+                  backgroundColor: "blue.500",
+                  color: "white",
+                },
+              },
+            }}
           >
             <option value='js'>JavaScript</option>
             <option value='ts'>TypeScript</option>
@@ -256,9 +269,11 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Button size='sm' marginTop='2' onClick={toggleOrientation}>
-            {orientationIcon}
-          </Button>
+          <Tooltip label='Change Editor Orientation'>
+            <Button size='sm' marginTop='2' onClick={toggleOrientation}>
+              {orientationIcon}
+            </Button>
+          </Tooltip>
           <Button
             color='white'
             size='sm'
