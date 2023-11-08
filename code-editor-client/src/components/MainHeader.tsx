@@ -187,20 +187,36 @@ const MainHeader = ({
             fontSize='18px'
             fontWeight='bold'
             _hover={{
-            color: "blue.500",
+              color: "blue.500",
             }}
-            onClick={
-              localStorage.getItem("unconfirmedUser")
-                ? onConfirmOpen
-                : onSignupOpen
-            }
+            onClick={user ? handleLogoutClick : onLoginOpen}
             _active={{ bg: "transparent" }}
           >
-            {signupButtonContent}
+            {loginButtonContent}
           </Button>
-        )}
-      </Flex>
+
+          {signupButtonContent && (
+            <Button
+              bg='transparent'
+              color='black'
+              fontSize='18px'
+              fontWeight='bold'
+              _hover={{
+                color: "blue.500",
+              }}
+              onClick={
+                localStorage.getItem("unconfirmedUser")
+                  ? onConfirmOpen
+                  : onSignupOpen
+              }
+              _active={{ bg: "transparent" }}
+            >
+              {signupButtonContent}
+            </Button>
+          )}
+        </Flex>
         <Tooltip
+
           bg={"yellow.200"}
           color={"gray.600"}
           maxW="200px"
