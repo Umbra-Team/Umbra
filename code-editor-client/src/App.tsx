@@ -41,8 +41,8 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     if (orientation === "horizontal") {
       setEditorHeight("45vh");
       setOutputHeight("20vh");
-      setEditorWidth("60vw");
-      setOutputWidth("60vw");
+      setEditorWidth("55vw");
+      setOutputWidth("55vw");
     } else {
       setEditorHeight("70vh");
       setOutputHeight("70.5vh");
@@ -139,7 +139,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
       <Flex
         direction={orientation === "horizontal" ? "column" : "row"}
         p={6}
-        gap={3}
+        // gap={1}
         // bgGradient='linear(to-r, black, gray.100, blue.800)'
         bg='white'
         align='center'
@@ -148,7 +148,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         justifyContent='center'
         margin='auto'
       >
-        <Box>
+        <Box boxShadow="dark-lg" borderRadius="5px">
           <Editor
             setEditorViewRef={setEditorViewRef}
             onChange={setCode}
@@ -161,7 +161,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
             height={editorHeight}
           />
         </Box>
-        <Box>
+        <Box boxShadow="dark-lg"  borderRadius="5px" >
           <OutputDisplay
             width={outputWidth}
             height={outputHeight}

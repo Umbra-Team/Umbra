@@ -19,7 +19,7 @@ export const theme = extendTheme({
       prussianBlue: "#043554",
     },
     orange: {
-      100: "#FFE0C2",
+      100: "#FFE8D1",
       200: "#FFD1A3",
       300: "#FFBA75",
       400: "#FFAB57",

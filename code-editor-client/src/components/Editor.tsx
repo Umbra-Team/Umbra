@@ -9,7 +9,7 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image, Icon } from "@chakra-ui/react";
+import { Box, Button, Select, Image, Tooltip } from "@chakra-ui/react";
 
 // Image icons
 import python_icon from "../assets/python_icon.png";
@@ -26,7 +26,7 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
-import { javascript, typescriptLanguage, typescriptSnippets } from "@codemirror/lang-javascript";
+import { javascript, typescriptLanguage } from "@codemirror/lang-javascript";
 import { StreamLanguage } from "@codemirror/language";
 import { python } from "@codemirror/legacy-modes/mode/python";
 import { ruby } from "@codemirror/legacy-modes/mode/ruby";
@@ -264,15 +264,16 @@ export const Editor: React.FC<EditorProps> = ({
           marginTop='2'
           marginRight='2'
         >
-          Run Code
+          Run
         </Button>
           <Select
             marginTop='2'
             width='3mu'
             size='sm'
             onChange={(event) => setLanguage(event.target.value)}
-            textColor={"white"}
-            iconColor={"white"}
+            textColor={"gray.300"}
+            iconColor={"gray.300"}
+            borderColor={"gray.600"}
           >
             <option value='js'>JavaScript</option>
             <option value='ts'>TypeScript</option>
@@ -289,6 +290,7 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
+          <Tooltip label='Change Editor Orientation'>
           <Button 
             size='sm' 
             marginTop='2' 
@@ -309,17 +311,7 @@ export const Editor: React.FC<EditorProps> = ({
           </svg>
           }
           </Button>
-          {/* <Button
-            color='white'
-            size='sm'
-            bg='#0096FF'
-            // borderRadius='20'
-            _hover={{ bg: "#04BCF9" }}
-            onClick={onClick}
-            marginTop='2'
-          >
-            Run Code
-          </Button> */}
+          </Tooltip>
         </Box>
       </Box>
     </Box>

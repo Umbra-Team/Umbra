@@ -6,7 +6,9 @@ import {
   Spacer,
   useDisclosure,
   Tooltip,
+  Text,
 } from "@chakra-ui/react";
+import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import logo from "../assets/logo-transparent.png";
 import { logout } from "../utils/aws-amplify-helpers";
@@ -67,14 +69,14 @@ const MainHeader = ({
       flex={0.4}
       align='center'
       justify='space-between'
-      p={4}
+      // p={2}
       px={6}
       bg='#FFFFFF'
       // bgGradient='linear(to-r, black, gray.100, blue.800)'
       // border='2px'
       // borderColor='gray.200'
     >
-      <Flex>
+      <Flex pt={2}>
         <Heading size='lg' fontWeight='bold' color='blue.500'>
           <Flex align='center' px={4} mb={1.5}>
             <Image src={logo} boxSize='60px' alt='Logo' mr={2} />
@@ -82,7 +84,48 @@ const MainHeader = ({
           </Flex>
         </Heading>
       </Flex>
-      <Flex align='baseline' justify='center' px={10}>
+      <ShareRoomButton />
+      <Spacer />
+      <Flex align='center' gap={2}>
+        <Flex align='baseline' px={10}>
+        {user ? (
+          <Flex
+            color={'#F58A51'}
+            fontWeight={'700'}
+            marginRight={'15px'} 
+          >
+            <Text
+              bg="green.100" 
+              color="green.800"
+              p={1}
+              mr={1}
+              border = "1px solid"
+              borderColor="green.700"
+              borderRadius="2px"
+            >
+              <CheckCircleIcon  pr={1}/>
+              Logged in as {user.attributes.email}
+            </Text>
+          </Flex>
+        ) : (
+          <Flex
+            color={'#F58A51'}
+            fontWeight={'700'}
+          >
+            <Text
+              bg="orange.100"
+              color="orange.800"
+              p={1}
+              mr={1}
+              border="1px solid"
+              borderColor="orange.700"
+              borderRadius="2px"
+            >
+              <InfoIcon pr={1} />
+              Not Logged In
+            </Text>
+          </Flex>
+        )}
         <Button
           bg='transparent'
           color='black'
@@ -119,43 +162,6 @@ const MainHeader = ({
         </Button>
 
       </Flex>
-      <Spacer />
-      <Flex align='center' gap={3}>
-        {/* {user ? (
-          <Flex
-            color={'#F58A51'}
-            fontWeight={'700'}
-            marginRight={'15px'} 
-          >
-            {user.attributes.email} 
-          </Flex>
-        ) : (
-          <Flex
-            color={'#F58A51'}
-            fontWeight={'700'}
-            marginRight={'15px'} 
-          >
-            Not Logged In
-          </Flex>
-        )} */}
-        <ShareRoomButton />
-        {user ? (
-          <Flex
-            color={'#F58A51'}
-            fontWeight={'700'}
-            marginRight={'15px'} 
-          >
-            {user.attributes.email} 
-          </Flex>
-        ) : (
-          <Flex
-            color={'#F58A51'}
-            fontWeight={'700'}
-            marginRight={'15px'} 
-          >
-            Not Logged In
-          </Flex>
-        )}
         <Tooltip
           bg={"orange.200"}
           maxW="250px"
