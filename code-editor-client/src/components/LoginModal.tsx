@@ -55,7 +55,7 @@ const LoginModal = ({
       </Box>
     );
   } else if (isResettingPassword) {
-    content = <PasswordResetCode />;
+    content = "password reset code component will go here";
   } else {
     content = (
       <LoginForm
