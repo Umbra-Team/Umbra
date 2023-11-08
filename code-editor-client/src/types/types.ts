@@ -13,6 +13,7 @@ export interface ToastProps {
   title: string;
   description: string;
   status: "success" | "error" | "warning";
+  setToastProps: (props: ToastProps | null) => void;
 }
 
 export interface AppProps {
