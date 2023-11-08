@@ -36,7 +36,6 @@ const LoginModal = ({
     !!localStorage.getItem("umbraPasswordResetEmail")
   );
   // const [isResettingPassword, setIsResettingPassword] = useState(false);
-  const [hasVerifiedResetCode, setHasVerifiedResetCode] = useState(false);
   const [showEmailReset, setShowEmailReset] = useState(false);
 
   let content;
@@ -49,18 +48,13 @@ const LoginModal = ({
         setIsResettingPassword={setIsResettingPassword}
       />
     );
-  } else if (isResettingPassword && hasVerifiedResetCode) {
-    content = (
-      <Box>
-        <Text>Resetting Password and has verified code</Text>
-      </Box>
-    );
   } else if (isResettingPassword) {
     content = (
       <PasswordResetCode
         onClose={onClose}
         toastProps={toastProps}
         setToastProps={setToastProps}
+        setIsResettingPassword={setIsResettingPassword}
       />
     );
   } else {

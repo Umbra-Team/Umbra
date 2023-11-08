@@ -26,15 +26,21 @@ import { Auth } from "aws-amplify";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { forgotPassword, resetPassword } from "../utils/aws-amplify-helpers";
 
-const PasswordResetCode = ({ onClose, toastProps, setToastProps }) => {
+const PasswordResetCode = ({
+  onClose,
+  toastProps,
+  setToastProps,
+  setIsResettingPassword,
+}) => {
   const [pin, setPin] = useState("");
 
   const schema = yup.object().shape({
     code: yup.string().required("Verification code is required"),
     password: yup
       .string()
-      .min(6, "Password must be at least 8 characters")
+      .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
     confirmPassword: yup
       .string()
@@ -45,14 +51,56 @@ const PasswordResetCode = ({ onClose, toastProps, setToastProps }) => {
   const {
     register,
     handleSubmit,
-    control, // Add this line
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const handleFormSubmit = async (data) => {
+    try {
+      const userEmail = localStorage.getItem("umbraPasswordResetEmail");
+      if (!userEmail) {
+        setToastProps({
+          title: "Something went wrong resetting your password",
+          description: "Start the process over from the beginning",
+          status: "error",
+        });
+      }
+      const response = await resetPassword(
+        userEmail,
+        data.code,
+        data.confirmPassword
+      );
+      if (response.success) {
+        setToastProps({
+          title: "Password reset is successful!",
+          description: `Password has been reset for ${userEmail}`,
+          status: "success",
+        });
+        localStorage.removeItem("umbraPasswordResetEmail");
+        setIsResettingPassword(false);
+        onClose();
+      }
+    } catch (error: any) {
+      setToastProps({
+        title: "Unsuccessful password reset",
+        description: error.message,
+        status: "error",
+      });
+    }
+  };
+
+  const handleStartOver = () => {
+    localStorage.removeItem("umbraPasswordResetEmail");
+    setToastProps({
+      title: "Clearing pending password reset",
+      description:
+        "You can start the process over again by clicking on 'Login', then 'Forgot Password'",
+      status: "success",
+    });
+    setIsResettingPassword(false);
+    onClose();
   };
 
   return (
@@ -60,39 +108,37 @@ const PasswordResetCode = ({ onClose, toastProps, setToastProps }) => {
       minH={"50vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg='white'
       borderRadius='10'
     >
       <Stack
-        spacing={4}
-        w={"full%"}
-        maxW={"sm"}
-        bg={useColorModeValue("white", "gray.700")}
-        rounded={"xl"}
+        spacing={6}
+        // maxW={"sm"}
+        bg='white'
+        rounded={"lg"}
         boxShadow={"lg"}
         p={6}
         my={2}
+        border='1px'
       >
-        <Center>
-          <Heading
-            color='black'
-            lineHeight={1.1}
-            fontSize={{ base: "2xl", md: "3xl" }}
-          >
-            Verify your Email
-          </Heading>
-        </Center>
+        <Heading
+          color='black'
+          lineHeight={1.1}
+          fontSize={{ base: "2xl", md: "3xl" }}
+        >
+          Verify your Email
+        </Heading>
         <Center
           fontSize={{ base: "sm", sm: "md" }}
           color={useColorModeValue("gray.800", "gray.400")}
         >
-          <VStack
-            spacing={2}
-            align='center'
-            fontSize={{ base: "sm", sm: "md" }}
-            color={useColorModeValue("gray.800", "gray.400")}
-          >
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
+          <form onSubmit={handleSubmit(handleFormSubmit)}>
+            <VStack
+              spacing={2}
+              align='center'
+              fontSize={{ base: "sm", sm: "md" }}
+              color={useColorModeValue("gray.800", "gray.400")}
+            >
               <FormControl id='code'>
                 <Controller
                   name='code'
@@ -146,8 +192,11 @@ const PasswordResetCode = ({ onClose, toastProps, setToastProps }) => {
                   Verify
                 </Button>
               </Stack>
-            </form>
-          </VStack>
+              <Link color='blue' onClick={handleStartOver}>
+                Click here to clear pending reset
+              </Link>
+            </VStack>
+          </form>
         </Center>
       </Stack>
     </Flex>

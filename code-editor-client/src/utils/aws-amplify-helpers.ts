@@ -81,11 +81,23 @@ export const signIn = async (
   }
 };
 
+// submit email for forgotten password
 export const forgotPassword = async (email) => {
   try {
     const response = await Auth.forgotPassword(email);
     console.log(response);
     return { success: true, message: "Password reset code sent to email" };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+// resets password with code and inputs new password
+export const resetPassword = async (email, code, newPassword) => {
+  try {
+    const response = await Auth.forgotPasswordSubmit(email, code, newPassword);
+    console.log(response);
+    return { success: true, message: "Password successfully reset" };
   } catch (error: any) {
     throw new Error(error.message);
   }

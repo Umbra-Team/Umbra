@@ -68,6 +68,7 @@ const MainHeader = ({
     setUser(null);
   };
 
+  // what to display where 'Login' button goes
   let loginButtonContent;
   if (localStorage.getItem("umbraPasswordResetEmail")) {
     loginButtonContent = "Verify Password Reset";
@@ -75,6 +76,16 @@ const MainHeader = ({
     loginButtonContent = "Logout";
   } else {
     loginButtonContent = "Login";
+  }
+
+  // what to display where 'Sign Up' button goes
+  let signupButtonContent;
+  if (user) {
+    signupButtonContent = null;
+  } else if (localStorage.getItem("unconfirmedUser")) {
+    signupButtonContent = "Pending Signup - Verify Email Code";
+  } else {
+    signupButtonContent = "Sign Up";
   }
 
   return (
@@ -113,25 +124,25 @@ const MainHeader = ({
         >
           {loginButtonContent}
         </Button>
-        <Button
-          bg='transparent'
-          color='black'
-          fontSize='18px'
-          _hover={{
-            color: "#0096FF",
-            fontWeight: "bold",
-          }}
-          onClick={
-            localStorage.getItem("unconfirmedUser")
-              ? onConfirmOpen
-              : onSignupOpen
-          }
-          _active={{ bg: "transparent" }}
-        >
-          {localStorage.getItem("unconfirmedUser")
-            ? "Pending Signup - Verify Email Code"
-            : "Sign Up"}
-        </Button>
+        {signupButtonContent && (
+          <Button
+            bg='transparent'
+            color='black'
+            fontSize='18px'
+            _hover={{
+              color: "#0096FF",
+              fontWeight: "bold",
+            }}
+            onClick={
+              localStorage.getItem("unconfirmedUser")
+                ? onConfirmOpen
+                : onSignupOpen
+            }
+            _active={{ bg: "transparent" }}
+          >
+            {signupButtonContent}
+          </Button>
+        )}
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
