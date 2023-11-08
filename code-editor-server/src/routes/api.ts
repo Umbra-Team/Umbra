@@ -32,7 +32,14 @@ router.get("/get-token/:docId", async (req, res) => {
 });
 
 // AUTHENTICATION
-
+/**
+ * Authenticate a user and generate a JWT token.
+ * @route POST /auth/login
+ * @param {string} username.body.required - The username of the user.
+ * @param {string} password.body.required - The password of the user.
+ * @returns {Object} 200 - An object containing the JWT token.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.post("/auth/login", async (req, res) => {
   // Authenticate user and generate JWT
   const { username, password } = req.body;
@@ -80,7 +87,7 @@ router.post("/auth/logout", async (req, res) => {
 
 /**
  * Get all snippets for a user
- * @route GET /users/snippets
+ * @route GET /snippets
  * @requires Authentication header
  * @returns {Snippet[]} - array of snippets
  */
@@ -98,7 +105,16 @@ router.get(
   }
 );
 
-
+/**
+ * Create a new snippet
+ * @route POST /snippets
+ * @requires Authentication header
+ * @param {string} title.body.required - title of snippet
+ * @param {string} code.body - code of snippet
+ * @param {string} language.body - language of snippet
+ * @returns {Snippet} 201 - the newly created snippet
+ * @returns {Error}  
+ */
 
 router.post(
   "/snippets",
@@ -118,7 +134,15 @@ router.post(
   })
 );
 
-// get a single snippet
+/**
+ * Get a specific snippet for the authenticated user.
+ * @route GET /snippets/:snippetId
+ * @requires Authentication header
+ * @param {string} snippetId.path.required - The ID of the snippet.
+ * @returns {Snippet} 200 - The requested snippet.
+ * @returns {Error} 404 - Snippet not found.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.get(
   "/snippets/:snippetId",
   verifyToken,
@@ -129,7 +153,18 @@ router.get(
   }
 );
 
-// PATCH /snippets/:id
+/**
+ * Update a specific snippet for the authenticated user.
+ * @route PATCH /snippets/:snippetId
+ * @requires Authentication header
+ * @param {string} snippetId.path.required - The ID of the snippet.
+ * @param {string} title.body - The new title of the snippet.
+ * @param {string} code.body - The new code of the snippet.
+ * @param {string} language.body - The new language of the snippet.
+ * @returns {Snippet} 200 - The updated snippet.
+ * @returns {Error} 404 - Snippet not found.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.patch(
   "/snippets/:snippetId",
   verifyToken,
@@ -152,7 +187,15 @@ router.patch(
   })
 );
 
-// DELETE /snippets/:id
+/**
+ * Delete a specific snippet for the authenticated user.
+ * @route DELETE /snippets/:snippetId
+ * @requires Authentication header
+ * @param {string} snippetId.path.required - The ID of the snippet.
+ * @returns {Object} 204 - An empty object, indicating successful deletion.
+ * @returns {Error} 404 - Snippet not found.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.delete(
   "/snippets/:snippetId",
   verifyToken,

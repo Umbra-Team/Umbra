@@ -8,6 +8,14 @@ import { UniqueTitleError } from "./errors";
 import { UniqueConstraintError } from "sequelize";
 
 
+/**
+ * Middleware function to verify the JWT token in the Authorization header.
+ * If the token is valid, the decoded user is attached to the request object.
+ * If the token is not valid or not present, a 401 Unauthorized error is returned.
+ * @param {RequestWithUser} req - The request object, should have a header Authorization with format 'Bearer {token}'
+ * @param {Response} res - The response object
+ * @param {NextFunction} next - The next middleware function
+ */
 export const verifyToken = async (
   req: RequestWithUser,
   res: Response,
@@ -41,14 +49,13 @@ export const verifyToken = async (
 };
 
 /**
- *
- * @param req RequestWithUser - extends Request, should have user property
- * @param res
- * @param next
- * If the user property is not set, return a 401 error
- * If the user property is set, find the user in the database and set the userRecord property
+ * Middleware function to fetch the authenticated user from the database.
+ * If the user is found, it is attached to the request object.
+ * If the user is not found, a 404 Not Found error is returned.
+ * @param {RequestWithUser} req - The request object, should have a user property (set by verifyToken middleware)
+ * @param {Response} res - The response object
+ * @param {NextFunction} next - The next middleware function
  */
-
 export const fetchUser = async (
   req: RequestWithUser,
   res: Response,
@@ -75,6 +82,15 @@ export const fetchUser = async (
   }
 };
 
+/**
+ * Middleware function to fetch a snippet by its ID from the database.
+ * If the snippet is found and belongs to the authenticated user, it is attached to the request object.
+ * If the snippet is not found, a 404 Not Found error is returned.
+ * If the snippet does not belong to the authenticated user, a 403 Forbidden error is returned.
+ * @param {RequestWithUser} req - The request object, should have a userRecord property (set by fetchUser middleware)
+ * @param {Response} res - The response object
+ * @param {NextFunction} next - The next middleware function
+ */
 export const fetchSnippet = async (
   req: RequestWithUser,
   res: Response,
@@ -105,6 +121,13 @@ export const fetchSnippet = async (
   }
 };
 
+/**
+ * Middleware function to handle async route handlers.
+ * Catches any errors thrown in the route handler and passes them to the next middleware function.
+ * If the error is a UniqueConstraintError, it is converted into a UniqueTitleError.
+ * @param {Function} fn - The async route handler function
+ * @returns {Function} - A new function that wraps the route handler function with error handling
+ */
 export const asyncHandler = (fn: Function) => (
   req: Request,
   res: Response,
@@ -121,6 +144,16 @@ export const asyncHandler = (fn: Function) => (
   .catch(next);
 };
 
+/**
+ * Middleware function to handle errors.
+ * Logs the error stack trace and sends a response with an appropriate status code and error message.
+ * If the error is a UniqueTitleError, a 400 Bad Request status code is returned.
+ * For all other errors, a 500 Internal Server Error status code is returned.
+ * @param {any} err - The error object
+ * @param {Request} req - The request object
+ * @param {Response} res - The response object
+ * @param {NextFunction} next - The next middleware function
+ */
 export const errorHandler = (
   err: any,
   req: Request,
