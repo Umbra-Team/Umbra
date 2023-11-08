@@ -58,7 +58,7 @@ func main() {
     id: 3,
     title: "Two Sum",
     code:
-`def twoSum(self, numbers: List[int], target: int) -> List[int]:
+`def twoSum(numbers: list[int], target: int) -> list[int]:
   for i, n in enumerate(numbers):
     complement = target - n
     if complement in numbers[i+1:]:

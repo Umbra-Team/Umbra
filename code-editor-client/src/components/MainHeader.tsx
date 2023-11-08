@@ -114,8 +114,10 @@ const MainHeader = ({
       <Flex align="baseline">
         <ShareRoomButton />
         <Text
+          bgGradient='linear(to-r, blue.700, blue.500, lightblue.600, lightblue.700)'
+          bgClip='text'
           mx={2}
-          color={"lightblue.600"}
+          // color={"lightblue.600"}
           fontSize="18px"
           fontWeight={700}
         >
@@ -194,26 +196,8 @@ const MainHeader = ({
           >
             {loginButtonContent}
           </Button>
+        )}
 
-          {signupButtonContent && (
-            <Button
-              bg='transparent'
-              color='black'
-              fontSize='18px'
-              fontWeight='bold'
-              _hover={{
-                color: "blue.500",
-              }}
-              onClick={
-                localStorage.getItem("unconfirmedUser")
-                  ? onConfirmOpen
-                  : onSignupOpen
-              }
-              _active={{ bg: "transparent" }}
-            >
-              {signupButtonContent}
-            </Button>
-          )}
         </Flex>
         <Tooltip
 

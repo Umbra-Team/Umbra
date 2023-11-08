@@ -36,7 +36,8 @@ export const getSnippet = async (
 export const createSnippet = async (
   cognitoClientToken: string,
   title: string,
-  code: string
+  code: string,
+  language: string,
 ): Promise<Snippet> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),
@@ -55,7 +56,8 @@ export const editSnippet = async (
   cognitoClientToken: string,
   id: number,
   newTitle: string,
-  newCode: string
+  newCode: string,
+  newLanguage: string,
 ): Promise<Snippet> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),

@@ -68,9 +68,9 @@ const LibraryDrawer = ({
     }
   }, [editorViewRef, user]);
 
-  const handleAddSnippet = async (code: string, title: string) => {
+  const handleAddSnippet = async (code: string, title: string, language) => {
     try {
-      const newSnippet = await createSnippet(cognitoClientToken, title, code);
+      const newSnippet = await createSnippet(cognitoClientToken, title, code, language);
 
       setLibrarySnippets((prevSnippets: Snippet[]) => [
         ...prevSnippets,
@@ -85,14 +85,16 @@ const LibraryDrawer = ({
   const handleUpdateSnippet = async (
     id: number,
     newCode: string,
-    newTitle: string
+    newTitle: string,
+    newLanguage: string,
   ) => {
     try {
       const updatedSnippet = await editSnippet(
         cognitoClientToken,
         id,
         newTitle,
-        newCode
+        newCode,
+        newLanguage,
       );
       setLibrarySnippets((prevSnippets: Snippet[]) =>
         prevSnippets.map((snippet) =>
@@ -190,6 +192,7 @@ const LibraryDrawer = ({
                 id={snippet.id}
                 title={snippet.title}
                 code={snippet.code}
+                language={snippet.language}
                 appendEditorContent={appendEditorContent}
                 handleDeleteSnippet={handleDeleteSnippet}
                 handleUpdateSnippet={handleUpdateSnippet}
@@ -218,6 +221,7 @@ const LibraryDrawer = ({
                 id={snippet.id}
                 title={snippet.title}
                 code={snippet.code}
+                language={snippet.language}
                 appendEditorContent={appendEditorContent}
                 handleDeleteSnippet={handleDeleteSnippet}
                 handleUpdateSnippet={handleUpdateSnippet}

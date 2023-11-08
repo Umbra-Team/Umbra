@@ -7,6 +7,7 @@ import {
   Button,
   Flex,
   Input,
+  Select,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
@@ -17,6 +18,7 @@ type LibrarySnippetType = {
   id: number;
   title: string;
   code: string;
+  language: string;
   appendEditorContent: Function;
   handleDeleteSnippet: Function;
   handleUpdateSnippet: Function;
@@ -26,6 +28,7 @@ const LibrarySnippet = ({
   id,
   title,
   code,
+  language,
   appendEditorContent,
   handleDeleteSnippet,
   handleUpdateSnippet,
@@ -33,6 +36,7 @@ const LibrarySnippet = ({
   const [isEditing, setIsEditing] = useState(false);
   const [snippetCode, setSnippetCode] = useState(code);
   const [snippetTitle, setSnippetTitle] = useState(title);
+  const [snippetLanguage, setSnippetLanguage] = useState(language);
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleDeleteClick = () => {
@@ -47,7 +51,7 @@ const LibrarySnippet = ({
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
       setSnippetCode(currentContent);
-      handleUpdateSnippet(id, currentContent, snippetTitle);
+      handleUpdateSnippet(id, currentContent, snippetTitle, snippetLanguage);
     }
     setIsEditing((prevState) => !prevState);
   };
@@ -103,6 +107,9 @@ const LibrarySnippet = ({
         borderColor='black'
         color='white'
         w='90%'
+        display='flex'
+        flexDirection='column'
+        justifyContent='space-between'
       >
         <CardBody>
           <LibrarySnippetEditor
@@ -111,6 +118,26 @@ const LibrarySnippet = ({
             isEditMode={isEditing}
           />
         </CardBody>
+        {isEditing &&
+        <Flex align="end">
+          <Select
+              bg="inherit"
+              marginTop='2'
+              width='3mu'
+              size='sm'
+              onChange={(event) => setSnippetLanguage(event.target.value)}
+              textColor={"gray.300"}
+              iconColor={"gray.300"}
+              borderColor={"gray.600"}
+            >
+              <option value='js'>JavaScript</option>
+              <option value='ts'>TypeScript</option>
+              <option value='py'>Python</option>
+              <option value='go'>Golang</option>
+              <option value='rb'>Ruby</option>
+            </Select>
+          </Flex>
+          }
       </CardBody>
       <CardFooter p={2}>
         <Flex gap='5px' justifyContent='space-between' pr='3' pl='4'>
