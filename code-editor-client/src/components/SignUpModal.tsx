@@ -22,6 +22,12 @@ import logo from "../assets/logo-transparent.png";
 
 import { signUp } from "../utils/aws-amplify-helpers";
 import { useState } from "react";
+import { Auth } from "aws-amplify";
+
+// Input validation related imports
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const SignUpModal = ({
   isOpen,
@@ -34,13 +40,63 @@ const SignUpModal = ({
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await signUp(email, password);
-    if (response.success) {
-      localStorage.setItem("unconfirmedUser", email);
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
+
+  // using useForm with yup defined schema
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const handleSignupSubmit = async (data) => {
+    try {
+      const response = await signUp(data.email, data.password);
+      if (response.success) {
+        localStorage.setItem("unconfirmedUser", data.email);
+        setToastProps({
+          title: "Signup Submitted Successfully",
+          description: "Check your email for a verification code",
+          status: "success",
+        });
+      }
+    } catch (error: any) {
+      console.log(Object.keys(error));
+      if (error.code === "UsernameExistsException") {
+        setToastProps({
+          title: "Account email already exists",
+          description: `Sending new verification code to ${data.email}`,
+          status: "error",
+        });
+        try {
+          localStorage.setItem("unconfirmedUser", data.email);
+          await Auth.resendSignUp(data.email);
+        } catch (error: any) {
+          setToastProps({
+            title: "Error resending verification code to email",
+            description: error.message,
+            status: "error",
+          });
+        }
+      } else {
+        setToastProps({
+          title: "Error Submitting Signup",
+          description: error.message,
+          status: "error",
+        });
+      }
     }
-    alert(response.message);
     onClose();
   };
 
@@ -79,7 +135,7 @@ const SignUpModal = ({
               </Heading>
             </Stack>
             <Box rounded={"lg"} bg='white' boxShadow={"lg"} p={8}>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(handleSignupSubmit)}>
                 <Stack spacing={4}>
                   <FormControl id='email' isRequired>
                     <FormLabel color='black'>Email address</FormLabel>
@@ -87,6 +143,7 @@ const SignUpModal = ({
                       border='1px solid lightgray'
                       bg='white'
                       type='email'
+                      {...register("email")}
                       onChange={(e) => setEmail(e.target.value)}
                       _hover={{
                         borderColor: "umbra.midnightGreen",
@@ -100,6 +157,7 @@ const SignUpModal = ({
                         border='1px solid lightgray'
                         bg='white'
                         type={showPassword ? "text" : "password"}
+                        {...register("password")}
                         onChange={(e) => setPassword(e.target.value)}
                         _hover={{
                           borderColor: "umbra.midnightGreen",

@@ -70,22 +70,6 @@ const LoginForm = ({
   };
 
   const handleForgotPassword = () => {
-    // close current modal
-    // new modal should open asking for email
-    // when submitted, this calls to backend '/api/forgotPassword' route
-    // that invokes Auth.forgotPassword(email)
-    // Message should display telling user to check their email for
-    // verification code
-    // localStorage state should be set of 'umbraPasswordReset' to 'true'
-    //
-    // const awaitingReset = localStorage.getItem("umbraPasswordReset");
-    // if (awaitingReset) {
-    //   localStorage.removeItem("umbraPasswordReset");
-    //   setIsResettingPassword(false);
-    // } else {
-    //   localStorage.setItem("umbraPasswordReset", "true");
-    //   setIsResettingPassword(true);
-    // }
     setShowEmailReset(true);
   };
 

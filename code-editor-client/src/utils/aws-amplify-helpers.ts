@@ -25,25 +25,20 @@ const TEST_USER = {
 
 export const signUp = async (email: string, password: string) => {
   try {
-    // console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
     console.log(`Signing up as ${email}`);
     const { user } = await Auth.signUp({
       username: email,
       password,
-      autoSignIn: {
-        enabled: true,
-      },
     });
-    console.log(`Signed up as ${user.getUsername()}`); // `Signed up as davidrd123
+    console.log(`Signed up as ${user.getUsername()}`);
     return {
       success: true,
       message: "User SignUp Succeeded -- Verify code from email",
       user,
     };
-  } catch (error) {
-    const err = error as { code: string; message: string };
-    console.log(err);
-    return { success: false, message: "User SignUp Failed" };
+  } catch (error: any) {
+    console.log(error.code);
+    throw error;
   }
 };
 
@@ -56,7 +51,7 @@ export const confirmUserCode = async (username: string, code: string) => {
     };
   } catch (error) {
     console.log("Error confirming sign up", error);
-    return { success: false, message: `Error confirming sign up: ${error}` };
+    throw error;
   }
 };
 

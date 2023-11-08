@@ -33,19 +33,36 @@ const ConfirmCodeModal = ({
   const [pin, setPin] = useState("");
 
   const handleVerifyClick = async () => {
-    const unconfirmedUser = localStorage.getItem("unconfirmedUser");
-    if (!unconfirmedUser) {
-      alert("No pending user found - try signing up again");
-      localStorage.removeItem("unconfirmedUser");
-      return;
-    }
+    try {
+      const unconfirmedUser = localStorage.getItem("unconfirmedUser");
 
-    const response = await confirmUserCode(unconfirmedUser, pin);
-    if (response.success) {
-      await axios.get("/api/syncUsers");
-      localStorage.removeItem("unconfirmedUser");
+      if (!unconfirmedUser) {
+        setToastProps({
+          title: "No pending user found",
+          description: "Try signing up again",
+          status: "error",
+        });
+        onClose();
+        return;
+      }
+
+      const response = await confirmUserCode(unconfirmedUser, pin);
+      if (response.success) {
+        await axios.get("/api/syncUsers");
+        localStorage.removeItem("unconfirmedUser");
+        setToastProps({
+          title: "Verification Confirmed",
+          description: "You may now sign in",
+          status: "succes",
+        });
+      }
+    } catch (error: any) {
+      setToastProps({
+        title: error.name,
+        description: error.message,
+        status: "error",
+      });
     }
-    alert(response.message);
     onClose();
   };
 
@@ -65,6 +82,16 @@ const ConfirmCodeModal = ({
     } catch (err) {
       console.error("Error resending code: ", err);
     }
+  };
+
+  const handleNoAccessClick = () => {
+    localStorage.removeItem("unconfirmedUser");
+    setToastProps({
+      title: "Cancelling Pending Signup",
+      description: "You can try signing up with a different email address now",
+      status: "success",
+    });
+    onClose();
   };
 
   return (
@@ -148,6 +175,9 @@ const ConfirmCodeModal = ({
                 Verify
               </Button>
             </Stack>
+            <Link color='blue' onClick={handleNoAccessClick}>
+              Don't have access to {localStorage.getItem("unconfirmedUser")}?
+            </Link>
           </Stack>
         </Flex>
       </ModalContent>
