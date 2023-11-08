@@ -33,7 +33,7 @@ export const theme = extendTheme({
     heading: "'Nunito', serif",
   },
   config: {
-    initialColorMode: "dark",
+    initialColorMode: "light",
     useSystemColorMode: false,
   },
 });

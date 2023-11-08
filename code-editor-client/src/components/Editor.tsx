@@ -269,11 +269,9 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Tooltip label='Change Editor Orientation'>
-            <Button size='sm' marginTop='2' onClick={toggleOrientation}>
-              {orientationIcon}
-            </Button>
-          </Tooltip>
+          <Button size='sm' marginTop='2' onClick={toggleOrientation}>
+            {orientationIcon}
+          </Button>
           <Button
             color='white'
             size='sm'

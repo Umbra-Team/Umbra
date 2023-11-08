@@ -16,9 +16,11 @@ import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import ConfirmCodeModal from "./ConfirmCodeModal";
 import ShareRoomButton from "./ShareRoomButton";
+import { ToastPropsType } from "./UmbraToast";
+import { ExtendedCognitoUser } from "../types/types";
 
 interface MainHeaderProps {
-  user: CognitoUser | null;
+  user: ExtendedCognitoUser | null;
   setUser: Function;
   replaceEditorContent: (content: string) => void;
   appendEditorContent: (content: string) => void;
@@ -29,6 +31,8 @@ interface MainHeaderProps {
   onSignupOpen: MouseEventHandler;
   onSignupClose: MouseEventHandler;
   isSignupOpen: boolean;
+  toastProps: ToastPropsType | null;
+  setToastProps: Function;
 }
 
 const MainHeader = ({
@@ -43,23 +47,35 @@ const MainHeader = ({
   onSignupOpen,
   onSignupClose,
   isSignupOpen,
+  toastProps,
+  setToastProps,
 }: MainHeaderProps) => {
   const {
     onOpen: onConfirmOpen,
     onClose: onConfirmClose,
     isOpen: isConfirmOpen,
   } = useDisclosure();
+
   const handleLogoutClick = () => {
     console.log("Logout button was clicked");
     logout();
+    setToastProps({
+      title: "Logout Successful",
+      description: user ? `${user.attributes.email}` : "Unknown user",
+      status: "success",
+    });
     localStorage.removeItem("unconfirmedUser");
     setUser(null);
   };
 
-  // const handleConfirmCodeClick = () => {
-  //   console.log("Confirm user code was clicked");
-  //   confirmUserCode();
-  // };
+  let loginButtonContent;
+  if (localStorage.getItem("umbraPasswordReset")) {
+    loginButtonContent = "Verify Password Reset";
+  } else if (user) {
+    loginButtonContent = "Logout";
+  } else {
+    loginButtonContent = "Login";
+  }
 
   return (
     <Flex
@@ -95,7 +111,7 @@ const MainHeader = ({
           onClick={user ? handleLogoutClick : onLoginOpen}
           _active={{ bg: "transparent" }}
         >
-          {user ? "Logout" : "Login"}
+          {loginButtonContent}
         </Button>
         <Button
           bg='transparent'
@@ -116,7 +132,6 @@ const MainHeader = ({
             ? "Pending Signup - Verify Email Code"
             : "Sign Up"}
         </Button>
-
       </Flex>
       <Spacer />
       <Flex align='center' gap={10}>
@@ -152,17 +167,23 @@ const MainHeader = ({
         onClose={onLoginClose}
         isOpen={isLoginOpen}
         setUser={setUser}
+        toastProps={toastProps}
+        setToastProps={setToastProps}
       />
       <SignUpModal
         onOpen={onSignupOpen}
         onClose={onSignupClose}
         isOpen={isSignupOpen}
+        toastProps={toastProps}
+        setToastProps={setToastProps}
       />
       <ConfirmCodeModal
         setUser={setUser}
         isOpen={isConfirmOpen}
         onClose={onConfirmClose}
         onOpen={onConfirmOpen}
+        toastProps={toastProps}
+        setToastProps={setToastProps}
       />
     </Flex>
   );

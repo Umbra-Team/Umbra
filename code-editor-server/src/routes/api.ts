@@ -12,8 +12,6 @@ import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
 
-// const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
-
 const router = express.Router();
 
 router.get("/get-token/:docId", async (req, res) => {

@@ -12,17 +12,14 @@ import { Image } from "@chakra-ui/react";
 import horizontal from "./assets/horizontal.png";
 import vertical from "./assets/vertical.png";
 
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 // Code execution mapping object
 import codeExecutionMap from "./utils/codeExecutionMap";
 
-interface AppProps {
-  ySweetClientToken: string;
-  user?: any;
-  setUser: Function;
-}
+import { AppProps, ToastProps } from "./types/types";
+import UmbraToast from "./components/UmbraToast";
 
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
@@ -38,6 +35,8 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [outputHeight, setOutputHeight] = useState("20vh");
   const [editorWidth, setEditorWidth] = useState("60vw");
   const [outputWidth, setOutputWidth] = useState("60vw");
+  const [toastProps, setToastProps] = useState<ToastProps | null>(null);
+  const toast = useToast();
 
   useEffect(() => {
     if (orientation === "horizontal") {
@@ -125,70 +124,77 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   };
 
   return ySweetClientToken ? (
-    <Flex
-      direction={"column"}
-      minH='100vh'
-      bg='#FFFFFF'
-      justify='space-between'
-    >
-      <Flex direction='column'>
-        <MainHeader
+    <>
+      {toastProps && (
+        <UmbraToast {...toastProps} setToastProps={setToastProps} />
+      )}
+      <Flex
+        direction={"column"}
+        minH='100vh'
+        bg='#FFFFFF'
+        justify='space-between'
+      >
+        <Flex direction='column'>
+          <MainHeader
+            user={user}
+            setUser={setUser}
+            replaceEditorContent={replaceEditorContent}
+            appendEditorContent={appendEditorContent}
+            onLibraryOpen={onLibraryOpen}
+            onLoginOpen={onLoginOpen}
+            onLoginClose={onLoginClose}
+            isLoginOpen={isLoginOpen}
+            onSignupOpen={onSignupOpen}
+            onSignupClose={onSignupClose}
+            isSignupOpen={isSignupOpen}
+            toastProps={toastProps}
+            setToastProps={setToastProps}
+          />
+        </Flex>
+        <Flex
+          direction={orientation === "horizontal" ? "column" : "row"}
+          p={6}
+          gap={3}
+          // bgGradient='linear(to-r, black, gray.100, blue.800)'
+          bg='white'
+          align='center'
+          maxWidth='75%'
+          // width='90%'
+          justifyContent='center'
+          margin='auto'
+        >
+          <Box>
+            <Editor
+              setEditorViewRef={setEditorViewRef}
+              onChange={setCode}
+              onClick={() => sendCode(code)}
+              setOrientation={setOrientation}
+              orientationIcon={orientationIcon()}
+              language={language}
+              setLanguage={setLanguage}
+              width={editorWidth}
+              height={editorHeight}
+            />
+          </Box>
+          <Box>
+            <OutputDisplay
+              width={outputWidth}
+              height={outputHeight}
+              output={output}
+            />
+          </Box>
+        </Flex>
+        <LibraryDrawer
           user={user}
-          setUser={setUser}
-          replaceEditorContent={replaceEditorContent}
+          placement={"right"}
+          onClose={onLibraryClose}
+          isOpen={isLibraryOpen}
+          size={"lg"}
           appendEditorContent={appendEditorContent}
-          onLibraryOpen={onLibraryOpen}
-          onLoginOpen={onLoginOpen}
-          onLoginClose={onLoginClose}
-          isLoginOpen={isLoginOpen}
-          onSignupOpen={onSignupOpen}
-          onSignupClose={onSignupClose}
-          isSignupOpen={isSignupOpen}
+          editorViewRef={editorViewRef}
         />
       </Flex>
-      <Flex
-        direction={orientation === "horizontal" ? "column" : "row"}
-        p={6}
-        gap={3}
-        // bgGradient='linear(to-r, black, gray.100, blue.800)'
-        bg='white'
-        align='center'
-        maxWidth='75%'
-        // width='90%'
-        justifyContent='center'
-        margin='auto'
-      >
-        <Box>
-          <Editor
-            setEditorViewRef={setEditorViewRef}
-            onChange={setCode}
-            onClick={() => sendCode(code)}
-            setOrientation={setOrientation}
-            orientationIcon={orientationIcon()}
-            language={language}
-            setLanguage={setLanguage}
-            width={editorWidth}
-            height={editorHeight}
-          />
-        </Box>
-        <Box>
-          <OutputDisplay
-            width={outputWidth}
-            height={outputHeight}
-            output={output}
-          />
-        </Box>
-      </Flex>
-      <LibraryDrawer
-        user={user}
-        placement={"right"}
-        onClose={onLibraryClose}
-        isOpen={isLibraryOpen}
-        size={"lg"}
-        appendEditorContent={appendEditorContent}
-        editorViewRef={editorViewRef}
-      />
-    </Flex>
+    </>
   ) : null;
 }
 

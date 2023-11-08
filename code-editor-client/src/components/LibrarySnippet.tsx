@@ -58,18 +58,20 @@ const LibrarySnippet = ({
 
   return (
     <Card
-      bgColor='#C2DFFF'
+      // bgColor='#C2DFFF'
+      bgColor='white'
       pl='2'
       pr='2'
       minH='300px'
       align='center'
       id={String(id)}
       minHeight='400px'
+      borderWidth={"2px"}
     >
       <CardHeader textAlign='center' width='80%'>
         {isEditing ? (
           <Input
-            border="1px solid lightgrey"
+            border='1px solid lightgrey'
             width='60%'
             size='md'
             color='umbra.midnightGreen'
