@@ -9,8 +9,6 @@ import LibraryDrawer from "./components/LibraryDrawer";
 
 // icons
 import { Image } from "@chakra-ui/react";
-import horizontal from "./assets/horizontal.png";
-import vertical from "./assets/vertical.png";
 
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
@@ -42,8 +40,8 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     if (orientation === "horizontal") {
       setEditorHeight("45vh");
       setOutputHeight("20vh");
-      setEditorWidth("60vw");
-      setOutputWidth("60vw");
+      setEditorWidth("55vw");
+      setOutputWidth("55vw");
     } else {
       setEditorHeight("70vh");
       setOutputHeight("70.5vh");
@@ -115,26 +113,18 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     setOutput(JSON.stringify(response.data.run));
   };
 
-  const orientationIcon = () => {
-    return orientation === "horizontal" ? (
-      <Image bg='white' boxSize='20px' src={vertical} />
-    ) : (
-      <Image bg='white' boxSize='20px' src={horizontal} />
-    );
-  };
-
   return ySweetClientToken ? (
     <>
       {toastProps && (
         <UmbraToast {...toastProps} setToastProps={setToastProps} />
       )}
       <Flex
-        direction={"column"}
+         direction={"column"}
         minH='100vh'
-        bg='#FFFFFF'
+        bg="linear-gradient(180deg, hsla(0, 0%, 100%, 1) 8%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)"
         justify='space-between'
       >
-        <Flex direction='column'>
+         <Flex direction='column'>
           <MainHeader
             user={user}
             setUser={setUser}
@@ -151,38 +141,34 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
             setToastProps={setToastProps}
           />
         </Flex>
-        <Flex
-          direction={orientation === "horizontal" ? "column" : "row"}
-          p={6}
-          gap={3}
-          // bgGradient='linear(to-r, black, gray.100, blue.800)'
-          bg='white'
-          align='center'
-          maxWidth='75%'
-          // width='90%'
-          justifyContent='center'
-          margin='auto'
-        >
-          <Box>
-            <Editor
-              setEditorViewRef={setEditorViewRef}
-              onChange={setCode}
-              onClick={() => sendCode(code)}
-              setOrientation={setOrientation}
-              orientationIcon={orientationIcon()}
-              language={language}
-              setLanguage={setLanguage}
-              width={editorWidth}
-              height={editorHeight}
-            />
-          </Box>
-          <Box>
-            <OutputDisplay
-              width={outputWidth}
-              height={outputHeight}
-              output={output}
-            />
-          </Box>
+        direction={orientation === "horizontal" ? "column" : "row"}
+        gap={1}
+        bg='white'
+        align='center'
+        maxWidth='75%'
+        justifyContent='center'
+        margin='auto'
+      >
+        <Box boxShadow="dark-lg" borderRadius="5px">
+          <Editor
+            setEditorViewRef={setEditorViewRef}
+            onChange={setCode}
+            onClick={() => sendCode(code)}
+            orientation={orientation}
+            setOrientation={setOrientation}
+            language={language}
+            setLanguage={setLanguage}
+            width={editorWidth}
+            height={editorHeight}
+          />
+        </Box>
+        <Box boxShadow="dark-lg"  borderRadius="5px" >
+          <OutputDisplay
+            width={outputWidth}
+            height={outputHeight}
+            output={output}
+          />
+        </Box>
         </Flex>
         <LibraryDrawer
           user={user}

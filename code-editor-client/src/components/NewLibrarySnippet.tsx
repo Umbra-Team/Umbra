@@ -41,7 +41,7 @@ const NewLibrarySnippet = ({
 
   return (
     <Card
-      bgColor='#FFF5AC'
+      bgColor='green.100'
       pl='2'
       pr='2'
       minH='300px'
@@ -92,7 +92,7 @@ const NewLibrarySnippet = ({
             _hover={{ bg: "blue.900" }}
             onClick={handleSaveClick}
           >
-            Save Snippet
+            Save
           </Button>
           <Button
             borderRadius='15'

@@ -24,19 +24,21 @@ const HamburgerMenuButton = ({
         {/* <HamburgerIcon border="1px solid" borderRadius="3px" p={1} boxSize={8} bg="#FFFFFF" color='gray' /> */}
         <HamburgerIcon color='gray'/>
       </MenuButton>
-      <MenuList bgColor='gray.100'>
+      <MenuList bgColor='gray.800'>
         <MenuItem
-          bgColor='gray.100'
-          _hover={{ color: "blue.500" }}
-          _focus={{ color: "blue.500" }}
+          bgColor='gray.800'
+          textColor="white"
+          _hover={{ color: "blue.400" }}
+          _focus={{ color: "blue.400" }}
           onClick={() => replaceEditorContent("")}
         >
           Clear Editor
         </MenuItem>
         <MenuItem
-          bgColor='gray.100'
-          _hover={{ color: "blue.500" }}
-          _focus={{ color: "blue.500" }}
+          bgColor='gray.800'
+          textColor="white"
+          _hover={{ color: "blue.400" }}
+          _focus={{ color: "blue.400" }}
           onClick={() =>
             appendEditorContent("const hello = () => console.log('hello!');")
           }

@@ -79,7 +79,7 @@ const AppWrapper = () => {
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
-        {user ? (
+        {/* {user ? (
           <Alert
             h="5px"
             bg="#D9FFD1"
@@ -99,7 +99,7 @@ const AppWrapper = () => {
           >
             <AlertTitle>Not logged in</AlertTitle>
           </Alert>
-        )}
+        )} */}
         <App
           user={user}
           setUser={setUser}

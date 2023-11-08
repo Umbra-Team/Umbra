@@ -9,7 +9,6 @@ import {
   Button,
   Flex,
   Text,
-  Box,
 } from "@chakra-ui/react";
 import * as React from "react";
 import NewLibrarySnippet from "./NewLibrarySnippet";
@@ -22,6 +21,7 @@ import {
   getAllUserSnippets,
 } from "../services/snippets";
 import { Snippet } from "../types/types";
+import { examples, ExampleSnippet } from "../constants/exampleSnippetData";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -135,9 +135,17 @@ const LibraryDrawer = ({
           borderBottomWidth='1px'
           borderBottomColor='lightgray'
         >
-          <Flex justifyContent='space-between'>
-            <Text mt={1.5}>Code Library</Text>
-            <Button
+          <Flex justifyContent='center'>
+            <Text 
+              mt={1.5}
+              fontSize="24px"
+              fontWeight="900"
+              bgGradient='linear(to-r, blue.600, lightblue.600)'
+              bgClip='text'
+            >
+              Code Library
+            </Text>
+            {/* <Button
               marginRight={10}
               borderRadius='15'
               color='white'
@@ -146,11 +154,26 @@ const LibraryDrawer = ({
               onClick={() => setAddSnippetMode(true)}
             >
               New Code Snippet
-            </Button>
+            </Button> */}
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
         <DrawerBody bg='#FFFFFF'>
+          <Flex justifyContent="left">
+          <Button
+            // marginRight={10}
+            mt={2}
+            mb={4}
+            borderRadius='10'
+            color='white'
+            bg='#0096FF'
+            _hover={{ bg: "#04BCF9" }}
+            onClick={() => setAddSnippetMode(true)}
+            size="md"
+          >
+              Create New
+          </Button>
+          </Flex>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
@@ -180,9 +203,28 @@ const LibraryDrawer = ({
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
-        <Box>
+        {/* <Box>
           <Text>Nope</Text>
-        </Box>
+        </Box> */}
+        <DrawerHeader textAlign="center" color="blue.600">Here are some examples. Sign up or log in to create your own!</DrawerHeader>
+        <DrawerBody bg='#FFFFFF'>
+          <SimpleGrid
+            spacing={5}
+            templateColumns='repeat(1, minmax(600px, 1fr))'
+          >
+            {examples.map((snippet: ExampleSnippet) => (
+              <LibrarySnippet
+                key={snippet.id}
+                id={snippet.id}
+                title={snippet.title}
+                code={snippet.code}
+                appendEditorContent={appendEditorContent}
+                handleDeleteSnippet={handleDeleteSnippet}
+                handleUpdateSnippet={handleUpdateSnippet}
+              />
+            ))}
+          </SimpleGrid>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   );

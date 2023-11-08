@@ -58,7 +58,6 @@ const LibrarySnippet = ({
 
   return (
     <Card
-      // bgColor='#C2DFFF'
       bgColor='white'
       pl='2'
       pr='2'
@@ -66,7 +65,10 @@ const LibrarySnippet = ({
       align='center'
       id={String(id)}
       minHeight='400px'
-      borderWidth={"2px"}
+      variant="elevated"
+      border="1px solid"
+      borderColor="gray.100"
+      boxShadow="md"
     >
       <CardHeader textAlign='center' width='80%'>
         {isEditing ? (
@@ -89,7 +91,7 @@ const LibrarySnippet = ({
             }}
           />
         ) : (
-          <Heading size='md' color='gray.100'>
+          <Heading size='md' color='gray.600'>
             {snippetTitle}
           </Heading>
         )}
