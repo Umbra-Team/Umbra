@@ -160,22 +160,6 @@ const MainHeader = ({
             fontWeight='bold'
             _hover={{
               color: "blue.500",
-              // fontWeight: "bold",
-              // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-            }}
-            onClick={user ? handleLogoutClick : onLoginOpen}
-            _active={{ bg: "transparent" }}
-          >
-            {loginButtonContent}
-          </Button>
-
-          <Button
-            bg='transparent'
-            color='black'
-            fontSize='18px'
-            fontWeight='bold'
-            _hover={{
-              color: "blue.500",
             }}
             onClick={user ? handleLogoutClick : onLoginOpen}
             _active={{ bg: "transparent" }}
