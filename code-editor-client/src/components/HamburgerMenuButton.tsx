@@ -27,6 +27,7 @@ const HamburgerMenuButton = ({
       <MenuList bgColor='gray.800'>
         <MenuItem
           bgColor='gray.800'
+          textColor="white"
           _hover={{ color: "blue.400" }}
           _focus={{ color: "blue.400" }}
           onClick={() => replaceEditorContent("")}
@@ -35,6 +36,7 @@ const HamburgerMenuButton = ({
         </MenuItem>
         <MenuItem
           bgColor='gray.800'
+          textColor="white"
           _hover={{ color: "blue.400" }}
           _focus={{ color: "blue.400" }}
           onClick={() =>

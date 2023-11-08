@@ -9,8 +9,6 @@ import LibraryDrawer from "./components/LibraryDrawer";
 
 // icons
 import { Image } from "@chakra-ui/react";
-import horizontal from "./assets/horizontal.png";
-import vertical from "./assets/vertical.png";
 
 import { useDisclosure } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
@@ -116,14 +114,6 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     setOutput(JSON.stringify(response.data.run));
   };
 
-  const orientationIcon = () => {
-    return orientation === "horizontal" ? (
-      <Image bg='white' boxSize='20px' src={vertical} />
-    ) : (
-      <Image bg='white' boxSize='20px' src={horizontal} />
-    );
-  };
-
   return ySweetClientToken ? (
     <Flex
       direction={"column"}
@@ -163,8 +153,8 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
             setEditorViewRef={setEditorViewRef}
             onChange={setCode}
             onClick={() => sendCode(code)}
+            orientation={orientation}
             setOrientation={setOrientation}
-            orientationIcon={orientationIcon()}
             language={language}
             setLanguage={setLanguage}
             width={editorWidth}

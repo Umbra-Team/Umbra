@@ -18,13 +18,14 @@ const ShareRoomButton = () => {
     });
   };
   return (
-    <Tooltip label='Click to copy room URL to share' fontSize='md' bg="blue.100">
+    <Tooltip label='Click to copy room URL to share' fontSize='md' bg="orange.200">
       <IconButton
         icon={<CopyIcon color="white"/>}
         onClick={handleCopyClick}
         variant='solid'
         colorScheme='blue'
         aria-label='Copy room URL'
+        _hover={{ bg: "umbra.deepSkyBlue" }}
       />
     </Tooltip>
   );

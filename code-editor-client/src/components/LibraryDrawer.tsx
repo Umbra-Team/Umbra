@@ -9,7 +9,6 @@ import {
   Button,
   Flex,
   Text,
-  Box,
 } from "@chakra-ui/react";
 import * as React from "react";
 import NewLibrarySnippet from "./NewLibrarySnippet";
@@ -136,17 +135,17 @@ const LibraryDrawer = ({
           borderBottomWidth='1px'
           borderBottomColor='lightgray'
         >
-          <Flex justifyContent='space-between'>
+          <Flex justifyContent='center'>
             <Text 
               mt={1.5}
               fontSize="24px"
               fontWeight="900"
-              bgGradient='linear(to-l, blue.600, lightblue.600)'
+              bgGradient='linear(to-r, blue.600, lightblue.600)'
               bgClip='text'
             >
               Code Library
             </Text>
-            <Button
+            {/* <Button
               marginRight={10}
               borderRadius='15'
               color='white'
@@ -155,11 +154,26 @@ const LibraryDrawer = ({
               onClick={() => setAddSnippetMode(true)}
             >
               New Code Snippet
-            </Button>
+            </Button> */}
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
         <DrawerBody bg='#FFFFFF'>
+          <Flex justifyContent="left">
+          <Button
+            // marginRight={10}
+            mt={2}
+            mb={4}
+            borderRadius='10'
+            color='white'
+            bg='#0096FF'
+            _hover={{ bg: "#04BCF9" }}
+            onClick={() => setAddSnippetMode(true)}
+            size="md"
+          >
+              Create New
+          </Button>
+          </Flex>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
@@ -192,7 +206,7 @@ const LibraryDrawer = ({
         {/* <Box>
           <Text>Nope</Text>
         </Box> */}
-        <DrawerHeader>Here are some examples. Sign up or log in to create your own!</DrawerHeader>
+        <DrawerHeader textAlign="center" color="blue.600">Here are some examples. Sign up or log in to create your own!</DrawerHeader>
         <DrawerBody bg='#FFFFFF'>
           <SimpleGrid
             spacing={5}

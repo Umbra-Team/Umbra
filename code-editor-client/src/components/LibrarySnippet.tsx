@@ -66,6 +66,9 @@ const LibrarySnippet = ({
       id={String(id)}
       minHeight='400px'
       variant="elevated"
+      border="1px solid"
+      borderColor="gray.100"
+      boxShadow="md"
     >
       <CardHeader textAlign='center' width='80%'>
         {isEditing ? (

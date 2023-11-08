@@ -120,11 +120,45 @@ const MainHeader = ({
 
       </Flex>
       <Spacer />
-      <Flex align='center' gap={10}>
+      <Flex align='center' gap={3}>
+        {/* {user ? (
+          <Flex
+            color={'#F58A51'}
+            fontWeight={'700'}
+            marginRight={'15px'} 
+          >
+            {user.attributes.email} 
+          </Flex>
+        ) : (
+          <Flex
+            color={'#F58A51'}
+            fontWeight={'700'}
+            marginRight={'15px'} 
+          >
+            Not Logged In
+          </Flex>
+        )} */}
         <ShareRoomButton />
+        {user ? (
+          <Flex
+            color={'#F58A51'}
+            fontWeight={'700'}
+            marginRight={'15px'} 
+          >
+            {user.attributes.email} 
+          </Flex>
+        ) : (
+          <Flex
+            color={'#F58A51'}
+            fontWeight={'700'}
+            marginRight={'15px'} 
+          >
+            Not Logged In
+          </Flex>
+        )}
         <Tooltip
-          bg={user ? "green.200" : "orange.100"}
-          maxW="200px"
+          bg={"orange.200"}
+          maxW="250px"
           label={
             user
               ? "Open your code snippet library"
