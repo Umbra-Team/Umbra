@@ -18,8 +18,6 @@ import { UniqueTitleError } from "../utils/errors";
 AWS.config.update({region: 'us-west-2'});
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
-// const CODE_EXECUTION_ENDPOINT = 'http://35.81.242.17:2000/api/v2/execute';
-
 const router = express.Router();
 
 router.get("/get-token/:docId", async (req, res) => {

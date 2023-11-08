@@ -22,7 +22,14 @@ import { Auth } from "aws-amplify";
 import { useState } from "react";
 import axios from "axios";
 
-const ConfirmCodeModal = ({ setUser, isOpen, onClose, onOpen }) => {
+const ConfirmCodeModal = ({
+  setUser,
+  isOpen,
+  onClose,
+  onOpen,
+  toastProps,
+  setToastProps,
+}) => {
   const [pin, setPin] = useState("");
 
   const handleVerifyClick = async () => {

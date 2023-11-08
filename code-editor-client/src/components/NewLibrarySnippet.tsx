@@ -41,7 +41,7 @@ const NewLibrarySnippet = ({
 
   return (
     <Card
-      bgColor='gray.800'
+      bgColor='green.100'
       pl='2'
       pr='2'
       minH='300px'
@@ -51,18 +51,21 @@ const NewLibrarySnippet = ({
     >
       <CardHeader textAlign='center'>
         <Input
+          border="1px solid lightgrey"
+          width='60%'
           size='md'
-          color='gray.100'
-          bg='azure'
+          color='umbra.midnightGreen'
+          bg='white'
           placeholder={snippetTitle}
           _placeholder={{ color: "gray", fontWeight: "bold" }}
+          _hover={{ borderColor: "umbra.midnightGreen" }}
           textAlign='center'
           fontWeight='bold'
           onChange={handleTitleChange}
         />
       </CardHeader>
       <CardBody
-        bg='#232D3F'
+        bg='#1e1e1e'
         border='2px'
         borderRadius='10'
         borderColor='black'
@@ -85,20 +88,20 @@ const NewLibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
+            bgColor='umbra.midnightGreen'
             _hover={{ bg: "blue.900" }}
             onClick={handleSaveClick}
           >
-            Save Snippet
+            Save
           </Button>
           <Button
             borderRadius='15'
-            color='white'
+            color='umbra.midnightGreen'
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
+            bgColor='inherit'
+            _hover={{ color: "umbra.softBlack" }}
             onClick={handleCancel}
           >
             Cancel

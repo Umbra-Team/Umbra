@@ -4,7 +4,7 @@ import { basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { oneDark } from "@uiw/react-codemirror";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 const LibrarySnippetEditor = ({
   editorViewRef,
@@ -31,7 +31,7 @@ const LibrarySnippetEditor = ({
           extensions: [
             basicSetup,
             javascript(),
-            oneDark,
+            vscodeDark,
             EditorView.editable.of(isEditMode),
           ],
         }),

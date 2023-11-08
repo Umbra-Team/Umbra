@@ -9,7 +9,7 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image } from "@chakra-ui/react";
+import { Box, Button, Select, Image, Tooltip } from "@chakra-ui/react";
 
 // Image icons
 import python_icon from "../assets/python_icon.png";
@@ -26,7 +26,7 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
-import { javascript } from "@codemirror/lang-javascript";
+import { javascript, typescriptLanguage } from "@codemirror/lang-javascript";
 import { StreamLanguage } from "@codemirror/language";
 import { python } from "@codemirror/legacy-modes/mode/python";
 import { ruby } from "@codemirror/legacy-modes/mode/ruby";
@@ -107,8 +107,8 @@ export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
   onClick: () => void;
+  orientation: "horizontal" | "vertical";
   setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
-  orientationIcon: React.ReactElement;
   language: string;
   setLanguage: Dispatch<SetStateAction<string>>; // eventually narrow this type to specific language identifiers
   width: string;
@@ -123,12 +123,29 @@ const languageIconMap = {
   py: python_icon,
 };
 
+const getLanguageMode = (language: string) => {
+  switch (language) {
+    case 'js':
+      return javascript();
+    case 'ts':
+      return typescriptLanguage;
+    case 'py':
+      return StreamLanguage.define(python);
+    case 'go':
+      return StreamLanguage.define(go);
+    case 'rb':
+      return StreamLanguage.define(ruby);
+    default:
+      return javascript();
+  }
+};
+
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
   onClick,
+  orientation,
   setOrientation,
-  orientationIcon,
   language,
   setLanguage,
   width,
@@ -185,10 +202,13 @@ export const Editor: React.FC<EditorProps> = ({
         "&": {
           width,
           height,
+          fontSize:"0.8em",
         },
       }),
     [width, height]
   );
+
+
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -203,8 +223,7 @@ export const Editor: React.FC<EditorProps> = ({
         vscodeDark,
         theme,
         updateListener,
-        // javascript(),
-        StreamLanguage.define(go),
+        getLanguageMode(language),
         yCollab(yText, awareness, { undoManager }),
       ],
     });
@@ -219,10 +238,10 @@ export const Editor: React.FC<EditorProps> = ({
         view.current = undefined;
       }
     };
-  }, [width, height]);
+  }, [width, height, language]);
 
   return (
-    <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto'>
+    <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
       {/* <Heading size='md' mb='3' color='white'>
         Code Editor
       </Heading> */}
@@ -234,12 +253,42 @@ export const Editor: React.FC<EditorProps> = ({
       </Box> */}
 
       <Box display='flex' justifyContent='space-between'>
+
         <Box display='flex' alignItems='center'>
+        <Button
+          color='white'
+          size='sm'
+          bg='#0096FF'
+          // borderRadius='20'
+          _hover={{ bg: "#04BCF9" }}
+          onClick={onClick}
+          marginTop='2'
+          marginRight='2'
+        >
+          Run
+        </Button>
           <Select
             marginTop='2'
             width='3mu'
             size='sm'
             onChange={(event) => setLanguage(event.target.value)}
+            textColor={"gray.300"}
+            iconColor={"gray.300"}
+            borderColor={"gray.600"}
+            // check this out for color mode behavior
+            //sx={{
+              //option: {
+                //backgroundColor: "gray.200",
+                //_hover: {
+                  //backgroundColor: "blue.500",
+                  //color: "white",
+                //},
+                //_focus: {
+                  //backgroundColor: "blue.500",
+                  //color: "white",
+                //},
+              //},
+            //}}
           >
             <option value='js'>JavaScript</option>
             <option value='ts'>TypeScript</option>
@@ -256,20 +305,28 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Button size='sm' marginTop='2' onClick={toggleOrientation}>
-            {orientationIcon}
-          </Button>
-          <Button
-            color='white'
-            size='sm'
+          <Tooltip label='Change Editor Orientation'>
+          <Button 
+            size='sm' 
+            marginTop='2' 
+            onClick={toggleOrientation}
             bg='#0096FF'
-            // borderRadius='20'
-            _hover={{ bg: "#04BCF9" }}
-            onClick={onClick}
-            marginTop='2'
+            border='1px black'
+            marginRight='1'
+            _hover={{ bg: "umbra.deepSkyBlue" }}
           >
-            Run Code
+          { orientation === "horizontal" ? 
+          <svg width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path  fillRule="evenodd" d="M14 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+            <path fillRule="evenodd" d="M7.5 14V2h1v12h-1z"/>
+          </svg>
+          :
+          <svg width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="white">
+            <path d="M14 1H3L2 2v11l1 1h11l1-1V2l-1-1zm0 12H3V8h11v5zm0-6H3V2h11v5z"/>
+          </svg>
+          }
           </Button>
+          </Tooltip>
         </Box>
       </Box>
     </Box>

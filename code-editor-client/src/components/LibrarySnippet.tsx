@@ -58,23 +58,29 @@ const LibrarySnippet = ({
 
   return (
     <Card
-      bgColor='gray.800'
+      bgColor='white'
       pl='2'
       pr='2'
       minH='300px'
       align='center'
       id={String(id)}
       minHeight='400px'
+      variant="elevated"
+      border="1px solid"
+      borderColor="gray.100"
+      boxShadow="md"
     >
       <CardHeader textAlign='center' width='80%'>
         {isEditing ? (
           <Input
+            border='1px solid lightgrey'
             width='60%'
             size='md'
-            color='gray.100'
-            bg='azure'
+            color='umbra.midnightGreen'
+            bg='white'
             placeholder={snippetTitle}
             _placeholder={{ color: "gray", fontWeight: "bold" }}
+            _hover={{ borderColor: "umbra.midnightGreen" }}
             textAlign='center'
             fontWeight='bold'
             onChange={handleTitleChange}
@@ -85,13 +91,13 @@ const LibrarySnippet = ({
             }}
           />
         ) : (
-          <Heading size='md' color='gray.100'>
+          <Heading size='md' color='gray.600'>
             {snippetTitle}
           </Heading>
         )}
       </CardHeader>
       <CardBody
-        bg='#232D3F'
+        bg='#1e1e1e'
         border='2px'
         borderRadius='10'
         borderColor='black'
@@ -114,11 +120,11 @@ const LibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
+            bgColor='umbra.midnightGreen'
+            _hover={{ bg: "umbra.logoText" }}
             onClick={() => appendEditorContent(snippetCode)}
           >
-            Insert Into Editor
+            Insert
           </Button>
           <Button
             borderRadius='15'
@@ -126,11 +132,11 @@ const LibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
+            bgColor='umbra.midnightGreen'
+            _hover={{ bg: "umbra.logoText" }}
             onClick={isEditing ? handleSaveClick : handleEditClick}
           >
-            {isEditing ? "Save Snippet" : "Edit Snippet"}
+            {isEditing ? "Save" : "Edit"}
           </Button>
           <Button
             borderRadius='15'
@@ -138,11 +144,11 @@ const LibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
+            bgColor='umbra.midnightGreen'
+            _hover={{ bg: "umbra.logoText" }}
             onClick={handleDeleteClick}
           >
-            Delete Snippet
+            Delete
           </Button>
         </Flex>
       </CardFooter>
