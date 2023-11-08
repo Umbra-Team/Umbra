@@ -2,8 +2,8 @@ import http from 'k6/http';
 import { sleep, check } from 'k6';
 
 export const options = {
-  vus: 10,
-  iterations: 10,
+  vus: 1,
+  iterations: 1000,
   ext: {
     loadimpact: {
       // Project: Default project
@@ -20,7 +20,17 @@ export default function() {
     version: "1.32.3",
     files: [
       {
-        content: "console.log('Hello, World!');",
+        content: `
+          function fibonacci(n) {
+            if (n <= 1) {
+              return n;
+            } else {
+              return fibonacci(n - 1) + fibonacci(n - 2);
+            }
+          }
+
+          console.log(fibonacci(36));
+        `,
       },
     ],
   };
