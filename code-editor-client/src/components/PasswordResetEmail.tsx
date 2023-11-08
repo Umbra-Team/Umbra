@@ -19,7 +19,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Auth } from "aws-amplify";
 
-const PasswordResetEmail = ({ setShowEmailReset, setToastProps, onClose }) => {
+const PasswordResetEmail = ({
+  setShowEmailReset,
+  setToastProps,
+  onClose,
+  setIsResettingPassword,
+}) => {
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -46,8 +51,8 @@ const PasswordResetEmail = ({ setShowEmailReset, setToastProps, onClose }) => {
           status: "success",
         });
         localStorage.setItem("umbraPasswordResetEmail", data.email);
+        setIsResettingPassword(true);
       }
-      onClose();
     } catch (error) {
       setToastProps({
         title: "Error Sending Verification Code",
@@ -56,6 +61,8 @@ const PasswordResetEmail = ({ setShowEmailReset, setToastProps, onClose }) => {
       });
       localStorage.removeItem("umbraPasswordResetEmail");
     }
+    setShowEmailReset(false);
+    onClose();
   };
 
   return (

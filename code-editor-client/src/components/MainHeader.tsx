@@ -69,7 +69,7 @@ const MainHeader = ({
   };
 
   let loginButtonContent;
-  if (localStorage.getItem("umbraPasswordReset")) {
+  if (localStorage.getItem("umbraPasswordResetEmail")) {
     loginButtonContent = "Verify Password Reset";
   } else if (user) {
     loginButtonContent = "Logout";

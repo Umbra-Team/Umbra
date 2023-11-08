@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import LoginForm from "./LoginForm";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PasswordResetEmail from "./PasswordResetEmail";
 import PasswordResetCode from "./PasswordResetCode";
 
@@ -33,7 +33,7 @@ const LoginModal = ({
 }) => {
   // checking to see if user is currently attempting to reset password
   const [isResettingPassword, setIsResettingPassword] = useState(
-    localStorage.getItem("umbraPasswordReset") === "true"
+    !!localStorage.getItem("umbraPasswordResetEmail")
   );
   // const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [hasVerifiedResetCode, setHasVerifiedResetCode] = useState(false);
@@ -46,6 +46,7 @@ const LoginModal = ({
         setShowEmailReset={setShowEmailReset}
         setToastProps={setToastProps}
         onClose={onClose}
+        setIsResettingPassword={setIsResettingPassword}
       />
     );
   } else if (isResettingPassword && hasVerifiedResetCode) {
@@ -55,7 +56,13 @@ const LoginModal = ({
       </Box>
     );
   } else if (isResettingPassword) {
-    content = "password reset code component will go here";
+    content = (
+      <PasswordResetCode
+        onClose={onClose}
+        toastProps={toastProps}
+        setToastProps={setToastProps}
+      />
+    );
   } else {
     content = (
       <LoginForm

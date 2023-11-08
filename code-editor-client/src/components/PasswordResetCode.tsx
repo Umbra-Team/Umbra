@@ -16,55 +16,43 @@ import {
   PinInputField,
   Link,
   VStack,
+  Input,
 } from "@chakra-ui/react";
-import { confirmUserCode } from "../utils/aws-amplify-helpers";
-import { Auth } from "aws-amplify";
 import { useState } from "react";
 import axios from "axios";
+import { Auth } from "aws-amplify";
 
-const PasswordResetCode = ({
-  setUser,
-  isOpen,
-  onClose,
-  onOpen,
-  toastProps,
-  setToastProps,
-}) => {
+// Input validation related imports
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const PasswordResetCode = ({ onClose, toastProps, setToastProps }) => {
   const [pin, setPin] = useState("");
 
-  const handleVerifyClick = async () => {
-    const unconfirmedUser = localStorage.getItem("unconfirmedUser");
-    if (!unconfirmedUser) {
-      alert("No pending user found - try signing up again");
-      localStorage.removeItem("unconfirmedUser");
-      return;
-    }
+  const schema = yup.object().shape({
+    code: yup.string().required("Verification code is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 8 characters")
+      .required("Password is required"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("Password confirmation is required"),
+  });
 
-    const response = await confirmUserCode(unconfirmedUser, pin);
-    if (response.success) {
-      await axios.get("/api/syncUsers");
-      localStorage.removeItem("unconfirmedUser");
-    }
-    alert(response.message);
-    onClose();
-  };
+  const {
+    register,
+    handleSubmit,
+    control, // Add this line
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const handleResendCodeClick = async (event) => {
-    event.preventDefault();
-
-    const username = localStorage.getItem("unconfirmedUser");
-    if (!username) {
-      alert("No pending user found - try signing up again");
-      return;
-    }
-
-    try {
-      await Auth.resendSignUp(username);
-      console.log(username);
-      alert("Code resent successfully");
-    } catch (err) {
-      console.error("Error resending code: ", err);
-    }
+  const handleFormSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -104,47 +92,63 @@ const PasswordResetCode = ({
             fontSize={{ base: "sm", sm: "md" }}
             color={useColorModeValue("gray.800", "gray.400")}
           >
-            <Text color='black'>
-              Enter the verification code sent to your email
-            </Text>
-            <Link onClick={handleResendCodeClick} color='blue.500'>
-              Resend Verification Code
-            </Link>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
+              <FormControl id='code'>
+                <Controller
+                  name='code'
+                  control={control}
+                  defaultValue=''
+                  rules={{ required: "Verification code is required" }}
+                  render={({ field }) => (
+                    <PinInput {...field}>
+                      <PinInputField required />
+                      <PinInputField required />
+                      <PinInputField required />
+                      <PinInputField required />
+                      <PinInputField required />
+                      <PinInputField required />
+                    </PinInput>
+                  )}
+                />
+                {errors.code && (
+                  <Text color='red.500'>{errors.code.message}</Text>
+                )}
+              </FormControl>
+              <FormControl id='password'>
+                <Input
+                  placeholder='New password'
+                  type='password'
+                  {...register("password")}
+                />
+                {errors.password && (
+                  <Text color='red.500'>{errors.password.message}</Text>
+                )}
+              </FormControl>
+              <FormControl id='confirmPassword'>
+                <Input
+                  placeholder='Confirm password'
+                  type='password'
+                  {...register("confirmPassword")}
+                />
+                {errors.confirmPassword && (
+                  <Text color='red.500'>{errors.confirmPassword.message}</Text>
+                )}
+              </FormControl>
+              <Stack spacing={6}>
+                <Button
+                  type='submit'
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                >
+                  Verify
+                </Button>
+              </Stack>
+            </form>
           </VStack>
         </Center>
-        <Center
-          fontSize={{ base: "sm", sm: "md" }}
-          fontWeight='bold'
-          color='black'
-        >
-          {localStorage.getItem("unconfirmedUser")}
-        </Center>
-        <FormControl>
-          <Center>
-            <HStack>
-              <PinInput onChange={(newValue) => setPin(newValue)}>
-                <PinInputField required />
-                <PinInputField required />
-                <PinInputField required />
-                <PinInputField required />
-                <PinInputField required />
-                <PinInputField required />
-              </PinInput>
-            </HStack>
-          </Center>
-        </FormControl>
-        <Stack spacing={6}>
-          <Button
-            bg={"blue.400"}
-            color={"white"}
-            _hover={{
-              bg: "blue.500",
-            }}
-            onClick={handleVerifyClick}
-          >
-            Verify
-          </Button>
-        </Stack>
       </Stack>
     </Flex>
   );
