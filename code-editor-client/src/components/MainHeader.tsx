@@ -111,76 +111,64 @@ const MainHeader = ({
           </Flex>
         </Heading>
       </Flex>
-      <Flex align="baseline">
+      <Flex align='baseline'>
         <ShareRoomButton />
-        <Text
-          mx={2}
-          color={"lightblue.600"}
-          fontSize="18px"
-          fontWeight={700}
-        >
+        <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
           Share and Edit Collaboratively
         </Text>
       </Flex>
       <Spacer />
       <Flex align='center' gap={2}>
         <Flex align='baseline' px={10}>
-        {user ? (
-          <Flex
-            color={'#F58A51'}
-            marginRight={'15px'} 
+          {user ? (
+            <Flex color={"#F58A51"} marginRight={"15px"}>
+              <Text
+                bg='green.100'
+                color='green.800'
+                fontWeight={300}
+                p={1}
+                mr={1}
+                border='1px solid'
+                borderColor='green.700'
+                borderRadius='2px'
+              >
+                <CheckCircleIcon pb={1} pr={1} />
+                Logged in as {user.attributes.email}
+              </Text>
+            </Flex>
+          ) : (
+            <Flex color={"#F58A51"} marginRight={"15px"}>
+              <Text
+                bg='orange.100'
+                color='orange.800'
+                fontWeight={300}
+                p={1}
+                mr={1}
+                border='1px solid'
+                borderColor='orange.700'
+                borderRadius='2px'
+              >
+                <InfoIcon pb={1} pr={1} />
+                Not Logged In
+              </Text>
+            </Flex>
+          )}
+          <Button
+            bg='transparent'
+            color='black'
+            fontSize='18px'
+            fontWeight='bold'
+            _hover={{
+              color: "blue.500",
+              // fontWeight: "bold",
+              // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
+            }}
+            onClick={user ? handleLogoutClick : onLoginOpen}
+            _active={{ bg: "transparent" }}
           >
-            <Text
-              bg="green.100" 
-              color="green.800"
-              fontWeight={300}
-              p={1}
-              mr={1}
-              border = "1px solid"
-              borderColor="green.700"
-              borderRadius="2px"
-            >
-              <CheckCircleIcon pb={1} pr={1}/>
-              Logged in as {user.attributes.email}
-            </Text>
-          </Flex>
-        ) : (
-          <Flex
-            color={'#F58A51'}
-            marginRight={'15px'} 
-          >
-            <Text
-              bg="orange.100"
-              color="orange.800"
-              fontWeight={300}
-              p={1}
-              mr={1}
-              border="1px solid"
-              borderColor="orange.700"
-              borderRadius="2px"
-            >
-              <InfoIcon pb={1} pr={1} />
-              Not Logged In
-            </Text>
-          </Flex>
-        )}
-        <Button
-          bg='transparent'
-          color='black'
-          fontSize='18px'
-          fontWeight="bold"
-          _hover={{
-            color: "blue.500",
-            // fontWeight: "bold",
-            // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
-          }}
-          onClick={user ? handleLogoutClick : onLoginOpen}
-          _active={{ bg: "transparent" }}
-        >
-          {loginButtonContent}
-        </Button>
+            {loginButtonContent}
+          </Button>
 
-        {signupButtonContent && (
           <Button
             bg='transparent'
             color='black'
@@ -216,10 +204,9 @@ const MainHeader = ({
           )}
         </Flex>
         <Tooltip
-
           bg={"yellow.200"}
           color={"gray.600"}
-          maxW="200px"
+          maxW='200px'
           label={
             user
               ? "Open your code snippet library"
