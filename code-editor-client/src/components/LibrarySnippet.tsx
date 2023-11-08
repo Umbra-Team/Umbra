@@ -73,7 +73,7 @@ const LibrarySnippet = ({
       <CardHeader textAlign='center' width='80%'>
         {isEditing ? (
           <Input
-            border="1px solid lightgrey"
+            border='1px solid lightgrey'
             width='60%'
             size='md'
             color='umbra.midnightGreen'

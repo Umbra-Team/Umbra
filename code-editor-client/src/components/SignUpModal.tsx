@@ -23,7 +23,13 @@ import logo from "../assets/logo-transparent.png";
 import { signUp } from "../utils/aws-amplify-helpers";
 import { useState } from "react";
 
-const SignUpModal = ({ isOpen, onClose, onOpen }) => {
+const SignUpModal = ({
+  isOpen,
+  onClose,
+  onOpen,
+  toastProps,
+  setToastProps,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -46,7 +52,7 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
           minH={"50vh"}
           align={"center"}
           justify={"center"}
-          bg="white"
+          bg='white'
           borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
@@ -72,19 +78,14 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
                 library
               </Heading>
             </Stack>
-            <Box
-              rounded={"lg"}
-              bg="white"
-              boxShadow={"lg"}
-              p={8}
-            >
+            <Box rounded={"lg"} bg='white' boxShadow={"lg"} p={8}>
               <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
                   <FormControl id='email' isRequired>
                     <FormLabel color='black'>Email address</FormLabel>
                     <Input
-                      border="1px solid lightgray"
-                      bg="white"
+                      border='1px solid lightgray'
+                      bg='white'
                       type='email'
                       onChange={(e) => setEmail(e.target.value)}
                       _hover={{
@@ -96,8 +97,8 @@ const SignUpModal = ({ isOpen, onClose, onOpen }) => {
                     <FormLabel color='black'>Password</FormLabel>
                     <InputGroup>
                       <Input
-                        border="1px solid lightgray"
-                        bg="white"
+                        border='1px solid lightgray'
+                        bg='white'
                         type={showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
                         _hover={{

@@ -202,6 +202,7 @@ export const Editor: React.FC<EditorProps> = ({
         "&": {
           width,
           height,
+          fontSize:"0.8em",
         },
       }),
     [width, height]
@@ -274,6 +275,20 @@ export const Editor: React.FC<EditorProps> = ({
             textColor={"gray.300"}
             iconColor={"gray.300"}
             borderColor={"gray.600"}
+            // check this out for color mode behavior
+            //sx={{
+              //option: {
+                //backgroundColor: "gray.200",
+                //_hover: {
+                  //backgroundColor: "blue.500",
+                  //color: "white",
+                //},
+                //_focus: {
+                  //backgroundColor: "blue.500",
+                  //color: "white",
+                //},
+              //},
+            //}}
           >
             <option value='js'>JavaScript</option>
             <option value='ts'>TypeScript</option>

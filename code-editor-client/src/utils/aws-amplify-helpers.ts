@@ -65,8 +65,6 @@ export const signIn = async (
   setUser: Function,
   email: string,
   password: string
-  // username = TEST_USER.email,
-  // password = TEST_USER.password
 ) => {
   try {
     const user = await Auth.signIn(email, password);
@@ -75,12 +73,37 @@ export const signIn = async (
     // localStorage.setItem('token', user.signInUserSession.idToken.jwtToken);
     console.log(`Signed in as ${user.getUsername()}`);
     return { success: true, message: "User successfully signed in" };
-  } catch (error) {
-    console.log("error signing in", error);
-    return { success: false, message: `Error signing in: ${error}` };
+  } catch (error: any) {
+    if (error.code === "NotAuthorizedException") {
+      throw new Error("Invalid username or password");
+    }
+    throw new Error(`Error signing in: ${error}`);
   }
 };
 
+// submit email for forgotten password
+export const forgotPassword = async (email) => {
+  try {
+    const response = await Auth.forgotPassword(email);
+    console.log(response);
+    return { success: true, message: "Password reset code sent to email" };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+// resets password with code and inputs new password
+export const resetPassword = async (email, code, newPassword) => {
+  try {
+    const response = await Auth.forgotPasswordSubmit(email, code, newPassword);
+    console.log(response);
+    return { success: true, message: "Password successfully reset" };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+// uset logout
 export const logout = async () => {
   try {
     await Auth.signOut();
