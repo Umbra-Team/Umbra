@@ -44,6 +44,7 @@ const PasswordResetCode = ({
       .required("Password is required"),
     confirmPassword: yup
       .string()
+      .nullable()
       .oneOf([yup.ref("password"), null], "Passwords must match")
       .required("Password confirmation is required"),
   });

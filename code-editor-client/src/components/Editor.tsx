@@ -258,7 +258,7 @@ export const Editor: React.FC<EditorProps> = ({
         <Button
           color='white'
           size='sm'
-          bg='#0096FF'
+          bg='blue.500'
           // borderRadius='20'
           _hover={{ bg: "#04BCF9" }}
           onClick={onClick}
@@ -268,6 +268,7 @@ export const Editor: React.FC<EditorProps> = ({
           Run
         </Button>
           <Select
+            bg="inherit"
             marginTop='2'
             width='3mu'
             size='sm'
@@ -305,12 +306,12 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Tooltip label='Change Editor Orientation'>
+          <Tooltip label='Change Editor Orientation' bg={"yellow.200"} color="gray.600">
           <Button 
             size='sm' 
             marginTop='2' 
             onClick={toggleOrientation}
-            bg='#0096FF'
+            bg='blue.500'
             border='1px black'
             marginRight='1'
             _hover={{ bg: "umbra.deepSkyBlue" }}

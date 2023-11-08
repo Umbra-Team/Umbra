@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { basicSetup } from "codemirror";
 
 import { javascript } from "@codemirror/lang-javascript";
@@ -18,6 +18,16 @@ const LibrarySnippetEditor = ({
   const ref = useRef<HTMLDivElement | null>(null);
   const [editorView, setEditorView] = useState<EditorView | null>(null);
 
+  const theme = useMemo(
+    () =>
+      EditorView.theme({
+        "&": {
+          fontSize:"0.75em",
+        },
+      }),
+    []
+  );
+
   useEffect(() => {
     if (ref.current) {
       // Destroy the previous EditorView instance if it exists
@@ -30,6 +40,7 @@ const LibrarySnippetEditor = ({
           doc: code,
           extensions: [
             basicSetup,
+            theme,
             javascript(),
             vscodeDark,
             EditorView.editable.of(isEditMode),

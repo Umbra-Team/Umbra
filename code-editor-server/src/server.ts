@@ -3,6 +3,7 @@ import './utils/awsConfig';
 import cors from "cors";
 import path from "path";
 import apiRouter from "./routes/api";
+import { errorHandler } from "./utils/middleware";
 import sequelize from "./utils/sequelize";
 import './models/associations'
 import { syncUsers } from "./scripts/syncUsers";
@@ -38,6 +39,7 @@ app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, "../build")));
 app.use("/api", apiRouter);
+app.use(errorHandler);
 
 console.log(path.join(__dirname, "../build"));
 

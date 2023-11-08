@@ -7,6 +7,7 @@ class Snippet extends Model {
   public id!: number;
   public title!: string;
   public code!: string;
+  public language!: string;
   public userId!: number;
   // timestamps!
   public readonly created_at!: Date;
@@ -24,6 +25,11 @@ Snippet.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+  },
+  language: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: 'javascript',
   },
   code: {
     type: DataTypes.TEXT,
