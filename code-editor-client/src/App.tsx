@@ -119,12 +119,12 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         <UmbraToast {...toastProps} setToastProps={setToastProps} />
       )}
       <Flex
-         direction={"column"}
+        direction={"column"}
         minH='100vh'
-        bg="linear-gradient(180deg, hsla(0, 0%, 100%, 1) 8%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)"
+        bg='linear-gradient(180deg, hsla(0, 0%, 100%, 1) 8%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)'
         justify='space-between'
       >
-         <Flex direction='column'>
+        <Flex direction='column'>
           <MainHeader
             user={user}
             setUser={setUser}
@@ -141,34 +141,35 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
             setToastProps={setToastProps}
           />
         </Flex>
-        direction={orientation === "horizontal" ? "column" : "row"}
-        gap={1}
-        bg='white'
-        align='center'
-        maxWidth='75%'
-        justifyContent='center'
-        margin='auto'
-      >
-        <Box boxShadow="dark-lg" borderRadius="5px">
-          <Editor
-            setEditorViewRef={setEditorViewRef}
-            onChange={setCode}
-            onClick={() => sendCode(code)}
-            orientation={orientation}
-            setOrientation={setOrientation}
-            language={language}
-            setLanguage={setLanguage}
-            width={editorWidth}
-            height={editorHeight}
-          />
-        </Box>
-        <Box boxShadow="dark-lg"  borderRadius="5px" >
-          <OutputDisplay
-            width={outputWidth}
-            height={outputHeight}
-            output={output}
-          />
-        </Box>
+        <Flex
+          direction={orientation === "horizontal" ? "column" : "row"}
+          gap={1}
+          bg='white'
+          align='center'
+          maxWidth='75%'
+          justifyContent='center'
+          margin='auto'
+        >
+          <Box boxShadow='dark-lg' borderRadius='5px'>
+            <Editor
+              setEditorViewRef={setEditorViewRef}
+              onChange={setCode}
+              onClick={() => sendCode(code)}
+              orientation={orientation}
+              setOrientation={setOrientation}
+              language={language}
+              setLanguage={setLanguage}
+              width={editorWidth}
+              height={editorHeight}
+            />
+          </Box>
+          <Box boxShadow='dark-lg' borderRadius='5px'>
+            <OutputDisplay
+              width={outputWidth}
+              height={outputHeight}
+              output={output}
+            />
+          </Box>
         </Flex>
         <LibraryDrawer
           user={user}
