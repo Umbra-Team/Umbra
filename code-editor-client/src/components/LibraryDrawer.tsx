@@ -208,8 +208,17 @@ const LibraryDrawer = ({
         {/* <Box>
           <Text>Nope</Text>
         </Box> */}
-        <DrawerHeader bg="white" textAlign="center" color="blue.600">Here are some examples. Sign up or log in to create your own!</DrawerHeader>
-        <DrawerBody bg='#FFFFFF'>
+        <DrawerHeader
+          color={useColorModeValue('umbra.midnightGreen', 'white')}
+          bg={useColorModeValue(
+            'linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)',
+            'linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)')}
+          textAlign="center"
+          
+        >
+          Here are some examples. Sign up or log in to create your own!
+        </DrawerHeader>
+        <DrawerBody bg={useColorModeValue('white', 'gray.800')}>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
