@@ -3,7 +3,7 @@ name: Build and Deploy Code Editor Server to AWS Lightsail
 on:
   push:
     branches:
-      - fred-11-05-load-testing-fork
+      - david-11-08-load-testing-merge
   workflow_dispatch:
 
 env:
@@ -15,7 +15,7 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout fred-11-05-load-testing-fork
+      - name: Checkout david-11-08-load-testing-merge
         uses: actions/checkout@v2
       
       - name: Echo directory structure
