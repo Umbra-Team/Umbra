@@ -5,6 +5,12 @@ import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
+import { verifyToken, fetchUser, fetchSnippet } from '../utils/middleware';
+import { RequestWithUser } from '../types/types';
+import { Application } from "express";
+import supertest from "supertest";
+import User from '../models/User';
+import Snippet from '../models/Snippet';
 
 jest.setTimeout(30000); // 30 second timeout
 // TODO:
@@ -20,6 +26,8 @@ jest.setTimeout(30000); // 30 second timeout
   - Test with invalid username and password
 
 */
+
+
 
 describe('Snippet CRUD operations', () => {
     let token: string;

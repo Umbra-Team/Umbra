@@ -26,7 +26,7 @@ const dialectOptions = useSSL
 const sequelize = new Sequelize(POSTGRES_URI, {
   dialect: 'postgres',
   dialectOptions,
-  logging: console.log,
+  logging: process.env.NODE_ENV !== 'test' ? console.log : false,
 });
   
 

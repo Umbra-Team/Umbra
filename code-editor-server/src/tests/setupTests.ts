@@ -5,6 +5,8 @@ import { beforeEach, afterEach } from '@jest/globals';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.test') });
 
+console.log(`Setting up testing, NODE_ENV = ${process.env.NODE_ENV}`);
+
 import sequelize from '../utils/sequelize';
 import '../models/associations';
 import User from '../models/User';

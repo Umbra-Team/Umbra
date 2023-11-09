@@ -40,10 +40,12 @@ export const verifyToken = async (
     const cognito = new CognitoIdentityServiceProvider();
     const params = { AccessToken: token };
     const result = await cognito.getUser(params).promise();
+    console.log(`*** verifyToken: ${JSON.stringify(result)}`)
 
     req.user = result;
     next();
   } catch (error) {
+    console.error(`verifyToken error: ${error}`);
     res.status(400).send("Invalid token.");
   }
 };
