@@ -9,14 +9,7 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image, Tooltip } from "@chakra-ui/react";
-
-// Image icons
-import python_icon from "../assets/python_icon.png";
-import js_icon from "../assets/js_icon.png";
-import ts_icon from "../assets/ts_icon.png";
-import rb_icon from "../assets/rb_icon.png";
-import go_icon from "../assets/go_icon.png";
+import { Box, Button, Select, Image, Tooltip, useColorModeValue } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -26,11 +19,10 @@ import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
-import { javascript, typescriptLanguage } from "@codemirror/lang-javascript";
-import { StreamLanguage } from "@codemirror/language";
-import { python } from "@codemirror/legacy-modes/mode/python";
-import { ruby } from "@codemirror/legacy-modes/mode/ruby";
-import { go } from "@codemirror/legacy-modes/mode/go";
+
+// Language Mode and Syntax Highlighting
+import { getLanguageMode } from "../utils/language";
+import { languageIconMap } from "../utils/language";
 
 // yjs and associates
 import * as Y from "yjs";
@@ -115,31 +107,6 @@ export type EditorProps = {
   height: string;
 };
 
-const languageIconMap = {
-  js: js_icon,
-  ts: ts_icon,
-  rb: rb_icon,
-  go: go_icon,
-  py: python_icon,
-};
-
-const getLanguageMode = (language: string) => {
-  switch (language) {
-    case 'js':
-      return javascript();
-    case 'ts':
-      return typescriptLanguage;
-    case 'py':
-      return StreamLanguage.define(python);
-    case 'go':
-      return StreamLanguage.define(go);
-    case 'rb':
-      return StreamLanguage.define(ruby);
-    default:
-      return javascript();
-  }
-};
-
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
@@ -208,8 +175,6 @@ export const Editor: React.FC<EditorProps> = ({
     [width, height]
   );
 
-
-
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -260,7 +225,7 @@ export const Editor: React.FC<EditorProps> = ({
           size='sm'
           bg='blue.500'
           // borderRadius='20'
-          _hover={{ bg: "#04BCF9" }}
+          _hover={{ bg: "umbra.deepSkyBlue" }}
           onClick={onClick}
           marginTop='2'
           marginRight='2'
@@ -306,7 +271,7 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Tooltip label='Change Editor Orientation' bg={"yellow.200"} color="gray.600">
+          <Tooltip label='Change Editor Orientation' bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
           <Button 
             size='sm' 
             marginTop='2' 

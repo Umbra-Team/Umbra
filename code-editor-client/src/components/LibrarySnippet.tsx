@@ -6,17 +6,23 @@ import {
   Heading,
   Button,
   Flex,
+  Image,
   Input,
+  Select,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
 import React, { useState, useRef } from "react";
 
+import { getLanguageMode, languageIconMap } from "../utils/language";
+
 type LibrarySnippetType = {
   id: number;
   title: string;
   code: string;
+  language: string;
   appendEditorContent: Function;
   handleDeleteSnippet: Function;
   handleUpdateSnippet: Function;
@@ -26,6 +32,7 @@ const LibrarySnippet = ({
   id,
   title,
   code,
+  language,
   appendEditorContent,
   handleDeleteSnippet,
   handleUpdateSnippet,
@@ -33,7 +40,14 @@ const LibrarySnippet = ({
   const [isEditing, setIsEditing] = useState(false);
   const [snippetCode, setSnippetCode] = useState(code);
   const [snippetTitle, setSnippetTitle] = useState(title);
+  const [snippetLanguage, setSnippetLanguage] = useState(language);
+  const [languageIcon, setLanguageIcon] = useState(languageIconMap[language])
   const editorViewRef = useRef<EditorView | undefined>(undefined);
+
+  const handleLanguageChange = (event) => {
+    setSnippetLanguage(event.target.value);
+    setLanguageIcon(languageIconMap[event.target.value]);
+  }
 
   const handleDeleteClick = () => {
     handleDeleteSnippet(id);
@@ -47,7 +61,7 @@ const LibrarySnippet = ({
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
       setSnippetCode(currentContent);
-      handleUpdateSnippet(id, currentContent, snippetTitle);
+      handleUpdateSnippet(id, currentContent, snippetTitle, snippetLanguage);
     }
     setIsEditing((prevState) => !prevState);
   };
@@ -58,7 +72,7 @@ const LibrarySnippet = ({
 
   return (
     <Card
-      bgColor='white'
+      bgColor={useColorModeValue('white', 'black')}
       pl='2'
       pr='2'
       minH='300px'
@@ -66,7 +80,7 @@ const LibrarySnippet = ({
       id={String(id)}
       minHeight='400px'
       variant="elevated"
-      border="1px solid"
+      border={useColorModeValue("1px solid", "none")}
       borderColor="gray.100"
       boxShadow="md"
     >
@@ -103,14 +117,47 @@ const LibrarySnippet = ({
         borderColor='black'
         color='white'
         w='90%'
+        display='flex'
+        flexDirection='column'
+        justifyContent='space-between'
       >
         <CardBody>
           <LibrarySnippetEditor
             editorViewRef={editorViewRef}
             code={snippetCode}
             isEditMode={isEditing}
+            languageMode={getLanguageMode(snippetLanguage)}
           />
         </CardBody>
+        <Flex align="end">
+        {isEditing ?
+          <Select
+              bg="inherit"
+              marginTop='2'
+              width='3mu'
+              size='sm'
+              onChange={handleLanguageChange}
+              textColor={"gray.300"}
+              iconColor={"gray.300"}
+              borderColor={"gray.600"}
+              value={snippetLanguage}
+            >
+              <option value='js'>JavaScript</option>
+              <option value='ts'>TypeScript</option>
+              <option value='py'>Python</option>
+              <option value='go'>Golang</option>
+              <option value='rb'>Ruby</option>
+            </Select>
+            :
+            <Image
+            src={languageIcon}
+            boxSize='32px'
+            alt='Code Language Icon'
+            ml={2}
+            mt={2}
+          />
+          }
+          </Flex>
       </CardBody>
       <CardFooter p={2}>
         <Flex gap='5px' justifyContent='space-between' pr='3' pl='4'>

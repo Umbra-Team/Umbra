@@ -36,14 +36,15 @@ export const getSnippet = async (
 export const createSnippet = async (
   cognitoClientToken: string,
   title: string,
-  code: string
+  code: string,
+  language: string,
 ): Promise<Snippet> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),
   };
   const response = await axios.post(
     `${baseUrl}/snippets`,
-    { title, code },
+    { title, code, language },
     config
   );
   return response.data as Snippet;
@@ -55,14 +56,15 @@ export const editSnippet = async (
   cognitoClientToken: string,
   id: number,
   newTitle: string,
-  newCode: string
+  newCode: string,
+  newLanguage: string,
 ): Promise<Snippet> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),
   };
   const response = await axios.patch(
     `${baseUrl}/snippets/${id}`,
-    { title: newTitle, code: newCode },
+    { title: newTitle, code: newCode, language: newLanguage },
     config
   );
   return response.data as Snippet;
