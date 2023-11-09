@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
 import HamburgerMenuButton from "./HamburgerMenuButton";
+import ColorModeButton from "./ColorModeButton";
 import logo from "../assets/logo-transparent.png";
 import { logout } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler, useState } from "react";
@@ -97,12 +98,8 @@ const MainHeader = ({
       flex={0.4}
       align='center'
       justify='space-between'
-      // p={2}
       px={6}
-      bg={useColorModeValue('white', 'gray.900')}
-      // bgGradient='linear(to-r, black, gray.100, blue.800)'
-      // border='2px'
-      // borderColor='gray.200'
+      bg={'transparent'}
     >
       <Flex pt={2}>
         <Heading size='lg' fontWeight='bold' color='blue.500'>
@@ -151,13 +148,13 @@ const MainHeader = ({
             marginRight={'15px'} 
           >
             <Text
-              bg="orange.100"
-              color="orange.800"
+              bg={useColorModeValue("orange.100", "orange.900")}
+              color={useColorModeValue("orange.800", "orange.300")}
               fontWeight={300}
               p={1}
               mr={1}
               border="1px solid"
-              borderColor="orange.700"
+              borderColor={useColorModeValue("orange.700", "orange.400")}
               borderRadius="2px"
             >
               <InfoIcon pb={1} pr={1} />
@@ -167,35 +164,17 @@ const MainHeader = ({
         )}
         <Button
           bg='transparent'
-          color={useColorModeValue('black', 'white')}
+          color={useColorModeValue('black', 'gray.100')}
           fontSize='18px'
           fontWeight="bold"
           _hover={{
             color: "blue.500",
-            // fontWeight: "bold",
-            // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
           }}
           onClick={user ? handleLogoutClick : onLoginOpen}
           _active={{ bg: "transparent" }}
         >
           {loginButtonContent}
         </Button>
-
-        {signupButtonContent && (
-          <Button
-            bg='transparent'
-            color={useColorModeValue('black', 'white')}
-            fontSize='18px'
-            fontWeight='bold'
-            _hover={{
-              color: "blue.500",
-            }}
-            onClick={user ? handleLogoutClick : onLoginOpen}
-            _active={{ bg: "transparent" }}
-          >
-            {loginButtonContent}
-          </Button>
-          )}
         </Flex>
         <Tooltip
 
@@ -222,6 +201,7 @@ const MainHeader = ({
             Library
           </Button>
         </Tooltip>
+        <ColorModeButton />
         <HamburgerMenuButton
           replaceEditorContent={replaceEditorContent}
           appendEditorContent={appendEditorContent}

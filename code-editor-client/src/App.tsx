@@ -7,10 +7,7 @@ import { Flex, Box } from "@chakra-ui/react";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 
-// icons
-import { Image } from "@chakra-ui/react";
-
-import { useDisclosure, useToast, useColorModeValue } from "@chakra-ui/react";
+import { useDisclosure, useToast, useColorMode,  useColorModeValue } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 // Code execution mapping object
@@ -122,9 +119,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         direction={"column"}
         minH='100vh'
         bg={useColorModeValue(
-          'linear-gradient(180deg, hsla(0, 0%, 100%, 1) 8%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)',
-          'linear-gradient(180deg, hsla(0, 0%, 8%, 1) 15%, hsla(0, 0%, 13%, 1) 50%, hsla(0, 0%, 8%, 1) 100%)'
-          // 'gray.900'
+          'linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)',
+          // 'radial-gradient(circle, hsla(205, 100%, 95%, 1) 0%, hsla(0, 0%, 100%, 1) 95%)',
+          'radial-gradient(circle, hsla(0, 0%, 19%, 1) 0%, hsla(0, 0%, 2%, 1) 100%)'
         )}
         justify='space-between'
       >
@@ -154,7 +151,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           justifyContent='center'
           margin='auto'
         >
-          <Box boxShadow='dark-lg' borderRadius='5px'>
+          <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
             <Editor
               setEditorViewRef={setEditorViewRef}
               onChange={setCode}
@@ -167,7 +164,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
               height={editorHeight}
             />
           </Box>
-          <Box boxShadow='dark-lg' borderRadius='5px'>
+          <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
             <OutputDisplay
               width={outputWidth}
               height={outputHeight}

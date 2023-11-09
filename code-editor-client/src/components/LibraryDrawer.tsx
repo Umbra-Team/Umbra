@@ -131,17 +131,17 @@ const LibraryDrawer = ({
       <DrawerContent>
         <DrawerHeader
           color='black'
-          bg='white'
+          bg='linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)'
           borderBottomWidth='1px'
           borderBottomColor='lightgray'
         >
           <Flex justifyContent='center'>
             <Text 
               mt={1.5}
-              fontSize="24px"
-              fontWeight="900"
-              bgGradient='linear(to-r, blue.600, lightblue.600)'
-              bgClip='text'
+              fontSize="32px"
+              fontWeight="700"
+              color="white"
+              
             >
               Code Library
             </Text>
