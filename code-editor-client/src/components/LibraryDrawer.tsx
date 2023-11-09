@@ -9,6 +9,7 @@ import {
   Button,
   Flex,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import * as React from "react";
 import NewLibrarySnippet from "./NewLibrarySnippet";
@@ -130,17 +131,18 @@ const LibraryDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader
-          color='black'
-          bg='linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)'
-          borderBottomWidth='1px'
-          borderBottomColor='lightgray'
+          color={useColorModeValue('umbra.midnightGreen', 'white')}
+          bg={useColorModeValue(
+            'linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)',
+            'linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)')}
+          // borderBottomWidth='1px'
+          // borderBottomColor='lightgray'
         >
           <Flex justifyContent='center'>
             <Text 
               mt={1.5}
               fontSize="32px"
               fontWeight="700"
-              color="white"
               
             >
               Code Library
@@ -158,7 +160,7 @@ const LibraryDrawer = ({
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-        <DrawerBody bg='#FFFFFF'>
+        <DrawerBody bg={useColorModeValue('white', 'gray.800')} >
           <Flex justifyContent="left">
           <Button
             // marginRight={10}

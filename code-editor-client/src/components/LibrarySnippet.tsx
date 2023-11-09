@@ -7,6 +7,7 @@ import {
   Button,
   Flex,
   Input,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
@@ -58,7 +59,7 @@ const LibrarySnippet = ({
 
   return (
     <Card
-      bgColor='white'
+      bgColor={useColorModeValue('white', 'black')}
       pl='2'
       pr='2'
       minH='300px'
@@ -66,7 +67,7 @@ const LibrarySnippet = ({
       id={String(id)}
       minHeight='400px'
       variant="elevated"
-      border="1px solid"
+      border={useColorModeValue("1px solid", "none")}
       borderColor="gray.100"
       boxShadow="md"
     >
