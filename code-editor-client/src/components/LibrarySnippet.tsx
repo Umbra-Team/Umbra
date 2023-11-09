@@ -13,7 +13,7 @@ import {
 
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 import { getLanguageMode, languageIconMap } from "../utils/language";
 
@@ -43,7 +43,7 @@ const LibrarySnippet = ({
   const [languageIcon, setLanguageIcon] = useState(languageIconMap[language])
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
-  const handleChangeLanguage = (event) => {
+  const handleLanguageChange = (event) => {
     setSnippetLanguage(event.target.value);
     setLanguageIcon(languageIconMap[event.target.value]);
   }
@@ -125,7 +125,7 @@ const LibrarySnippet = ({
             editorViewRef={editorViewRef}
             code={snippetCode}
             isEditMode={isEditing}
-            languageMode={getLanguageMode(language)}
+            languageMode={getLanguageMode(snippetLanguage)}
           />
         </CardBody>
         <Flex align="end">
@@ -135,7 +135,7 @@ const LibrarySnippet = ({
               marginTop='2'
               width='3mu'
               size='sm'
-              onChange={handleChangeLanguage}
+              onChange={handleLanguageChange}
               textColor={"gray.300"}
               iconColor={"gray.300"}
               borderColor={"gray.600"}

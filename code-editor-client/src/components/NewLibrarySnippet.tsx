@@ -6,10 +6,13 @@ import {
   Button,
   Flex,
   Input,
+  Select,
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+import { getLanguageMode } from "../utils/language";
 
 type NewLibrarySnippetProps = {
   handleAddSnippet: Function;
@@ -22,6 +25,7 @@ const NewLibrarySnippet = ({
 }: NewLibrarySnippetProps) => {
   const [snippetCode, setSnippetCode] = useState("");
   const [snippetTitle, setSnippetTitle] = useState("Untitled");
+  const [snippetLanguage, setSnippetLanguage] = useState('js');
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleSaveClick = async (
@@ -38,6 +42,10 @@ const NewLibrarySnippet = ({
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSnippetTitle(event.target.value);
   };
+
+  const handleLanguageChange = (event) => {
+    setSnippetLanguage(event.target.value);
+  }
 
   return (
     <Card
@@ -71,14 +79,37 @@ const NewLibrarySnippet = ({
         borderColor='black'
         color='white'
         w='90%'
+        display='flex'
+        flexDirection='column'
+        justifyContent='space-between'
       >
         <CardBody>
           <LibrarySnippetEditor
             editorViewRef={editorViewRef}
             code={snippetCode}
             isEditMode={true}
+            languageMode={getLanguageMode(snippetLanguage)}
           />
         </CardBody>
+        <Flex align="end">
+          <Select
+            bg="inherit"
+            marginTop='2'
+            width='3mu'
+            size='sm'
+            onChange={handleLanguageChange}
+            textColor={"gray.300"}
+            iconColor={"gray.300"}
+            borderColor={"gray.600"}
+            value={snippetLanguage}
+          >
+            <option value='js'>JavaScript</option>
+            <option value='ts'>TypeScript</option>
+            <option value='py'>Python</option>
+            <option value='go'>Golang</option>
+            <option value='rb'>Ruby</option>
+          </Select>
+        </Flex>
       </CardBody>
       <CardFooter p={2}>
         <Flex gap='5px' justifyContent='space-between' pr='3' pl='4'>
