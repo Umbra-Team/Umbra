@@ -153,6 +153,11 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         >
           <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
             <Editor
+              style={{
+                transition: 'height 0.2s ease-out, width 0.2s ease-out',
+                width: editorWidth,
+                height: editorHeight,
+              }}
               setEditorViewRef={setEditorViewRef}
               onChange={setCode}
               onClick={() => sendCode(code)}
@@ -166,6 +171,11 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
           </Box>
           <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
             <OutputDisplay
+              style={{
+                transition: 'height 0.2s ease-out, width 0.2s ease-out',
+                width: outputWidth,
+                height: outputHeight,
+              }}
               width={outputWidth}
               height={outputHeight}
               output={output}

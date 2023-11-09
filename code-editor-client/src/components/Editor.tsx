@@ -3,6 +3,7 @@ import {
   useEffect,
   useCallback,
   useMemo,
+  CSSProperties,
   Dispatch,
   SetStateAction,
 } from "react";
@@ -105,6 +106,7 @@ export type EditorProps = {
   setLanguage: Dispatch<SetStateAction<string>>; // eventually narrow this type to specific language identifiers
   width: string;
   height: string;
+  style?: CSSProperties;
 };
 
 export const Editor: React.FC<EditorProps> = ({
@@ -117,6 +119,7 @@ export const Editor: React.FC<EditorProps> = ({
   setLanguage,
   width,
   height,
+  style,
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -206,7 +209,7 @@ export const Editor: React.FC<EditorProps> = ({
   }, [width, height, language]);
 
   return (
-    <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
+    <Box style={style} flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
       {/* <Heading size='md' mb='3' color='white'>
         Code Editor
       </Heading> */}

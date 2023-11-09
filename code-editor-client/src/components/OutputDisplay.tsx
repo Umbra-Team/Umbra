@@ -1,4 +1,4 @@
-import React from "react";
+import React, {CSSProperties} from "react";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
@@ -8,9 +8,11 @@ interface OutputDisplayProps {
   output: string;
   height: string;
   width: string;
+  style?: CSSProperties;
 }
 
 const OutputDisplay: React.FC<OutputDisplayProps> = ({
+  style,
   output, 
   width,
   height,
@@ -63,7 +65,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
   }
 
   return (
-    <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
+    <Box style={style} flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
       <Heading textAlign="center" color='blue.400' size='md' mb='3'>
         Output
       </Heading>
