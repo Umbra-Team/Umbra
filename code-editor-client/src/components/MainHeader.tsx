@@ -7,6 +7,7 @@ import {
   useDisclosure,
   Tooltip,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
 import HamburgerMenuButton from "./HamburgerMenuButton";
@@ -98,7 +99,7 @@ const MainHeader = ({
       justify='space-between'
       // p={2}
       px={6}
-      bg='#FFFFFF'
+      bg={useColorModeValue('white', 'gray.900')}
       // bgGradient='linear(to-r, black, gray.100, blue.800)'
       // border='2px'
       // borderColor='gray.200'
@@ -131,13 +132,13 @@ const MainHeader = ({
             marginRight={'15px'} 
           >
             <Text
-              bg="green.100" 
-              color="green.800"
+              bg={useColorModeValue("green.100", "green.900")}
+              color={useColorModeValue("green.800", "green.400")}
               fontWeight={300}
               p={1}
               mr={1}
               border = "1px solid"
-              borderColor="green.700"
+              borderColor={useColorModeValue("green.700", "green.500")}
               borderRadius="2px"
             >
               <CheckCircleIcon pb={1} pr={1}/>
@@ -166,7 +167,7 @@ const MainHeader = ({
         )}
         <Button
           bg='transparent'
-          color='black'
+          color={useColorModeValue('black', 'white')}
           fontSize='18px'
           fontWeight="bold"
           _hover={{
@@ -183,7 +184,7 @@ const MainHeader = ({
         {signupButtonContent && (
           <Button
             bg='transparent'
-            color='black'
+            color={useColorModeValue('black', 'white')}
             fontSize='18px'
             fontWeight='bold'
             _hover={{
@@ -194,31 +195,12 @@ const MainHeader = ({
           >
             {loginButtonContent}
           </Button>
-
-          {signupButtonContent && (
-            <Button
-              bg='transparent'
-              color='black'
-              fontSize='18px'
-              fontWeight='bold'
-              _hover={{
-                color: "blue.500",
-              }}
-              onClick={
-                localStorage.getItem("unconfirmedUser")
-                  ? onConfirmOpen
-                  : onSignupOpen
-              }
-              _active={{ bg: "transparent" }}
-            >
-              {signupButtonContent}
-            </Button>
           )}
         </Flex>
         <Tooltip
 
-          bg={"yellow.200"}
-          color={"gray.600"}
+          bg={useColorModeValue("yellow.200", "yellow.900")}
+          color={useColorModeValue("gray.600", "white")}
           maxW="200px"
           label={
             user

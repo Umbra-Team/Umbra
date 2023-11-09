@@ -10,7 +10,7 @@ import LibraryDrawer from "./components/LibraryDrawer";
 // icons
 import { Image } from "@chakra-ui/react";
 
-import { useDisclosure, useToast } from "@chakra-ui/react";
+import { useDisclosure, useToast, useColorModeValue } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 // Code execution mapping object
@@ -121,7 +121,11 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
       <Flex
         direction={"column"}
         minH='100vh'
-        bg='linear-gradient(180deg, hsla(0, 0%, 100%, 1) 8%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)'
+        bg={useColorModeValue(
+          'linear-gradient(180deg, hsla(0, 0%, 100%, 1) 8%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)',
+          'linear-gradient(180deg, hsla(0, 0%, 8%, 1) 15%, hsla(0, 0%, 13%, 1) 50%, hsla(0, 0%, 8%, 1) 100%)'
+          // 'gray.900'
+        )}
         justify='space-between'
       >
         <Flex direction='column'>
@@ -144,7 +148,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         <Flex
           direction={orientation === "horizontal" ? "column" : "row"}
           gap={1}
-          bg='white'
+          bg={useColorModeValue('white', 'gray.900')}
           align='center'
           maxWidth='75%'
           justifyContent='center'
