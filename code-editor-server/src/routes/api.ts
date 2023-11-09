@@ -12,7 +12,7 @@ import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
 import AWS from 'aws-sdk';
-import { UniqueConstraintError } from "sequelize";
+import { Sequelize, ValidationError } from "sequelize";
 import { UniqueTitleError } from "../utils/errors";
 
 AWS.config.update({region: 'us-west-2'});
@@ -123,13 +123,21 @@ router.post(
     const { title, code, language } = req.body;
     console.log(`/snippets: title=${title}, code=${code}`);
 
-    const snippet = await Snippet.create({ 
-      title, 
-      code, 
-      language, 
-      userId: req.userRecord?.id
-    });
-    res.status(201).json(snippet);
+    try {
+      const snippet = await Snippet.create({ 
+        title, 
+        code, 
+        language, 
+        userId: req.userRecord?.id
+      });
+      res.status(201).json(snippet);
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        return res.status(400).json({ error: err.message });
+      } else {
+        next(err);
+      }
+    }
   })
 );
 
