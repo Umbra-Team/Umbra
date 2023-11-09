@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { basicSetup } from "codemirror";
 
-import { javascript } from "@codemirror/lang-javascript";
 import { EditorState } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
+import { EditorView, ViewUpdate } from "@codemirror/view";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 const LibrarySnippetEditor = ({
   editorViewRef,
   code,
   isEditMode,
+  languageMode,
 }: {
   editorViewRef: React.MutableRefObject<EditorView | undefined>;
   code: string;
   isEditMode: boolean;
+  languageMode: any;
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [editorView, setEditorView] = useState<EditorView | null>(null);
+  const [editorContent, setEditorContent] = useState(code);
+
 
   const theme = useMemo(
     () =>
@@ -37,13 +40,18 @@ const LibrarySnippetEditor = ({
       const newEditorView = new EditorView({
         parent: ref.current,
         state: EditorState.create({
-          doc: code,
+          doc: editorContent,
           extensions: [
             basicSetup,
             theme,
-            javascript(),
+            languageMode,
             vscodeDark,
             EditorView.editable.of(isEditMode),
+            EditorView.updateListener.of((update: ViewUpdate) => {
+              if (update.docChanged) {
+                setEditorContent(update.state.doc.toString());
+              }
+            }),
           ],
         }),
       });
@@ -58,7 +66,7 @@ const LibrarySnippetEditor = ({
     return () => {
       editorView?.destroy();
     };
-  }, [code, isEditMode]);
+  }, [isEditMode, languageMode]);
 
   return <div ref={ref} />;
 };

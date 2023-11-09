@@ -264,7 +264,7 @@ router.post("/snippetCreateRandom",
       const snippet = await Snippet.create({
         title: randTitle,
         code: code,
-        language: "javascript",
+        language: "js",
         userId: req.userRecord.id,
       });
       res.status(201).json(snippet);

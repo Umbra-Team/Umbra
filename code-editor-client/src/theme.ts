@@ -59,7 +59,7 @@ export const theme = extendTheme({
       500: "#8F8F8F",
       600: "#7A7A7A",
       700: "#5C5C5C",
-      800: "#3D3D3D",
+      800: "#202020",
       900: "#141414",
     },
     blue: {
@@ -90,7 +90,7 @@ export const theme = extendTheme({
     heading: "'Nunito Variable', serif",
   },
   config: {
-    initialColorMode: "light",
+    initialColorMode: "dark",
     useSystemColorMode: false,
   },
 });

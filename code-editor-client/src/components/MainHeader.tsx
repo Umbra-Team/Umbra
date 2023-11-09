@@ -7,9 +7,11 @@ import {
   useDisclosure,
   Tooltip,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
 import HamburgerMenuButton from "./HamburgerMenuButton";
+import ColorModeButton from "./ColorModeButton";
 import logo from "../assets/logo-transparent.png";
 import { logout } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler, useState } from "react";
@@ -96,12 +98,8 @@ const MainHeader = ({
       flex={0.4}
       align='center'
       justify='space-between'
-      // p={2}
       px={6}
-      bg='#FFFFFF'
-      // bgGradient='linear(to-r, black, gray.100, blue.800)'
-      // border='2px'
-      // borderColor='gray.200'
+      bg={'transparent'}
     >
       <Flex pt={2}>
         <Heading size='lg' fontWeight='bold' color='blue.500'>
@@ -131,13 +129,13 @@ const MainHeader = ({
             marginRight={'15px'} 
           >
             <Text
-              bg="green.100" 
-              color="green.800"
+              bg={useColorModeValue("green.100", "green.900")}
+              color={useColorModeValue("green.800", "green.400")}
               fontWeight={300}
               p={1}
               mr={1}
               border = "1px solid"
-              borderColor="green.700"
+              borderColor={useColorModeValue("green.700", "green.500")}
               borderRadius="2px"
             >
               <CheckCircleIcon pb={1} pr={1}/>
@@ -150,13 +148,13 @@ const MainHeader = ({
             marginRight={'15px'} 
           >
             <Text
-              bg="orange.100"
-              color="orange.800"
+              bg={useColorModeValue("orange.100", "orange.900")}
+              color={useColorModeValue("orange.800", "orange.300")}
               fontWeight={300}
               p={1}
               mr={1}
               border="1px solid"
-              borderColor="orange.700"
+              borderColor={useColorModeValue("orange.700", "orange.400")}
               borderRadius="2px"
             >
               <InfoIcon pb={1} pr={1} />
@@ -166,59 +164,22 @@ const MainHeader = ({
         )}
         <Button
           bg='transparent'
-          color='black'
+          color={useColorModeValue('black', 'gray.100')}
           fontSize='18px'
           fontWeight="bold"
           _hover={{
             color: "blue.500",
-            // fontWeight: "bold",
-            // textShadow: "1px 1px 4px black, 0 0 2em black, 0 0 0.3em black",
           }}
           onClick={user ? handleLogoutClick : onLoginOpen}
           _active={{ bg: "transparent" }}
         >
           {loginButtonContent}
         </Button>
-
-        {signupButtonContent && (
-          <Button
-            bg='transparent'
-            color='black'
-            fontSize='18px'
-            fontWeight='bold'
-            _hover={{
-              color: "blue.500",
-            }}
-            onClick={user ? handleLogoutClick : onLoginOpen}
-            _active={{ bg: "transparent" }}
-          >
-            {loginButtonContent}
-          </Button>
-
-          {signupButtonContent && (
-            <Button
-              bg='transparent'
-              color='black'
-              fontSize='18px'
-              fontWeight='bold'
-              _hover={{
-                color: "blue.500",
-              }}
-              onClick={
-                localStorage.getItem("unconfirmedUser")
-                  ? onConfirmOpen
-                  : onSignupOpen
-              }
-              _active={{ bg: "transparent" }}
-            >
-              {signupButtonContent}
-            </Button>
-          )}
         </Flex>
         <Tooltip
 
-          bg={"yellow.200"}
-          color={"gray.600"}
+          bg={useColorModeValue("yellow.200", "yellow.900")}
+          color={useColorModeValue("gray.600", "white")}
           maxW="200px"
           label={
             user
@@ -240,6 +201,7 @@ const MainHeader = ({
             Library
           </Button>
         </Tooltip>
+        <ColorModeButton />
         <HamburgerMenuButton
           replaceEditorContent={replaceEditorContent}
           appendEditorContent={appendEditorContent}
