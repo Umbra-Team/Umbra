@@ -34,7 +34,7 @@ export const verifyToken = async (
 
   // Get the token part
   const token = parts[1];
-  console.log(`Token: ${token}`);
+  // console.log(`Token: ${token}`);
 
   try {
     const cognito = new CognitoIdentityServiceProvider();
