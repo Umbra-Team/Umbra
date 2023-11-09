@@ -5,6 +5,16 @@ import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
+import { verifyToken, fetchUser, fetchSnippet } from '../utils/middleware';
+import { RequestWithUser } from '../../src/types/types';
+
+import { Application } from "express";
+import supertest from "supertest";
+import User from '../models/User';
+import Snippet from '../models/Snippet';
+
+jest.mock('../models/User');
+jest.mock('../models/Snippet');
 
 jest.setTimeout(30000); // 30 second timeout
 // TODO:
@@ -21,6 +31,156 @@ jest.setTimeout(30000); // 30 second timeout
 
 */
 
+
+
+// describe('middleware', () => {
+//   jest.doMock('aws-sdk', () => {
+//     return {
+//       CognitoIdentityServiceProvider: jest.fn().mockImplementation(() => {
+//         return {
+//           getUser: jest.fn().mockImplementation((params) => {
+//             return {
+//               promise: jest.fn().mockImplementation(() => {
+//                 if (params.AccessToken === 'validToken') {
+//                   return Promise.resolve({ Username: 'testUser' });
+//                 } else {
+//                   return Promise.reject(new Error('Invalid token.'));
+//                 }
+//               }),
+//             };
+//           }),
+//         };
+//       }),
+//       config: {
+//         update: jest.fn(),
+//       },
+//     };
+//   });
+
+//   describe('verifyToken', () => {
+//     it('sets req.user if the token is valid', async () => {
+//       const req = { header: () => 'Bearer validToken'} as unknown as RequestWithUser;
+//       const res = {
+//         status: jest.fn().mockReturnThis(),
+//         send: jest.fn(),
+//       } as any;
+//       const next = jest.fn();
+  
+//       await verifyToken(req, res, next);
+  
+//       expect(req.user).toBeDefined();
+//       expect(next).toHaveBeenCalled();
+//     });
+  
+//     it('returns an error if the token is invalid', async () => {
+//       const req = { header: () => 'Bearer invalidToken' } as unknown as RequestWithUser;
+//       const res = {
+//         status: jest.fn().mockReturnThis(),
+//         send: jest.fn(),
+//       } as any;
+//       const next = jest.fn();
+
+//       await verifyToken(req, res, next);
+
+//       expect(res.status).toHaveBeenCalledWith(400);
+//       expect(res.send).toHaveBeenCalledWith('Invalid token.');
+//     });
+//   });
+
+//   describe('fetchUser', () => {
+//     it('sets req.userRecord if the user is found', async () => {
+//       // Mock User.findOne to return a user
+//       (User.findOne as jest.Mock).mockResolvedValue({ id: 1, username: 'testUser' });
+  
+//       const req = { user: { Username: 'testUser' } } as any;
+//       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+//       const next = jest.fn();
+  
+//       await fetchUser(req, res, next);
+  
+//       expect(req.userRecord).toBeDefined();
+//       expect(next).toHaveBeenCalled();
+//     });
+  
+//     it('returns an error if the user is not found', async () => {
+//       // Mock User.findOne to return null
+//       (User.findOne as jest.Mock).mockResolvedValue(null);
+  
+//       const req = { user: { Username: 'testUser' } } as any;
+//       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+//       const next = jest.fn();
+  
+//       await fetchUser(req, res, next);
+  
+//       expect(res.status).toHaveBeenCalledWith(404);
+//       expect(res.json).toHaveBeenCalledWith({ error: 'User not found' });
+//     });
+//   });
+
+//   describe('fetchSnippet', () => {
+//     it('sets req.snippet if the snippet is found and belongs to the user', async () => {
+//       // Mock Snippet.findByPk to return a snippet
+//       (Snippet.findByPk as jest.Mock).mockResolvedValue({ id: 1, userId: 1 });
+
+//       const req = { params: { snippetId: 1 }, user: { id: 1 },  userRecord: { id: 1 } } as any;
+//       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+//       const next = jest.fn();
+  
+//       await fetchSnippet(req, res, next);
+  
+//       expect(req.snippet).toBeDefined();
+//       expect(next).toHaveBeenCalled();
+//     });
+  
+//     it('returns an error if the snippet is not found', async () => {
+//       // Mock Snippet.findByPk to return null
+//       (Snippet.findByPk as jest.Mock).mockResolvedValue(null);
+  
+//       const req = { params: { snippetId: 1 }, user: { id: 1 } } as any;
+//       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+//       const next = jest.fn();
+  
+//       await fetchSnippet(req, res, next);
+  
+//       expect(res.status).toHaveBeenCalledWith(404);
+//       expect(res.json).toHaveBeenCalledWith({ error: 'Snippet not found' });
+//     });
+  
+//     it('returns an error if the snippet does not belong to the user', async () => {
+//       // Mock Snippet.findByPk to return a snippet that belongs to a different user
+//       (Snippet.findByPk as jest.Mock).mockResolvedValue({ id: 1, userId: 2 });
+  
+//       const req = { params: { snippetId: 1 }, user: { id: 1 } } as any;
+//       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as any;
+//       const next = jest.fn();
+  
+//       await fetchSnippet(req, res, next);
+  
+//       expect(res.status).toHaveBeenCalledWith(403);
+//       expect(res.json).toHaveBeenCalledWith({ error: 'Snippet does not belong to user' });
+//     });
+//   });
+
+//   describe('errorHandler', () => {
+
+//   });
+
+// });
+
+
+async function createSnippet(
+  app: Application,
+  token: string,
+  title: string,
+  code: string,
+  language: string
+): Promise<supertest.Response> {
+  return await request(app)
+    .post('/api/snippets')
+    .set('Authorization', `Bearer ${token}`)
+    .send({ title, code, language });
+}
+
 describe('Snippet CRUD operations', () => {
     let token: string;
     let snippetIds: string[] = [];
@@ -30,10 +190,10 @@ describe('Snippet CRUD operations', () => {
       const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
       const params = {
         AuthFlow: 'USER_PASSWORD_AUTH',
-        ClientId: '3rlpf4ht955dmfkb83oh24nf46',
+        ClientId: process.env.COGNITO_CLIENT_ID!,
         AuthParameters: {
-          USERNAME: 'davidrd123@gmail.com',
-          PASSWORD: 'bread-first'
+          USERNAME: process.env.TEST_USERNAME!,
+          PASSWORD: process.env.TEST_PASSWORD!
         },
       };
       const data = await cognitoidentityserviceprovider.initiateAuth(params).promise();
@@ -41,14 +201,13 @@ describe('Snippet CRUD operations', () => {
 
       for (let i = 0; i < 3; i++) {
         // Create a new snippet
-        const res = await request(app)
-          .post('/api/snippets')
-          .set('Authorization', `Bearer ${token}`)
-          .send({
-            title: `Test Snippet ${i}`,
-            code: `console.log("Hello, world ${i}!");`,
-            language: 'javascript'
-        });
+        const res = await createSnippet(
+          app,
+          token,
+          `Test Snippet ${i}`,
+          `console.log("Hello, world ${i}!");`,
+          "javascript"
+        );
 
         snippetIds[i] = res.body.id;
       }

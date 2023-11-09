@@ -95,28 +95,29 @@ export const fetchSnippet = async (
   req: RequestWithUser,
   res: Response,
   next: NextFunction
-) => {
-  if (!req.user) {
+) => {  
+  if (!req.user) {    
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json({ error: "User not authenticated" });
   }
   try {
     const { snippetId } = req.params;
-    const snippet = await Snippet.findByPk(snippetId);
-    if (!snippet) {
+    const snippet = await Snippet.findByPk(snippetId);    
+    if (!snippet) {      
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ error: "Snippet not found" });
     }
-    if (snippet.userId !== req.userRecord?.id) {
+    if (snippet.userId !== req.userRecord?.id) {      
       return res
         .status(StatusCodes.FORBIDDEN)
         .json({ error: "Snippet does not belong to user" });
-    }
+    }    
     req.snippet = snippet;
     next();
   } catch (error) {
+    console.log('fetchSnippet: error', error);
     next(error);
   }
 };
