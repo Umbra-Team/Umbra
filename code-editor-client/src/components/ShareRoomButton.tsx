@@ -19,7 +19,7 @@ const ShareRoomButton = () => {
   };
   return (
     <Tooltip
-      label='Click to copy room URL to share'
+      label='Click to copy room URL'
       fontSize='md'
       bg="orange.200"
       color={"gray.600"}

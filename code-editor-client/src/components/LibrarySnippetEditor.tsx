@@ -10,10 +10,12 @@ const LibrarySnippetEditor = ({
   editorViewRef,
   code,
   isEditMode,
+  languageMode,
 }: {
   editorViewRef: React.MutableRefObject<EditorView | undefined>;
   code: string;
   isEditMode: boolean;
+  languageMode: any;
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [editorView, setEditorView] = useState<EditorView | null>(null);
@@ -41,7 +43,7 @@ const LibrarySnippetEditor = ({
           extensions: [
             basicSetup,
             theme,
-            javascript(),
+            languageMode,
             vscodeDark,
             EditorView.editable.of(isEditMode),
           ],
@@ -58,7 +60,7 @@ const LibrarySnippetEditor = ({
     return () => {
       editorView?.destroy();
     };
-  }, [code, isEditMode]);
+  }, [code, isEditMode, languageMode]);
 
   return <div ref={ref} />;
 };

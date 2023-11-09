@@ -103,6 +103,7 @@ const LibraryDrawer = ({
                 ...snippet,
                 code: updatedSnippet.code,
                 title: updatedSnippet.title,
+                language: updatedSnippet.language
               }
             : snippet
         )

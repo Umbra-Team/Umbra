@@ -44,7 +44,7 @@ export const createSnippet = async (
   };
   const response = await axios.post(
     `${baseUrl}/snippets`,
-    { title, code },
+    { title, code, language },
     config
   );
   return response.data as Snippet;
@@ -64,7 +64,7 @@ export const editSnippet = async (
   };
   const response = await axios.patch(
     `${baseUrl}/snippets/${id}`,
-    { title: newTitle, code: newCode },
+    { title: newTitle, code: newCode, language: newLanguage },
     config
   );
   return response.data as Snippet;

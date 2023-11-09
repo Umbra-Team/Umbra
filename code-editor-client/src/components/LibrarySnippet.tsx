@@ -6,13 +6,16 @@ import {
   Heading,
   Button,
   Flex,
+  Image,
   Input,
   Select,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+
+import { getLanguageMode, languageIconMap } from "../utils/language";
 
 type LibrarySnippetType = {
   id: number;
@@ -37,7 +40,13 @@ const LibrarySnippet = ({
   const [snippetCode, setSnippetCode] = useState(code);
   const [snippetTitle, setSnippetTitle] = useState(title);
   const [snippetLanguage, setSnippetLanguage] = useState(language);
+  const [languageIcon, setLanguageIcon] = useState(languageIconMap[language])
   const editorViewRef = useRef<EditorView | undefined>(undefined);
+
+  const handleChangeLanguage = (event) => {
+    setSnippetLanguage(event.target.value);
+    setLanguageIcon(languageIconMap[event.target.value]);
+  }
 
   const handleDeleteClick = () => {
     handleDeleteSnippet(id);
@@ -116,19 +125,21 @@ const LibrarySnippet = ({
             editorViewRef={editorViewRef}
             code={snippetCode}
             isEditMode={isEditing}
+            languageMode={getLanguageMode(language)}
           />
         </CardBody>
-        {isEditing &&
         <Flex align="end">
+        {isEditing ?
           <Select
               bg="inherit"
               marginTop='2'
               width='3mu'
               size='sm'
-              onChange={(event) => setSnippetLanguage(event.target.value)}
+              onChange={handleChangeLanguage}
               textColor={"gray.300"}
               iconColor={"gray.300"}
               borderColor={"gray.600"}
+              value={snippetLanguage}
             >
               <option value='js'>JavaScript</option>
               <option value='ts'>TypeScript</option>
@@ -136,8 +147,16 @@ const LibrarySnippet = ({
               <option value='go'>Golang</option>
               <option value='rb'>Ruby</option>
             </Select>
-          </Flex>
+            :
+            <Image
+            src={languageIcon}
+            boxSize='32px'
+            alt='Code Language Icon'
+            ml={2}
+            mt={2}
+          />
           }
+          </Flex>
       </CardBody>
       <CardFooter p={2}>
         <Flex gap='5px' justifyContent='space-between' pr='3' pl='4'>
