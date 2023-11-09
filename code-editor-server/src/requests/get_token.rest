@@ -1,1 +1,1 @@
-GET http://localhost:3001/get-token/1234
+GET http://localhost:3001/get-token/IXFvxshcOXHGiQ_RFUoOz

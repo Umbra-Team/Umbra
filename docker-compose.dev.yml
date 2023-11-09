@@ -12,6 +12,17 @@ services:
       - POSTGRES_DB=code_editor
     ports:
       - "5432:5432"
+  test_db:
+    image: "postgres:latest"
+    volumes:
+      - test_pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=team1
+      - POSTGRES_PASSWORD=bread
+      - POSTGRES_DB=test_code_editor
+    ports:
+      - "5433:5432"
 
 volumes:
   pgdata:
+  test_pgdata:

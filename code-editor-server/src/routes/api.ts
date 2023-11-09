@@ -22,6 +22,7 @@ const router = express.Router();
 
 router.get("/get-token/:docId", async (req, res) => {
   let docId: string | undefined = req.params.docId;
+  console.log(`get-token: docId=${docId}`);
   if (docId === "default") {
     docId = undefined;
   }
@@ -128,7 +129,7 @@ router.post(
       language, 
       userId: req.userRecord?.id
     });
-    res.json(snippet);
+    res.status(201).json(snippet);
   })
 );
 
@@ -258,7 +259,7 @@ router.post("/snippetCreateRandom",
         language: "javascript",
         userId: req.userRecord.id,
       });
-      res.json(snippet);
+      res.status(201).json(snippet);
     } else {
       throw new Error("User not found");
     }
