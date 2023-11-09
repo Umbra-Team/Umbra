@@ -9,7 +9,7 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image, Tooltip } from "@chakra-ui/react";
+import { Box, Button, Select, Image, Tooltip, useColorModeValue } from "@chakra-ui/react";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
@@ -225,7 +225,7 @@ export const Editor: React.FC<EditorProps> = ({
           size='sm'
           bg='blue.500'
           // borderRadius='20'
-          _hover={{ bg: "#04BCF9" }}
+          _hover={{ bg: "umbra.deepSkyBlue" }}
           onClick={onClick}
           marginTop='2'
           marginRight='2'
@@ -271,7 +271,7 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Tooltip label='Change Editor Orientation' bg={"yellow.200"} color="gray.600">
+          <Tooltip label='Change Editor Orientation' bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
           <Button 
             size='sm' 
             marginTop='2' 

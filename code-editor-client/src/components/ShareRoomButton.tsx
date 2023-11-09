@@ -1,4 +1,4 @@
-import { Tooltip, IconButton, useClipboard, useToast } from "@chakra-ui/react";
+import { Tooltip, IconButton, useClipboard, useToast, useColorModeValue } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 
 const ShareRoomButton = () => {
@@ -21,8 +21,8 @@ const ShareRoomButton = () => {
     <Tooltip
       label='Click to copy room URL'
       fontSize='md'
-      bg="orange.200"
-      color={"gray.600"}
+      bg={useColorModeValue("orange.200", "orange.900")}
+      color={useColorModeValue("gray.600", "white")}
     >
       <IconButton
         icon={<CopyIcon color="white"/>}
