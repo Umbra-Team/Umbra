@@ -15,7 +15,7 @@ export const getAllUserSnippets = async (
 
   const response = await axios.get(`${baseUrl}/snippets`, config);
   console.log(
-    `In snippets.ts, getAllUserSnippets is returning ${response.data} for data`
+    `In snippets.ts, getAllUserSnippets is returning ${JSON.stringify(response.data)} for data`
   );
   return response.data as Snippet[];
 };

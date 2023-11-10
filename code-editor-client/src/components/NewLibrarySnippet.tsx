@@ -26,16 +26,18 @@ const NewLibrarySnippet = ({
   const [snippetCode, setSnippetCode] = useState("");
   const [snippetTitle, setSnippetTitle] = useState("Untitled");
   const [snippetLanguage, setSnippetLanguage] = useState('js');
+  const [editorKey, setEditorKey] = useState(Math.random());
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleSaveClick = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault;
+    setEditorKey(Math.random());
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
       setSnippetCode(currentContent);
-      handleAddSnippet(currentContent, snippetTitle);
+      handleAddSnippet(currentContent, snippetTitle, snippetLanguage);
     }
   };
 
@@ -45,7 +47,14 @@ const NewLibrarySnippet = ({
 
   const handleLanguageChange = (event) => {
     setSnippetLanguage(event.target.value);
+    setSnippetCode("");
+    setEditorKey(Math.random());
   }
+
+  useEffect(() => {
+    setEditorKey(Math.random());
+    console.log(`snippetLanguage: ${snippetLanguage}`);
+  }, [snippetLanguage]);
 
   return (
     <Card
@@ -85,6 +94,7 @@ const NewLibrarySnippet = ({
       >
         <CardBody>
           <LibrarySnippetEditor
+            key={editorKey}
             editorViewRef={editorViewRef}
             code={snippetCode}
             isEditMode={true}
