@@ -15,7 +15,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 // CM6 core modules
 import { basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
-import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
+import { EditorView, ViewUpdate, keymap, KeyBinding } from "@codemirror/view";
 
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -182,6 +182,14 @@ export const Editor: React.FC<EditorProps> = ({
     [width, height]
   );
 
+  const runKeyBinding: KeyBinding = {
+    run: (view) => {
+      onClick();
+      return true;
+    },
+    key: "Shift-Cmd-Enter",
+  };
+
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -191,7 +199,7 @@ export const Editor: React.FC<EditorProps> = ({
       extensions: [
         basicSetup,
         history(),
-        keymap.of([...defaultKeymap, indentWithTab]),
+        keymap.of([...defaultKeymap, indentWithTab, runKeyBinding]),
         vscodeDark,
         theme,
         updateListener,

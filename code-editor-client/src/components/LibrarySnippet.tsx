@@ -23,6 +23,7 @@ type LibrarySnippetType = {
   title: string;
   code: string;
   language: string;
+  loggedIn: boolean;
   appendEditorContent: Function;
   handleDeleteSnippet: Function;
   handleUpdateSnippet: Function;
@@ -33,6 +34,7 @@ const LibrarySnippet = ({
   title,
   code,
   language,
+  loggedIn,
   appendEditorContent,
   handleDeleteSnippet,
   handleUpdateSnippet,
@@ -87,14 +89,16 @@ const LibrarySnippet = ({
       <CardHeader textAlign='center' width='80%'>
         {isEditing ? (
           <Input
-            border='1px solid lightgrey'
+            border='1px solid'
+            borderColor={useColorModeValue('lightgrey', 'umbra.midnightGreen')}
+            focusBorderColor='blue.400'
             width='60%'
             size='md'
-            color='umbra.midnightGreen'
-            bg='white'
+            color={useColorModeValue('umbra.midnightGreen', 'lightblue.600')}
+            bg={useColorModeValue('white', 'gray.800')}
             placeholder={snippetTitle}
             _placeholder={{ color: "gray", fontWeight: "bold" }}
-            _hover={{ borderColor: "umbra.midnightGreen" }}
+            _hover={{ borderColor: 'blue.400'}}
             textAlign='center'
             fontWeight='bold'
             onChange={handleTitleChange}
@@ -174,6 +178,7 @@ const LibrarySnippet = ({
             Insert
           </Button>
           <Button
+            isDisabled={!loggedIn}
             borderRadius='15'
             color='white'
             whiteSpace='normal'
@@ -185,18 +190,34 @@ const LibrarySnippet = ({
           >
             {isEditing ? "Save" : "Edit"}
           </Button>
+          { isEditing ?
           <Button
-            borderRadius='15'
-            color='white'
-            whiteSpace='normal'
-            overflow='hidden'
-            w='49%'
-            bgColor='umbra.midnightGreen'
-            _hover={{ bg: "umbra.logoText" }}
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </Button>
+          borderRadius='15'
+          color={useColorModeValue('umbra.midnightGreen', "lightblue.700")}
+          whiteSpace='normal'
+          overflow='hidden'
+          w='49%'
+          bgColor='inherit'
+          _hover={{ color: useColorModeValue("umbra.softBlack", "lightblue.600") }}
+          onClick={() => setIsEditing(prevState => !prevState)}
+        >
+          Cancel
+        </Button>
+          :
+          <Button
+          isDisabled={!loggedIn}
+          borderRadius='15'
+          color='white'
+          whiteSpace='normal'
+          overflow='hidden'
+          w='49%'
+          bgColor='umbra.midnightGreen'
+          _hover={{ bg: "umbra.logoText" }}
+          onClick={handleDeleteClick}
+        >
+          Delete
+        </Button>
+        }
         </Flex>
       </CardFooter>
     </Card>

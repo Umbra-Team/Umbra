@@ -64,9 +64,9 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
 
   return (
     <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
-      {/* <Heading textAlign="center" color='blue.400' size='md' mb='3'>
+      <Heading textAlign="center" color='blue.400' size='md' mb='3'>
         Output
-      </Heading> */}
+      </Heading>
       <div ref={outputRef} />
     </Box>
   );

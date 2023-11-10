@@ -137,19 +137,7 @@ const NewLibrarySnippet = ({
             onClick={handleCancel}
           >
             Cancel
-            {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}
           </Button>
-          {/* <Button
-            borderRadius='15'
-            color='white'
-            whiteSpace='normal'
-            overflow='hidden'
-            w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
-          >
-            Delete Snippet
-          </Button> */}
         </Flex>
       </CardFooter>
     </Card>
