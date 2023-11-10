@@ -10,7 +10,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
-import HamburgerMenuButton from "./HamburgerMenuButton";
 import ColorModeButton from "./ColorModeButton";
 import logo from "../assets/logo-transparent.png";
 import { logout } from "../utils/aws-amplify-helpers";
@@ -202,10 +201,6 @@ const MainHeader = ({
           </Button>
         </Tooltip>
         <ColorModeButton />
-        <HamburgerMenuButton
-          replaceEditorContent={replaceEditorContent}
-          appendEditorContent={appendEditorContent}
-        />
       </Flex>
       <LoginModal
         onOpen={onLoginOpen}

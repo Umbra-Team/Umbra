@@ -9,12 +9,13 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Select, Image, Tooltip, useColorModeValue, IconButton } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 // CM6 core modules
 import { basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
-import { EditorView, ViewUpdate, keymap } from "@codemirror/view";
+import { EditorView, ViewUpdate, keymap, KeyBinding } from "@codemirror/view";
 
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -105,6 +106,7 @@ export type EditorProps = {
   setLanguage: Dispatch<SetStateAction<string>>; // eventually narrow this type to specific language identifiers
   width: string;
   height: string;
+  replaceEditorContent: (content: string) => void;
 };
 
 export const Editor: React.FC<EditorProps> = ({
@@ -117,6 +119,7 @@ export const Editor: React.FC<EditorProps> = ({
   setLanguage,
   width,
   height,
+  replaceEditorContent,
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -136,6 +139,10 @@ export const Editor: React.FC<EditorProps> = ({
       prev === "horizontal" ? "vertical" : "horizontal"
     );
   };
+
+  const handleClearEditor = () => {
+    replaceEditorContent('');
+  }
 
   useEffect(() => {
     setEditorViewRef(view);
@@ -175,6 +182,14 @@ export const Editor: React.FC<EditorProps> = ({
     [width, height]
   );
 
+  const runKeyBinding: KeyBinding = {
+    run: (view) => {
+      onClick();
+      return true;
+    },
+    key: "Shift-Cmd-Enter",
+  };
+
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -184,7 +199,7 @@ export const Editor: React.FC<EditorProps> = ({
       extensions: [
         basicSetup,
         history(),
-        keymap.of([...defaultKeymap, indentWithTab]),
+        keymap.of([...defaultKeymap, indentWithTab, runKeyBinding]),
         vscodeDark,
         theme,
         updateListener,
@@ -271,27 +286,41 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Tooltip label='Change Editor Orientation' bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
-          <Button 
-            size='sm' 
-            marginTop='2' 
-            onClick={toggleOrientation}
-            bg='blue.500'
-            border='1px black'
-            marginRight='1'
-            _hover={{ bg: "umbra.deepSkyBlue" }}
-          >
-          { orientation === "horizontal" ? 
-          <svg width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <path  fillRule="evenodd" d="M14 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
-            <path fillRule="evenodd" d="M7.5 14V2h1v12h-1z"/>
-          </svg>
-          :
-          <svg width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="white">
-            <path d="M14 1H3L2 2v11l1 1h11l1-1V2l-1-1zm0 12H3V8h11v5zm0-6H3V2h11v5z"/>
-          </svg>
-          }
-          </Button>
+          <Tooltip label="Clear contents" bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
+            <IconButton
+              aria-label="Clear editor"
+              icon={<DeleteIcon />}
+              mt='2'
+              mr='2'
+              size='sm'
+              color="white"
+              bg="blue.500"
+              onClick={handleClearEditor}
+              variant="solid"
+              _hover={{ bg: "umbra.deepSkyBlue" }}
+            />
+          </Tooltip>
+          <Tooltip label='Change editor orientation' bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
+            <Button 
+              size='sm' 
+              marginTop='2' 
+              onClick={toggleOrientation}
+              bg='blue.500'
+              border='1px black'
+              marginRight='1'
+              _hover={{ bg: "umbra.deepSkyBlue" }}
+            >
+            { orientation === "horizontal" ? 
+            <svg width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path  fillRule="evenodd" d="M14 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+              <path fillRule="evenodd" d="M7.5 14V2h1v12h-1z"/>
+            </svg>
+            :
+            <svg width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="white">
+              <path d="M14 1H3L2 2v11l1 1h11l1-1V2l-1-1zm0 12H3V8h11v5zm0-6H3V2h11v5z"/>
+            </svg>
+            }
+            </Button>
           </Tooltip>
         </Box>
       </Box>

@@ -142,6 +142,7 @@ const SignUpModal = ({
                     <Input
                       border='1px solid lightgray'
                       bg='white'
+                      color='black'
                       type='email'
                       {...register("email")}
                       onChange={(e) => setEmail(e.target.value)}

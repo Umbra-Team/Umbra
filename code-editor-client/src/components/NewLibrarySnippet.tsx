@@ -7,10 +7,11 @@ import {
   Flex,
   Input,
   Select,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 import { getLanguageMode } from "../utils/language";
 
@@ -35,7 +36,7 @@ const NewLibrarySnippet = ({
     if (editorViewRef.current) {
       const currentContent = editorViewRef.current.state.doc.toString();
       setSnippetCode(currentContent);
-      handleAddSnippet(currentContent, snippetTitle);
+      handleAddSnippet(currentContent, snippetTitle, snippetLanguage);
     }
   };
 
@@ -49,7 +50,7 @@ const NewLibrarySnippet = ({
 
   return (
     <Card
-      bgColor='green.100'
+      bgColor={useColorModeValue('green.100', 'umbra.midnightGreen')}
       pl='2'
       pr='2'
       minH='300px'
@@ -119,36 +120,24 @@ const NewLibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='umbra.midnightGreen'
-            _hover={{ bg: "blue.900" }}
+            bgColor={useColorModeValue('umbra.midnightGreen', 'lightblue.700')}
+            _hover={{ bg: useColorModeValue("blue.900", "lightblue.800") }}
             onClick={handleSaveClick}
           >
             Save
           </Button>
           <Button
             borderRadius='15'
-            color='umbra.midnightGreen'
+            color={useColorModeValue('umbra.midnightGreen', "lightblue.600")}
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
             bgColor='inherit'
-            _hover={{ color: "umbra.softBlack" }}
+            _hover={{ color: useColorModeValue("umbra.softBlack", "lightblue.700") }}
             onClick={handleCancel}
           >
             Cancel
-            {/* {isEditing ? "Save Snippet" : "Edit Snippet"} */}
           </Button>
-          {/* <Button
-            borderRadius='15'
-            color='white'
-            whiteSpace='normal'
-            overflow='hidden'
-            w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
-          >
-            Delete Snippet
-          </Button> */}
         </Flex>
       </CardFooter>
     </Card>

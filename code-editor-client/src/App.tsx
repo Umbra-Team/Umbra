@@ -1,13 +1,13 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import axios from "axios";
 
 import { Flex, Box } from "@chakra-ui/react";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 
-import { useDisclosure, useToast, useColorMode,  useColorModeValue } from "@chakra-ui/react";
+import { useDisclosure, useToast, useColorModeValue } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
 // Code execution mapping object
@@ -33,7 +33,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [toastProps, setToastProps] = useState<ToastProps | null>(null);
   const toast = useToast();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (orientation === "horizontal") {
       setEditorHeight("45vh");
       setOutputHeight("20vh");
@@ -162,6 +162,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
               setLanguage={setLanguage}
               width={editorWidth}
               height={editorHeight}
+              replaceEditorContent={replaceEditorContent}
             />
           </Box>
           <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
