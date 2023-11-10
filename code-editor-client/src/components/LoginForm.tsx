@@ -97,6 +97,7 @@ const LoginForm = ({
               <Input
                 border='1px solid lightgray'
                 bg='white'
+                color='black'
                 type='email'
                 {...register("email")}
                 _hover={{
@@ -112,6 +113,7 @@ const LoginForm = ({
               <Input
                 border='1px solid lightgray'
                 bg='white'
+                color='black'
                 type='password'
                 {...register("password")}
                 _hover={{
