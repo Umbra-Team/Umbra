@@ -69,7 +69,7 @@ const LibraryDrawer = ({
     }
   }, [editorViewRef, user]);
 
-  const handleAddSnippet = async (code: string, title: string, language) => {
+  const handleAddSnippet = async (code: string, title: string, language: string) => {
     try {
       const newSnippet = await createSnippet(cognitoClientToken, title, code, language);
 

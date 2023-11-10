@@ -162,6 +162,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
               setLanguage={setLanguage}
               width={editorWidth}
               height={editorHeight}
+              replaceEditorContent={replaceEditorContent}
             />
           </Box>
           <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
