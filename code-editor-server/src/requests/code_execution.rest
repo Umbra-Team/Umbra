@@ -1,0 +1,10 @@
+POST https://ls-capstone-team-1-code-editor-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/api/runCode
+Content-Type: application/json
+
+{
+    "language": "deno",
+    "version": "1.32.3",
+    "files": [{
+      "content": "console.log('Hello World');"
+    }]
+}

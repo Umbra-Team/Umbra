@@ -9,7 +9,7 @@ import {
   Button,
   Flex,
   Text,
-  Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import * as React from "react";
 import NewLibrarySnippet from "./NewLibrarySnippet";
@@ -22,6 +22,7 @@ import {
   getAllUserSnippets,
 } from "../services/snippets";
 import { Snippet } from "../types/types";
+import { examples, ExampleSnippet } from "../constants/exampleSnippetData";
 
 type DrawerPlacement = "top" | "right" | "bottom" | "left";
 
@@ -68,9 +69,9 @@ const LibraryDrawer = ({
     }
   }, [editorViewRef, user]);
 
-  const handleAddSnippet = async (code: string, title: string) => {
+  const handleAddSnippet = async (code: string, title: string, language) => {
     try {
-      const newSnippet = await createSnippet(cognitoClientToken, title, code);
+      const newSnippet = await createSnippet(cognitoClientToken, title, code, language);
 
       setLibrarySnippets((prevSnippets: Snippet[]) => [
         ...prevSnippets,
@@ -85,14 +86,16 @@ const LibraryDrawer = ({
   const handleUpdateSnippet = async (
     id: number,
     newCode: string,
-    newTitle: string
+    newTitle: string,
+    newLanguage: string,
   ) => {
     try {
       const updatedSnippet = await editSnippet(
         cognitoClientToken,
         id,
         newTitle,
-        newCode
+        newCode,
+        newLanguage,
       );
       setLibrarySnippets((prevSnippets: Snippet[]) =>
         prevSnippets.map((snippet) =>
@@ -101,6 +104,7 @@ const LibraryDrawer = ({
                 ...snippet,
                 code: updatedSnippet.code,
                 title: updatedSnippet.title,
+                language: updatedSnippet.language
               }
             : snippet
         )
@@ -130,27 +134,51 @@ const LibraryDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader
-          color='white'
-          bgGradient='linear(to-r, black, gray.100, blue.800)'
-          borderBottomWidth='2px'
-          borderBottomColor='white'
+          color={useColorModeValue('umbra.midnightGreen', 'white')}
+          bg={useColorModeValue(
+            'linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)',
+            'linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)')}
+          // borderBottomWidth='1px'
+          // borderBottomColor='lightgray'
         >
-          <Flex justifyContent='space-between'>
-            <Text>Code Library</Text>
-            <Button
+          <Flex justifyContent='center'>
+            <Text 
+              mt={1.5}
+              fontSize="32px"
+              fontWeight="700"
+              
+            >
+              Code Library
+            </Text>
+            {/* <Button
               marginRight={10}
               borderRadius='15'
               color='white'
-              bgColor='blue.700'
-              _hover={{ bg: "blue.900" }}
+              bg='#0096FF'
+              _hover={{ bg: "#04BCF9" }}
               onClick={() => setAddSnippetMode(true)}
             >
               New Code Snippet
-            </Button>
+            </Button> */}
             <DrawerCloseButton size='lg' />
           </Flex>
         </DrawerHeader>
-        <DrawerBody bgGradient='linear(to-r, black, gray.100, blue.800)'>
+        <DrawerBody bg={useColorModeValue('white', 'gray.800')} >
+          <Flex justifyContent="left">
+          <Button
+            // marginRight={10}
+            mt={2}
+            mb={4}
+            borderRadius='10'
+            color='white'
+            bg='#0096FF'
+            _hover={{ bg: "#04BCF9" }}
+            onClick={() => setAddSnippetMode(true)}
+            size="md"
+          >
+              Create New
+          </Button>
+          </Flex>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
@@ -167,6 +195,7 @@ const LibraryDrawer = ({
                 id={snippet.id}
                 title={snippet.title}
                 code={snippet.code}
+                language={snippet.language}
                 appendEditorContent={appendEditorContent}
                 handleDeleteSnippet={handleDeleteSnippet}
                 handleUpdateSnippet={handleUpdateSnippet}
@@ -180,9 +209,38 @@ const LibraryDrawer = ({
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
-        <Box>
+        {/* <Box>
           <Text>Nope</Text>
-        </Box>
+        </Box> */}
+        <DrawerHeader
+          color={useColorModeValue('umbra.midnightGreen', 'white')}
+          bg={useColorModeValue(
+            'linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)',
+            'linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)')}
+          textAlign="center"
+          
+        >
+          Here are some examples. Sign up or log in to create your own!
+        </DrawerHeader>
+        <DrawerBody bg={useColorModeValue('white', 'gray.800')}>
+          <SimpleGrid
+            spacing={5}
+            templateColumns='repeat(1, minmax(600px, 1fr))'
+          >
+            {examples.map((snippet: ExampleSnippet) => (
+              <LibrarySnippet
+                key={snippet.id}
+                id={snippet.id}
+                title={snippet.title}
+                code={snippet.code}
+                language={snippet.language}
+                appendEditorContent={appendEditorContent}
+                handleDeleteSnippet={handleDeleteSnippet}
+                handleUpdateSnippet={handleUpdateSnippet}
+              />
+            ))}
+          </SimpleGrid>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   );

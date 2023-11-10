@@ -1,4 +1,6 @@
 .env.prod
+.env.test
 .env
 
 piston/
+shutItDown.sh

@@ -6,10 +6,13 @@ import {
   Button,
   Flex,
   Input,
+  Select,
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+import { getLanguageMode } from "../utils/language";
 
 type NewLibrarySnippetProps = {
   handleAddSnippet: Function;
@@ -22,6 +25,7 @@ const NewLibrarySnippet = ({
 }: NewLibrarySnippetProps) => {
   const [snippetCode, setSnippetCode] = useState("");
   const [snippetTitle, setSnippetTitle] = useState("Untitled");
+  const [snippetLanguage, setSnippetLanguage] = useState('js');
   const editorViewRef = useRef<EditorView | undefined>(undefined);
 
   const handleSaveClick = async (
@@ -39,9 +43,13 @@ const NewLibrarySnippet = ({
     setSnippetTitle(event.target.value);
   };
 
+  const handleLanguageChange = (event) => {
+    setSnippetLanguage(event.target.value);
+  }
+
   return (
     <Card
-      bgColor='gray.800'
+      bgColor='green.100'
       pl='2'
       pr='2'
       minH='300px'
@@ -51,31 +59,57 @@ const NewLibrarySnippet = ({
     >
       <CardHeader textAlign='center'>
         <Input
+          border="1px solid lightgrey"
+          width='60%'
           size='md'
-          color='gray.100'
-          bg='azure'
+          color='umbra.midnightGreen'
+          bg='white'
           placeholder={snippetTitle}
           _placeholder={{ color: "gray", fontWeight: "bold" }}
+          _hover={{ borderColor: "umbra.midnightGreen" }}
           textAlign='center'
           fontWeight='bold'
           onChange={handleTitleChange}
         />
       </CardHeader>
       <CardBody
-        bg='#232D3F'
+        bg='#1e1e1e'
         border='2px'
         borderRadius='10'
         borderColor='black'
         color='white'
         w='90%'
+        display='flex'
+        flexDirection='column'
+        justifyContent='space-between'
       >
         <CardBody>
           <LibrarySnippetEditor
             editorViewRef={editorViewRef}
             code={snippetCode}
             isEditMode={true}
+            languageMode={getLanguageMode(snippetLanguage)}
           />
         </CardBody>
+        <Flex align="end">
+          <Select
+            bg="inherit"
+            marginTop='2'
+            width='3mu'
+            size='sm'
+            onChange={handleLanguageChange}
+            textColor={"gray.300"}
+            iconColor={"gray.300"}
+            borderColor={"gray.600"}
+            value={snippetLanguage}
+          >
+            <option value='js'>JavaScript</option>
+            <option value='ts'>TypeScript</option>
+            <option value='py'>Python</option>
+            <option value='go'>Golang</option>
+            <option value='rb'>Ruby</option>
+          </Select>
+        </Flex>
       </CardBody>
       <CardFooter p={2}>
         <Flex gap='5px' justifyContent='space-between' pr='3' pl='4'>
@@ -85,20 +119,20 @@ const NewLibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
+            bgColor='umbra.midnightGreen'
             _hover={{ bg: "blue.900" }}
             onClick={handleSaveClick}
           >
-            Save Snippet
+            Save
           </Button>
           <Button
             borderRadius='15'
-            color='white'
+            color='umbra.midnightGreen'
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor='blue.700'
-            _hover={{ bg: "blue.900" }}
+            bgColor='inherit'
+            _hover={{ color: "umbra.softBlack" }}
             onClick={handleCancel}
           >
             Cancel

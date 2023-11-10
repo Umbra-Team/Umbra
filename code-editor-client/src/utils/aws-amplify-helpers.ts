@@ -21,64 +21,84 @@ const TEST_USER = {
 //   phone_number: "+15555555555",
 // }
 
-const USER_CODE = "396375";
+// const USER_CODE = "781733";
 
-export const signUp = async (
-  username = TEST_USER.username,
-  password = TEST_USER.password,
-  email = TEST_USER.email,
-  phone_number = TEST_USER.phone_number
-) => {
+export const signUp = async (email: string, password: string) => {
   try {
-    console.log(`Signing up as ${username}, ${email}, ${phone_number}`);
+    console.log(`Signing up as ${email}`);
     const { user } = await Auth.signUp({
-      username,
+      username: email,
       password,
-      attributes: {
-        email,
-        phone_number,
-      },
     });
-    console.log(`Signed up as ${user.getUsername()}`); // `Signed up as davidrd123
-  } catch (error) {
-    const err = error as { code: string; message: string };
-    console.log(err);
+    console.log(`Signed up as ${user.getUsername()}`);
+    return {
+      success: true,
+      message: "User SignUp Succeeded -- Verify code from email",
+      user,
+    };
+  } catch (error: any) {
+    console.log(error.code);
+    throw error;
   }
 };
 
-export const confirmUserCode = async (
-  username = TEST_USER.username,
-  code = USER_CODE
-) => {
+export const confirmUserCode = async (username: string, code: string) => {
   try {
     await Auth.confirmSignUp(username, code);
-    alert("User successfully confirmed");
-    return { success: true, message: "User successfully confirmed" };
+    return {
+      success: true,
+      message: "Verification Confirmed - You can Sign In now.",
+    };
   } catch (error) {
     console.log("Error confirming sign up", error);
-    return { success: false, message: `Error confirming sign up: ${error}` };
+    throw error;
   }
 };
 
 // Manually triggering signin for testing
 export const signIn = async (
   setUser: Function,
-  username = TEST_USER.username,
-  password = TEST_USER.password
+  email: string,
+  password: string
 ) => {
   try {
-    const user = await Auth.signIn(username, password);
+    const user = await Auth.signIn(email, password);
     setUser(user);
     // Store the JWT token
     // localStorage.setItem('token', user.signInUserSession.idToken.jwtToken);
     console.log(`Signed in as ${user.getUsername()}`);
     return { success: true, message: "User successfully signed in" };
-  } catch (error) {
-    console.log("error signing in", error);
-    return { success: false, message: `Error signing in: ${error}` };
+  } catch (error: any) {
+    if (error.code === "NotAuthorizedException") {
+      throw new Error("Invalid username or password");
+    }
+    throw new Error(`Error signing in: ${error}`);
   }
 };
 
+// submit email for forgotten password
+export const forgotPassword = async (email) => {
+  try {
+    const response = await Auth.forgotPassword(email);
+    console.log(response);
+    return { success: true, message: "Password reset code sent to email" };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+// resets password with code and inputs new password
+export const resetPassword = async (email, code, newPassword) => {
+  try {
+    const response = await Auth.forgotPasswordSubmit(email, code, newPassword);
+    console.log(response);
+    return { success: true, message: "Password successfully reset" };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+// uset logout
 export const logout = async () => {
   try {
     await Auth.signOut();

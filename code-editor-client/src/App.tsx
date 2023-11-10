@@ -1,31 +1,51 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import { Flex, Box } from "@chakra-ui/react";
 import { EditorView } from "codemirror";
 import LibraryDrawer from "./components/LibraryDrawer";
 
-// icons
-import { Image } from "@chakra-ui/react";
-import horizontal from './assets/horizontal.png'
-import vertical from './assets/vertical.png'
-
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, useToast, useColorMode,  useColorModeValue } from "@chakra-ui/react";
 import MainHeader from "./components/MainHeader";
 
-interface AppProps {
-  ySweetClientToken: string;
-  user?: any;
-  setUser: Function;
-}
+// Code execution mapping object
+import codeExecutionMap from "./utils/codeExecutionMap";
+
+import { AppProps, ToastProps } from "./types/types";
+import UmbraToast from "./components/UmbraToast";
 
 function App({ ySweetClientToken, user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(!!user);
-  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
+
+  const [language, setLanguage] = useState<string>("js");
+
+  const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
+    "horizontal"
+  );
+
+  const [editorHeight, setEditorHeight] = useState("45vh");
+  const [outputHeight, setOutputHeight] = useState("20vh");
+  const [editorWidth, setEditorWidth] = useState("60vw");
+  const [outputWidth, setOutputWidth] = useState("60vw");
+  const [toastProps, setToastProps] = useState<ToastProps | null>(null);
+  const toast = useToast();
+
+  useEffect(() => {
+    if (orientation === "horizontal") {
+      setEditorHeight("45vh");
+      setOutputHeight("20vh");
+      setEditorWidth("55vw");
+      setOutputWidth("55vw");
+    } else {
+      setEditorHeight("70vh");
+      setOutputHeight("70.5vh");
+      setEditorWidth("40vw");
+      setOutputWidth("40vw");
+    }
+  }, [orientation]);
 
   // Modal actions for Snippet Library
   const {
@@ -35,15 +55,25 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   } = useDisclosure();
 
   // Modal actions for Login Form
-  // const { onOpen: onLoginOpen } = useDisclosure();
+  const {
+    onOpen: onLoginOpen,
+    onClose: onLoginClose,
+    isOpen: isLoginOpen,
+  } = useDisclosure();
+
+  // Modal actions for SignUp Form
+  const {
+    onOpen: onSignupOpen,
+    onClose: onSignupClose,
+    isOpen: isSignupOpen,
+  } = useDisclosure();
 
   // state to hold a reference to the code editor window
   const [editorViewRef, setEditorViewRef] = useState<
     React.MutableRefObject<EditorView | undefined>
   >({ current: undefined });
 
-  const CODE_EXECUTION_ENDPOINT =
-    "https://ls-capstone-team1-code-execution-server.8amvljcm2giii.us-west-2.cs.amazonlightsail.com/run";
+  const CODE_EXECUTION_ROUTE = "/api/runCode";
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
@@ -71,75 +101,88 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
   };
 
   const sendCode = async (code: string) => {
-    const codeEndpoint = CODE_EXECUTION_ENDPOINT;
-    console.log(`Sending code to ${codeEndpoint}, code: ${code}`);
-    const response = await axios.post(codeEndpoint, {
-      code: code,
-    });
+    const response = await axios.post(
+      CODE_EXECUTION_ROUTE,
+      codeExecutionMap(language, code)
+    );
     console.log(`Response: ${JSON.stringify(response)}`);
-    setOutput(JSON.stringify(response.data, null, 2));
+    console.log(`output is ${response.data.run.stdout}`);
+    setOutput(JSON.stringify(response.data.run));
   };
 
-  const orientationIcon = () => {
-    return (
-      orientation === 'horizontal' ? 
-      <Image bg='white' boxSize='20px' src={vertical} /> : 
-      <Image bg='white' boxSize='20px' src={horizontal} />
-    );
-  }
-  const editorWidth = orientation === 'horizontal' ? '100vh' : '50vh';
-  const editorHeight = orientation === 'horizontal' ? '50vh' : '100vh';
-  const outputWidth = orientation === 'horizontal' ? '100vh' : '75vh';
-  const outputHeight = orientation === 'horizontal' ? '25vh' : '50vh';
-
   return ySweetClientToken ? (
-    <Flex direction={"column"} minH='100vh' bg='#FFFFFF' justify='space-between'>
-    <Flex direction='column'>
-      <MainHeader
-        user={user}
-        setUser={setUser}
-        replaceEditorContent={replaceEditorContent}
-        appendEditorContent={appendEditorContent}
-        onLibraryOpen={onLibraryOpen}
-      />
-      </Flex>
+    <>
+      {toastProps && (
+        <UmbraToast {...toastProps} setToastProps={setToastProps} />
+      )}
       <Flex
-        direction={orientation === 'horizontal' ? 'column' : 'row'}
-        p={6}
-        gap={3}
-        // bgGradient='linear(to-r, black, gray.100, blue.800)'
-        bg='white'
-        align='center'
-        // maxWidth='75%'
-        width='100%'
-        justifyContent='center'
-        margin='auto'
+        direction={"column"}
+        minH='100vh'
+        bg={useColorModeValue(
+          'linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)',
+          // 'radial-gradient(circle, hsla(205, 100%, 95%, 1) 0%, hsla(0, 0%, 100%, 1) 95%)',
+          'radial-gradient(circle, hsla(0, 0%, 19%, 1) 0%, hsla(0, 0%, 2%, 1) 100%)'
+        )}
+        justify='space-between'
       >
-        <Box width={editorWidth} height={editorHeight} >
-          <Editor 
-            setEditorViewRef={setEditorViewRef} 
-            onChange={setCode} 
-            onClick={() => sendCode(code)}
-            setOrientation={setOrientation}
-            orientationIcon={orientationIcon()}
-            width={editorWidth} 
-            height={editorHeight}
+        <Flex direction='column'>
+          <MainHeader
+            user={user}
+            setUser={setUser}
+            replaceEditorContent={replaceEditorContent}
+            appendEditorContent={appendEditorContent}
+            onLibraryOpen={onLibraryOpen}
+            onLoginOpen={onLoginOpen}
+            onLoginClose={onLoginClose}
+            isLoginOpen={isLoginOpen}
+            onSignupOpen={onSignupOpen}
+            onSignupClose={onSignupClose}
+            isSignupOpen={isSignupOpen}
+            toastProps={toastProps}
+            setToastProps={setToastProps}
           />
-        </Box>
-        <Box width={editorWidth} height={editorHeight}>
-          <OutputDisplay width={outputWidth} height={outputHeight} output={output} />
-        </Box>
+        </Flex>
+        <Flex
+          direction={orientation === "horizontal" ? "column" : "row"}
+          gap={1}
+          bg={useColorModeValue('white', 'gray.900')}
+          align='center'
+          maxWidth='75%'
+          justifyContent='center'
+          margin='auto'
+        >
+          <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
+            <Editor
+              setEditorViewRef={setEditorViewRef}
+              onChange={setCode}
+              onClick={() => sendCode(code)}
+              orientation={orientation}
+              setOrientation={setOrientation}
+              language={language}
+              setLanguage={setLanguage}
+              width={editorWidth}
+              height={editorHeight}
+            />
+          </Box>
+          <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
+            <OutputDisplay
+              width={outputWidth}
+              height={outputHeight}
+              output={output}
+            />
+          </Box>
+        </Flex>
+        <LibraryDrawer
+          user={user}
+          placement={"right"}
+          onClose={onLibraryClose}
+          isOpen={isLibraryOpen}
+          size={"lg"}
+          appendEditorContent={appendEditorContent}
+          editorViewRef={editorViewRef}
+        />
       </Flex>
-      <LibraryDrawer
-        user={user}
-        placement={"right"}
-        onClose={onLibraryClose}
-        isOpen={isLibraryOpen}
-        size={"lg"}
-        appendEditorContent={appendEditorContent}
-        editorViewRef={editorViewRef}
-      />
-    </Flex>
+    </>
   ) : null;
 }
 

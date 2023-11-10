@@ -1,46 +1,53 @@
-// OutputDisplay.tsx
 import React from "react";
-import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-
-// import { createTheme } from "@uiw/codemirror-themes";
-// import { tags as t } from "@lezer/highlight";
+import { EditorView } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
 import { Box, Heading } from "@chakra-ui/react";
-
-// const myTheme = createTheme({
-//   theme: "light",
-//   settings: {
-//     background: "#000000",
-//     backgroundImage: "",
-//     foreground: "#f50f54",
-//     caret: "#AEAFAD",
-//     selection: "#D6D6D6",
-//     selectionMatch: "#D6D6D6",
-//     gutterBackground: "#FFFFFF",
-//     gutterForeground: "#f4230b",
-//     gutterBorder: "#dddddd",
-//     gutterActiveForeground: "#d02525",
-//     lineHighlight: "#EFEFEF",
-//   },
-//   styles: [
-//     { tag: t.comment, color: "#787b80" },
-//     { tag: t.definition(t.typeName), color: "#194a7b" },
-//     { tag: t.typeName, color: "#194a7b" },
-//     { tag: t.tagName, color: "#008a02" },
-//     { tag: t.variableName, color: "#1a00db" },
-//   ],
-// });
 
 interface OutputDisplayProps {
   output: string;
-  width: string;
   height: string;
+  width: string;
 }
 
-const OutputDisplay: React.FC<OutputDisplayProps> = ({ output, width, height }) => {
+const OutputDisplay: React.FC<OutputDisplayProps> = ({
+  output, 
+  width,
+  height,
+}) => {
   const parsedOutput = output ? JSON.parse(output) : {};
-
   let errorText = parsedOutput.error ? parsedOutput.error : null;
+  const outputRef = React.useRef<HTMLDivElement>(null);
+  const view = React.useRef<EditorView>();
+
+  const theme = React.useMemo(
+    () =>
+      EditorView.theme({
+        "&": {
+          width,
+          height,
+        },
+      }),
+    [width, height]
+  );
+  
+  React.useEffect(() => {
+    if (outputRef.current) {
+      const state = EditorState.create({
+        doc: errorText ? errorText : parsedOutput.output,
+        extensions: [theme, vscodeDark, EditorView.editable.of(false)],
+      });
+
+      view.current = new EditorView({ state, parent: outputRef.current });
+    }
+    return () => {
+      if (view.current) {
+        view.current.destroy();
+        view.current = undefined;
+      }
+    };
+  }, [parsedOutput.output, width, height])
+
 
   // Remove ANSI escape codes
   if (errorText) {
@@ -55,37 +62,14 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({ output, width, height }) 
     errorText = errorText.replace(ansiEscapeCodes, "");
   }
 
-  if (!errorText) {
-    return (
-      <Box flex='1' bg='gray.200' p={3} borderRadius='5' overflow='auto'>
-        <Heading color='white' size='md' mb='3'>
-          Output
-        </Heading>
-        <CodeMirror
-          value={parsedOutput.output}
-          height={height}
-          width={width}
-          theme={vscodeDark}
-          readOnly={true}
-        />
-      </Box>
-    );
-  } else {
-    return (
-      <Box flex='1' bg='gray.200' p={4} borderRadius='15' overflow='auto'>
-        <Heading color='red' size='md' mb='3'>
-          Errors
-        </Heading>
-        <CodeMirror
-          value={errorText}
-          height='25vh'
-          width='100%'
-          theme={vscodeDark}
-          readOnly={true}
-        />
-      </Box>
-    );
-  }
+  return (
+    <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
+      <Heading textAlign="center" color='blue.400' size='md' mb='3'>
+        Output
+      </Heading>
+      <div ref={outputRef} />
+    </Box>
+  );
 };
 
 export default OutputDisplay;

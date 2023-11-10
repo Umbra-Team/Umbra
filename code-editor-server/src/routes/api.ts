@@ -1,6 +1,6 @@
 // routes/api.ts
 import express, { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../utils/middleware";
+import { verifyToken, fetchUser, fetchSnippet, asyncHandler } from "../utils/middleware";
 import { getOrCreateDoc } from "@y-sweet/sdk";
 import { CONNECTION_STRING } from "../utils/constants";
 import { StatusCodes } from "http-status-codes";
@@ -8,13 +8,21 @@ import Snippet from "../models/Snippet";
 import User from "../models/User";
 import sequelize from "../utils/sequelize";
 import { RequestWithUser } from "../types/types";
-
+import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
+import axios from "axios";
+import AWS from 'aws-sdk';
+import { Sequelize, ValidationError } from "sequelize";
+import { UniqueTitleError } from "../utils/errors";
+
+AWS.config.update({region: 'us-west-2'});
+const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 const router = express.Router();
 
 router.get("/get-token/:docId", async (req, res) => {
   let docId: string | undefined = req.params.docId;
+  console.log(`get-token: docId=${docId}`);
   if (docId === "default") {
     docId = undefined;
   }
@@ -23,9 +31,38 @@ router.get("/get-token/:docId", async (req, res) => {
 });
 
 // AUTHENTICATION
-
+/**
+ * Authenticate a user and generate a JWT token.
+ * @route POST /auth/login
+ * @param {string} username.body.required - The username of the user.
+ * @param {string} password.body.required - The password of the user.
+ * @returns {Object} 200 - An object containing the JWT token.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.post("/auth/login", async (req, res) => {
   // Authenticate user and generate JWT
+  const { username, password } = req.body;
+
+  const params = {
+    AuthFlow: 'USER_PASSWORD_AUTH',
+    ClientId: '3rlpf4ht955dmfkb83oh24nf46',
+    AuthParameters: {
+      USERNAME: username,
+      PASSWORD: password
+    },
+  };
+
+  cognitoidentityserviceprovider.initiateAuth(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      return res.status(500).json({ error: err });
+    } else {
+      console.log(data);
+      // return status code 200 and the token
+      return res.status(200).json({ token: data.AuthenticationResult?.AccessToken });
+      // res.json({ token: data.AuthenticationResult?.AccessToken });
+    }
+  });
   // Send JWT in response
 });
 
@@ -49,213 +86,193 @@ router.post("/auth/logout", async (req, res) => {
 
 /**
  * Get all snippets for a user
- * @route GET /users/snippets
+ * @route GET /snippets
  * @requires Authentication header
  * @returns {Snippet[]} - array of snippets
  */
-
 router.get(
   "/snippets",
   verifyToken,
-  async (req: RequestWithUser, res: Response) => {
-    if (!req.user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User not found" });
+  fetchUser,
+  async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const snippets = await Snippet.findAll({ where: { userId: req.userRecord?.id } });
+      return res.status(200).json(snippets);
+    } catch (err) {
+      next(err);
     }
-    console.log(`req.user: ${JSON.stringify(req.user)}`);
-    const username = req.user.Username;
-    const user = await User.findOne({ where: { username: username } });
-    console.log(`user: ${JSON.stringify(user)}`);
-    const snippets = await Snippet.findAll({ where: { userId: user?.id } });
-
-    return res.json(snippets);
   }
 );
 
-// add a new snippet to user's library
+/**
+ * Create a new snippet
+ * @route POST /snippets
+ * @requires Authentication header
+ * @param {string} title.body.required - title of snippet
+ * @param {string} code.body - code of snippet
+ * @param {string} language.body - language of snippet
+ * @returns {Snippet} 201 - the newly created snippet
+ * @returns {Error}  
+ */
+
 router.post(
   "/snippets",
   verifyToken,
-  async (req: RequestWithUser, res: Response) => {
-    if (!req.user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User not found" });
-    }
-
-    const { title, code } = req.body;
+  fetchUser,
+  asyncHandler(async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    const { title, code, language } = req.body;
     console.log(`/snippets: title=${title}, code=${code}`);
 
-    const username = req.user.Username;
-    const user = await User.findOne({ where: { username: req.user.Username } });
-    const userId = user?.id;
-    const snippet = await Snippet.create({ title, code, userId });
-    res.json(snippet);
-  }
+    try {
+      const snippet = await Snippet.create({ 
+        title, 
+        code, 
+        language, 
+        userId: req.userRecord?.id
+      });
+      res.status(201).json(snippet);
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        return res.status(400).json({ error: err.message });
+      } else {
+        next(err);
+      }
+    }
+  })
 );
 
-// get a single snippet
+/**
+ * Get a specific snippet for the authenticated user.
+ * @route GET /snippets/:snippetId
+ * @requires Authentication header
+ * @param {string} snippetId.path.required - The ID of the snippet.
+ * @returns {Snippet} 200 - The requested snippet.
+ * @returns {Error} 404 - Snippet not found.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.get(
   "/snippets/:snippetId",
   verifyToken,
-  async (req: RequestWithUser, res: Response) => {
-    if (!req.user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User not found" });
-    }
-    const username = req.user.Username;
-    const user = await User.findOne({ where: { username: username } });
-    console.log(`user: ${JSON.stringify(user)}`);
-
-    try {
-      const { snippetId } = req.params;
-      const snippet = await Snippet.findByPk(snippetId);
-      if (!snippet) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ error: "Snippet not found" });
-      }
-      if (snippet.userId !== user?.id) {
-        return res
-          .status(StatusCodes.FORBIDDEN)
-          .json({ error: "Snippet does not belong to user" });
-      }
-
-      res.json(snippet);
-    } catch (err) {
-      const error = err as Error;
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: error.message });
-    }
+  fetchUser,
+  fetchSnippet,
+  (req: RequestWithUser, res: Response) => {
+    res.status(200).json(req.snippet);
   }
 );
 
-// PATCH /snippets/:id
+/**
+ * Update a specific snippet for the authenticated user.
+ * @route PATCH /snippets/:snippetId
+ * @requires Authentication header
+ * @param {string} snippetId.path.required - The ID of the snippet.
+ * @param {string} title.body - The new title of the snippet.
+ * @param {string} code.body - The new code of the snippet.
+ * @param {string} language.body - The new language of the snippet.
+ * @returns {Snippet} 200 - The updated snippet.
+ * @returns {Error} 404 - Snippet not found.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.patch(
   "/snippets/:snippetId",
   verifyToken,
-  async (req: RequestWithUser, res: Response) => {
-    if (!req.user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User not found" });
+  fetchUser,
+  fetchSnippet,
+  asyncHandler(async (req: RequestWithUser, res: Response) => {
+    const [numberOfAffectedRows, affectedRows] = await Snippet.update(
+      req.body,
+      {
+        where: { id: req.snippet!.id },
+        returning: true,
+      }
+    );
+
+    if (numberOfAffectedRows > 0) {
+      res.json(affectedRows[0]);
+    } else {
+      res.status(404).json({ error: "Snippet not found" });
     }
-
-    try {
-      const username = req.user.Username;
-      const user = await User.findOne({ where: { username: username } });
-      const { snippetId } = req.params;
-      const snippet = await Snippet.findByPk(snippetId);
-      console.log(`PATCH: snippetId = ${snippetId}`);
-
-      if (!snippet) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ error: "Snippet not found" });
-      }
-
-      if (snippet.userId !== user?.id) {
-        return res
-          .status(StatusCodes.FORBIDDEN)
-          .json({ error: "Snippet does not belong to user" });
-      }
-
-      const [numberOfAffectedRows, affectedRows] = await Snippet.update(
-        req.body,
-        {
-          where: { id: snippet.id },
-          returning: true,
-        }
-      );
-
-      if (numberOfAffectedRows > 0) {
-        res.json(affectedRows[0]);
-      } else {
-        res.status(404).send("Snippet not found");
-      }
-    } catch (err) {
-      const error = err as Error;
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: error.message });
-    }
-  }
+  })
 );
 
-// DELETE /snippets/:id
+/**
+ * Delete a specific snippet for the authenticated user.
+ * @route DELETE /snippets/:snippetId
+ * @requires Authentication header
+ * @param {string} snippetId.path.required - The ID of the snippet.
+ * @returns {Object} 204 - An empty object, indicating successful deletion.
+ * @returns {Error} 404 - Snippet not found.
+ * @returns {Error} 500 - Unexpected error.
+ */
 router.delete(
   "/snippets/:snippetId",
   verifyToken,
-  async (req: RequestWithUser, res: Response) => {
-    if (!req.user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "User not found" });
-    }
-
-    try {
-      const username = req.user.Username;
-      const user = await User.findOne({ where: { username: username } });
-      const { snippetId } = req.params;
-      const snippet = await Snippet.findByPk(snippetId);
-
-      if (!snippet) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ error: "Snippet not found" });
-      }
-
-      if (snippet.userId !== user?.id) {
-        return res
-          .status(StatusCodes.FORBIDDEN)
-          .json({ error: "Snippet does not belong to user" });
-      }
-
-      const numberOfDestroyedRows = await Snippet.destroy({
-        where: { id: snippet.id },
-      });
-      if (numberOfDestroyedRows > 0) {
-        res.status(204).end();
-      } else {
-        res.status(404).send("Snippet not found");
-      }
-    } catch (err) {
-      const error = err as Error;
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: error.message });
-    }
-
-    // These are for testing and development:
-    router.get("/snippetsNoAuth", async (req: Request, res: Response) => {
-      const snippets = await Snippet.findAll();
-      res.json(snippets);
+  fetchUser,
+  fetchSnippet,
+  asyncHandler(async (req: RequestWithUser, res: Response) => {
+    const numberOfDestroyedRows = await Snippet.destroy({
+      where: { id: req.snippet!.id },
     });
-  }
+    if (numberOfDestroyedRows > 0) {
+      res.status(204).end();
+    } else {
+      res.status(404).send("Snippet not found");
+    }
+  })
 );
 
-router.post("/snippetCreateRandom", verifyToken, async (req, res) => {
-  // from verifyToken, req.user has all the user info
-  const username = req.body.username;
+// This is for testing and development:
+router.get("/snippetsNoAuth", async (req: Request, res: Response) => {
+  const snippets = await Snippet.findAll();
+  res.json(snippets);
+});
 
-  const user = await User.findOne({ where: { username: username } });
+// Sync Cognito users to local DB
+router.get("/syncUsers", async (req: Request, res: Response) => {
+  try {
+    await syncUsers();
+    res.send();
+  } catch (error) {
+    res.status(500).send("Error syncing local users with cognito users");
+  }
+});
 
+// Code Execution
+router.post("/runCode", async (req: Request, res: Response) => {
+  if (!process.env.CODE_EXECUTION_ENDPOINT) {
+    throw new Error("CODE_EXECUTION_ENDPOINT is missing");
+  }
+
+  console.log(JSON.stringify(req.body));
+  const response = await axios.post(
+    process.env.CODE_EXECUTION_ENDPOINT,
+    req.body
+  );
+  res.json(response.data);
+});
+
+// create a random snippet and enter into database
+router.post("/snippetCreateRandom", 
+  verifyToken, 
+  fetchUser,
+  async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  // from fetchUser middleware, req.userRecord has all the user info
   const randTitle = Math.random().toString(36).substring(7);
-
   const code = `console.log("Hello, ${generateRandomName()}");`;
 
-  if (user) {
-    const snippet = await Snippet.create({
-      title: randTitle,
-      code: code,
-      userId: user.id,
-    });
-    res.json(snippet);
-  } else {
-    res.status(StatusCodes.NOT_FOUND).json({ error: "User not found" });
+  try {
+    if (req.userRecord) {
+      const snippet = await Snippet.create({
+        title: randTitle,
+        code: code,
+        language: "js",
+        userId: req.userRecord.id,
+      });
+      res.status(201).json(snippet);
+    } else {
+      throw new Error("User not found");
+    }
+  } catch (err) {
+    next(err);
   }
 });
 
