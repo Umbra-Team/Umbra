@@ -163,6 +163,25 @@ const MainHeader = ({
           >
             {loginButtonContent}
           </Button>
+          {signupButtonContent && (
+            <Button
+              bg='transparent'
+              color={useColorModeValue("black", "gray.100")}
+              fontSize='18px'
+              fontWeight='bold'
+              _hover={{
+                color: "blue.500",
+              }}
+              onClick={
+                localStorage.getItem("unconfirmedUser")
+                  ? onConfirmOpen
+                  : onSignupOpen
+              }
+              _active={{ bg: "transparent" }}
+            >
+              {signupButtonContent}
+            </Button>
+          )}
         </Flex>
         <Tooltip
           bg={useColorModeValue("yellow.200", "yellow.900")}
