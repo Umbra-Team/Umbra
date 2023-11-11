@@ -170,6 +170,7 @@ const SignUpModal = ({
                     </FormLabel>
                     <InputGroup>
                       <Input
+                        color='black'
                         border='1px solid lightgray'
                         bg='white'
                         type={showPassword ? "text" : "password"}

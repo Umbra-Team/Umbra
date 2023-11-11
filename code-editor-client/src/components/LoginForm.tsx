@@ -10,7 +10,10 @@ import {
   Button,
   Link,
   useColorModeValue,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import { signIn } from "../utils/aws-amplify-helpers";
 import logo from "../assets/logo-transparent.png";
@@ -19,6 +22,7 @@ import logo from "../assets/logo-transparent.png";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 
 const LoginForm = ({
   setToastProps,
@@ -27,6 +31,9 @@ const LoginForm = ({
   setShowEmailReset,
   onClose,
 }) => {
+  // helps with show/hide password toggle
+  const [showPassword, setShowPassword] = useState(false);
+
   // define yup input validation schema
   const schema = yup.object().shape({
     email: yup
@@ -127,19 +134,32 @@ const LoginForm = ({
               <FormLabel color={useColorModeValue("black", "white")}>
                 Password
               </FormLabel>
-              <Input
-                border='1px solid lightgray'
-                bg='white'
-                color='black'
-                type='password'
-                {...register("password")}
-                _hover={{
-                  borderColor: "umbra.midnightGreen",
-                }}
-              />
-              {errors.password && (
-                <Text color='red.500'>{errors.password.message}</Text>
-              )}
+              <InputGroup>
+                <Input
+                  border='1px solid lightgray'
+                  bg='white'
+                  color='black'
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  _hover={{
+                    borderColor: "umbra.midnightGreen",
+                  }}
+                />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    color={"gray.400"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+                {errors.password && (
+                  <Text color='red.500'>{errors.password.message}</Text>
+                )}
+              </InputGroup>
             </FormControl>
             <Stack spacing={10}>
               <Stack
