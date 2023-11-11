@@ -108,11 +108,14 @@ const SignUpModal = ({
           minH={"50vh"}
           align={"center"}
           justify={"center"}
-          bg='white'
+          bg={useColorModeValue(
+            "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+            "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+          )}
           borderRadius='10'
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-            <ModalCloseButton color='black' />
+            <ModalCloseButton color={useColorModeValue("black", "white")} />
             <Stack align={"center"}>
               <Image src={logo} boxSize={32} />
               <Heading
@@ -125,7 +128,7 @@ const SignUpModal = ({
               </Heading>
               <Heading
                 fontSize='lg'
-                color='black'
+                color={useColorModeValue("black", "gray.100")}
                 pr={6}
                 pl={6}
                 textAlign={"center"}
@@ -134,11 +137,21 @@ const SignUpModal = ({
                 library
               </Heading>
             </Stack>
-            <Box rounded={"lg"} bg='white' boxShadow={"lg"} p={8}>
+            <Box
+              rounded={"lg"}
+              bg={useColorModeValue(
+                "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+                "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+              )}
+              boxShadow={"lg"}
+              p={8}
+            >
               <form onSubmit={handleSubmit(handleSignupSubmit)}>
                 <Stack spacing={4}>
                   <FormControl id='email' isRequired>
-                    <FormLabel color='black'>Email address</FormLabel>
+                    <FormLabel color={useColorModeValue("black", "white")}>
+                      Email address
+                    </FormLabel>
                     <Input
                       border='1px solid lightgray'
                       bg='white'
@@ -152,7 +165,9 @@ const SignUpModal = ({
                     />
                   </FormControl>
                   <FormControl id='password' isRequired>
-                    <FormLabel color='black'>Password</FormLabel>
+                    <FormLabel color={useColorModeValue("black", "white")}>
+                      Password
+                    </FormLabel>
                     <InputGroup>
                       <Input
                         border='1px solid lightgray'
@@ -182,7 +197,7 @@ const SignUpModal = ({
                       type='submit'
                       loadingText='Submitting'
                       size='lg'
-                      bg={"blue.400"}
+                      bg={"umbra.logoText"}
                       color={"white"}
                       _hover={{
                         bg: "umbra.deepSkyBlue",

@@ -79,7 +79,7 @@ const LoginModal = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalCloseButton color='black' />
+        <ModalCloseButton color={useColorModeValue("black", "white")} />
         <Flex
           minH={"50vh"}
           align={"center"}
