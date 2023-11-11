@@ -102,14 +102,22 @@ const ConfirmCodeModal = ({
           minH={"50vh"}
           align={"center"}
           justify={"center"}
-          bg={useColorModeValue("gray.50", "gray.800")}
+          bg={useColorModeValue(
+            "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+            "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+          )}
+          boxShadow={"lg"}
+          p={8}
           borderRadius='10'
         >
           <Stack
             spacing={4}
             w={"full%"}
             maxW={"sm"}
-            bg={useColorModeValue("white", "gray.700")}
+            bg={useColorModeValue(
+              "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+              "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+            )}
             rounded={"xl"}
             boxShadow={"lg"}
             p={6}
@@ -117,7 +125,7 @@ const ConfirmCodeModal = ({
           >
             <Center>
               <Heading
-                color='black'
+                color={useColorModeValue("black", "gray.100")}
                 lineHeight={1.1}
                 fontSize={{ base: "2xl", md: "3xl" }}
               >
@@ -132,21 +140,16 @@ const ConfirmCodeModal = ({
                 spacing={2}
                 align='center'
                 fontSize={{ base: "sm", sm: "md" }}
-                color={useColorModeValue("gray.800", "gray.400")}
               >
-                <Text color='black'>
+                <Text color={useColorModeValue("black", "gray.100")}>
                   Enter the verification code sent to your email
                 </Text>
-                <Link onClick={handleResendCodeClick} color='blue.500'>
+                <Link onClick={handleResendCodeClick} color='umbra.logoText'>
                   Resend Verification Code
                 </Link>
               </VStack>
             </Center>
-            <Center
-              fontSize={{ base: "sm", sm: "md" }}
-              fontWeight='bold'
-              color='black'
-            >
+            <Center fontSize={{ base: "sm", sm: "md" }} fontWeight='bold'>
               {localStorage.getItem("unconfirmedUser")}
             </Center>
             <FormControl>
@@ -165,17 +168,21 @@ const ConfirmCodeModal = ({
             </FormControl>
             <Stack spacing={6}>
               <Button
-                bg={"blue.400"}
                 color={"white"}
+                bg={"umbra.logoText"}
                 _hover={{
-                  bg: "blue.500",
+                  bg: "umbra.deepSkyBlue",
                 }}
                 onClick={handleVerifyClick}
               >
                 Verify
               </Button>
             </Stack>
-            <Link color='blue' onClick={handleNoAccessClick}>
+            <Link
+              fontSize='xs'
+              color='umbra.logoText'
+              onClick={handleNoAccessClick}
+            >
               Don't have access to {localStorage.getItem("unconfirmedUser")}?
             </Link>
           </Stack>
