@@ -9,7 +9,11 @@ import {
   Text,
   Button,
   Link,
+  useColorModeValue,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import { signIn } from "../utils/aws-amplify-helpers";
 import logo from "../assets/logo-transparent.png";
@@ -18,6 +22,7 @@ import logo from "../assets/logo-transparent.png";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 
 const LoginForm = ({
   setToastProps,
@@ -26,6 +31,9 @@ const LoginForm = ({
   setShowEmailReset,
   onClose,
 }) => {
+  // helps with show/hide password toggle
+  const [showPassword, setShowPassword] = useState(false);
+
   // define yup input validation schema
   const schema = yup.object().shape({
     email: yup
@@ -81,19 +89,33 @@ const LoginForm = ({
           fontSize={"4xl"}
           textAlign={"center"}
           fontWeight='bold'
-          color='#0096FF'
+          color='blue.500'
         >
           Umbra
         </Heading>
-        <Heading fontSize='xl' color='black' textAlign={"center"}>
+        <Heading
+          fontSize='xl'
+          color={useColorModeValue("black", "gray.100")}
+          textAlign={"center"}
+        >
           Sign in to access your code library
         </Heading>
       </Stack>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue(
+            "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+            "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+          )}
+          boxShadow={"lg"}
+          p={8}
+        >
           <Stack spacing={4}>
             <FormControl id='email' isRequired>
-              <FormLabel color='black'>Email address</FormLabel>
+              <FormLabel color={useColorModeValue("black", "white")}>
+                Email address
+              </FormLabel>
               <Input
                 border='1px solid lightgray'
                 bg='white'
@@ -109,20 +131,35 @@ const LoginForm = ({
               )}
             </FormControl>
             <FormControl id='password' isRequired>
-              <FormLabel color='black'>Password</FormLabel>
-              <Input
-                border='1px solid lightgray'
-                bg='white'
-                color='black'
-                type='password'
-                {...register("password")}
-                _hover={{
-                  borderColor: "umbra.midnightGreen",
-                }}
-              />
-              {errors.password && (
-                <Text color='red.500'>{errors.password.message}</Text>
-              )}
+              <FormLabel color={useColorModeValue("black", "white")}>
+                Password
+              </FormLabel>
+              <InputGroup>
+                <Input
+                  border='1px solid lightgray'
+                  bg='white'
+                  color='black'
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  _hover={{
+                    borderColor: "umbra.midnightGreen",
+                  }}
+                />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    color={"gray.400"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+                {errors.password && (
+                  <Text color='red.500'>{errors.password.message}</Text>
+                )}
+              </InputGroup>
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -136,10 +173,10 @@ const LoginForm = ({
               </Stack>
               <Button
                 type='submit'
-                bg={"blue.400"}
+                bg={"umbra.logoText"}
                 color={"white"}
                 _hover={{
-                  bg: "blue.500",
+                  bg: "umbra.deepSkyBlue",
                 }}
               >
                 Sign in

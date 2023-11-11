@@ -79,12 +79,15 @@ const LoginModal = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalCloseButton color='black' />
+        <ModalCloseButton color={useColorModeValue("black", "white")} />
         <Flex
           minH={"50vh"}
           align={"center"}
           justify={"center"}
-          bg={"white"}
+          bg={useColorModeValue(
+            "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+            "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+          )}
           borderRadius='10'
         >
           {content}

@@ -8,6 +8,7 @@ import {
   Input,
   Button,
   Image,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import logo from "../assets/logo-transparent.png";
@@ -70,12 +71,27 @@ const PasswordResetEmail = ({
       minH={"50vh"}
       align={"center"}
       justify={"center"}
-      bg='white'
+      bg={useColorModeValue(
+        "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+        "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+      )}
+      borderRadius='10'
       direction={"column"}
     >
       <Image src={logo} boxSize={24} />
-      <Heading color='black'>Umbra</Heading>
+      <Heading
+        fontSize={"4xl"}
+        textAlign={"center"}
+        fontWeight='bold'
+        color='blue.500'
+      >
+        Umbra
+      </Heading>
       <Stack
+        bg={useColorModeValue(
+          "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
+          "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
+        )}
         spacing={8}
         w={"full"}
         maxW={"sm"}
@@ -83,35 +99,40 @@ const PasswordResetEmail = ({
         boxShadow={"lg"}
         p={3}
         m={6}
-        border='1px'
       >
         <Heading
-          color='black'
-          lineHeight={1.1}
-          fontSize={{ base: "2xl", md: "3xl" }}
+          fontSize='xl'
+          color={useColorModeValue("black", "gray.100")}
+          textAlign={"center"}
         >
           Forgot your password?
         </Heading>
-        <Text fontSize={{ base: "sm", sm: "md" }} color='black'>
-          If you've previously signed up, a reset code will be sent.
+        <Text
+          fontSize={{ base: "sm", sm: "md" }}
+          color={useColorModeValue("black", "white")}
+        >
+          If you've previously signed up, a reset code will be sent to your
+          email address
         </Text>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl id='email'>
             <Input
+              color='black'
               placeholder='umbra-user@generic-email.com'
               _placeholder={{ color: "gray.500" }}
               type='email'
               {...register("email")}
-              color='black'
+              bg='white'
             />
           </FormControl>
           <Stack spacing={6}>
             <Button
               type='submit'
-              bg={"blue.400"}
+              bg={"umbra.logoText"}
               color={"white"}
+              mt={2}
               _hover={{
-                bg: "blue.500",
+                bg: "umbra.deepSkyBlue",
               }}
             >
               Request Reset

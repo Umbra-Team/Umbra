@@ -98,7 +98,7 @@ const MainHeader = ({
       align='center'
       justify='space-between'
       px={6}
-      bg={'transparent'}
+      bg={"transparent"}
     >
       <Flex pt={2}>
         <Heading size='lg' fontWeight='bold' color='blue.500'>
@@ -108,78 +108,85 @@ const MainHeader = ({
           </Flex>
         </Heading>
       </Flex>
-      <Flex align="baseline">
+      <Flex align='baseline'>
         <ShareRoomButton />
-        <Text
-          mx={2}
-          color={"lightblue.600"}
-          fontSize="18px"
-          fontWeight={700}
-        >
+        <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
           Share and Edit Collaboratively
         </Text>
       </Flex>
       <Spacer />
       <Flex align='center' gap={2}>
         <Flex align='baseline' px={10}>
-        {user ? (
-          <Flex
-            color={'#F58A51'}
-            marginRight={'15px'} 
+          {user ? (
+            <Flex color={"#F58A51"} marginRight={"15px"}>
+              <Text
+                bg={useColorModeValue("green.100", "green.900")}
+                color={useColorModeValue("green.800", "green.400")}
+                fontWeight={300}
+                p={1}
+                mr={1}
+                border='1px solid'
+                borderColor={useColorModeValue("green.700", "green.500")}
+                borderRadius='2px'
+              >
+                <CheckCircleIcon pb={1} pr={1} />
+                Logged in as {user.attributes.email}
+              </Text>
+            </Flex>
+          ) : (
+            <Flex color={"#F58A51"} marginRight={"15px"}>
+              <Text
+                bg={useColorModeValue("orange.100", "orange.900")}
+                color={useColorModeValue("orange.800", "orange.300")}
+                fontWeight={300}
+                p={1}
+                mr={1}
+                border='1px solid'
+                borderColor={useColorModeValue("orange.700", "orange.400")}
+                borderRadius='2px'
+              >
+                <InfoIcon pb={1} pr={1} />
+                Not Logged In
+              </Text>
+            </Flex>
+          )}
+          <Button
+            bg='transparent'
+            color={useColorModeValue("black", "gray.100")}
+            fontSize='18px'
+            fontWeight='bold'
+            _hover={{
+              color: "blue.500",
+            }}
+            onClick={user ? handleLogoutClick : onLoginOpen}
+            _active={{ bg: "transparent" }}
           >
-            <Text
-              bg={useColorModeValue("green.100", "green.900")}
-              color={useColorModeValue("green.800", "green.400")}
-              fontWeight={300}
-              p={1}
-              mr={1}
-              border = "1px solid"
-              borderColor={useColorModeValue("green.700", "green.500")}
-              borderRadius="2px"
+            {loginButtonContent}
+          </Button>
+          {signupButtonContent && (
+            <Button
+              bg='transparent'
+              color={useColorModeValue("black", "gray.100")}
+              fontSize='18px'
+              fontWeight='bold'
+              _hover={{
+                color: "blue.500",
+              }}
+              onClick={
+                localStorage.getItem("unconfirmedUser")
+                  ? onConfirmOpen
+                  : onSignupOpen
+              }
+              _active={{ bg: "transparent" }}
             >
-              <CheckCircleIcon pb={1} pr={1}/>
-              Logged in as {user.attributes.email}
-            </Text>
-          </Flex>
-        ) : (
-          <Flex
-            color={'#F58A51'}
-            marginRight={'15px'} 
-          >
-            <Text
-              bg={useColorModeValue("orange.100", "orange.900")}
-              color={useColorModeValue("orange.800", "orange.300")}
-              fontWeight={300}
-              p={1}
-              mr={1}
-              border="1px solid"
-              borderColor={useColorModeValue("orange.700", "orange.400")}
-              borderRadius="2px"
-            >
-              <InfoIcon pb={1} pr={1} />
-              Not Logged In
-            </Text>
-          </Flex>
-        )}
-        <Button
-          bg='transparent'
-          color={useColorModeValue('black', 'gray.100')}
-          fontSize='18px'
-          fontWeight="bold"
-          _hover={{
-            color: "blue.500",
-          }}
-          onClick={user ? handleLogoutClick : onLoginOpen}
-          _active={{ bg: "transparent" }}
-        >
-          {loginButtonContent}
-        </Button>
+              {signupButtonContent}
+            </Button>
+          )}
         </Flex>
         <Tooltip
-
           bg={useColorModeValue("yellow.200", "yellow.900")}
           color={useColorModeValue("gray.600", "white")}
-          maxW="200px"
+          maxW='200px'
           label={
             user
               ? "Open your code snippet library"
