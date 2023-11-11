@@ -53,10 +53,11 @@ const ConfirmCodeModal = ({
         setToastProps({
           title: "Verification Confirmed",
           description: "You may now sign in",
-          status: "succes",
+          status: "success",
         });
       }
     } catch (error: any) {
+      console.log(error);
       setToastProps({
         title: error.name,
         description: error.message,
