@@ -27,7 +27,9 @@ const NewLibrarySnippet = ({
   const [snippetCode, setSnippetCode] = useState("");
   const [snippetTitle, setSnippetTitle] = useState("Untitled");
   const [snippetLanguage, setSnippetLanguage] = useState('js');
-  const editorViewRef = useRef<EditorView | undefined>(undefined);
+  const [editorViewRef, setEditorViewRef] = useState<
+  React.MutableRefObject<EditorView | undefined>
+>({ current: undefined });
 
   const handleSaveClick = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -86,7 +88,7 @@ const NewLibrarySnippet = ({
       >
         <CardBody>
           <LibrarySnippetEditor
-            editorViewRef={editorViewRef}
+            setEditorViewRef={setEditorViewRef}
             code={snippetCode}
             isEditMode={true}
             languageMode={getLanguageMode(snippetLanguage)}

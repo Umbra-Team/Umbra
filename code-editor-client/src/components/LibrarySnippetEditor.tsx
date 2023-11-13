@@ -6,18 +6,20 @@ import { EditorView, ViewUpdate } from "@codemirror/view";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 const LibrarySnippetEditor = ({
-  editorViewRef,
+  setEditorViewRef,
   code,
   isEditMode,
   languageMode,
 }: {
-  editorViewRef: React.MutableRefObject<EditorView | undefined>;
+  setEditorViewRef: (
+    viewRef: React.MutableRefObject<EditorView | undefined>
+  ) => void;
   code: string;
   isEditMode: boolean;
   languageMode: any;
 }) => {
+  const view = useRef<EditorView>();
   const ref = useRef<HTMLDivElement | null>(null);
-  const [editorView, setEditorView] = useState<EditorView | null>(null);
   const [editorContent, setEditorContent] = useState(code);
 
 
@@ -32,9 +34,11 @@ const LibrarySnippetEditor = ({
   );
 
   useEffect(() => {
+    setEditorViewRef(view);
+  });
+
+  useEffect(() => {
     if (ref.current) {
-      // Destroy the previous EditorView instance if it exists
-      editorView?.destroy();
 
       // Create a newEditorView instance
       const newEditorView = new EditorView({
@@ -55,16 +59,17 @@ const LibrarySnippetEditor = ({
           ],
         }),
       });
-      // Save the new EditorView instance
-      setEditorView(newEditorView);
 
       // Update the editorViewRef with the new EditorView instance
-      editorViewRef.current = newEditorView;
+      view.current = newEditorView;
     }
 
     // Cleanup function that destroys the EditorView instance
     return () => {
-      editorView?.destroy();
+      if (view.current) {
+        view.current.destroy();
+        view.current = undefined;
+      }
     };
   }, [isEditMode, languageMode]);
 

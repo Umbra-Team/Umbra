@@ -14,7 +14,7 @@ import {
 
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 import { getLanguageMode, languageIconMap } from "../utils/language";
 
@@ -44,7 +44,11 @@ const LibrarySnippet = ({
   const [snippetTitle, setSnippetTitle] = useState(title);
   const [snippetLanguage, setSnippetLanguage] = useState(language);
   const [languageIcon, setLanguageIcon] = useState(languageIconMap[language])
-  const editorViewRef = useRef<EditorView | undefined>(undefined);
+  const [editorViewRef, setEditorViewRef] = useState<
+  React.MutableRefObject<EditorView | undefined>
+>({ current: undefined });
+
+
 
   const handleLanguageChange = (event) => {
     setSnippetLanguage(event.target.value);
@@ -127,7 +131,7 @@ const LibrarySnippet = ({
       >
         <CardBody>
           <LibrarySnippetEditor
-            editorViewRef={editorViewRef}
+            setEditorViewRef={setEditorViewRef}
             code={snippetCode}
             isEditMode={isEditing}
             languageMode={getLanguageMode(snippetLanguage)}
@@ -199,7 +203,11 @@ const LibrarySnippet = ({
           w='49%'
           bgColor='inherit'
           _hover={{ color: useColorModeValue("umbra.softBlack", "lightblue.600") }}
-          onClick={() => setIsEditing(prevState => !prevState)}
+          onClick={() => {
+            setSnippetTitle(title);
+            setSnippetCode(code);
+            setIsEditing(prevState => !prevState);
+          }}
         >
           Cancel
         </Button>
