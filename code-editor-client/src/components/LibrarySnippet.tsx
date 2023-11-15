@@ -14,7 +14,7 @@ import {
 
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 import { getLanguageMode, languageIconMap } from "../utils/language";
 
@@ -43,8 +43,11 @@ const LibrarySnippet = ({
   const [snippetCode, setSnippetCode] = useState(code);
   const [snippetTitle, setSnippetTitle] = useState(title);
   const [snippetLanguage, setSnippetLanguage] = useState(language);
-  const [languageIcon, setLanguageIcon] = useState(languageIconMap[language]);
-  const editorViewRef = useRef<EditorView | undefined>(undefined);
+  const [languageIcon, setLanguageIcon] = useState(languageIconMap[language])
+  const [editorViewRef, setEditorViewRef] = useState<
+  React.MutableRefObject<EditorView | undefined>
+>({ current: undefined });
+
 
   const handleLanguageChange = (event) => {
     setSnippetLanguage(event.target.value);
@@ -133,7 +136,7 @@ const LibrarySnippet = ({
       >
         <CardBody>
           <LibrarySnippetEditor
-            editorViewRef={editorViewRef}
+            setEditorViewRef={setEditorViewRef}
             code={snippetCode}
             isEditMode={isEditing}
             languageMode={getLanguageMode(snippetLanguage)}
@@ -196,36 +199,39 @@ const LibrarySnippet = ({
           >
             {isEditing ? "Save" : "Edit"}
           </Button>
-          {isEditing ? (
-            <Button
-              borderRadius='15'
-              color={useColorModeValue("umbra.midnightGreen", "lightblue.700")}
-              whiteSpace='normal'
-              overflow='hidden'
-              w='49%'
-              bgColor='inherit'
-              _hover={{
-                color: useColorModeValue("umbra.softBlack", "lightblue.600"),
-              }}
-              onClick={handleCancelClick}
-            >
-              Cancel
-            </Button>
-          ) : (
-            <Button
-              isDisabled={!loggedIn}
-              borderRadius='15'
-              color='white'
-              whiteSpace='normal'
-              overflow='hidden'
-              w='49%'
-              bgColor='umbra.midnightGreen'
-              _hover={{ bg: "umbra.logoText" }}
-              onClick={handleDeleteClick}
-            >
-              Delete
-            </Button>
-          )}
+          { isEditing ?
+          <Button
+          borderRadius='15'
+          color={useColorModeValue('umbra.midnightGreen', "lightblue.700")}
+          whiteSpace='normal'
+          overflow='hidden'
+          w='49%'
+          bgColor='inherit'
+          _hover={{ color: useColorModeValue("umbra.softBlack", "lightblue.600") }}
+          onClick={() => {
+            setSnippetTitle(title);
+            setSnippetCode(code);
+            setIsEditing(prevState => !prevState);
+          }}
+        >
+          Cancel
+        </Button>
+          :
+          <Button
+          isDisabled={!loggedIn}
+          borderRadius='15'
+          color='white'
+          whiteSpace='normal'
+          overflow='hidden'
+          w='49%'
+          bgColor='umbra.midnightGreen'
+          _hover={{ bg: "umbra.logoText" }}
+          onClick={handleDeleteClick}
+        >
+          Delete
+        </Button>
+        }
+
         </Flex>
       </CardFooter>
     </Card>

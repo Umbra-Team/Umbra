@@ -9,7 +9,15 @@ import {
 import * as random from "lib0/random";
 
 // UI related
-import { Box, Button, Select, Image, Tooltip, useColorModeValue, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Select,
+  Image,
+  Tooltip,
+  useColorModeValue,
+  IconButton,
+} from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 // CM6 core modules
@@ -29,6 +37,9 @@ import { languageIconMap } from "../utils/language";
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
 import { useAwareness, useText } from "@y-sweet/react";
+
+// styling for awareness carets
+import "../styles/awareness.css";
 
 // Awareness consts
 const usercolors = [
@@ -126,7 +137,11 @@ export const Editor: React.FC<EditorProps> = ({
   const editorRef = useRef<HTMLDivElement>(null);
   const view = useRef<EditorView>();
 
+  // editor yText
   const yText = useText("input", { observe: "none" });
+
+  // language selection yText
+  const yTextLanguage = useText("language", { observe: "none" });
 
   // Create an UndoManager for the shared text type
   const undoManager = new Y.UndoManager(yText);
@@ -141,8 +156,8 @@ export const Editor: React.FC<EditorProps> = ({
   };
 
   const handleClearEditor = () => {
-    replaceEditorContent('');
-  }
+    replaceEditorContent("");
+  };
 
   useEffect(() => {
     setEditorViewRef(view);
@@ -176,7 +191,7 @@ export const Editor: React.FC<EditorProps> = ({
         "&": {
           width,
           height,
-          fontSize:"0.8em",
+          fontSize: "0.8em",
         },
       }),
     [width, height]
@@ -190,6 +205,13 @@ export const Editor: React.FC<EditorProps> = ({
     key: "Shift-Cmd-Enter",
   };
 
+  const handleLanguageChange = (event) => {
+    const newLanguage = event.target.value;
+    yTextLanguage.delete(0, yTextLanguage.length);
+    yTextLanguage.insert(0, newLanguage);
+    setLanguage(newLanguage);
+  };
+
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -198,12 +220,13 @@ export const Editor: React.FC<EditorProps> = ({
       doc: yText.toString(),
       extensions: [
         basicSetup,
+        EditorView.lineWrapping,
         history(),
         keymap.of([...defaultKeymap, indentWithTab, runKeyBinding]),
         vscodeDark,
         theme,
         updateListener,
-        getLanguageMode(language),
+        getLanguageMode(yTextLanguage.toString()),
         yCollab(yText, awareness, { undoManager }),
       ],
     });
@@ -218,7 +241,20 @@ export const Editor: React.FC<EditorProps> = ({
         view.current = undefined;
       }
     };
-  }, [width, height, language]);
+  }, [width, height, yTextLanguage]);
+
+  // keeps the react 'language' state in sync with the yTextLanguage shared state
+  useEffect(() => {
+    const observer = () => {
+      setLanguage(yTextLanguage.toString());
+    };
+    yTextLanguage.observe(observer);
+
+    // cleanup function
+    return () => {
+      yTextLanguage.unobserve(observer);
+    };
+  }, [yTextLanguage, setLanguage]);
 
   return (
     <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
@@ -233,42 +269,42 @@ export const Editor: React.FC<EditorProps> = ({
       </Box> */}
 
       <Box display='flex' justifyContent='space-between'>
-
         <Box display='flex' alignItems='center'>
-        <Button
-          color='white'
-          size='sm'
-          bg='blue.500'
-          // borderRadius='20'
-          _hover={{ bg: "umbra.deepSkyBlue" }}
-          onClick={onClick}
-          marginTop='2'
-          marginRight='2'
-        >
-          Run
-        </Button>
+          <Button
+            color='white'
+            size='sm'
+            bg='blue.500'
+            // borderRadius='20'
+            _hover={{ bg: "umbra.deepSkyBlue" }}
+            onClick={onClick}
+            marginTop='2'
+            marginRight='2'
+          >
+            Run
+          </Button>
           <Select
-            bg="inherit"
+            bg='inherit'
             marginTop='2'
             width='3mu'
             size='sm'
-            onChange={(event) => setLanguage(event.target.value)}
+            value={language}
+            onChange={handleLanguageChange}
             textColor={"gray.300"}
             iconColor={"gray.300"}
             borderColor={"gray.600"}
             // check this out for color mode behavior
             //sx={{
-              //option: {
-                //backgroundColor: "gray.200",
-                //_hover: {
-                  //backgroundColor: "blue.500",
-                  //color: "white",
-                //},
-                //_focus: {
-                  //backgroundColor: "blue.500",
-                  //color: "white",
-                //},
-              //},
+            //option: {
+            //backgroundColor: "gray.200",
+            //_hover: {
+            //backgroundColor: "blue.500",
+            //color: "white",
+            //},
+            //_focus: {
+            //backgroundColor: "blue.500",
+            //color: "white",
+            //},
+            //},
             //}}
           >
             <option value='js'>JavaScript</option>
@@ -286,40 +322,62 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
-          <Tooltip label="Clear contents" bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
+          <Tooltip
+            label='Clear contents'
+            bg={useColorModeValue("yellow.200", "yellow.900")}
+            color={useColorModeValue("gray.600", "white")}
+          >
             <IconButton
-              aria-label="Clear editor"
+              aria-label='Clear editor'
               icon={<DeleteIcon />}
               mt='2'
               mr='2'
               size='sm'
-              color="white"
-              bg="blue.500"
+              color='white'
+              bg='blue.500'
               onClick={handleClearEditor}
-              variant="solid"
+              variant='solid'
               _hover={{ bg: "umbra.deepSkyBlue" }}
             />
           </Tooltip>
-          <Tooltip label='Change editor orientation' bg={useColorModeValue("yellow.200", "yellow.900")} color={useColorModeValue("gray.600", "white")}>
-            <Button 
-              size='sm' 
-              marginTop='2' 
+          <Tooltip
+            label='Change editor orientation'
+            bg={useColorModeValue("yellow.200", "yellow.900")}
+            color={useColorModeValue("gray.600", "white")}
+          >
+            <Button
+              size='sm'
+              marginTop='2'
               onClick={toggleOrientation}
               bg='blue.500'
               border='1px black'
               marginRight='1'
               _hover={{ bg: "umbra.deepSkyBlue" }}
             >
-            { orientation === "horizontal" ? 
-            <svg width="1em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path  fillRule="evenodd" d="M14 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
-              <path fillRule="evenodd" d="M7.5 14V2h1v12h-1z"/>
-            </svg>
-            :
-            <svg width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="white">
-              <path d="M14 1H3L2 2v11l1 1h11l1-1V2l-1-1zm0 12H3V8h11v5zm0-6H3V2h11v5z"/>
-            </svg>
-            }
+              {orientation === "horizontal" ? (
+                <svg
+                  width='1em'
+                  height='1em'
+                  viewBox='0 0 16 16'
+                  fill='white'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M14 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z'
+                  />
+                  <path fillRule='evenodd' d='M7.5 14V2h1v12h-1z' />
+                </svg>
+              ) : (
+                <svg
+                  width='1.25em'
+                  height='1.25em'
+                  viewBox='0 0 16 16'
+                  fill='white'
+                >
+                  <path d='M14 1H3L2 2v11l1 1h11l1-1V2l-1-1zm0 12H3V8h11v5zm0-6H3V2h11v5z' />
+                </svg>
+              )}
             </Button>
           </Tooltip>
         </Box>
