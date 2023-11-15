@@ -38,6 +38,9 @@ import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
 import { useAwareness, useText } from "@y-sweet/react";
 
+// styling for awareness carets
+import "../styles/awareness.css";
+
 // Awareness consts
 const usercolors = [
   { color: "#30bced", light: "#30bced33" },
