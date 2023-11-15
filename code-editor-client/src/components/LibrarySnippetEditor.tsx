@@ -22,12 +22,11 @@ const LibrarySnippetEditor = ({
   const ref = useRef<HTMLDivElement | null>(null);
   const [editorContent, setEditorContent] = useState(code);
 
-
   const theme = useMemo(
     () =>
       EditorView.theme({
         "&": {
-          fontSize:"0.75em",
+          fontSize: "0.75em",
         },
       }),
     []
@@ -39,7 +38,6 @@ const LibrarySnippetEditor = ({
 
   useEffect(() => {
     if (ref.current) {
-
       // Create a newEditorView instance
       const newEditorView = new EditorView({
         parent: ref.current,
@@ -47,6 +45,7 @@ const LibrarySnippetEditor = ({
           doc: editorContent,
           extensions: [
             basicSetup,
+            EditorView.lineWrapping,
             theme,
             languageMode,
             vscodeDark,

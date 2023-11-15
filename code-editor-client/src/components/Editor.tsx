@@ -217,6 +217,7 @@ export const Editor: React.FC<EditorProps> = ({
       doc: yText.toString(),
       extensions: [
         basicSetup,
+        EditorView.lineWrapping,
         history(),
         keymap.of([...defaultKeymap, indentWithTab, runKeyBinding]),
         vscodeDark,
