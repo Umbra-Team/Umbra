@@ -35,6 +35,7 @@ jobs:
           echo AWS_COGNITO_REGION=${{ secrets.AWS_COGNITO_REGION }} >> .env
           echo COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }} >> .env
           echo CODE_EXECUTION_ENDPOINT=${{ env.CODE_EXECUTION_ENDPOINT }} >> .env
+          echo Y_SWEET_SERVER=${{ secrets.Y_SWEET_SERVER }} >> .env
           echo .env
 
       - name: Install Utilities
