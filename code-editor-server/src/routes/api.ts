@@ -1,8 +1,12 @@
 // routes/api.ts
 import express, { Request, Response, NextFunction } from "express";
-import { verifyToken, fetchUser, fetchSnippet, asyncHandler } from "../utils/middleware";
+import {
+  verifyToken,
+  fetchUser,
+  fetchSnippet,
+  asyncHandler,
+} from "../utils/middleware";
 import { getOrCreateDoc } from "@y-sweet/sdk";
-import { CONNECTION_STRING } from "../utils/constants";
 import { StatusCodes } from "http-status-codes";
 import Snippet from "../models/Snippet";
 import User from "../models/User";
@@ -11,11 +15,13 @@ import { RequestWithUser } from "../types/types";
 import { syncUsers } from "../scripts/syncUsers";
 import { generateRandomName } from "../utilities/generateRandomName";
 import axios from "axios";
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 import { Sequelize, ValidationError } from "sequelize";
 import { UniqueTitleError } from "../utils/errors";
 
-AWS.config.update({region: 'us-west-2'});
+const CONNECTION_STRING = process.env.Y_SWEET_SERVER;
+
+AWS.config.update({ region: "us-west-2" });
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 const router = express.Router();
@@ -44,22 +50,24 @@ router.post("/auth/login", async (req, res) => {
   const { username, password } = req.body;
 
   const params = {
-    AuthFlow: 'USER_PASSWORD_AUTH',
-    ClientId: '3rlpf4ht955dmfkb83oh24nf46',
+    AuthFlow: "USER_PASSWORD_AUTH",
+    ClientId: "3rlpf4ht955dmfkb83oh24nf46",
     AuthParameters: {
       USERNAME: username,
-      PASSWORD: password
+      PASSWORD: password,
     },
   };
 
-  cognitoidentityserviceprovider.initiateAuth(params, function(err, data) {
+  cognitoidentityserviceprovider.initiateAuth(params, function (err, data) {
     if (err) {
       console.log(err, err.stack);
       return res.status(500).json({ error: err });
     } else {
       console.log(data);
       // return status code 200 and the token
-      return res.status(200).json({ token: data.AuthenticationResult?.AccessToken });
+      return res
+        .status(200)
+        .json({ token: data.AuthenticationResult?.AccessToken });
       // res.json({ token: data.AuthenticationResult?.AccessToken });
     }
   });
@@ -96,7 +104,9 @@ router.get(
   fetchUser,
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const snippets = await Snippet.findAll({ where: { userId: req.userRecord?.id } });
+      const snippets = await Snippet.findAll({
+        where: { userId: req.userRecord?.id },
+      });
       return res.status(200).json(snippets);
     } catch (err) {
       next(err);
@@ -112,33 +122,35 @@ router.get(
  * @param {string} code.body - code of snippet
  * @param {string} language.body - language of snippet
  * @returns {Snippet} 201 - the newly created snippet
- * @returns {Error}  
+ * @returns {Error}
  */
 
 router.post(
   "/snippets",
   verifyToken,
   fetchUser,
-  asyncHandler(async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const { title, code, language } = req.body;
-    console.log(`/snippets: title=${title}, code=${code}`);
+  asyncHandler(
+    async (req: RequestWithUser, res: Response, next: NextFunction) => {
+      const { title, code, language } = req.body;
+      console.log(`/snippets: title=${title}, code=${code}`);
 
-    try {
-      const snippet = await Snippet.create({ 
-        title, 
-        code, 
-        language, 
-        userId: req.userRecord?.id
-      });
-      res.status(201).json(snippet);
-    } catch (err) {
-      if (err instanceof ValidationError) {
-        return res.status(400).json({ error: err.message });
-      } else {
-        next(err);
+      try {
+        const snippet = await Snippet.create({
+          title,
+          code,
+          language,
+          userId: req.userRecord?.id,
+        });
+        res.status(201).json(snippet);
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          return res.status(400).json({ error: err.message });
+        } else {
+          next(err);
+        }
       }
     }
-  })
+  )
 );
 
 /**
@@ -251,29 +263,31 @@ router.post("/runCode", async (req: Request, res: Response) => {
 });
 
 // create a random snippet and enter into database
-router.post("/snippetCreateRandom", 
-  verifyToken, 
+router.post(
+  "/snippetCreateRandom",
+  verifyToken,
   fetchUser,
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-  // from fetchUser middleware, req.userRecord has all the user info
-  const randTitle = Math.random().toString(36).substring(7);
-  const code = `console.log("Hello, ${generateRandomName()}");`;
+    // from fetchUser middleware, req.userRecord has all the user info
+    const randTitle = Math.random().toString(36).substring(7);
+    const code = `console.log("Hello, ${generateRandomName()}");`;
 
-  try {
-    if (req.userRecord) {
-      const snippet = await Snippet.create({
-        title: randTitle,
-        code: code,
-        language: "js",
-        userId: req.userRecord.id,
-      });
-      res.status(201).json(snippet);
-    } else {
-      throw new Error("User not found");
+    try {
+      if (req.userRecord) {
+        const snippet = await Snippet.create({
+          title: randTitle,
+          code: code,
+          language: "js",
+          userId: req.userRecord.id,
+        });
+        res.status(201).json(snippet);
+      } else {
+        throw new Error("User not found");
+      }
+    } catch (err) {
+      next(err);
     }
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 export default router;
