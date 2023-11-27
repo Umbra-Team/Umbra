@@ -6,3 +6,4 @@ piston/
 shutItDown.sh
 y-sweet/
 build
+node_modules/
