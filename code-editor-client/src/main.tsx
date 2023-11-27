@@ -14,13 +14,7 @@ import createRandomRoomName from "./utils/createRoomName";
 export const HocuspocusContext = createContext<HocuspocusProvider | null>(null);
 
 const AppWrapper = () => {
-  // default hocus procus provider
-  const defaultProvider = new HocuspocusProvider({
-    url: "wss://localhost:1234/ws",
-    name: "default",
-  });
-
-  const [provider, setProvider] = useState<HocuspocusProvider>(defaultProvider);
+  const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
 
   // create hocuspocus provider
   useEffect(() => {
@@ -63,6 +57,10 @@ const AppWrapper = () => {
       })
       .catch(() => setUser(null));
   }, []);
+
+  if (!provider) {
+    return null;
+  }
 
   return (
     <ChakraProvider theme={theme}>
