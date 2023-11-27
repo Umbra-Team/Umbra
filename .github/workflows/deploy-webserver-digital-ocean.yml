@@ -36,4 +36,4 @@ jobs:
             cd /opt/umbra
             docker-compose down
             docker-compose pull
-            docker-compose -d
+            docker-compose up -d
