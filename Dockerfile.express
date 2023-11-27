@@ -1,0 +1,12 @@
+# Dockerfile for Umbra express server
+
+FROM node:18 as express-server
+WORKDIR /app
+COPY code-editor-server/package*.json ./
+RUN npm install
+COPY code-editor-server ./
+RUN npm run build
+
+EXPOSE 3001
+
+CMD ["npm", "start"]

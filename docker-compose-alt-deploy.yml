@@ -1,25 +1,20 @@
 version: "3"
 services:
   express-server:
-    image: fdurham/umbra-webserver:latest
-    volumes:
-      - static-data:/app/build
+    image: fdurham/umbra-express-server:latest
     ports:
       - 3001:3001
     restart: always
     env_file:
       - ./.env
   nginx:
-    image: nginx:stable-alpine
+    image: fdurham/umbra-nginx:latest
     volumes:
       - /opt/umbra/nginx.conf:/etc/nginx/conf.d/default.conf
       - /etc/letsencrypt:/etc/letsencrypt
-      - static-data:/usr/share/nginx/html
     ports:
       - 80:80
       - 443:443
     restart: always
     depends_on:
       - express-server
-volumes:
-  static-data:

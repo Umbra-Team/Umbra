@@ -1,0 +1,39 @@
+server {
+    listen 80;
+    server_name umbra-collab.com www.umbra-collab.com;
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name umbra-collab.com www.umbra-collab.com;
+
+    ssl_certificate /etc/letsencrypt/live/umbra-collab.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/umbra-collab.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    location / {
+        root /usr/share/nginx/html;
+        try_files $uri $uri/ =404;
+    }
+
+    location /ws {
+        proxy_pass http://10.124.0.5:1234;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+    }
+
+    location /api/ {
+        proxy_pass http://express-server:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "keep-alive";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}

@@ -1,0 +1,15 @@
+# Build stage for React App
+FROM node:18 as react-build
+WORKDIR /app
+COPY code-editor-client/package*.json ./
+RUN npm install
+COPY code-editor-client/ ./
+RUN npm run build
+
+# Build stage for Nginx server
+FROM nginx:stable-alpine
+COPY --from=react-build /app/dist /usr/share/nginx/html
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]
