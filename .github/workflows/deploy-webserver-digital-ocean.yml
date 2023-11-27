@@ -1,0 +1,39 @@
+name: Alt Deploy to Digital Ocean
+
+on:
+  push:
+    branches:
+      - alt_collab_deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.FRED_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.FRED_DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker images
+        run: |
+          docker build -t fdurham/umbra-express-server:latest -f Dockerfile.express .
+          docker build -t fdurham/umbra-nginx:latest -f Dockerfile.nginx .
+          docker push fdurham/umbra-express-server:latest
+          docker push fdurham/umbra-nginx:latest
+
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.WEBSERVER_DROPLET_IP }}
+          username: ${{ secrets.WEBSERVER_DROPLET_USER }}
+          key: ${{ secrets.WEBSERVER_DROPLET_SSH_KEY }}
+          script: |
+            cd /opt/umbra
+            docker-compose down
+            docker-compose pull
+            docker-compose -d
