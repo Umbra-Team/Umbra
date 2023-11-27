@@ -2,16 +2,15 @@ import {
   uniqueNamesGenerator,
   adjectives,
   colors,
-  names,
-  starWars,
+  animals,
 } from "unique-names-generator";
 
 const createRandomRoomName = () => {
   return uniqueNamesGenerator({
-    dictionaries: [adjectives, names],
+    dictionaries: [adjectives, colors, animals],
     style: "capital",
     separator: "",
-    length: 2,
+    length: 3,
   });
 };
 
