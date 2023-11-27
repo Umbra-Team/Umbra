@@ -34,10 +34,9 @@ import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
 import { getLanguageMode } from "../utils/language";
 import { languageIconMap } from "../utils/language";
 
-// yjs and associates
+// yjs and Hocus Pocus provider
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
-// import { useAwareness, useText } from "@y-sweet/react";
 import { HocuspocusContext } from "../main.tsx";
 
 // styling for awareness carets
