@@ -5,6 +5,7 @@ import {
   useMemo,
   Dispatch,
   SetStateAction,
+  useContext,
 } from "react";
 import * as random from "lib0/random";
 
@@ -36,7 +37,8 @@ import { languageIconMap } from "../utils/language";
 // yjs and associates
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
-import { useAwareness, useText } from "@y-sweet/react";
+// import { useAwareness, useText } from "@y-sweet/react";
+import { HocuspocusContext } from "../main.tsx";
 
 // styling for awareness carets
 import "../styles/awareness.css";
@@ -137,16 +139,34 @@ export const Editor: React.FC<EditorProps> = ({
   const editorRef = useRef<HTMLDivElement>(null);
   const view = useRef<EditorView>();
 
+  // hocuspocus provider
+  const provider = useContext(HocuspocusContext);
+
+  if (!provider) {
+    throw new Error("HocuspocusProvider is null");
+  }
+  // awareness object from hocuspocus
+  const awareness = provider ? provider.awareness : null;
+
   // editor yText
-  const yText = useText("input", { observe: "none" });
+  // const yText = useText("input", { observe: "none" });
+
+  // editor yText
+  const yText = provider.document.getText("input");
 
   // language selection yText
-  const yTextLanguage = useText("language", { observe: "none" });
+  const yTextLanguage = provider.document.getText("language");
+
+  // language selection yText
+  // const yTextLanguage = useText("language", { observe: "none" });
 
   // Create an UndoManager for the shared text type
-  const undoManager = new Y.UndoManager(yText);
+  let undoManager: Y.UndoManager;
+  if (yText) {
+    undoManager = new Y.UndoManager(yText);
+  }
 
-  const awareness = useAwareness();
+  // const awareness = useAwareness();
   const userColor = usercolors[random.uint32() % usercolors.length];
 
   const toggleOrientation = () => {

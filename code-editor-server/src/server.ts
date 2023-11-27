@@ -23,8 +23,8 @@ sequelize
   .then(() => {
     // wipeUsers();  // Wipe users
     // wipeSnippets();  // Wipe snippets
-    return syncUsers(); // Sync users from Cognito
     console.log("All PostgreSQL tables have been successfully created.");
+    return syncUsers(); // Sync users from Cognito
   })
   .catch((error) => {
     console.error("Unable to connect to PostgreSQL:", error);
@@ -34,7 +34,10 @@ app.use(cors() as RequestHandler);
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use(express.static(path.join(__dirname, "../build")));
+if (process.env.NODE_ENV !== "production") {
+  app.use(express.static(path.join(__dirname, "../build")));
+}
+
 app.use("/api", apiRouter);
 app.use(errorHandler);
 

@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+.git
+.gitignore
+y-sweet
+collab-server
+load-testing
+ccommit
+docker-compose.dev.yml
+docker-compose.prod.yml
+docker-compose.yml
+*.log
+.env

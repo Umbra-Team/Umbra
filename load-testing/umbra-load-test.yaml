@@ -1,0 +1,14 @@
+config:
+  target: "https://www.umbra-collab.com/?room=LoadTesting"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+scenarios:
+  - engine: "ws"
+    flow:
+      - send: '{"type":"update","update":"CUdheU1hcmVuYQEMAaTok4QJAgRudWxs"}'
+      - think: 1
+      - loop:
+          - send: '{"type":"update","update":"CUdheU1hcmVuYQgB"}'
+          - think: 2
+        count: 3

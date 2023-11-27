@@ -1,12 +1,12 @@
 import { CognitoUser } from "@aws-amplify/auth";
 
 export interface Snippet {
-    id: number;
-    title: string;
-    code: string;
-    language: string;
-    created_at: Date;
-    updated_at: Date;
+  id: number;
+  title: string;
+  code: string;
+  language: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface ToastProps {
@@ -17,7 +17,6 @@ export interface ToastProps {
 }
 
 export interface AppProps {
-  ySweetClientToken: string;
   user?: any;
   setUser: Function;
 }

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import { Box, Heading } from "@chakra-ui/react";
+import { HocuspocusContext } from "../main";
 
 // yjs and associates
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
-import { useText } from "@y-sweet/react";
+// import { useText } from "@y-sweet/react";
 
 interface OutputDisplayProps {
   output: string;
@@ -24,7 +25,12 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
   let errorText = parsedOutput.error ? parsedOutput.error : null;
   const outputRef = React.useRef<HTMLDivElement>(null);
   const view = React.useRef<EditorView>();
-  const yText = useText("outputWindow", { observe: "none" });
+  // const yText = useText("outputWindow", { observe: "none" });
+
+  // hocuspocus provider
+  const provider = useContext(HocuspocusContext);
+
+  const yText = provider ? provider.document.getText("outputWindow") : null;
 
   const theme = React.useMemo(
     () =>

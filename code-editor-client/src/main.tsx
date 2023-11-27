@@ -1,30 +1,61 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import ReactDOM from "react-dom/client";
-import { ChakraProvider, ColorModeScript, Alert, AlertTitle } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  ColorModeScript,
+  Alert,
+  AlertTitle,
+} from "@chakra-ui/react";
 import { theme } from "./theme";
 import App from "./App";
 import axios from "axios";
-import { YDocProvider } from "@y-sweet/react";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 
 import "./utils/aws-config";
 import { Auth } from "aws-amplify";
 import { Snippet } from "./types/types";
-
+import createRandomRoomName from "./utils/createRoomName";
 const EXPRESS_SERVER_ENDPOINT = "/api";
 
+// context for hocus pocus provider
+export const HocuspocusContext = createContext<HocuspocusProvider | null>(null);
+
 const AppWrapper = () => {
-  // Y-Sweet token
-  const [YSweetClientToken, setYSweetClientToken] = useState(null);
+  const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
+  const [loading, setLoading] = useState(true);
+  // create hocuspocus provider
+  useEffect(() => {
+    async function fetchAndSetProvider() {
+      const response = await axios.get("/api/get-provider-url");
+      const providerServerUrl = response.data;
+
+      const newProvider = new HocuspocusProvider({
+        url: providerServerUrl,
+        name: roomName || "default",
+      });
+      setProvider(newProvider);
+      setLoading(false);
+    }
+
+    // set url to be room name
+    const url = new URL(window.location.href);
+    let roomName = url.searchParams.get("room");
+    if (!roomName) {
+      roomName = createRandomRoomName();
+    }
+    url.searchParams.set("room", roomName);
+    window.history.replaceState({}, "", url.toString());
+
+    fetchAndSetProvider();
+  }, []);
 
   // AWS Amplify
   const [user, setUser] = useState<any>(null);
-  // const [cognitoClientToken, setCognitoClientToken] = useState<string>("");
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then((user) => {
         setUser(user);
-        // setCognitoClientToken(user.signInUserSession.accessToken.jwtToken);
         console.log(`AUTHENTICATED USER: ${JSON.stringify(user)}`);
         console.log(
           `AUTHENTICATED USER TOKEN: ${JSON.stringify(
@@ -35,51 +66,33 @@ const AppWrapper = () => {
       .catch(() => setUser(null));
   }, []);
 
+  // YSweeant
   // useEffect(() => {
-  //   if (user) {
-  //     const loadClientLibrary = async () => {
-  //       try {
-  //         const snippets: Snippet[] = await getAllUserSnippets(
-  //           // cognitoClientToken
-  //           user.signInUserSession.accessToken.jwtToken
-  //         );
+  //   const fetchClientToken = async (doc: string) => {
+  //     const response = await axios.get(
+  //       `${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
+  //     );
+  //     setYSweetClientToken(response.data.clientToken);
+  //   };
 
-  //         console.log(`User snippets response: ${JSON.stringify(snippets)}`);
-  //         console.log(
-  //           `This is to get rid of error with not usin userSnippets until I understand what's going on: ${userSnippets}`
-  //         );
-  //         setUserSnippets(snippets);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     loadClientLibrary();
-  //   }
-  // }, [user]);
+  //   const params = new URLSearchParams(window.location.search);
+  //   const doc = params.get("doc") || "default";
+  //   fetchClientToken(doc || "default");
+  // }, []);
 
-  // YSweet
-  useEffect(() => {
-    const fetchClientToken = async (doc: string) => {
-      const response = await axios.get(
-        `${EXPRESS_SERVER_ENDPOINT}/get-token/${doc}`
-      );
-      setYSweetClientToken(response.data.clientToken);
-    };
+  // if (!YSweetClientToken) {
+  //   return null;
+  // }
 
-    const params = new URLSearchParams(window.location.search);
-    const doc = params.get("doc") || "default";
-    fetchClientToken(doc || "default");
-  }, []);
-
-  if (!YSweetClientToken) {
-    return null;
+  if (loading) {
+    return <div>Loading...</div>; // or your preferred loading indicator
   }
 
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'>
-        {/* {user ? (
+      {/* <YDocProvider clientToken={YSweetClientToken} setQueryParam='doc'> */}
+      {/* {user ? (
           <Alert
             h="5px"
             bg="#D9FFD1"
@@ -100,12 +113,9 @@ const AppWrapper = () => {
             <AlertTitle>Not logged in</AlertTitle>
           </Alert>
         )} */}
-        <App
-          user={user}
-          setUser={setUser}
-          ySweetClientToken={YSweetClientToken}
-        />
-      </YDocProvider>
+      <HocuspocusContext.Provider value={provider}>
+        <App user={user} setUser={setUser} />
+      </HocuspocusContext.Provider>
     </ChakraProvider>
   );
 };

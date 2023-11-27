@@ -16,7 +16,7 @@ import codeExecutionMap from "./utils/codeExecutionMap";
 import { AppProps, ToastProps } from "./types/types";
 import UmbraToast from "./components/UmbraToast";
 
-function App({ ySweetClientToken, user, setUser }: AppProps) {
+function App({ user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const [output, setOutput] = useState<string>("");
 
@@ -110,7 +110,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
     setOutput(JSON.stringify(response.data.run));
   };
 
-  return ySweetClientToken ? (
+  return (
     <>
       {toastProps && (
         <UmbraToast {...toastProps} setToastProps={setToastProps} />
@@ -119,9 +119,9 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         direction={"column"}
         minH='100vh'
         bg={useColorModeValue(
-          'linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)',
+          "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
           // 'radial-gradient(circle, hsla(205, 100%, 95%, 1) 0%, hsla(0, 0%, 100%, 1) 95%)',
-          'radial-gradient(circle, hsla(0, 0%, 19%, 1) 0%, hsla(0, 0%, 2%, 1) 100%)'
+          "radial-gradient(circle, hsla(0, 0%, 19%, 1) 0%, hsla(0, 0%, 2%, 1) 100%)"
         )}
         justify='space-between'
       >
@@ -145,13 +145,16 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         <Flex
           direction={orientation === "horizontal" ? "column" : "row"}
           gap={1}
-          bg={useColorModeValue('white', 'gray.900')}
+          bg={useColorModeValue("white", "gray.900")}
           align='center'
           maxWidth='75%'
           justifyContent='center'
           margin='auto'
         >
-          <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
+          <Box
+            boxShadow={useColorModeValue("dark-lg", "base")}
+            borderRadius='5px'
+          >
             <Editor
               setEditorViewRef={setEditorViewRef}
               onChange={setCode}
@@ -165,7 +168,10 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
               replaceEditorContent={replaceEditorContent}
             />
           </Box>
-          <Box boxShadow={useColorModeValue('dark-lg', 'base')} borderRadius='5px'>
+          <Box
+            boxShadow={useColorModeValue("dark-lg", "base")}
+            borderRadius='5px'
+          >
             <OutputDisplay
               width={outputWidth}
               height={outputHeight}
@@ -184,7 +190,7 @@ function App({ ySweetClientToken, user, setUser }: AppProps) {
         />
       </Flex>
     </>
-  ) : null;
+  );
 }
 
 export default App;

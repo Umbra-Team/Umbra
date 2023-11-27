@@ -36,6 +36,11 @@ router.get("/get-token/:docId", async (req, res) => {
   res.json({ clientToken });
 });
 
+// get hocus pocus URL
+router.get("/get-provider-url", async (req, res) => {
+  res.send(process.env.COLLAB_SERVER || "ws://localhost:1234");
+});
+
 // AUTHENTICATION
 /**
  * Authenticate a user and generate a JWT token.
