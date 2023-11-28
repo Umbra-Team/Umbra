@@ -119,6 +119,7 @@ export type EditorProps = {
   width: string;
   height: string;
   replaceEditorContent: (content: string) => void;
+  user: any;
 };
 
 export const Editor: React.FC<EditorProps> = ({
@@ -132,6 +133,7 @@ export const Editor: React.FC<EditorProps> = ({
   width,
   height,
   replaceEditorContent,
+  user,
 }) => {
   // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
@@ -184,19 +186,35 @@ export const Editor: React.FC<EditorProps> = ({
 
   useEffect(() => {
     if (awareness) {
-      awareness.setLocalStateField("user", {
-        name: generateRandomName() + " " + Math.floor(Math.random() * 100),
-        color: userColor.color,
-        colorLight: userColor.light,
-      });
+      if (user) {
+        awareness.setLocalStateField("user", {
+          color: userColor.color,
+          colorLight: userColor.light,
+          name: user.attributes.email,
+        });
+      } else {
+        awareness.setLocalStateField("user", {
+          color: userColor.color,
+          colorLight: userColor.light,
+          name: generateRandomName() + " " + Math.floor(Math.random() * 100),
+        });
+      }
     }
     console.log(`awareness: ${awareness}`);
-  }, [awareness]);
+  }, [awareness, user]);
 
   const onUpdate = useCallback(
     (v: ViewUpdate) => {
       if (v.docChanged) {
         onChange(v.state.doc.toString());
+        // console.log(document.documentElement.innerHTML);
+        const element = document.querySelector(".ͼ1 .cm-ySelectionInfo");
+        if (element) {
+          element.classList.add("active");
+          setTimeout(() => {
+            element.classList.remove("active");
+          }, 1000);
+        }
       }
     },
     [onChange]

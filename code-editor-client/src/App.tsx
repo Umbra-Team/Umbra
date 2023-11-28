@@ -166,6 +166,7 @@ function App({ user, setUser }: AppProps) {
               width={editorWidth}
               height={editorHeight}
               replaceEditorContent={replaceEditorContent}
+              user={user}
             />
           </Box>
           <Box

@@ -10,7 +10,7 @@
   border-bottom-left-radius: 0;
   line-height: normal;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 12px;
   font-family: sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -27,4 +27,13 @@
 
 .cm-editor .cm-scroller {
   padding-top: 1.5rem;
+}
+
+.ͼ1 .cm-ySelectionInfo {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.ͼ1 .cm-ySelectionInfo.active {
+  opacity: 1;
 }

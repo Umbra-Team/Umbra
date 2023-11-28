@@ -2,10 +2,16 @@ import { browser } from "k6/experimental/browser";
 import { check } from "k6";
 
 export const options = {
+  ext: {
+    loadimpact: {
+      projectID: 3671375,
+      name: "Browser based test for umbra",
+    },
+  },
   scenarios: {
     ui: {
       executor: "constant-vus",
-      vus: 120, // 4 users * 10 rooms
+      vus: 60, // 4 users * 10 rooms
       duration: "60s",
       options: {
         browser: {
@@ -16,7 +22,7 @@ export const options = {
   },
 };
 
-const rooms = Array.from({ length: 30 }, (_, i) => `LoadTesting${i + 1}`); // ['LoadTesting1', 'LoadTesting2', ..., 'LoadTesting10']
+const rooms = Array.from({ length: 20 }, (_, i) => `LoadTesting${i + 1}`); // ['LoadTesting1', 'LoadTesting2', ..., 'LoadTesting10']
 
 export default async function () {
   const roomIndex = __VU % rooms.length; // Calculate room index based on VU id
