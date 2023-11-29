@@ -29,11 +29,6 @@
   padding-top: 1.5rem;
 }
 
-.ͼ1 .cm-ySelectionInfo {
-  opacity: 0;
-  transition: opacity 1s ease-out;
-}
-
 .ͼ1 .cm-ySelectionInfo.active {
   opacity: 1;
 }

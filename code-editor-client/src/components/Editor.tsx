@@ -21,6 +21,8 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
+import { useState } from "react";
+
 // CM6 core modules
 import { basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
@@ -150,16 +152,10 @@ export const Editor: React.FC<EditorProps> = ({
   const awareness = provider ? provider.awareness : null;
 
   // editor yText
-  // const yText = useText("input", { observe: "none" });
-
-  // editor yText
   const yText = provider.document.getText("input");
 
   // language selection yText
   const yTextLanguage = provider.document.getText("language");
-
-  // language selection yText
-  // const yTextLanguage = useText("language", { observe: "none" });
 
   // Create an UndoManager for the shared text type
   let undoManager: Y.UndoManager;
@@ -167,8 +163,10 @@ export const Editor: React.FC<EditorProps> = ({
     undoManager = new Y.UndoManager(yText);
   }
 
-  // const awareness = useAwareness();
-  const userColor = usercolors[random.uint32() % usercolors.length];
+  const userColor = useMemo(
+    () => usercolors[random.uint32() % usercolors.length],
+    []
+  );
 
   const toggleOrientation = () => {
     setOrientation((prev) =>
@@ -179,6 +177,18 @@ export const Editor: React.FC<EditorProps> = ({
   const handleClearEditor = () => {
     replaceEditorContent("");
   };
+
+  // yCollab extension to set awareness clients typing/not typing status
+  const typingExtension = EditorView.domEventHandlers({
+    keydown: () => {
+      awareness?.setLocalStateField("typing", true);
+      // Clear the typing status after a delay
+      setTimeout(() => {
+        awareness?.setLocalStateField("typing", false);
+      }, 1000);
+      return false;
+    },
+  });
 
   useEffect(() => {
     setEditorViewRef(view);
@@ -200,21 +210,52 @@ export const Editor: React.FC<EditorProps> = ({
         });
       }
     }
-    console.log(`awareness: ${awareness}`);
   }, [awareness, user]);
+
+  // toggles visibility of remote user carets when typing/not typing
+  useEffect(() => {
+    if (!awareness) return;
+
+    const handleAwarenessChange = ({ added, updated, removed }) => {
+      for (const clientId of added.concat(updated)) {
+        const state = awareness?.getStates().get(clientId);
+        if (state && state.user) {
+          const name = state.user.name;
+          const elements = [...document.querySelectorAll(".cm-ySelectionInfo")];
+          const element = elements.find((el) => el.innerHTML === name);
+          if (element) {
+            if (state.typing) {
+              element.classList.add("active");
+            } else {
+              element.classList.remove("active");
+            }
+          }
+        }
+      }
+      for (const clientId of removed) {
+        const state = awareness.getStates().get(clientId);
+        if (state && state.user) {
+          const name = state.user.name;
+          const elements = [...document.querySelectorAll(".cm-ySelectionInfo")];
+          const element = elements.find((el) => el.textContent === name);
+          if (element) {
+            element.classList.remove("active");
+          }
+        }
+      }
+    };
+
+    awareness.on("change", handleAwarenessChange);
+
+    return () => {
+      awareness.off("change", handleAwarenessChange);
+    };
+  }, [awareness]);
 
   const onUpdate = useCallback(
     (v: ViewUpdate) => {
       if (v.docChanged) {
         onChange(v.state.doc.toString());
-        // console.log(document.documentElement.innerHTML);
-        const element = document.querySelector(".ͼ1 .cm-ySelectionInfo");
-        if (element) {
-          element.classList.add("active");
-          setTimeout(() => {
-            element.classList.remove("active");
-          }, 1000);
-        }
       }
     },
     [onChange]
@@ -265,6 +306,7 @@ export const Editor: React.FC<EditorProps> = ({
         updateListener,
         getLanguageMode(yTextLanguage.toString()),
         yCollab(yText, awareness, { undoManager }),
+        typingExtension,
       ],
     });
 
@@ -295,23 +337,13 @@ export const Editor: React.FC<EditorProps> = ({
 
   return (
     <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
-      {/* <Heading size='md' mb='3' color='white'>
-        Code Editor
-      </Heading> */}
       <div ref={editorRef} />
-      {/* <Box display='flex' justifyContent='flex-start'>
-        <Button marginTop='2'>
-         Test 
-        </Button>
-      </Box> */}
-
       <Box display='flex' justifyContent='space-between'>
         <Box display='flex' alignItems='center'>
           <Button
             color='white'
             size='sm'
             bg='blue.500'
-            // borderRadius='20'
             _hover={{ bg: "umbra.deepSkyBlue" }}
             onClick={onClick}
             marginTop='2'
