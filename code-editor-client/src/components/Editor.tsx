@@ -44,6 +44,9 @@ import { HocuspocusContext } from "../main.tsx";
 // styling for awareness carets
 import "../styles/awareness.css";
 
+// Button component to copy contents of editor
+import CopyEditorContentsButton from "./CopyEditorContentsButton.tsx";
+
 // Awareness consts
 const usercolors = [
   { color: "#30bced", light: "#30bced33" },
@@ -394,6 +397,7 @@ export const Editor: React.FC<EditorProps> = ({
           />
         </Box>
         <Box>
+          <CopyEditorContentsButton editorContents={yText.toString()} />
           <Tooltip
             label='Clear contents'
             bg={useColorModeValue("yellow.200", "yellow.900")}
