@@ -113,6 +113,7 @@ type SetEditorViewRef = (
 export type EditorProps = {
   onChange: (value: string) => void;
   setEditorViewRef: SetEditorViewRef;
+  setOutput: (output: string) => void;
   onClick: () => void;
   orientation: "horizontal" | "vertical";
   setOrientation: Dispatch<SetStateAction<"horizontal" | "vertical">>;
@@ -127,6 +128,7 @@ export type EditorProps = {
 export const Editor: React.FC<EditorProps> = ({
   onChange,
   setEditorViewRef,
+  setOutput,
   onClick,
   orientation,
   setOrientation,
@@ -176,9 +178,10 @@ export const Editor: React.FC<EditorProps> = ({
 
   const handleClearEditor = () => {
     replaceEditorContent("");
+    setOutput('{"error": "", "output": ""}');
   };
 
-  // yCollab extension to set awareness clients typing/not typing status
+  // yCollab extension to set awareness clients 'typing/not typing' status
   const typingExtension = EditorView.domEventHandlers({
     keydown: () => {
       awareness?.setLocalStateField("typing", true);

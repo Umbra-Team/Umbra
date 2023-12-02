@@ -157,6 +157,7 @@ function App({ user, setUser }: AppProps) {
           >
             <Editor
               setEditorViewRef={setEditorViewRef}
+              setOutput={setOutput}
               onChange={setCode}
               onClick={() => sendCode(code)}
               orientation={orientation}
@@ -174,9 +175,10 @@ function App({ user, setUser }: AppProps) {
             borderRadius='5px'
           >
             <OutputDisplay
+              output={output}
+              setOutput={setOutput}
               width={outputWidth}
               height={outputHeight}
-              output={output}
             />
           </Box>
         </Flex>

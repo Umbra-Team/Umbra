@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useMemo, useRef } from "react";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
@@ -8,31 +8,29 @@ import { HocuspocusContext } from "../main";
 // yjs and associates
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
-// import { useText } from "@y-sweet/react";
 
 interface OutputDisplayProps {
   output: string;
+  setOutput: (output: string) => void;
   height: string;
   width: string;
 }
 
 const OutputDisplay: React.FC<OutputDisplayProps> = ({
   output,
+  setOutput,
   width,
   height,
 }) => {
-  const parsedOutput = output ? JSON.parse(output) : {};
-  let errorText = parsedOutput.error ? parsedOutput.error : null;
-  const outputRef = React.useRef<HTMLDivElement>(null);
-  const view = React.useRef<EditorView>();
-  // const yText = useText("outputWindow", { observe: "none" });
+  const outputRef = useRef<HTMLDivElement>(null);
+  const view = useRef<EditorView>();
 
   // hocuspocus provider
   const provider = useContext(HocuspocusContext);
 
-  const yText = provider ? provider.document.getText("outputWindow") : null;
+  const yText = provider ? provider.document.getText("outputWindow") : "";
 
-  const theme = React.useMemo(
+  const theme = useMemo(
     () =>
       EditorView.theme({
         "&": {
@@ -43,21 +41,29 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
     [width, height]
   );
 
-  React.useEffect(() => {
-    // Check if yText is defined and output has changed
+  useEffect(() => {
     if (yText && output) {
+      let parsedOutput;
+      try {
+        parsedOutput = JSON.parse(output);
+      } catch (error) {
+        console.error(`Error parsing output: ${error}`);
+        return;
+      }
+
       // Clear the existing content
       yText.delete(0, yText.length);
 
       // Insert the new content
-      yText.insert(0, parsedOutput.output);
+      const newText = parsedOutput.error || parsedOutput.output;
+      yText.insert(0, newText);
     }
-  }, [parsedOutput.output, yText]);
+  }, [output, yText]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (outputRef.current) {
       const state = EditorState.create({
-        doc: errorText ? errorText : parsedOutput.output,
+        doc: yText.toString(),
         extensions: [
           theme,
           vscodeDark,
@@ -74,20 +80,7 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
         view.current = undefined;
       }
     };
-  }, [parsedOutput.output, width, height]);
-
-  // Remove ANSI escape codes
-  if (errorText) {
-    const ansiEscapeCodes = new RegExp(
-      [
-        "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*" +
-          "(?:;[a-zA-Z\\d]*)*)?\\u0007)",
-        "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))",
-      ].join("|"),
-      "g"
-    );
-    errorText = errorText.replace(ansiEscapeCodes, "");
-  }
+  }, [yText, width, height]);
 
   return (
     <Box flex='1' bg='gray.900' p={3} borderRadius='5' overflow='auto'>
