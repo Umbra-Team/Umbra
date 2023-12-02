@@ -187,7 +187,7 @@ function App({ user, setUser }: AppProps) {
           placement={"right"}
           onClose={onLibraryClose}
           isOpen={isLibraryOpen}
-          size={"lg"}
+          size={"xl"}
           appendEditorContent={appendEditorContent}
           editorViewRef={editorViewRef}
         />

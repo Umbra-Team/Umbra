@@ -10,6 +10,7 @@ import {
   Input,
   Select,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 
 import { EditorView } from "@codemirror/view";
@@ -43,11 +44,10 @@ const LibrarySnippet = ({
   const [snippetCode, setSnippetCode] = useState(code);
   const [snippetTitle, setSnippetTitle] = useState(title);
   const [snippetLanguage, setSnippetLanguage] = useState(language);
-  const [languageIcon, setLanguageIcon] = useState(languageIconMap[language])
+  const [languageIcon, setLanguageIcon] = useState(languageIconMap[language]);
   const [editorViewRef, setEditorViewRef] = useState<
-  React.MutableRefObject<EditorView | undefined>
->({ current: undefined });
-
+    React.MutableRefObject<EditorView | undefined>
+  >({ current: undefined });
 
   const handleLanguageChange = (event) => {
     setSnippetLanguage(event.target.value);
@@ -134,14 +134,14 @@ const LibrarySnippet = ({
         flexDirection='column'
         justifyContent='space-between'
       >
-        <CardBody>
+        <Box>
           <LibrarySnippetEditor
             setEditorViewRef={setEditorViewRef}
             code={snippetCode}
             isEditMode={isEditing}
             languageMode={getLanguageMode(snippetLanguage)}
           />
-        </CardBody>
+        </Box>
         <Flex align='end'>
           {isEditing ? (
             <Select
@@ -199,39 +199,40 @@ const LibrarySnippet = ({
           >
             {isEditing ? "Save" : "Edit"}
           </Button>
-          { isEditing ?
-          <Button
-          borderRadius='15'
-          color={useColorModeValue('umbra.midnightGreen', "lightblue.700")}
-          whiteSpace='normal'
-          overflow='hidden'
-          w='49%'
-          bgColor='inherit'
-          _hover={{ color: useColorModeValue("umbra.softBlack", "lightblue.600") }}
-          onClick={() => {
-            setSnippetTitle(title);
-            setSnippetCode(code);
-            setIsEditing(prevState => !prevState);
-          }}
-        >
-          Cancel
-        </Button>
-          :
-          <Button
-          isDisabled={!loggedIn}
-          borderRadius='15'
-          color='white'
-          whiteSpace='normal'
-          overflow='hidden'
-          w='49%'
-          bgColor='umbra.midnightGreen'
-          _hover={{ bg: "umbra.logoText" }}
-          onClick={handleDeleteClick}
-        >
-          Delete
-        </Button>
-        }
-
+          {isEditing ? (
+            <Button
+              borderRadius='15'
+              color={useColorModeValue("umbra.midnightGreen", "lightblue.700")}
+              whiteSpace='normal'
+              overflow='hidden'
+              w='49%'
+              bgColor='inherit'
+              _hover={{
+                color: useColorModeValue("umbra.softBlack", "lightblue.600"),
+              }}
+              onClick={() => {
+                setSnippetTitle(title);
+                setSnippetCode(code);
+                setIsEditing((prevState) => !prevState);
+              }}
+            >
+              Cancel
+            </Button>
+          ) : (
+            <Button
+              isDisabled={!loggedIn}
+              borderRadius='15'
+              color='white'
+              whiteSpace='normal'
+              overflow='hidden'
+              w='49%'
+              bgColor='umbra.midnightGreen'
+              _hover={{ bg: "umbra.logoText" }}
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </Button>
+          )}
         </Flex>
       </CardFooter>
     </Card>

@@ -69,9 +69,18 @@ const LibraryDrawer = ({
     }
   }, [editorViewRef, user]);
 
-  const handleAddSnippet = async (code: string, title: string, language: string) => {
+  const handleAddSnippet = async (
+    code: string,
+    title: string,
+    language: string
+  ) => {
     try {
-      const newSnippet = await createSnippet(cognitoClientToken, title, code, language);
+      const newSnippet = await createSnippet(
+        cognitoClientToken,
+        title,
+        code,
+        language
+      );
 
       setLibrarySnippets((prevSnippets: Snippet[]) => [
         ...prevSnippets,
@@ -87,7 +96,7 @@ const LibraryDrawer = ({
     id: number,
     newCode: string,
     newTitle: string,
-    newLanguage: string,
+    newLanguage: string
   ) => {
     try {
       const updatedSnippet = await editSnippet(
@@ -95,7 +104,7 @@ const LibraryDrawer = ({
         id,
         newTitle,
         newCode,
-        newLanguage,
+        newLanguage
       );
       setLibrarySnippets((prevSnippets: Snippet[]) =>
         prevSnippets.map((snippet) =>
@@ -104,7 +113,7 @@ const LibraryDrawer = ({
                 ...snippet,
                 code: updatedSnippet.code,
                 title: updatedSnippet.title,
-                language: updatedSnippet.language
+                language: updatedSnippet.language,
               }
             : snippet
         )
@@ -134,50 +143,35 @@ const LibraryDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader
-          color={useColorModeValue('umbra.midnightGreen', 'white')}
+          color={useColorModeValue("umbra.midnightGreen", "white")}
           bg={useColorModeValue(
-            'linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)',
-            'linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)')}
+            "linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)",
+            "linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)"
+          )}
           // borderBottomWidth='1px'
           // borderBottomColor='lightgray'
         >
           <Flex justifyContent='center'>
-            <Text 
-              mt={1.5}
-              fontSize="32px"
-              fontWeight="700"
-              
-            >
+            <Text mt={1.5} fontSize='32px' fontWeight='700'>
               Code Library
             </Text>
-            {/* <Button
-              marginRight={10}
-              borderRadius='15'
+            <DrawerCloseButton size='lg' />
+          </Flex>
+        </DrawerHeader>
+        <DrawerBody bg={useColorModeValue("white", "gray.800")}>
+          <Flex justifyContent='left'>
+            <Button
+              mt={2}
+              mb={4}
+              borderRadius='10'
               color='white'
               bg='#0096FF'
               _hover={{ bg: "#04BCF9" }}
               onClick={() => setAddSnippetMode(true)}
+              size='md'
             >
-              New Code Snippet
-            </Button> */}
-            <DrawerCloseButton size='lg' />
-          </Flex>
-        </DrawerHeader>
-        <DrawerBody bg={useColorModeValue('white', 'gray.800')} >
-          <Flex justifyContent="left">
-          <Button
-            // marginRight={10}
-            mt={2}
-            mb={4}
-            borderRadius='10'
-            color='white'
-            bg='#0096FF'
-            _hover={{ bg: "#04BCF9" }}
-            onClick={() => setAddSnippetMode(true)}
-            size="md"
-          >
               Create New
-          </Button>
+            </Button>
           </Flex>
           <SimpleGrid
             spacing={5}
@@ -214,16 +208,16 @@ const LibraryDrawer = ({
           <Text>Nope</Text>
         </Box> */}
         <DrawerHeader
-          color={useColorModeValue('umbra.midnightGreen', 'white')}
+          color={useColorModeValue("umbra.midnightGreen", "white")}
           bg={useColorModeValue(
-            'linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)',
-            'linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)')}
-          textAlign="center"
-          
+            "linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)",
+            "linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)"
+          )}
+          textAlign='center'
         >
           Here are some examples. Sign up or log in to create your own!
         </DrawerHeader>
-        <DrawerBody bg={useColorModeValue('white', 'gray.800')}>
+        <DrawerBody bg={useColorModeValue("white", "gray.800")}>
           <SimpleGrid
             spacing={5}
             templateColumns='repeat(1, minmax(600px, 1fr))'
