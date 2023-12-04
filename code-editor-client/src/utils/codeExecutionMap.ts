@@ -45,10 +45,21 @@ const codeExecutionMap = (language: string, code: string) => {
     ],
   };
 
+  const typescript = {
+    language: "typescript",
+    version: "5.0.3",
+    files: [
+      {
+        content: code,
+      },
+    ],
+  };
+
   switch (language) {
     case "js":
-    case "ts":
       return deno;
+    case "ts":
+      return typescript;
     case "py":
       return python;
     case "go":
