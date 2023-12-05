@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import axios from "axios";
 
 import { Flex, Box } from "@chakra-ui/react";
@@ -18,9 +18,11 @@ import UmbraToast from "./components/UmbraToast";
 
 function App({ user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
+  const codeRef = useRef(code);
   const [output, setOutput] = useState<string>("");
 
   const [language, setLanguage] = useState<string>("js");
+  const langRef = useRef(language);
 
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
@@ -46,6 +48,16 @@ function App({ user, setUser }: AppProps) {
       setOutputWidth("40vw");
     }
   }, [orientation]);
+
+  // Update the code ref whenever the code state changes
+  useEffect(() => {
+    codeRef.current = code;
+  }, [code]);
+
+  // Update the language ref whenever the language state changes
+  useEffect(() => {
+    langRef.current = language;
+  }, [language]);
 
   // Modal actions for Snippet Library
   const {
@@ -110,7 +122,7 @@ function App({ user, setUser }: AppProps) {
   const sendCode = async (code: string) => {
     const response = await axios.post(
       CODE_EXECUTION_ROUTE,
-      codeExecutionMap(language, code)
+      codeExecutionMap(langRef.current, codeRef.current)
     );
     console.log(`Response: ${JSON.stringify(response)}`);
     console.log(`output is ${response.data.run.stdout}`);

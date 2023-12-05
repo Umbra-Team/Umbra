@@ -283,10 +283,11 @@ export const Editor: React.FC<EditorProps> = ({
 
   const runKeyBinding: KeyBinding = {
     run: (view) => {
+      console.log("farts");
       onClick();
       return true;
     },
-    key: "Shift-Cmd-Enter",
+    key: "Shift-Mod-Enter",
   };
 
   const handleLanguageChange = (event) => {
@@ -346,17 +347,23 @@ export const Editor: React.FC<EditorProps> = ({
       <div ref={editorRef} />
       <Box display='flex' justifyContent='space-between'>
         <Box display='flex' alignItems='center'>
-          <Button
-            color='white'
-            size='sm'
-            bg='blue.500'
-            _hover={{ bg: "umbra.deepSkyBlue" }}
-            onClick={onClick}
-            marginTop='2'
-            marginRight='2'
+          <Tooltip
+            label='Shift+Ctrl+Enter'
+            bg={useColorModeValue("yellow.200", "yellow.900")}
+            color={useColorModeValue("gray.600", "white")}
           >
-            Run
-          </Button>
+            <Button
+              color='white'
+              size='sm'
+              bg='blue.500'
+              _hover={{ bg: "umbra.deepSkyBlue" }}
+              onClick={onClick}
+              marginTop='2'
+              marginRight='2'
+            >
+              Run
+            </Button>
+          </Tooltip>
           <Select
             bg='inherit'
             marginTop='2'
