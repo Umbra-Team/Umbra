@@ -36,6 +36,7 @@ interface MainHeaderProps {
   isSignupOpen: boolean;
   toastProps: ToastPropsType | null;
   setToastProps: Function;
+  ref: React.RefObject<any>;
 }
 
 const MainHeader = ({
@@ -52,6 +53,7 @@ const MainHeader = ({
   isSignupOpen,
   toastProps,
   setToastProps,
+  ref,
 }: MainHeaderProps) => {
   const {
     onOpen: onConfirmOpen,

@@ -1,6 +1,6 @@
 import { Editor } from "./components/Editor";
 import OutputDisplay from "./components/OutputDisplay";
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import axios from "axios";
 
 import { Flex, Box } from "@chakra-ui/react";
@@ -32,6 +32,9 @@ function App({ user, setUser }: AppProps) {
   const [outputWidth, setOutputWidth] = useState("60vw");
   const [toastProps, setToastProps] = useState<ToastProps | null>(null);
   const toast = useToast();
+
+  // sets focus component after library drawer modal is closed
+  const finalFocusRef = useRef(null);
 
   useLayoutEffect(() => {
     if (orientation === "horizontal") {
@@ -140,6 +143,7 @@ function App({ user, setUser }: AppProps) {
             isSignupOpen={isSignupOpen}
             toastProps={toastProps}
             setToastProps={setToastProps}
+            ref={finalFocusRef}
           />
         </Flex>
         <Flex
@@ -187,6 +191,7 @@ function App({ user, setUser }: AppProps) {
           placement={"right"}
           onClose={onLibraryClose}
           isOpen={isLibraryOpen}
+          finalFocusRef={finalFocusRef}
           size={"xl"}
           appendEditorContent={appendEditorContent}
           editorViewRef={editorViewRef}
