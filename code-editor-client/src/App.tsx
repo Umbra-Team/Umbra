@@ -96,7 +96,6 @@ function App({ user, setUser }: AppProps) {
 
   // function to replace entire editor view state
   const replaceEditorContent = (newContent: string) => {
-    console.log(editorViewRef);
     if (editorViewRef?.current) {
       const transaction = editorViewRef.current.state.update({
         changes: {
@@ -124,8 +123,6 @@ function App({ user, setUser }: AppProps) {
       CODE_EXECUTION_ROUTE,
       codeExecutionMap(langRef.current, codeRef.current)
     );
-    console.log(`Response: ${JSON.stringify(response)}`);
-    console.log(`output is ${response.data.run.stdout}`);
     setOutput(JSON.stringify(response.data.run));
   };
 

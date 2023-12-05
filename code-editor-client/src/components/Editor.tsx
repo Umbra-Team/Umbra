@@ -283,7 +283,6 @@ export const Editor: React.FC<EditorProps> = ({
 
   const runKeyBinding: KeyBinding = {
     run: (view) => {
-      console.log("farts");
       onClick();
       return true;
     },

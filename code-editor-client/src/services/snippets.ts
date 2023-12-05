@@ -14,9 +14,6 @@ export const getAllUserSnippets = async (
   };
 
   const response = await axios.get(`${baseUrl}/snippets`, config);
-  console.log(
-    `In snippets.ts, getAllUserSnippets is returning ${response.data} for data`
-  );
   return response.data as Snippet[];
 };
 
@@ -37,7 +34,7 @@ export const createSnippet = async (
   cognitoClientToken: string,
   title: string,
   code: string,
-  language: string,
+  language: string
 ): Promise<Snippet> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),
@@ -57,7 +54,7 @@ export const editSnippet = async (
   id: number,
   newTitle: string,
   newCode: string,
-  newLanguage: string,
+  newLanguage: string
 ): Promise<Snippet> => {
   const config = {
     headers: tokenToHeader(cognitoClientToken),

@@ -66,7 +66,6 @@ const MainHeader = ({
   } = useDisclosure();
 
   const handleLogoutClick = () => {
-    console.log("Logout button was clicked");
     logout();
     setToastProps({
       title: "Logout Successful",

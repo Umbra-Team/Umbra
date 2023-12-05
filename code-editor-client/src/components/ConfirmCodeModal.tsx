@@ -78,7 +78,6 @@ const ConfirmCodeModal = ({
 
     try {
       await Auth.resendSignUp(username);
-      console.log(username);
       alert("Code resent successfully");
     } catch (err) {
       console.error("Error resending code: ", err);

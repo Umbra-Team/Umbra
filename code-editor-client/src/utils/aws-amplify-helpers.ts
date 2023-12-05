@@ -25,12 +25,10 @@ const TEST_USER = {
 
 export const signUp = async (email: string, password: string) => {
   try {
-    console.log(`Signing up as ${email}`);
     const { user } = await Auth.signUp({
       username: email,
       password,
     });
-    console.log(`Signed up as ${user.getUsername()}`);
     return {
       success: true,
       message: "User SignUp Succeeded -- Verify code from email",
@@ -66,7 +64,6 @@ export const signIn = async (
     setUser(user);
     // Store the JWT token
     // localStorage.setItem('token', user.signInUserSession.idToken.jwtToken);
-    console.log(`Signed in as ${user.getUsername()}`);
     return { success: true, message: "User successfully signed in" };
   } catch (error: any) {
     if (error.code === "NotAuthorizedException") {
@@ -80,7 +77,6 @@ export const signIn = async (
 export const forgotPassword = async (email) => {
   try {
     const response = await Auth.forgotPassword(email);
-    console.log(response);
     return { success: true, message: "Password reset code sent to email" };
   } catch (error: any) {
     throw new Error(error.message);
@@ -91,7 +87,6 @@ export const forgotPassword = async (email) => {
 export const resetPassword = async (email, code, newPassword) => {
   try {
     const response = await Auth.forgotPasswordSubmit(email, code, newPassword);
-    console.log(response);
     return { success: true, message: "Password successfully reset" };
   } catch (error: any) {
     throw new Error(error.message);

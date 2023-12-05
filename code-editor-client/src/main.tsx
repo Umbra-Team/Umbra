@@ -48,12 +48,6 @@ const AppWrapper = () => {
     Auth.currentAuthenticatedUser()
       .then((user) => {
         setUser(user);
-        console.log(`AUTHENTICATED USER: ${JSON.stringify(user)}`);
-        console.log(
-          `AUTHENTICATED USER TOKEN: ${JSON.stringify(
-            user.signInUserSession.accessToken.jwtToken
-          )}`
-        );
       })
       .catch(() => setUser(null));
   }, []);
