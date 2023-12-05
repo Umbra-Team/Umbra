@@ -31,12 +31,14 @@ interface MainHeaderProps {
   onLoginOpen: MouseEventHandler;
   onLoginClose: MouseEventHandler;
   isLoginOpen: boolean;
+  isTooltipOpen: boolean;
+  onTooltipClose: () => void;
+  onTooltipOpen: () => void;
   onSignupOpen: MouseEventHandler;
   onSignupClose: MouseEventHandler;
   isSignupOpen: boolean;
   toastProps: ToastPropsType | null;
   setToastProps: Function;
-  ref: React.RefObject<any>;
 }
 
 const MainHeader = ({
@@ -47,13 +49,15 @@ const MainHeader = ({
   onLibraryOpen,
   onLoginOpen,
   onLoginClose,
+  isTooltipOpen,
+  onTooltipClose,
+  onTooltipOpen,
   isLoginOpen,
   onSignupOpen,
   onSignupClose,
   isSignupOpen,
   toastProps,
   setToastProps,
-  ref,
 }: MainHeaderProps) => {
   const {
     onOpen: onConfirmOpen,
@@ -92,6 +96,12 @@ const MainHeader = ({
   } else {
     signupButtonContent = "Sign Up";
   }
+
+  // handle library button click
+  const handleLibraryClick = (event) => {
+    onLibraryOpen(event);
+    onTooltipClose();
+  };
 
   return (
     <Flex
@@ -189,6 +199,7 @@ const MainHeader = ({
           bg={useColorModeValue("yellow.200", "yellow.900")}
           color={useColorModeValue("gray.600", "white")}
           maxW='200px'
+          isOpen={isTooltipOpen}
           label={
             user
               ? "Open your code snippet library"
@@ -203,7 +214,9 @@ const MainHeader = ({
             _hover={{
               bg: "umbra.deepSkyBlue",
             }}
-            onClick={onLibraryOpen}
+            onMouseEnter={onTooltipOpen}
+            onMouseLeave={onTooltipClose}
+            onClick={handleLibraryClick}
             _active={{ bg: "transparent" }}
           >
             Library

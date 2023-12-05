@@ -33,9 +33,6 @@ function App({ user, setUser }: AppProps) {
   const [toastProps, setToastProps] = useState<ToastProps | null>(null);
   const toast = useToast();
 
-  // sets focus component after library drawer modal is closed
-  const finalFocusRef = useRef(null);
-
   useLayoutEffect(() => {
     if (orientation === "horizontal") {
       setEditorHeight("45vh");
@@ -69,6 +66,13 @@ function App({ user, setUser }: AppProps) {
     onOpen: onSignupOpen,
     onClose: onSignupClose,
     isOpen: isSignupOpen,
+  } = useDisclosure();
+
+  // state to track tooltip open/close status
+  const {
+    isOpen: isTooltipOpen,
+    onOpen: onTooltipOpen,
+    onClose: onTooltipClose,
   } = useDisclosure();
 
   // state to hold a reference to the code editor window
@@ -137,13 +141,15 @@ function App({ user, setUser }: AppProps) {
             onLibraryOpen={onLibraryOpen}
             onLoginOpen={onLoginOpen}
             onLoginClose={onLoginClose}
+            isTooltipOpen={isTooltipOpen}
+            onTooltipClose={onTooltipClose}
+            onTooltipOpen={onTooltipOpen}
             isLoginOpen={isLoginOpen}
             onSignupOpen={onSignupOpen}
             onSignupClose={onSignupClose}
             isSignupOpen={isSignupOpen}
             toastProps={toastProps}
             setToastProps={setToastProps}
-            ref={finalFocusRef}
           />
         </Flex>
         <Flex
@@ -190,8 +196,8 @@ function App({ user, setUser }: AppProps) {
           user={user}
           placement={"right"}
           onClose={onLibraryClose}
+          onTooltipClose={onTooltipClose}
           isOpen={isLibraryOpen}
-          finalFocusRef={finalFocusRef}
           size={"xl"}
           appendEditorContent={appendEditorContent}
           editorViewRef={editorViewRef}

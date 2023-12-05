@@ -30,8 +30,8 @@ type LibraryDrawerProps = {
   user: any;
   placement: DrawerPlacement;
   onClose: () => void;
+  onTooltipClose: () => void;
   isOpen: boolean;
-  finalFocusRef: React.RefObject<any>;
   size: string;
   appendEditorContent: Function;
   editorViewRef: React.MutableRefObject<EditorView | undefined>;
@@ -41,8 +41,8 @@ const LibraryDrawer = ({
   user,
   placement,
   onClose,
+  onTooltipClose,
   isOpen,
-  finalFocusRef,
   size,
   appendEditorContent,
   editorViewRef,
@@ -140,13 +140,17 @@ const LibraryDrawer = ({
     }
   };
 
+  const handleClose = () => {
+    onClose();
+    onTooltipClose();
+  };
+
   return user ? (
     <Drawer
       placement={placement}
-      onClose={onClose}
+      onClose={handleClose}
       isOpen={isOpen}
       size={size}
-      finalFocusRef={finalFocusRef}
     >
       <DrawerOverlay />
       <DrawerContent>
@@ -209,13 +213,7 @@ const LibraryDrawer = ({
       </DrawerContent>
     </Drawer>
   ) : (
-    <Drawer
-      placement={placement}
-      onClose={onClose}
-      isOpen={isOpen}
-      size={size}
-      finalFocusRef={finalFocusRef}
-    >
+    <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
         {/* <Box>
