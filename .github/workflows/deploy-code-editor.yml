@@ -3,7 +3,7 @@ name: Build and Deploy Code Editor Server to AWS Lightsail
 on:
   push:
     branches:
-      - main
+      - main_backup
   workflow_dispatch:
 
 env:
