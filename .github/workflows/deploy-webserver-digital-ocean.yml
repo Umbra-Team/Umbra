@@ -3,7 +3,7 @@ name: Alt Deploy to Digital Ocean
 on:
   push:
     branches:
-      - alt_collab_deploy
+      - main
 
 jobs:
   deploy:
