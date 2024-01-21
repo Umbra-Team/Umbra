@@ -21,8 +21,6 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
-import { useState } from "react";
-
 // CM6 core modules
 import { basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
@@ -30,7 +28,9 @@ import { EditorView, ViewUpdate, keymap, KeyBinding } from "@codemirror/view";
 
 // CM6 editor options
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-import { defaultKeymap, indentWithTab, history } from "@codemirror/commands";
+import { defaultKeymap, history, indentMore } from "@codemirror/commands";
+
+import { acceptCompletion, completionStatus } from "@codemirror/autocomplete";
 
 // Language Mode and Syntax Highlighting
 import { getLanguageMode } from "../utils/language";
@@ -289,6 +289,23 @@ export const Editor: React.FC<EditorProps> = ({
     key: "Shift-Mod-Enter",
   };
 
+  // set autocompletion keybinding to Tab key
+  // const autoCompleteOrIndent: StateCommand = ({ state }) => {
+  //   if (!completionStatus(state)) {
+  //     return acceptCompletion
+  //   }
+  //   return indentMore(state, dispatch);
+  // };
+  const autoCompleteOrIndent: KeyBinding = {
+    key: "Tab",
+    run: (view) => {
+      if (completionStatus(view.state)) {
+        return acceptCompletion(view);
+      }
+      return indentMore(view);
+    },
+  };
+
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
     yTextLanguage.delete(0, yTextLanguage.length);
@@ -306,7 +323,7 @@ export const Editor: React.FC<EditorProps> = ({
         basicSetup,
         EditorView.lineWrapping,
         history(),
-        keymap.of([...defaultKeymap, indentWithTab, runKeyBinding]),
+        keymap.of([...defaultKeymap, runKeyBinding, autoCompleteOrIndent]),
         vscodeDark,
         theme,
         updateListener,
@@ -326,7 +343,7 @@ export const Editor: React.FC<EditorProps> = ({
         view.current = undefined;
       }
     };
-  }, [width, height, yTextLanguage]);
+  }, [width, height, yTextLanguage, language]);
 
   // keeps the react 'language' state in sync with the yTextLanguage shared state
   useEffect(() => {
