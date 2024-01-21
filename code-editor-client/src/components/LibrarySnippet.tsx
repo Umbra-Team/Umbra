@@ -131,7 +131,6 @@ const LibrarySnippet = ({
                 >
                   <Input
                     fontSize='20px'
-                    fontWeight={"bold"}
                     border='1px solid'
                     borderColor={useColorModeValue(
                       "lightgrey",
