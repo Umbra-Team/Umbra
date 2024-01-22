@@ -21,8 +21,8 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          docker build -t fdurham/umbra-express-server:latest -f Dockerfile.express .
-          docker build -t fdurham/umbra-nginx:latest -f Dockerfile.nginx .
+          docker build --no-cache -t fdurham/umbra-express-server:latest -f Dockerfile.express .
+          docker build --no-cache -t fdurham/umbra-nginx:latest -f Dockerfile.nginx .
           docker push fdurham/umbra-express-server:latest
           docker push fdurham/umbra-nginx:latest
 
