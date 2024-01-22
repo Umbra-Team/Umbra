@@ -27,7 +27,7 @@ const LibrarySnippetEditor = ({
       EditorView.theme({
         "&": {
           height: "100%",
-          fontSize: "0.75em",
+          fontSize: "1em",
         },
       }),
     []

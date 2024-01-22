@@ -95,7 +95,7 @@ const LibrarySnippet = ({
           pl='2'
           pr='2'
           // minH='300px'
-          align='center'
+          // align='center'
           id={String(id)}
           // minHeight='400px'
           variant='elevated'
@@ -184,19 +184,25 @@ const LibrarySnippet = ({
               </Heading>
             )}
           </CardHeader>
-          <AccordionPanel width='100%'>
+          <AccordionPanel
+            w='100%'
+            display='flex'
+            flexDirection='column'
+            justifyContent='center'
+            alignItems='center'
+          >
             <CardBody
               bg='#1e1e1e'
               border='2px'
               borderRadius='10'
               borderColor='black'
               color='white'
-              w='100%'
+              w='90%'
               display='flex'
               flexDirection='column'
               justifyContent='space-between'
             >
-              <Box>
+              <Box width='100%'>
                 <LibrarySnippetEditor
                   setEditorViewRef={setEditorViewRef}
                   code={snippetCode}
