@@ -1,21 +1,10 @@
 import {
   Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Checkbox,
-  Stack,
-  Button,
-  Heading,
-  Text,
   useColorModeValue,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
-  Image,
-  Link,
 } from "@chakra-ui/react";
 import LoginForm from "./LoginForm";
 

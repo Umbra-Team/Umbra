@@ -24,6 +24,5 @@ export interface AppProps {
 export interface ExtendedCognitoUser extends CognitoUser {
   attributes: {
     email: string;
-    // add other attributes as needed
   };
 }

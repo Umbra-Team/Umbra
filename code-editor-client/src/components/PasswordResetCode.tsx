@@ -19,8 +19,6 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import axios from "axios";
-import { Auth } from "aws-amplify";
 
 // Input validation related imports
 import { useForm, Controller } from "react-hook-form";
@@ -117,7 +115,6 @@ const PasswordResetCode = ({
     >
       <Stack
         spacing={6}
-        // maxW={"sm"}
         bg={useColorModeValue(
           "linear-gradient(180deg, hsla(0, 0%, 100%, 1) 0%, hsla(205, 100%, 95%, 1) 50%, hsla(0, 0%, 100%, 1) 100%)",
           "radial-gradient(circle, hsla(0, 0%, 30%, 1) 0%, hsla(0, 0%, 15%, 1) 100%)"
@@ -132,16 +129,12 @@ const PasswordResetCode = ({
         >
           Verify your Email
         </Heading>
-        <Center
-          fontSize={{ base: "sm", sm: "md" }}
-          // color={useColorModeValue("gray.800", "gray.400")}
-        >
+        <Center fontSize={{ base: "sm", sm: "md" }}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <VStack
               spacing={2}
               align='center'
               fontSize={{ base: "sm", sm: "md" }}
-              // color={useColorModeValue("gray.800", "gray.400")}
             >
               <FormControl id='code'>
                 <Controller

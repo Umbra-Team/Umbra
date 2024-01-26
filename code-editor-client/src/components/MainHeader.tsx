@@ -14,7 +14,6 @@ import ColorModeButton from "./ColorModeButton";
 import logo from "../assets/logo-transparent.png";
 import { logout } from "../utils/aws-amplify-helpers";
 import { MouseEventHandler, useState } from "react";
-import { CognitoUser } from "@aws-amplify/auth";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import ConfirmCodeModal from "./ConfirmCodeModal";

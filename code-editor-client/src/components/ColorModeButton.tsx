@@ -5,15 +5,20 @@ const ColorModeButton = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-      <IconButton
-        icon={(colorMode === 'dark') ? <SunIcon color="white"/> : <MoonIcon color="white" />}
-        // ml={6}
-        onClick={toggleColorMode}
-        variant='solid'
-        bg="blue.500"
-        aria-label='Toggle color mode'
-        _hover={{ bg: "umbra.deepSkyBlue" }}
-      />
+    <IconButton
+      icon={
+        colorMode === "dark" ? (
+          <SunIcon color='white' />
+        ) : (
+          <MoonIcon color='white' />
+        )
+      }
+      onClick={toggleColorMode}
+      variant='solid'
+      bg='blue.500'
+      aria-label='Toggle color mode'
+      _hover={{ bg: "umbra.deepSkyBlue" }}
+    />
   );
 };
 

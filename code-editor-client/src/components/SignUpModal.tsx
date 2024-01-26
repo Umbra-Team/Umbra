@@ -7,7 +7,6 @@ import {
   Stack,
   Button,
   Heading,
-  Text,
   useColorModeValue,
   Modal,
   ModalOverlay,

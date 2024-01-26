@@ -19,7 +19,6 @@ const CopyEditorContentsButton = ({ editorContents }) => {
       duration: 3000,
       isClosable: true,
       position: "top",
-      // variant: "umbra-toast",
       colorScheme: "blue",
     });
   };

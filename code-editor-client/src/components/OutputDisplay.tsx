@@ -6,7 +6,6 @@ import { Box, Heading } from "@chakra-ui/react";
 import { HocuspocusContext } from "../main";
 
 // yjs and associates
-import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
 
 interface OutputDisplayProps {

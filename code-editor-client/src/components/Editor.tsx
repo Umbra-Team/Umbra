@@ -142,7 +142,6 @@ export const Editor: React.FC<EditorProps> = ({
   replaceEditorContent,
   user,
 }) => {
-  // console.log("Editor RERENDERING");
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
   const editorRef = useRef<HTMLDivElement>(null);
   const view = useRef<EditorView>();
@@ -289,13 +288,6 @@ export const Editor: React.FC<EditorProps> = ({
     key: "Shift-Mod-Enter",
   };
 
-  // set autocompletion keybinding to Tab key
-  // const autoCompleteOrIndent: StateCommand = ({ state }) => {
-  //   if (!completionStatus(state)) {
-  //     return acceptCompletion
-  //   }
-  //   return indentMore(state, dispatch);
-  // };
   const autoCompleteOrIndent: KeyBinding = {
     key: "Tab",
     run: (view) => {
@@ -390,20 +382,6 @@ export const Editor: React.FC<EditorProps> = ({
             textColor={"gray.300"}
             iconColor={"gray.300"}
             borderColor={"gray.600"}
-            // check this out for color mode behavior
-            //sx={{
-            //option: {
-            //backgroundColor: "gray.200",
-            //_hover: {
-            //backgroundColor: "blue.500",
-            //color: "white",
-            //},
-            //_focus: {
-            //backgroundColor: "blue.500",
-            //color: "white",
-            //},
-            //},
-            //}}
           >
             <option value='js'>JavaScript</option>
             <option value='ts'>TypeScript</option>

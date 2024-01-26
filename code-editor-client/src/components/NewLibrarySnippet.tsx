@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { EditorView } from "@codemirror/view";
 import LibrarySnippetEditor from "./LibrarySnippetEditor";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import { getLanguageMode } from "../utils/language";
 
@@ -26,10 +26,10 @@ const NewLibrarySnippet = ({
 }: NewLibrarySnippetProps) => {
   const [snippetCode, setSnippetCode] = useState("");
   const [snippetTitle, setSnippetTitle] = useState("Untitled");
-  const [snippetLanguage, setSnippetLanguage] = useState('js');
+  const [snippetLanguage, setSnippetLanguage] = useState("js");
   const [editorViewRef, setEditorViewRef] = useState<
-  React.MutableRefObject<EditorView | undefined>
->({ current: undefined });
+    React.MutableRefObject<EditorView | undefined>
+  >({ current: undefined });
 
   const handleSaveClick = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -48,11 +48,11 @@ const NewLibrarySnippet = ({
 
   const handleLanguageChange = (event) => {
     setSnippetLanguage(event.target.value);
-  }
+  };
 
   return (
     <Card
-      bgColor={useColorModeValue('green.100', 'umbra.midnightGreen')}
+      bgColor={useColorModeValue("green.100", "umbra.midnightGreen")}
       pl='2'
       pr='2'
       minH='300px'
@@ -62,7 +62,7 @@ const NewLibrarySnippet = ({
     >
       <CardHeader textAlign='center'>
         <Input
-          border="1px solid lightgrey"
+          border='1px solid lightgrey'
           width='60%'
           size='md'
           color='umbra.midnightGreen'
@@ -94,9 +94,9 @@ const NewLibrarySnippet = ({
             languageMode={getLanguageMode(snippetLanguage)}
           />
         </CardBody>
-        <Flex align="end">
+        <Flex align='end'>
           <Select
-            bg="inherit"
+            bg='inherit'
             marginTop='2'
             width='3mu'
             size='sm'
@@ -122,7 +122,7 @@ const NewLibrarySnippet = ({
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
-            bgColor={useColorModeValue('umbra.midnightGreen', 'lightblue.700')}
+            bgColor={useColorModeValue("umbra.midnightGreen", "lightblue.700")}
             _hover={{ bg: useColorModeValue("blue.900", "lightblue.800") }}
             onClick={handleSaveClick}
           >
@@ -130,12 +130,14 @@ const NewLibrarySnippet = ({
           </Button>
           <Button
             borderRadius='15'
-            color={useColorModeValue('umbra.midnightGreen', "lightblue.600")}
+            color={useColorModeValue("umbra.midnightGreen", "lightblue.600")}
             whiteSpace='normal'
             overflow='hidden'
             w='49%'
             bgColor='inherit'
-            _hover={{ color: useColorModeValue("umbra.softBlack", "lightblue.700") }}
+            _hover={{
+              color: useColorModeValue("umbra.softBlack", "lightblue.700"),
+            }}
             onClick={handleCancel}
           >
             Cancel

@@ -160,8 +160,6 @@ const LibraryDrawer = ({
             "linear-gradient(45deg, hsla(205, 100%, 72%, 1) 0%, hsla(189, 100%, 72%, 1) 50%, hsla(167, 58%, 58%, 1) 100%)",
             "linear-gradient(45deg, hsla(205, 100%, 36%, 1) 0%, hsla(189, 100%, 36%, 1) 50%, hsla(176, 73%, 38%, 1) 100%)"
           )}
-          // borderBottomWidth='1px'
-          // borderBottomColor='lightgray'
         >
           <Flex justifyContent='center'>
             <Text mt={1.5} fontSize='32px' fontWeight='700'>
@@ -216,9 +214,6 @@ const LibraryDrawer = ({
     <Drawer placement={placement} onClose={onClose} isOpen={isOpen} size={size}>
       <DrawerOverlay />
       <DrawerContent>
-        {/* <Box>
-          <Text>Nope</Text>
-        </Box> */}
         <DrawerHeader
           color={useColorModeValue("umbra.midnightGreen", "white")}
           bg={useColorModeValue(

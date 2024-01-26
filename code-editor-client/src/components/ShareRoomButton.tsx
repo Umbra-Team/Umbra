@@ -1,4 +1,10 @@
-import { Tooltip, IconButton, useClipboard, useToast, useColorModeValue } from "@chakra-ui/react";
+import {
+  Tooltip,
+  IconButton,
+  useClipboard,
+  useToast,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 
 const ShareRoomButton = () => {
@@ -13,7 +19,6 @@ const ShareRoomButton = () => {
       duration: 3000,
       isClosable: true,
       position: "top",
-      // variant: "umbra-toast",
       colorScheme: "blue",
     });
   };
@@ -25,14 +30,16 @@ const ShareRoomButton = () => {
       color={useColorModeValue("gray.600", "white")}
     >
       <IconButton
-        icon={<CopyIcon color="white"/>}
+        icon={<CopyIcon color='white' />}
         ml={6}
         onClick={handleCopyClick}
         variant='solid'
-        bg="linear-gradient(225deg, hsla(184, 100%, 54%, 1) 0%, hsla(210, 100%, 50%, 1) 100%)"
+        bg='linear-gradient(225deg, hsla(184, 100%, 54%, 1) 0%, hsla(210, 100%, 50%, 1) 100%)'
         aria-label='Copy room URL'
-        _hover={{ bg: "linear-gradient(225deg, hsla(210, 100%, 50%, 1) 0%, hsla(184, 100%, 54%, 1) 100%)" }}
-              textAlign="end"
+        _hover={{
+          bg: "linear-gradient(225deg, hsla(210, 100%, 50%, 1) 0%, hsla(184, 100%, 54%, 1) 100%)",
+        }}
+        textAlign='end'
       />
     </Tooltip>
   );
