@@ -4,7 +4,8 @@ function audioChatConnect(
   pc,
   setPc,
   ws,
-  setWs
+  setWs,
+  roomName
 ) {
   if (urlacIsOn) {
     pc.close()
@@ -30,7 +31,7 @@ function audioChatConnect(
       setPc(pc)
 
       //// WS ////
-      let ws = new WebSocket("wss://erlacmaj.com/websocket/")
+      let ws = new WebSocket("wss://erlacmaj.com/websocket/" + roomName)
       setWs(ws)
 
       // Send a heartbeat every 5 seconds

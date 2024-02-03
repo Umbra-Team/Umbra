@@ -122,11 +122,11 @@ const MainHeader = ({
       <Flex align='baseline'>
         <ShareRoomButton />
         <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
-          Share and Edit Collaboratively
+          Multiplayer 
         </Text>
         <AudioChatButton />
         <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
-          Join or Leave Audio Chat 
+          Voice Chat 
         </Text>
       </Flex>
       <Spacer />
