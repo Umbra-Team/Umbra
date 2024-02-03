@@ -28,7 +28,6 @@ const router = express.Router();
 
 router.get("/get-token/:docId", async (req, res) => {
   let docId: string | undefined = req.params.docId;
-  console.log(`get-token: docId=${docId}`);
   if (docId === "default") {
     docId = undefined;
   }
@@ -68,7 +67,6 @@ router.post("/auth/login", async (req, res) => {
       console.log(err, err.stack);
       return res.status(500).json({ error: err });
     } else {
-      console.log(data);
       // return status code 200 and the token
       return res
         .status(200)
@@ -137,7 +135,6 @@ router.post(
   asyncHandler(
     async (req: RequestWithUser, res: Response, next: NextFunction) => {
       const { title, code, language } = req.body;
-      console.log(`/snippets: title=${title}, code=${code}`);
 
       try {
         const snippet = await Snippet.create({
@@ -258,8 +255,6 @@ router.post("/runCode", async (req: Request, res: Response) => {
   if (!process.env.CODE_EXECUTION_ENDPOINT) {
     throw new Error("CODE_EXECUTION_ENDPOINT is missing");
   }
-
-  console.log(JSON.stringify(req.body));
   const response = await axios.post(
     process.env.CODE_EXECUTION_ENDPOINT,
     req.body
