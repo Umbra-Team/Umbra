@@ -20,7 +20,7 @@ function App({ user, setUser }: AppProps) {
   const [code, setCode] = useState<string>("");
   const codeRef = useRef(code);
   const [output, setOutput] = useState<string>("");
-
+  const [isAwaitingPiston, setIsAwaitingPiston] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>("js");
   const langRef = useRef(language);
 
@@ -119,11 +119,15 @@ function App({ user, setUser }: AppProps) {
   };
 
   const sendCode = async (code: string) => {
+    console.log("Setting isLoading to true");
+    setIsAwaitingPiston(true);
     const response = await axios.post(
       CODE_EXECUTION_ROUTE,
       codeExecutionMap(langRef.current, codeRef.current)
     );
     setOutput(JSON.stringify(response.data.run));
+    console.log("Setting isLoading to False");
+    setIsAwaitingPiston(false);
   };
 
   return (
@@ -194,7 +198,7 @@ function App({ user, setUser }: AppProps) {
             borderRadius='5px'
           >
             <OutputDisplay
-              output={output}
+              output={isAwaitingPiston ? "Awaiting Results..." : output}
               setOutput={setOutput}
               width={outputWidth}
               height={outputHeight}

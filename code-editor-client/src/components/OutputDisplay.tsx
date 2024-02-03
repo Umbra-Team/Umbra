@@ -42,20 +42,28 @@ const OutputDisplay: React.FC<OutputDisplayProps> = ({
 
   useEffect(() => {
     if (yText && output) {
-      let parsedOutput;
-      try {
-        parsedOutput = JSON.parse(output);
-      } catch (error) {
-        console.error(`Error parsing output: ${error}`);
-        return;
+      if (output !== "Awaiting Results...") {
+        let parsedOutput;
+        try {
+          parsedOutput = JSON.parse(output);
+        } catch (error) {
+          console.error(`Error parsing output: ${error}`);
+          return;
+        }
+
+        // Clear the existing content
+        yText.delete(0, yText.length);
+
+        // Insert the new content
+        const newText = parsedOutput.error || parsedOutput.output;
+        yText.insert(0, newText);
+      } else {
+        // Clear the existing content
+        yText.delete(0, yText.length);
+
+        // Insert the new content
+        yText.insert(0, output);
       }
-
-      // Clear the existing content
-      yText.delete(0, yText.length);
-
-      // Insert the new content
-      const newText = parsedOutput.error || parsedOutput.output;
-      yText.insert(0, newText);
     }
   }, [output, yText]);
 
