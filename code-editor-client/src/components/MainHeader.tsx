@@ -18,6 +18,7 @@ import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import ConfirmCodeModal from "./ConfirmCodeModal";
 import ShareRoomButton from "./ShareRoomButton";
+import AudioChatButton from "./AudioChatButton"
 import { ToastPropsType } from "./UmbraToast";
 import { ExtendedCognitoUser } from "../types/types";
 
@@ -122,6 +123,10 @@ const MainHeader = ({
         <ShareRoomButton />
         <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
           Share and Edit Collaboratively
+        </Text>
+        <AudioChatButton />
+        <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
+          Join or Leave Audio Chat 
         </Text>
       </Flex>
       <Spacer />
