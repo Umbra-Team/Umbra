@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hocuspocus/server": "^2.8.0"
+    "@hocuspocus/server": "^2.8.0",
+    "dotenv": "^16.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.9.3",

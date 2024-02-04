@@ -23,6 +23,8 @@ function App({ user, setUser }: AppProps) {
   const [isAwaitingPiston, setIsAwaitingPiston] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>("js");
   const langRef = useRef(language);
+  const [usersInRoom, setUsersInRoom] = useState<any>([]);
+  const usersRef = useRef(usersInRoom);
 
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
     "horizontal"
@@ -58,6 +60,10 @@ function App({ user, setUser }: AppProps) {
   useEffect(() => {
     langRef.current = language;
   }, [language]);
+
+  useEffect(() => {
+    usersRef.current = usersInRoom;
+  }, [usersInRoom]);
 
   // Modal actions for Snippet Library
   const {
@@ -191,6 +197,8 @@ function App({ user, setUser }: AppProps) {
               height={editorHeight}
               replaceEditorContent={replaceEditorContent}
               user={user}
+              usersInRoom={usersRef.current}
+              setUsersInRoom={setUsersInRoom}
             />
           </Box>
           <Box

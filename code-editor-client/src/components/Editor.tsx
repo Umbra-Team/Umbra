@@ -53,6 +53,8 @@ import "../styles/awareness.css";
 // Button component to copy contents of editor
 import CopyEditorContentsButton from "./CopyEditorContentsButton.tsx";
 
+// User List component
+import UserList from "./UserList.tsx";
 // Awareness consts
 const usercolors = [
   { color: "#30bced", light: "#30bced33" },
@@ -132,6 +134,8 @@ export type EditorProps = {
   height: string;
   replaceEditorContent: (content: string) => void;
   user: any;
+  usersInRoom: any;
+  setUsersInRoom: any;
 };
 
 export const Editor: React.FC<EditorProps> = ({
@@ -147,6 +151,8 @@ export const Editor: React.FC<EditorProps> = ({
   height,
   replaceEditorContent,
   user,
+  usersInRoom,
+  setUsersInRoom,
 }) => {
   // We want editorRef to be a mutable instance of EditorView, so we use useRef
   const editorRef = useRef<HTMLDivElement>(null);
@@ -160,7 +166,6 @@ export const Editor: React.FC<EditorProps> = ({
   }
   // awareness object from hocuspocus
   const awareness = provider ? provider.awareness : null;
-
   // editor yText
   const yText = provider.document.getText("input");
 
@@ -205,6 +210,13 @@ export const Editor: React.FC<EditorProps> = ({
     setEditorViewRef(view);
   });
 
+  // useEffect(() => {
+  //   if (awareness) {
+  //     console.log("awarenes", Array.from(awareness.getStates().values()));
+  //     setUsersInRoom(Array.from(awareness.getStates().values()));
+  //   }
+  // }, []);
+
   useEffect(() => {
     if (awareness) {
       if (user) {
@@ -226,6 +238,8 @@ export const Editor: React.FC<EditorProps> = ({
   // toggles visibility of remote user carets when typing/not typing
   useEffect(() => {
     if (!awareness) return;
+
+    setUsersInRoom(Array.from(awareness.getStates().values()));
 
     const handleAwarenessChange = ({ added, updated, removed }) => {
       for (const clientId of added.concat(updated)) {
@@ -254,6 +268,9 @@ export const Editor: React.FC<EditorProps> = ({
           }
         }
       }
+
+      // update list of users in current room
+      setUsersInRoom(Array.from(awareness.getStates().values()));
     };
 
     awareness.on("change", handleAwarenessChange);
@@ -261,7 +278,7 @@ export const Editor: React.FC<EditorProps> = ({
     return () => {
       awareness.off("change", handleAwarenessChange);
     };
-  }, [awareness]);
+  }, [awareness, setUsersInRoom]);
 
   const onUpdate = useCallback(
     (v: ViewUpdate) => {
@@ -402,14 +419,13 @@ export const Editor: React.FC<EditorProps> = ({
             ml={2}
             mt={2}
           />
-          <Popover placement='bottom'>
+          <Popover placement='bottom' trigger='hover'>
             <PopoverTrigger>
               <Button
                 color='white'
                 size='sm'
                 bg='blue.500'
                 _hover={{ bg: "umbra.deepSkyBlue" }}
-                // onClick={onClick}
                 marginTop='2'
                 marginLeft='2'
               >
@@ -419,7 +435,7 @@ export const Editor: React.FC<EditorProps> = ({
             <PopoverContent>
               <PopoverBody>
                 <Box>
-                  <p>Hey!</p>
+                  <UserList usersInRoom={usersInRoom} />
                 </Box>
               </PopoverBody>
             </PopoverContent>

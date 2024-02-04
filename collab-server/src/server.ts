@@ -1,7 +1,10 @@
+import dotenv from "dotenv";
 import { Hocuspocus } from "@hocuspocus/server";
 
+dotenv.config();
+
 const server = new Hocuspocus({
-  port: 1234,
+  port: Number(process.env.HOCUS_POCUS_PORT) || 1234,
 });
 
 server.configure({
