@@ -18,6 +18,12 @@ import {
   Tooltip,
   useColorModeValue,
   IconButton,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverBody,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
@@ -396,6 +402,28 @@ export const Editor: React.FC<EditorProps> = ({
             ml={2}
             mt={2}
           />
+          <Popover placement='bottom'>
+            <PopoverTrigger>
+              <Button
+                color='white'
+                size='sm'
+                bg='blue.500'
+                _hover={{ bg: "umbra.deepSkyBlue" }}
+                // onClick={onClick}
+                marginTop='2'
+                marginLeft='2'
+              >
+                Participants
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverBody>
+                <Box>
+                  <p>Hey!</p>
+                </Box>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </Box>
         <Box>
           <CopyEditorContentsButton editorContents={yText.toString()} />
