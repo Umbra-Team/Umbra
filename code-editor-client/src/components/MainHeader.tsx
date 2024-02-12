@@ -8,6 +8,7 @@ import {
   Tooltip,
   Text,
   useColorModeValue,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
 import ColorModeButton from "./ColorModeButton";
@@ -102,47 +103,92 @@ const MainHeader = ({
     onTooltipClose();
   };
 
+  // Responsive design adjustments
+  const flexDir = useBreakpointValue({ base: 'column', md: 'row' }) as 'column' | 'row' | undefined;
+  const paddingX = useBreakpointValue({ base: 1, sm: 2, md: 6 });
+  const marginX = useBreakpointValue({ base: 1, md: 2 });
+  const fontSizeText = useBreakpointValue({ base: '12px', sm: '14px', md: '16px', lg: '18px', xl: '20px'});
+  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+  const logoSize = useBreakpointValue({ base: '50px', md: '60px' });
+  const displayLibraryButton = useBreakpointValue({ base: 'none', md: 'flex' });
+  const umbraLogoText = useBreakpointValue({ base: '20px', md: '22px', lg: '28px' });
+  const displayUmbraLogoText = useBreakpointValue({ base: 'none', lg: 'block' });
+   // Responsive display values for hiding labels on small screens
+  const displayLabelValue = useBreakpointValue({ base: 'none', md: 'block' });
+  const displayLoggedInValue = useBreakpointValue({ base: 'none', sm: 'block' });
+  // Dynamically set the display property based on the breakpoint
+  const flexDisplay = useBreakpointValue({ base: 'none', sm: 'flex' });
+
+  
+  const fontSizeValue = useBreakpointValue({ base: '10px', md: '12px', lg: '14px' });
+  const paddingValue = useBreakpointValue({ base: '0.25rem', md: '0.5rem' });
+  const marginValue = useBreakpointValue({ base: '0.25rem', md: '0.5rem' });
+
   return (
     <Flex
       height='100px'
       flex={0.4}
       align='center'
       justify='space-between'
-      px={6}
+      px={0}
+      mx={0}
+      gap={0}
       bg={"transparent"}
     >
       <Flex pt={2}>
         <Heading size='lg' fontWeight='bold' color='blue.500'>
-          <Flex align='center' px={4} mb={1.5}>
-            <Image src={logo} boxSize='60px' alt='Logo' mr={2} />
-            Umbra
+          <Flex 
+            display={flexDisplay}
+            align='center' 
+            justify='space-between'
+            px={4} 
+            mb={1.5}
+          >
+            <Image src={logo} boxSize={logoSize} alt='Logo' mr={2} />
+            <Text display={displayUmbraLogoText} fontSize={umbraLogoText} fontWeight='bold' color='blue.500'>
+              Umbra
+            </Text>
           </Flex>
         </Heading>
       </Flex>
-      <Flex align='baseline'>
+      <Flex align='baseline' gap={0}>
         <ShareRoomButton />
-        <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
+        <Text 
+          display={displayLabelValue} 
+          mx={2} 
+          color={"lightblue.600"} 
+          fontSize={fontSizeText} 
+          fontWeight={700}
+        >
           Multiplayer 
         </Text>
         <AudioChatButton />
-        <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
+        <Text 
+          display={displayLabelValue} 
+          mx={2}
+          color={"lightblue.600"} 
+          fontSize={fontSizeText} 
+          fontWeight={700}        
+        >
           Voice Chat 
         </Text>
       </Flex>
-      <Spacer />
-      <Flex align='center' gap={2}>
+      <Spacer flex={{ base: 0, xl: 2 }} />
+      <Flex align='center' gap={1}>
         <Flex align='baseline' px={10}>
           {user ? (
             <Flex color={"#F58A51"} marginRight={"15px"}>
               <Text
+                display={displayLoggedInValue}
                 bg={useColorModeValue("green.100", "green.900")}
                 color={useColorModeValue("green.800", "green.400")}
                 fontWeight={300}
-                p={1}
-                mr={1}
+                p={paddingValue}
+                mr={marginValue}
                 border='1px solid'
                 borderColor={useColorModeValue("green.700", "green.500")}
                 borderRadius='2px'
+                fontSize={fontSizeValue}
               >
                 <CheckCircleIcon pb={1} pr={1} />
                 Logged in as {user.attributes.email}
@@ -154,11 +200,12 @@ const MainHeader = ({
                 bg={useColorModeValue("orange.100", "orange.900")}
                 color={useColorModeValue("orange.800", "orange.300")}
                 fontWeight={300}
-                p={1}
-                mr={1}
+                p={paddingValue}
+                mr={marginValue}
                 border='1px solid'
                 borderColor={useColorModeValue("orange.700", "orange.400")}
                 borderRadius='2px'
+                fontSize={fontSizeValue}
               >
                 <InfoIcon pb={1} pr={1} />
                 Not Logged In

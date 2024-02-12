@@ -35,19 +35,100 @@ function App({ user, setUser }: AppProps) {
   const [toastProps, setToastProps] = useState<ToastProps | null>(null);
   const toast = useToast();
 
-  useLayoutEffect(() => {
-    if (orientation === "horizontal") {
-      setEditorHeight("45vh");
-      setOutputHeight("20vh");
-      setEditorWidth("55vw");
-      setOutputWidth("55vw");
-    } else {
-      setEditorHeight("70vh");
-      setOutputHeight("70.5vh");
-      setEditorWidth("40vw");
-      setOutputWidth("40vw");
+  // Function to calculate the interpolated width
+  const lerpWidth = (currentWidth) => {
+    // Define the start and end points
+    const startWidth = 1280; // px
+    const endWidth = 620; // px
+    const startVw = 55; // vw
+    const endVw = 85; // vw
+
+    // Clamp currentWidth to the range [endWidth, startWidth]
+    currentWidth = Math.max(endWidth, Math.min(startWidth, currentWidth));
+
+    // Calculate the interpolation factor (0 at startWidth, 1 at endWidth)
+    const t = (currentWidth - startWidth) / (endWidth - startWidth);
+
+    // Lerp the vw value
+    return (1 - t) * startVw + t * endVw; // vw
+  };
+
+  // Function to calculate widths based on window size and orientation
+  const calculateWidths = (currentWidth, orientation) => {
+    let editorWidthValue = "55vw"; // Default value for horizontal orientation
+    let outputWidthValue = "55vw"; // Default value for horizontal orientation
+
+    if (orientation === "vertical") {
+      editorWidthValue = "40vw";
+      outputWidthValue = "40vw";
+    } else if (currentWidth < 1280) {
+      // Adjust these values as needed for smaller window sizes
+      const lerpedWidth = lerpWidth(currentWidth);
+      console.log(`lerpedWidth: ${lerpedWidth}`);
+      editorWidthValue = `${lerpedWidth}vw`;
+      outputWidthValue = `${lerpedWidth}vw`;
     }
-  }, [orientation]);
+
+    return { editorWidthValue, outputWidthValue };
+  };
+
+  const calculateHeights = (currentHeight, orientation) => {
+    let editorHeightValue = "45vh"; // Default value for horizontal orientation
+    let outputHeightValue = "20vh"; // Default value for horizontal orientation
+
+    if (orientation === "vertical") {
+      editorHeightValue = "70vh";
+      outputHeightValue = "70.5vh";
+    }
+
+    return { editorHeightValue, outputHeightValue };
+  }
+
+
+  // useEffect for handling window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const { editorWidthValue, outputWidthValue } = calculateWidths(window.innerWidth, orientation);
+      const { editorHeightValue, outputHeightValue } = calculateHeights(window.innerHeight, orientation);
+      setEditorWidth(editorWidthValue);
+      setOutputWidth(outputWidthValue);
+      setEditorHeight(editorHeightValue);
+      setOutputHeight(outputHeightValue);
+    };
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, [orientation]); // Make sure to include orientation in the dependency array
+
+    // useLayoutEffect for setting initial widths based on orientation
+    useLayoutEffect(() => {
+      const { editorWidthValue, outputWidthValue } = calculateWidths(window.innerWidth, orientation);
+      const { editorHeightValue, outputHeightValue } = calculateHeights(window.innerHeight, orientation);
+      setEditorHeight(editorHeightValue);
+      setOutputHeight(outputHeightValue);
+      setEditorWidth(editorWidthValue);
+      setOutputWidth(outputWidthValue);
+    }, [orientation]);
+
+  // useLayoutEffect(() => {
+  //   if (orientation === "horizontal") {
+  //     setEditorHeight("45vh");
+  //     setOutputHeight("20vh");
+  //     setEditorWidth("55vw");
+  //     setOutputWidth("55vw");
+  //   } else {
+  //     setEditorHeight("70vh");
+  //     setOutputHeight("70.5vh");
+  //     setEditorWidth("40vw");
+  //     setOutputWidth("40vw");
+  //   }
+  // }, [orientation]);
 
   // Update the code ref whenever the code state changes
   useEffect(() => {

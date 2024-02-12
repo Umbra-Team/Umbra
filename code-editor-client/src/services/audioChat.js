@@ -58,7 +58,7 @@ function audioChatConnect(
       }
 
       ws.onclose = function (evt) {
-        window.alert("You have left the audio chatroom")
+        // window.alert("You have left the audio chatroom")
       }
 
       ws.onmessage = function (evt) {
