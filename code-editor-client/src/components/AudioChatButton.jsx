@@ -57,9 +57,10 @@ const AudioChatButton = () => {
   // Define the active and inactive gradient backgrounds
   const activeGradient = 'linear-gradient(225deg, hsla(100, 100%, 52%, 1) 0%, hsla(130, 100%, 28%, 1) 100%)'; // Greenish gradient
   const activeGradientHover = 'linear-gradient(225deg, hsla(130, 100%, 28%, 1) 0%, hsla(100, 100%, 52%, 1) 100%)'; // Flip the colors
-  const inactiveGradient = 'linear-gradient(225deg, hsla(0, 100%, 60%, 1) 0%, hsla(15, 100%, 38%, 1) 100%)'; // Reddish gradient
-  const inactiveGradientHover = 'linear-gradient(225deg, hsla(15, 100%, 38%, 1) 0%, hsla(0, 100%, 60%, 1) 100%)'; // Flip the colors
-
+  // const inactiveGradient = 'linear-gradient(225deg, hsla(0, 100%, 60%, 1) 0%, hsla(15, 100%, 38%, 1) 100%)'; // Reddish gradient
+  // const inactiveGradientHover = 'linear-gradient(225deg, hsla(15, 100%, 38%, 1) 0%, hsla(0, 100%, 60%, 1) 100%)'; // Flip the colors
+  const inactiveGradient = 'linear-gradient(225deg, hsla(184, 100%, 54%, 1) 0%, hsla(210, 100%, 50%, 1) 100%)'; // Blueish gradient
+  const inactiveGradientHover = 'linear-gradient(225deg, hsla(210, 100%, 50%, 1) 0%, hsla(184, 100%, 54%, 1) 100%)'; // Flip the colors
 
   return (
     <Tooltip

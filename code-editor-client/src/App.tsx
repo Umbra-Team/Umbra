@@ -39,7 +39,7 @@ function App({ user, setUser }: AppProps) {
   const lerpWidth = (currentWidth) => {
     // Define the start and end points
     const startWidth = 1280; // px
-    const endWidth = 620; // px
+    const endWidth = 520; // px
     const startVw = 55; // vw
     const endVw = 85; // vw
 

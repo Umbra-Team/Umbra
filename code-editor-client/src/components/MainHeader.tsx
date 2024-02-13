@@ -2,13 +2,18 @@ import {
   Button,
   Flex,
   Heading,
+  IconButton,
   Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
-  useDisclosure,
   Tooltip,
   Text,
   useColorModeValue,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, InfoIcon } from "@chakra-ui/icons";
 import ColorModeButton from "./ColorModeButton";
@@ -108,7 +113,6 @@ const MainHeader = ({
   const paddingX = useBreakpointValue({ base: 1, sm: 2, md: 6 });
   const marginX = useBreakpointValue({ base: 1, md: 2 });
   const fontSizeText = useBreakpointValue({ base: '12px', sm: '14px', md: '16px', lg: '18px', xl: '20px'});
-  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
   const logoSize = useBreakpointValue({ base: '50px', md: '60px' });
   const displayLibraryButton = useBreakpointValue({ base: 'none', md: 'flex' });
   const umbraLogoText = useBreakpointValue({ base: '20px', md: '22px', lg: '28px' });
@@ -117,12 +121,21 @@ const MainHeader = ({
   const displayLabelValue = useBreakpointValue({ base: 'none', md: 'block' });
   const displayLoggedInValue = useBreakpointValue({ base: 'none', sm: 'block' });
   // Dynamically set the display property based on the breakpoint
-  const flexDisplay = useBreakpointValue({ base: 'none', sm: 'flex' });
+  const flexDisplay = useBreakpointValue({ base: 'none', md: 'flex' });
 
   
   const fontSizeValue = useBreakpointValue({ base: '10px', md: '12px', lg: '14px' });
   const paddingValue = useBreakpointValue({ base: '0.25rem', md: '0.5rem' });
   const marginValue = useBreakpointValue({ base: '0.25rem', md: '0.5rem' });
+
+  // Define the responsive text content for the logged-in status
+  const loggedInText = useBreakpointValue({ base: 'Logged in', md: `Logged in as ${user?.attributes.email}` }) as string | undefined;
+
+  const loginSignupButtonFontSize = useBreakpointValue({ base: '16px', lg: '18px'});
+  const libraryButtonFontSize = useBreakpointValue({ base: '18px', md: '20px', lg: '22px'});
+  const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
+
+  const logoDisplayOnlyBelowMd = useBreakpointValue({ base: 'block', md: 'none' });
 
   return (
     <Flex
@@ -135,13 +148,15 @@ const MainHeader = ({
       gap={0}
       bg={"transparent"}
     >
-      <Flex pt={2}>
+      <Flex 
+        pt={2}
+        display={flexDisplay}
+      >
         <Heading size='lg' fontWeight='bold' color='blue.500'>
           <Flex 
-            display={flexDisplay}
             align='center' 
             justify='space-between'
-            px={4} 
+            px={0}
             mb={1.5}
           >
             <Image src={logo} boxSize={logoSize} alt='Logo' mr={2} />
@@ -150,6 +165,18 @@ const MainHeader = ({
             </Text>
           </Flex>
         </Heading>
+      </Flex>
+      <Flex 
+        pt={2}
+        display={logoDisplayOnlyBelowMd}
+      >
+        <Image 
+          src={logo} 
+          boxSize={logoSize} 
+          alt='Logo' 
+          mr={2} 
+          display={logoDisplayOnlyBelowMd}
+        />
       </Flex>
       <Flex align='baseline' gap={0}>
         <ShareRoomButton />
@@ -215,12 +242,14 @@ const MainHeader = ({
           <Button
             bg='transparent'
             color={useColorModeValue("black", "gray.100")}
-            fontSize='18px'
+            fontSize={loginSignupButtonFontSize}
             fontWeight='bold'
             _hover={{
               color: "blue.500",
             }}
+            mr={useBreakpointValue({ base: '0rem', md: '1rem' })}
             onClick={user ? handleLogoutClick : onLoginOpen}
+            size={buttonSize}
             _active={{ bg: "transparent" }}
           >
             {loginButtonContent}
@@ -229,17 +258,19 @@ const MainHeader = ({
             <Button
               bg='transparent'
               color={useColorModeValue("black", "gray.100")}
-              fontSize='18px'
+              fontSize={loginSignupButtonFontSize}
               fontWeight='bold'
               _hover={{
                 color: "blue.500",
               }}
+              mr={useBreakpointValue({ base: '0rem', md: '1rem' })}
               onClick={
                 localStorage.getItem("unconfirmedUser")
                   ? onConfirmOpen
                   : onSignupOpen
               }
               _active={{ bg: "transparent" }}
+              size={buttonSize}
             >
               {signupButtonContent}
             </Button>
@@ -260,7 +291,7 @@ const MainHeader = ({
           <Button
             bg='umbra.logoText'
             color='white'
-            fontSize='22px'
+            fontSize={libraryButtonFontSize}
             _hover={{
               bg: "umbra.deepSkyBlue",
             }}
