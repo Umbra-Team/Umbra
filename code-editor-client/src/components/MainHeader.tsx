@@ -18,7 +18,7 @@ import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import ConfirmCodeModal from "./ConfirmCodeModal";
 import ShareRoomButton from "./ShareRoomButton";
-import AudioChatButton from "./AudioChatButton"
+// import AudioChatButton from "./AudioChatButton"
 import { ToastPropsType } from "./UmbraToast";
 import { ExtendedCognitoUser } from "../types/types";
 
@@ -124,10 +124,10 @@ const MainHeader = ({
         <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
           Multiplayer 
         </Text>
-        <AudioChatButton />
+        {/* <AudioChatButton />
         <Text mx={2} color={"lightblue.600"} fontSize='18px' fontWeight={700}>
           Voice Chat 
-        </Text>
+        </Text> */}
       </Flex>
       <Spacer />
       <Flex align='center' gap={2}>
